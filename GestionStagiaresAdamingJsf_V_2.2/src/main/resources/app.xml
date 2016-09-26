@@ -10,11 +10,22 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+   
     <mvc:resources mapping="/resources/**" location="/resources/" />
 	<context:component-scan base-package="com.adaming.myapp" />
+
 	
+	<!-- injection de dépendances User-->
+	<bean id="UserDao" class="com.adaming.myapp.user.dao.UserDaoImpl"></bean>
+	<bean id="UserService" class="com.adaming.myapp.user.service.UserServiceImpl">
+		<property name="dao" ref="UserDao"></property>
+	</bean>
 	
-	
+	<!-- injection de dépendances Role-->
+	<bean id="RoleDao" class="com.adaming.myapp.role.dao.RoleDaoImpl"></bean>
+	<bean id="RoleService" class="com.adaming.myapp.role.service.RoleServiceImpl">
+		<property name="dao" ref="RoleDao"></property>
+	</bean>
 
 	<!-- injection de dépendances Etudiant -->
 	<bean id="EtudiantDao" class="com.adaming.myapp.etudiant.dao.EtudiantDaoImpl"></bean>

@@ -18,8 +18,7 @@ public class User {
 	private String name;
 	private String password;
 	private boolean actived;
-	@OneToMany
-	@JoinColumn(name="id_users")
+	@OneToMany(mappedBy="user")
 	private Collection<Role> roles;
 	
 	public User() {

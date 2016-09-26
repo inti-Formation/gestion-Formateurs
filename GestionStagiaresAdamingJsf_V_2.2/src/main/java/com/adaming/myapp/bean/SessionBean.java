@@ -1,5 +1,6 @@
 package com.adaming.myapp.bean;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -15,15 +16,16 @@ import org.springframework.stereotype.Component;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.AddSessionException;
 import com.adaming.myapp.session.service.ISessionService;
+import com.adaming.myapp.user.service.IUserService;
 
 
 @Component("sessionBean")
 @ViewScoped
-public class SessionBean {
+public class SessionBean implements Serializable{
 
 	@Inject
 	private ISessionService serviceSession;
-	
+
 	private Long idSession;
 	private Long idSpecialite;
 	private Date dateDebute;

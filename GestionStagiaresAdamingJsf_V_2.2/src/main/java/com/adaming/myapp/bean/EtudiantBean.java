@@ -8,16 +8,21 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Etudiant;
+import com.adaming.myapp.entities.Role;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.entities.Specialite;
+import com.adaming.myapp.entities.User;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.exception.AddEtudiantException;
+import com.adaming.myapp.role.service.IRoleService;
 import com.adaming.myapp.session.service.ISessionService;
+import com.adaming.myapp.user.service.IUserService;
 
 @Component("etudiantBean")
 @ViewScoped
@@ -28,11 +33,17 @@ public class EtudiantBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
+	@Inject
 	private IEtudiantService serviceEtudiant;
 	
-	@Autowired
+	@Inject
 	private ISessionService serviceSession;
+	
+	@Inject
+	private IUserService serviceUser;
+	
+	@Inject
+	private IRoleService serviceRole;
 	
 	
 	private Long idSession;
@@ -57,10 +68,19 @@ public class EtudiantBean implements Serializable {
 	
 	/* add etudiant */
 	public void addEtudiant(){
+		/*generate random password*/
+		String passwordRandom = serviceUser.generateSessionKey(8);
+		//new Etudiant
 		Etudiant e = new Etudiant(nomEtudiant, prenomEtudiant, dateDeNaissance, formationInitial, ecole, dateObtention, adressePostal, codePostal, numTel, mail);
+		// new User
+		User u     = new User(nomEtudiant+"_"+prenomEtudiant,passwordRandom, true);
+		// new Role
+		Role r = new Role("ROLE_ADMIN1");
 		try {
 			serviceEtudiant.addStudent(e, idSession);
-			setSuccess("l'Etudiant "+nomEtudiant+", "+prenomEtudiant+" à bien été ajoutée avec Success");
+			serviceUser.saveUser(u);
+			serviceRole.saveRole(r, u.getIdUser());
+			setSuccess("l'Etudiant "+nomEtudiant+", "+prenomEtudiant+" à bien été ajoutée avec Success"+" Voici les informations du compte etudiant : "+"Pseudo : "+nomEtudiant+"_"+prenomEtudiant+", Password : "+passwordRandom);
 			setAddEtudiantException("");
 		} catch (AddEtudiantException e1) {
 			setAddEtudiantException(e1.getMessage());

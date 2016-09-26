@@ -72,12 +72,11 @@
 				</h:panelGrid>
 
 				<b:commandButton id="mybutton" action="#{mailBean.sendMail}"
-					value="Send" look="primary" binding="#{mailBean.mybutton}"
+					value="Send" look="primary"
 					style="margin-left:200px" />
 				<c:if test=" #{not empty mailBean.msgSuccess}">
 					<div class="alert alert-info">
 						<h:message for="mybutton" style="color: green; font-weight: bold;" />
-
 					</div>
 				</c:if>
 			</div>
