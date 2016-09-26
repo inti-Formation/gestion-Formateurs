@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+  <aside class="aside">
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu">                
+                  <li class="active">
+                      <h:link outcome="index">
+                          <i><h:graphicImage name="NiceAdmin/img/home.png"/></i>
+                          <span>Dashboard</span>
+                      </h:link>
+                  </li>
+				  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/exam.png"/></i>
+                          <span>Examens</span>
+                         <i style="margin-left: 20px;"><h:graphicImage name="NiceAdmin/img/unlock.png"/></i>
+                      </a>
+                      <ul class="sub">
+                         <li><h:link outcome="examen">Passer Un Examen</h:link></li>                            
+                          <li><a class="" href="form_validation.html">Form Validation</a></li>
+                      </ul>
+                  </li> 
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/student.png"/></i>
+                          <span>Etudiant</span>
+                          <i style="margin-left: 20px;"><h:graphicImage name="NiceAdmin/img/padlock.png"/></i>
+                      </a>
+                      <ul class="sub">
+                          <li><h:link outcome="etudiant">Ajouter Un Etudiant</h:link></li>
+                           <li><h:link outcome="absence">Ajouter absence</h:link></li>                                                        
+                          <li><a class="" href="form_validation.html">Form Validation</a></li>
+                      </ul>
+                  </li>       
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/notes.png"/></i>
+                          <span>Notes</span>
+                          <i style="margin-left: 20px;"><h:graphicImage name="NiceAdmin/img/padlock.png"/></i>
+                      </a>
+                      <ul class="sub">
+                           <li><h:link outcome="notes">Notes Par Session</h:link></li>                                            
+                          <li><a class="" href="form_validation.html">Form Validation</a></li>
+                      </ul>
+                  </li>       
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/rank.png"/></i>
+                          <span>Classement</span>
+                          <i style="margin-left: 20px;"><h:graphicImage name="NiceAdmin/img/padlock.png"/></i>
+                      </a>
+                      <ul class="sub">
+                          <li><a class="" href="form_component.html">Form Elements</a></li>                          
+                          <li><a class="" href="form_validation.html">Form Validation</a></li>
+                      </ul>
+                  </li>       
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/book.png"/></i>
+                          <span>Modules</span>
+                         <i style="margin-left: 20px;"><h:graphicImage name="NiceAdmin/img/padlock.png"/></i>
+                      </a>
+                      <ul class="sub">
+                          <li><h:link outcome="module">Ajouter Un Module</h:link></li>                             
+                          <li><a class="" href="form_validation.html">Form Validation</a></li>
+                      </ul>
+                  </li> 
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/session.png"/></i>
+                          <span>Session</span>
+                           <i style="margin-left: 20px;"><h:graphicImage name="NiceAdmin/img/padlock.png"/></i>
+                      </a>
+                      <ul class="sub">
+                          <li><h:link outcome="session_etudiant">Ajouter Une Session</h:link></li>                      
+                          <li><a class="" href="form_validation.html">Form Validation</a></li>
+                      </ul>
+                  </li>      
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/specialite.png"/></i>
+                          <span>Spécialitée</span>
+                          <i style="margin-left: 20px;"><h:graphicImage name="NiceAdmin/img/padlock.png"/></i>
+                      </a>
+                      <ul class="sub">
+                          <li><h:link outcome="specialite">Ajouter Une Specialité</h:link></li>     
+                      </ul>
+                  </li> 
+                   <h:graphicImage name="NiceAdmin/img/logoiniti.png" style=" width: 100px; margin: auto;display: block;padding-top: 20px;"/>                 
+              </ul>
+              <!-- sidebar menu end-->
+             
+          </div>
+      </aside>
+      <!--sidebar end-->
+      </ui:composition>
+</html>

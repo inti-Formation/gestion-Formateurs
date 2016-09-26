@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+	<context:component-scan base-package="com.adaming.myapp" />
+	
+	
+	
+
+	<!-- injection de dépendances Etudiant -->
+	<bean id="EtudiantDao" class="com.adaming.myapp.etudiant.dao.EtudiantDaoImpl"></bean>
+	<bean id="EtudiantService" class="com.adaming.myapp.etudiant.service.EtudiantServiceImpl">
+		<property name="dao" ref="EtudiantDao"></property>
+	</bean>
+	
+	<!-- injection de dépendances spacilaite -->
+	<bean id="SpecialiteDao" class="com.adaming.myapp.specialite.dao.SpecialiteDaoImpl"></bean>
+	<bean id="SpecialiteService" class="com.adaming.myapp.specialite.service.SpecialiteServiceImpl">
+		<property name="dao" ref="SpecialiteDao"></property>
+	</bean>
+	
+	<!-- injection de dépendances Session -->
+	<bean id="SessionEtDao" class="com.adaming.myapp.session.dao.SessionDaoImpl"></bean>
+	<bean id="SessionService" class="com.adaming.myapp.session.service.SessionServiceImpl">
+		<property name="dao" ref="SessionEtDao"></property>
+	</bean>
+	
+	<!-- injection de dépendances Module -->
+	<bean id="ModuleDao" class="com.adaming.myapp.module.dao.ModuleDaoImpl"></bean>
+	<bean id="ModuleService" class="com.adaming.myapp.module.service.ModuleServiceImpl">
+		<property name="dao" ref="ModuleDao"></property>
+	</bean>
+	
+	<!-- injection de dépendances Examen -->
+	<bean id="ExamenDao" class="com.adaming.myapp.examen.dao.ExamenDaoImpl"></bean>
+	<bean id="ExamenService" class="com.adaming.myapp.examen.service.ExamenServiceImpl">
+		<property name="dao" ref="ExamenDao"></property>
+	</bean>
+	
+	<!-- injection de dépendances Question -->
+	<bean id="QuestionDao" class="com.adaming.myapp.question.dao.QuestionDaoImpl"></bean>
+	<bean id="QuestionService" class="com.adaming.myapp.question.service.QuestionServiceImpl">
+		<property name="dao" ref="QuestionDao"></property>
+	</bean>
+	
+	<!-- injection de dépendances Notes -->
+	<bean id="NotesDao" class="com.adaming.myapp.notes.dao.NotesDaoImpl"></bean>
+	<bean id="NotesService" class="com.adaming.myapp.notes.service.NotesServiceImpl">
+		<property name="dao" ref="NotesDao"></property>
+	</bean>
+	
+
+
+
+	<bean id="datasource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url"
+			value="jdbc:mysql://localhost/JsfGestionStagiareAdaming"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value=""></property>
+	</bean>
+	<bean id="PersistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="defaultDataSource" ref="datasource"></property>
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/persistence.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="EntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitManager" ref="PersistenceUnitManager"></property>
+		<property name="persistenceUnitName" value="UP_JsfGestionStagiaire"></property>
+	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="EntityManagerFactory"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<context:annotation-config></context:annotation-config>
+   
+    <!-- spring security -->
+    <security:http pattern="/resources/**" security="none"/> 
+    <security:http pattern="/" security="none"/>
+	<security:http auto-config="true" use-expressions="true">
+	  <security:intercept-url pattern="/index.xhtml" access="hasRole('ROLE_ADMIN1')"/>
+	  <security:form-login login-page="/" default-target-url="/index.xhtml" authentication-failure-url="/?error=true"/>
+	  <security:logout logout-success-url="/logout"/>
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider>
+		  <security:jdbc-user-service data-source-ref="datasource" 
+			  users-by-username-query="select name,password,actived from user where name=?" 
+			  authorities-by-username-query="select u.name,r.roleName from user u, role r where u.idUser = r.id_users and u.name =? "/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+	
+</beans>

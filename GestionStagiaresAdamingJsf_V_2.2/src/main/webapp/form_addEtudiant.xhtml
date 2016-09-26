@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+
+	<div class="well container">
+		<h:form id="form">
+			<div class="inputpersso">
+				<p:outputLabel for="session" value="Session(En Cours):"
+					styleClass="paddingTop20" />
+				<br />
+				<p:selectOneMenu id="session" required="true"
+					required-message="Veuillez Rensiegnez la Session SVP!!"
+					renderLabel="true" value="#{etudiantBean.idSession}">
+					<f:selectItem itemLabel="Sélectionnez Une Session En Cours"
+						itemValue="" />
+					<f:selectItems value="#{etudiantBean.sessionsEncours}" var="s"
+						itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
+						itemValue="#{s.idSession}" />
+				</p:selectOneMenu>
+				<br />
+				<h:message for="session" />
+
+				<b:inputText id="nomEtudiant" value="#{etudiantBean.nomEtudiant}"
+					label="Nom " required="true"
+					required-message="Veuillez Rensiegnez le Nom SVP!!"
+					renderLabel="true" />
+				<h:message for="nomEtudiant" />
+
+				<b:inputText id="prenomEtudiant"
+					value="#{etudiantBean.prenomEtudiant}" label="Prénom "
+					required="true"
+					required-message="Veuillez Rensiegnez le Prénom SVP!!"
+					renderLabel="true" />
+				<h:message for="prenomEtudiant" />
+
+				<b:inputText id="formationInitial"
+					value="#{etudiantBean.formationInitial}" label="Formation Initial "
+					required="true"
+					required-message="Veuillez Rensiegnez la Formation Initial SVP!!"
+					renderLabel="true" />
+				<h:message for="formationInitial" />
+				<br />
+				<p:outputLabel for="DateObtention" value="Date Obtention:" />
+				<br />
+				<p:calendar styleClass="calendar" id="DateObtention"
+					value="#{etudiantBean.dateObtention}" effect="fold" required="true"
+					required-message="Veuillez Rensiegnez la date d'Obtention de diplome SVP!!" />
+				<br />
+				<h:message for="DateObtention" />
+				<br />
+
+				<b:inputText id="ecole" value="#{etudiantBean.ecole}"
+					label="Ecole ou Universitée " required="true"
+					required-message="Veuillez Rensiegnez l'ecole SVP!!"
+					renderLabel="true" />
+				<h:message for="ecole" />
+				<br />
+
+				<p:outputLabel for="dateDeNaissance" value="Date De Naissance:" />
+				<br />
+				<p:calendar styleClass="calendar" id="dateDeNaissance"
+					value="#{etudiantBean.dateDeNaissance}" effect="fold"
+					required="true"
+					required-message="Veuillez Rensiegnez la date de Naissance SVP!!" />
+				<br />
+				<h:message for="dateDeNaissance" />
+				<br />
+
+				<b:inputText id="adressePostal"
+					value="#{etudiantBean.adressePostal}" label="Adresse "
+					required="true"
+					required-message="Veuillez Rensiegnez l'adresse Postal SVP!!"
+					renderLabel="true" />
+				<h:message for="adressePostal" />
+
+				<b:inputText id="codePostal" value="#{etudiantBean.codePostal}"
+					label="Code Postal " required="true"
+					required-message="Veuillez Rensiegnez le Code Postal SVP!!"
+					renderLabel="true" />
+				<h:message for="codePostal" />
+
+				<b:inputText id="numTel" value="#{etudiantBean.numTel}" label="Tél "
+					required="true"
+					required-message="Veuillez Rensiegnez le Numéro Tél SVP!!"
+					renderLabel="true" />
+				<h:message for="numTel" />
+
+				<b:inputText id="mail" value="#{etudiantBean.mail}" label="Mail "
+					required="true"
+					required-message="Veuillez Rensiegnez le Mail SVP!!"
+					renderLabel="true" />
+				<h:message for="mail" />
+
+
+				<!-- exception add new Etudiant -->
+				<h:outputText value="#{etudiantBean.addEtudiantException}"
+					styleClass="errorExeption"></h:outputText>
+				<!-- message success -->
+				<h:outputText value="#{etudiantBean.success}"
+					styleClass="messageSuccess" />
+				<br></br>
+				<b:commandButton action="#{etudiantBean.addEtudiant}" update="@form"
+					value="Ajouter" look="primary" ajax="true" />
+				<b:commandButton value="Cancel" type="reset" look="warning"
+					class="btn-cancel" />
+			</div>
+			<br />
+			<br />
+		</h:form>
+		<br /> <br /> <br />
+		<h:form id="form2">
+			<div class="inputpersso">
+				<p:outputLabel value="Liste des Etudiants par Session :"
+					style="padding-top:20px" />
+				<br />
+				<p:selectOneMenu id="select" value="#{etudiantBean.idSession}"
+					required="true" requiredMessage="Veuillez Selectionnez Une Session ">
+					<p:ajax event="valueChange"
+						listener="#{etudiantBean.getAllStudentsBySession}"
+						update="@form" />
+					<f:selectItem itemLabel="Sélectionnez Une Session"
+						itemValue="#{null}" noSelectionOption="true" />
+					<f:selectItems value="#{etudiantBean.allSessions}" var="s"
+						itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute} ,(#{s.etatSession})"
+						itemValue="#{s.idSession}" />
+				</p:selectOneMenu>
+				<h:message styleClass="errorValidation" for="select"></h:message>
+			</div>
+			<br />
+			<br />
+			<c:if test="#{fn:length(etudiantBean.etudiants) >0 }">
+				<div align="center">
+					<p:dataTable var="newStudents" value="#{etudiantBean.etudiants}"
+						id="studentTable"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+						paginator="true" rows="10" style="width:910px;margin-bottom:20px;">
+
+						<f:facet name="{Exporters}">
+							<p:commandLink ajax="false" style="float:right;"
+								title="Fichier XML">
+								<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
+								<p:dataExporter type="xml" target=":form2:studentTable"
+									fileName="Etudiants_Session_N°_#{etudiantBean.idSession}" />
+							</p:commandLink>
+
+							<p:commandLink ajax="false" style="float:right;"
+								title="Fichier CSV">
+								<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
+								<p:dataExporter type="csv" target=":form2:studentTable"
+									fileName="Etudiants_Session_N°_#{etudiantBean.idSession}" />
+							</p:commandLink>
+
+							<p:commandLink ajax="false" style="float:right;"
+								title="Fichier PDF">
+								<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
+								<p:dataExporter type="pdf" target=":form2:studentTable"
+									fileName="Etudiants_Session_N°_#{etudiantBean.idSession}" />
+							</p:commandLink>
+
+							<p:commandLink ajax="false" style="float:right;"
+								title="Fichier EXCEL">
+								<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
+								<p:dataExporter type="xls" target=":form2:studentTable"
+									fileName="Etudiants_Session_N°_#{etudiantBean.idSession}" />
+							</p:commandLink>
+						</f:facet>
+						<f:facet name="header">
+							<h:outputText value="Liste Des Etudiants de la Session N° " />
+							<h:outputText style="color:red;font-weight:bold;"
+								value="#{etudiantBean.idSession}" />
+						</f:facet>
+						<p:column style="width:150px;">
+							<f:facet name="header">
+								<h:outputText value="Nom" />
+							</f:facet>
+							<h:outputText value="#{newStudents.nomEtudiant}" />
+						</p:column>
+						<p:column style="width:150px;">
+							<f:facet name="header">
+								<h:outputText value="Prénom" />
+							</f:facet>
+							<h:outputText value="#{newStudents.prenomEtudiant}" />
+						</p:column>
+						<p:column style="width:150px;">
+							<f:facet name="header">
+								<h:outputText value="Specialitee" />
+							</f:facet>
+							<h:outputText
+								value="#{newStudents.sessionEtudiant.specialite.designation}" />
+						</p:column>
+						<p:column style="width:100px;">
+							<f:facet name="header">
+								<h:outputText value="Début" />
+							</f:facet>
+							<h:outputText value="#{newStudents.sessionEtudiant.dateDebute}" />
+						</p:column>
+						<p:column style="width:100px;">
+							<f:facet name="header">
+								<h:outputText value="Fin" />
+							</f:facet>
+							<h:outputText value="#{newStudents.sessionEtudiant.dateFin}" />
+						</p:column>
+						<p:column style="width:100px;">
+							<f:facet name="header">
+								<h:outputText value="Lieu" />
+							</f:facet>
+							<h:outputText value="#{newStudents.sessionEtudiant.lieu}" />
+						</p:column>
+					    <p:column style="width:50px;text-align:center;">
+					       <f:facet name="header">
+							 <h:outputText value="Actions" />
+						   </f:facet>
+					       <p:commandLink oncomplete="PF('carDialog').show()"
+							update=":form2:moduleDetail"
+							    title="modifier">
+							    <h:graphicImage name="NiceAdmin/img/rotate.png"></h:graphicImage>
+								<f:param value="#{newStudents.idEtudiant}" name="idEtudiant"/>
+								<f:param value="#{newStudents.sessionEtudiant.idSession}" name="idSession"/>
+						        <p:ajax update=":form2:moduleDetail" event="click" listener="#{etudiantBean.getCurrentEtudiant(newStudents.idEtudiant)}"/>
+							</p:commandLink> 
+					    </p:column>
+					</p:dataTable>
+				</div>
+			</c:if>
+			<br />
+			<br />
+			<p:dialog header="Etudiant Info" widgetVar="carDialog"
+					modal="true" showEffect="blind" hideEffect="explode"
+					resizable="false">
+					<p:outputPanel id="moduleDetail" style="text-align:center;">
+								<h:inputHidden value="#{etudiantBean.etudiant.idEtudiant}" /><br/>
+								<h:inputHidden value="#{etudiantBean.etudiant.sessionEtudiant.idSession}" /><br/>
+								<h:outputText value="Nom Etudiant:" /><br/>
+								<h:inputText value="#{etudiantBean.etudiant.nomEtudiant}" /><br/>
+								<h:outputText value="Prénom Etdudiant" /><br/>
+								<h:inputText value="#{etudiantBean.etudiant.prenomEtudiant}" /><br/>
+								<h:outputText value="Date De Naissance" /><br/>
+								<p:calendar value="#{etudiantBean.etudiant.dateDeNaissance}" /><br/>
+								<h:outputText value="Formation Initial" /><br/>
+								<h:inputText value="#{etudiantBean.etudiant.formationInitial}" /><br/>
+								<h:outputText value="Ecole " /><br/>
+								<h:inputText value="#{etudiantBean.etudiant.ecole}" /><br/>
+								<h:outputText value="Date d'Obtention " /><br/>
+								<p:calendar value="#{etudiantBean.etudiant.dateObtention}" /><br/>
+								<h:outputText value="Adresse Postal" /><br/>
+								<h:inputText value="#{etudiantBean.etudiant.adressePostal}" /><br/>
+								<h:outputText value="Code Postal" /><br/>
+								<h:inputText value="#{etudiantBean.etudiant.codePostal}" /><br/> 
+								<h:outputText value="Tél" /><br/>
+								<h:inputText value="#{etudiantBean.etudiant.numTel}" /><br/>
+								<h:outputText value="Mail" /><br/>
+								<h:inputText value="#{etudiantBean.etudiant.mail}" /><br/>
+					</p:outputPanel>
+					<br/>
+					<br/>
+	             <p:commandButton  value="Modifier" action="#{etudiantBean.edit}"/>
+	        </p:dialog>
+		</h:form>
+	</div>
+</ui:composition>
+</html>

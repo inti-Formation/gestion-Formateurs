@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+		<h:form id="form">
+			<div class="inputpersso">
+				<p:outputLabel for="name" value="Specialitée :"
+					styleClass="paddingTop20" />
+				<h:outputLink id="grow" value="#" style="padding-left:160px!important;position:relative;top:30px">
+					<h:graphicImage name="NiceAdmin/img/help.png"></h:graphicImage>
+				</h:outputLink>
+				<p:tooltip id="toolTipGrow" for="grow"
+					value="This tooltip uses clip/explode effects for the animation"
+					showEffect="clip" hideEffect="explode" position="top" />
+				<br/>
+				<p:selectOneMenu id="name" required="true"
+					required-message="Veuillez Rensiegnez la spécialitée SVP!!"
+					renderLabel="true" value="#{sessionBean.idSpecialite}">
+					<f:selectItem itemLabel="Sélectionnez Une Spécialitée" itemValue="" />
+					<f:selectItems value="#{specialiteBean.specialites}" var="spec"
+						itemLabel="#{spec.designation}" itemValue="#{spec.idSpecialite}" />
+				</p:selectOneMenu>
+				<br />
+				<h:message for="name" />
+				<br/>
+				<b:inputText id="lieu" value="#{sessionBean.lieu}" label="Lieu "
+					required="true"
+					required-message="Veuillez Rensiegnez le Lieu de la Session SVP!!"
+					renderLabel="true" />
+				<h:message for="lieu" />
+				<br />
+				<p:outputLabel for="effect" value="Date De Début:" />
+				<br />
+				<p:calendar styleClass="calendar" id="effect"
+					value="#{sessionBean.dateDebute}" effect="fold" required="true"
+					required-message="Veuillez Rensiegnez la date de Debut " />
+				<br />
+				<h:message for="effect" />
+				<br />
+				<p:outputLabel for="effect2" value="Date De Fin:" />
+				<br />
+				<p:calendar styleClass="calendar" id="effect2"
+					value="#{sessionBean.dateFin}" effect="fold" required="true"
+					required-message="Veuillez Rensiegnez la date de Fin " />
+				<br />
+				<h:message for="effect2" />
+				<br></br>
+				<b:commandButton action="#{sessionBean.addSession}" update="@form"
+					value="Ajouter" look="primary" ajax="true" />
+				<b:commandButton value="Cancel" type="reset" look="warning"
+					class="btn-cancel" />
+				<br /> <br />
+				<!-- message success -->
+				<h:outputText value="#{sessionBean.succes}"
+					styleClass="messageSuccess" />
+				<!-- exception add new Session -->
+				<h:outputText value="#{sessionBean.addSessionException}"
+					styleClass="errorExeption" />
+			</div>
+			<br />
+			<br />
+			<br />
+			<br />
+			<div align="center">
+				<p:dataTable var="newSession" value="#{sessionBean.sessions}"
+					id="studentTable"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+					rowsPerPageTemplate="5,10,15" paginator="true" rows="10"
+					style="width:910px;margin-bottom:20px;">
+
+					<f:facet name="{Exporters}">
+						<p:commandLink ajax="false" style="float:right;"
+							title="Fichier XML">
+							<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
+							<p:dataExporter type="xml" target=":form:studentTable"
+								fileName="Sessions" />
+						</p:commandLink>
+
+						<p:commandLink ajax="false" style="float:right;"
+							title="Fichier CSV">
+							<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
+							<p:dataExporter type="csv" target=":form:studentTable"
+								fileName="Sessions" />
+						</p:commandLink>
+
+						<p:commandLink ajax="false" style="float:right;"
+							title="Fichier PDF">
+							<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
+							<p:dataExporter type="pdf" target=":form:studentTable"
+								fileName="Sessions" />
+						</p:commandLink>
+
+						<p:commandLink ajax="false" style="float:right;"
+							title="Fichier EXCEL">
+							<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
+							<p:dataExporter type="xls" target=":form:studentTable"
+								fileName="Sessions" />
+						</p:commandLink>
+					</f:facet>
+					<p:column style="width:50px;">
+						<f:facet name="header">
+							<h:outputText value="Numero Session" />
+						</f:facet>
+						<h:outputText value="#{newSession.idSession}" />
+					</p:column>
+					<p:column style="width:50px;">
+						<f:facet name="header">
+							<h:outputText value="Specialitee" />
+						</f:facet>
+						<h:outputText value="#{newSession.specialite.designation}" />
+					</p:column>
+					<p:column style="width:50px;">
+						<f:facet name="header">
+							<h:outputText value="Lieu " />
+						</f:facet>
+						<h:outputText value="#{newSession.lieu}" />
+					</p:column>
+					<p:column style="width:50px;">
+						<f:facet name="header">
+							<h:outputText value="Debut" />
+						</f:facet>
+						<h:outputText value="#{newSession.dateDebute}" />
+					</p:column>
+					<p:column style="width:50px;">
+						<f:facet name="header">
+							<h:outputText value="Fin" />
+						</f:facet>
+						<h:outputText value="#{newSession.dateFin}" />
+					</p:column>
+					<p:column style="width:50px;">
+						<f:facet name="header">
+							<h:outputText value="Statut" />
+						</f:facet>
+						<h:outputText value="#{newSession.etatSession}" />
+					</p:column>
+					<p:column style="width:50px;text-align:center;">
+						<f:facet name="header">
+							<h:outputText value="Actions" />
+						</f:facet>
+						<p:commandLink oncomplete="PF('carDialog').show()"
+							update=":form3:sessionDetail" title="modifier">
+							<h:graphicImage name="NiceAdmin/img/rotate.png"></h:graphicImage>
+							<f:param value="#{newSession.idSession}" name="idSession" />
+							<f:param value="#{newSession.specialite.idSpecialite}"
+								name="idSpecialite" />
+							<p:ajax update=":form3:sessionDetail" event="click"
+								listener="#{sessionBean.getCurrentSession(newSession.idSession)}" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+			</div>
+		</h:form>
+		<h:form id="form3">
+			<p:dialog header="Session Info" widgetVar="carDialog" modal="true"
+				showEffect="blind" hideEffect="explode" resizable="false">
+				<p:outputPanel id="sessionDetail" style="text-align:center;">
+					<h:inputHidden value="#{sessionBean.sessionEtudiant.idSession}" />
+					<br />
+					<h:inputHidden
+						value="#{sessionBean.sessionEtudiant.specialite.idSpecialite}" />
+					<br />
+					<h:outputText value="Date Debute" />
+					<br />
+					<p:calendar value="#{sessionBean.sessionEtudiant.dateDebute}" />
+					<br />
+					<h:outputText value="Date Fin" />
+					<br />
+					<p:calendar value="#{sessionBean.sessionEtudiant.dateFin}" />
+					<br />
+					<h:outputText value="Lieu" />
+					<br />
+					<h:inputText value="#{sessionBean.sessionEtudiant.lieu}" />
+					<br />
+				</p:outputPanel>
+				<br />
+				<br />
+				<p:commandButton value="Modifier"
+					action="#{sessionBean.edit(sessionBean.sessionEtudiant,sessionBean.sessionEtudiant.specialite.idSpecialite)}" />
+			</p:dialog>
+		</h:form>
+		<br /> <br />
+		<form>
+
+			<p:dataList value="#{sessionBean.sessionsInProgress}" var="x">
+				<br />
+				<div>
+					<b:alert severity="info" style="font-weight: 300!important;">
+						<h:outputText value="Date Début : #{x.dateDebute}" />
+						<br />
+						<h:outputText value="Date De Fin : #{x.dateFin}" />
+						<br />
+						<h:outputText value="Lieu :#{x.lieu}" />
+						<br />
+						<h:outputText value="Spécialitée : #{x.specialite.designation}" />
+						<br />
+						<br />
+						<b:row style="padding-top:5px;">
+							<b:progressBar look="danger" animated="true"
+								value="#{x.dateDebuteInDays}" min="0" max="#{x.dateFinInDays}"
+								tooltip="large-screen='two-thirds'" large-screen="two-thirds" />
+						</b:row>
+					</b:alert>
+				</div>
+			</p:dataList>
+
+		</form>
+	</div>
+</ui:composition>
+</html>
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+     <h:form>
+         <h:inputHidden value="#{examenBean.idSession}"/>
+		 <h:inputHidden value="#{examenBean.idEtudiant}"/>
+		 <h:inputHidden value="#{examenBean.idModule}"/>
+    
+    <br/>
+     <div class="alert alert-info" style="text-align:center;color:black">
+	     <h3 style="margin-top:0px">La Liste Des Réponses Disponibles</h3>
+	     <h:graphicImage name="NiceAdmin/img/warning.png"></h:graphicImage>
+	     <h4 style="display:inline;padding-left: 5px;" >Veuillez cocher une seule case Pour chacune des questions ci-dessous</h4>
+	     
+     </div>
+    <br/>
+	    <p:selectManyCheckbox id="grid" value="#{examenBean.selectedCities}" layout="grid" columns="3" style="margin:auto;">
+	            <f:selectItems  value="#{examenBean.questionsByModule}" var="city" itemLabel="#{city.premeiereReponse}" itemValue="#{city.premeiereReponse}"/>
+	            <f:selectItems  value="#{examenBean.questionsByModule}" var="city" itemLabel="#{city.douxiemeReponse}" itemValue="#{city.douxiemeReponse}"/>
+	            <f:selectItems  value="#{examenBean.questionsByModule}" var="city" itemLabel="#{city.troisiemeReponse}" itemValue="#{city.troisiemeReponse}"/>
+	            <f:selectItems  value="#{examenBean.questionsByModule}" var="city" itemLabel="#{city.quatriemeReponse}" itemValue="#{city.quatriemeReponse}"/>
+	    </p:selectManyCheckbox>
+	    <br/><br/>
+    <p:commandButton  style="margin:auto;display:block;" value="Envoyer" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-check" />
+     <br/>
+    <p:separator />
+    
+	    <p:dialog header="Liste Des Réponses Séléctionnez de l'Examen du Module Numéro : #{examenBean.idModule}" modal="true" showEffect="clip" widgetVar="dlg" resizable="false">
+	        <p:outputPanel id="display">
+	            <p:dataList value="#{examenBean.selectedCities}" var="city">
+	               <h:graphicImage style="margin-right:10px;" name="NiceAdmin/img/checked.png"/> 
+	               #{city}
+	            </p:dataList>
+	        </p:outputPanel>
+	        <h:outputText value="#{examenBean.addExamException}"></h:outputText>
+	        <p:commandButton action="#{examenBean.register}" value="Confirmer" />
+	    </p:dialog>
+
+</h:form>
+
+    <div class="alert alert-warning" style="text-align:center;color:black">
+	     <h3 style="margin-top:0px">La Liste Des Questions Disponibles</h3>
+	     <h:graphicImage name="NiceAdmin/img/warning.png"></h:graphicImage>
+	     <h4 style="display:inline;padding-left: 5px;" >Veuillez lire attentivement les questions suivantes et répondre à chacune d'entre elles</h4>
+     </div>
+    <p:dataList value="#{examenBean.questionsByModule}" var="q">
+    	<h:outputText style="color:red" value=" - #{q.propositionquestion}"></h:outputText><br/>
+    	<h:outputText style="margin-left:12px" value="1- #{q.premeiereReponse}"></h:outputText><br/>
+    	<h:outputText style="margin-left:12px" value="2- #{q.douxiemeReponse}"></h:outputText><br/>
+    	<h:outputText style="margin-left:12px" value="3- #{q.troisiemeReponse}"></h:outputText><br/>
+    	<h:outputText style="margin-left:12px" value="4- #{q.quatriemeReponse}"></h:outputText><br/><br/>
+    </p:dataList>
+    
+    
+</div>
+</ui:composition>
+</html>

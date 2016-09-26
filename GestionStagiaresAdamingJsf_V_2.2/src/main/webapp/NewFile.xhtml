@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+
+		
+
+			<h:form>
+				<h1>
+					<h:outputText value="JavaBeat JSF 2.2 Examples" />
+				</h1>
+				<h2>
+					<h:outputText value="SelectOneRadio Example" />
+				</h2>
+				<h:outputText value="Select Tutorials:" />
+				<h:selectOneRadio value="#{examenBean.reponse}">
+					<f:selectItems 
+						value="#{examenBean.questionsByModule}" var="t"
+						itemValue="#{t.premeiereReponse}"
+						itemLabel="#{t.premeiereReponse}" />
+				</h:selectOneRadio>
+				<h:selectOneRadio value="#{examenBean.reponse}">
+					<f:selectItems 
+						value="#{examenBean.questionsByModule}" var="t"
+						itemValue="#{t.premeiereReponse}"
+						itemLabel="#{t.premeiereReponse}" />
+				</h:selectOneRadio>
+				<h:commandButton value="Register"
+					action="#{examenBean.save}"></h:commandButton>
+			</h:form>
+	</div>
+</ui:composition>
+</html>
+
+<!--<h:form id="form">-->
+			<br />
+			<div class="inputpersso">
+				<!-- <h:inputText value="#{examenBean.idSession}"></h:inputText>
+				<h:inputText value="#{examenBean.idEtudiant}"></h:inputText>
+				<h:inputText value="#{examenBean.idModule}"></h:inputText> -->
+
+				<!-- <p:dataList value="#{examenBean.questionsByModule}" var="question">
+					<h:outputText value="#{question.propositionquestion}"></h:outputText>
+					<p:selectOneRadio id="question" value="#{examenBean.reponse}"
+						required="true">
+						<br />
+						<br />
+						<f:selectItem itemLabel="#{question.premeiereReponse}"
+							itemValue="#{examenBean.responseOne}" />
+						<br />
+						<br />
+						<f:selectItem itemLabel="#{question.douxiemeReponse}"
+							itemValue="#{examenBean.responseTwo}" />
+						<br />
+						<br />
+						<f:selectItem itemLabel="#{question.troisiemeReponse}"
+							itemValue="#{examenBean.responseThree}" />
+						<br />
+						<br />
+						<f:selectItem itemLabel="#{question.quatriemeReponse}"
+							itemValue="#{examenBean.responseFor}" />
+					</p:selectOneRadio>
+				</p:dataList> -->
+
+
+
+			</div>
+			<br />
+			<br />
+			<br />
+			<br />
+			<!-- </h:form>
+			<h1>
+
+				<h:outputText value="JavaBeat JSF 2.2 Examples" />
+
+			</h1>
+
+			<h2>
+
+				<h:outputText value="SelectOneRadio Example" />
+
+			</h2>
+                <h:form>
+                <h:inputText value="#{examenBean.idSession}"></h:inputText>
+				<h:inputText value="#{examenBean.idEtudiant}"></h:inputText>
+				<h:inputText value="#{examenBean.idModule}"></h:inputText>
+                <ui:repeat var="q" value="#{examenBean.questionsByModule}">
+               <h:outputText value="#{q.propositionquestion}"></h:outputText>
+			    <h:selectManyCheckbox value="#{examenBean.testTab}">
+		   			<f:selectItem itemValue="#{q.premeiereReponse}" itemLabel="#{q.premeiereReponse}" />
+		   			<f:selectItem itemValue="#{q.douxiemeReponse}" itemLabel="#{q.douxiemeReponse}"/>
+		   			<f:selectItem itemValue="#{q.troisiemeReponse}" itemLabel="#{q.troisiemeReponse}" />
+		   			<f:selectItem itemValue="#{q.quatriemeReponse}" itemLabel="#{q.quatriemeReponse}" />
+		   		</h:selectManyCheckbox>
+				<br/>
+				</ui:repeat>
+				 <h:commandButton value="Register"
+					action="#{examenBean.register}"/><br/>
+		  </h:form>  -->
+		  
+		  <h:form>
+				<h1>
+					<h:outputText value="JavaBeat JSF 2.2 Examples" />
+				</h1>
+				<h2>
+					<h:outputText value="SelectOneRadio Example" />
+				</h2>
+				<h:outputText value="Select Tutorials:" />
+				<h:selectOneRadio value="#{examenBean.reponse}">
+					<f:selectItems 
+						value="#{examenBean.questionsByModule}" var="t"
+						itemValue="#{t.premeiereReponse}"
+						itemLabel="#{t.premeiereReponse}" />
+						<f:selectItems 
+						value="#{examenBean.questionsByModule}" var="t"
+						itemValue="#{t.douxiemeReponse}"
+						itemLabel="#{t.douxiemeReponse}" />
+						<f:selectItems 
+						value="#{examenBean.questionsByModule}" var="t"
+						itemValue="#{t.troisiemeReponse}"
+						itemLabel="#{t.troisiemeReponse}" />
+						<f:selectItems 
+						value="#{examenBean.questionsByModule}" var="t"
+						itemValue="#{t.quatriemeReponse}"
+						itemLabel="#{t.quatriemeReponse}" />
+				</h:selectOneRadio>
+				<h:commandButton value="Register"
+					action="#{examenBean.save}"></h:commandButton>
+			</h:form>
+			
+			
+   <p:commandButton  value="Submit" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-check" />
+ 
+    <p:dialog header="Values" modal="true" showEffect="clip" widgetVar="dlg" resizable="false">
+        <p:outputPanel id="display">
+            <p:dataList value="#{examenBean.selectedCities}" var="city">
+                <f:facet name="header">
+                    Grid
+                </f:facet>
+                #{city}
+            </p:dataList>
+        </p:outputPanel>
+    </p:dialog>
