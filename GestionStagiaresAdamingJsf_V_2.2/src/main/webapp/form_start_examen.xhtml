@@ -29,7 +29,7 @@
 			<div style="margin-top: 50px;">
 				<h3 style="border: 1px solid">Guide d'utilisation</h3>
 				<p>Notez qu'en fonction de la question, il est possible de
-					cocher une seul réponses. </p>
+					cocher une seul réponses.</p>
 				<h3 style="border: 1px solid">Quelques conseils de mise en
 					œuvre</h3>
 				<ul>
@@ -47,18 +47,18 @@
 			</div>
 		</div>
 		<br /> <br />
-
+		
 		<p:dataList value="#{examenBean.questionsByModule}" var="q"
 			varStatus="iteration">
 			<div class="alert alert-info">
-			<h:form>
-				<h:inputHidden value="#{examenBean.idSession}" />
-				<h:inputHidden value="#{examenBean.idEtudiant}" />
-				<h:inputHidden value="#{examenBean.idModule}" />
-				<h:outputText style="color:red"
-					value=" #{iteration.index+1}/ #{q.propositionquestion} ?"></h:outputText>
-				<br />
-				<br />
+				<h:form>
+					<h:inputHidden value="#{examenBean.idSession}" />
+					<h:inputHidden value="#{examenBean.idEtudiant}" />
+					<h:inputHidden value="#{examenBean.idModule}" />
+					<h:outputText style="color:red"
+						value=" #{iteration.index+1}/ #{q.propositionquestion} ?"></h:outputText>
+					<br />
+					<br />
 					<h:outputText style="margin-left:12px"
 						value="1- #{q.premeiereReponse}" />
 					<br />
@@ -72,25 +72,24 @@
 						value="4- #{q.quatriemeReponse}" />
 					<br />
 					<br />
-				<p:selectOneRadio id="grid" value="#{examenBean.reponseSelectionnee}"
-					layout="grid" columns="4">
-					<f:selectItem itemLabel="1" itemValue="#{q.premeiereBonneReponse}" />
-					<f:selectItem itemLabel="2" itemValue="#{q.douxiemeBonneReponse}" />
-					<f:selectItem itemLabel="3" itemValue="#{q.troisiemeBonneReponse}" />
-					<f:selectItem itemLabel="4" itemValue="#{q.quatriemeBonneReponse}" />
-				</p:selectOneRadio>
-				<br/>
-				<p:commandButton
-					action="#{examenBean.registerV3}"
-					onclick="this.disabled=true"
-					value="Répondre" update="display" ajax="true">
-				</p:commandButton>
-				
-				<h:outputText
-					style="margin-top:10px;display:block;color:green"
-					id="display" value="#{examenBean.confirm}" />
-				
-			</h:form>
+					<p:selectOneRadio id="grid"
+						value="#{examenBean.reponseSelectionnee}" layout="grid"
+						columns="4">
+						<f:selectItem itemLabel="1" itemValue="#{q.premeiereBonneReponse}" />
+						<f:selectItem itemLabel="2" itemValue="#{q.douxiemeBonneReponse}" />
+						<f:selectItem itemLabel="3" itemValue="#{q.troisiemeBonneReponse}" />
+						<f:selectItem itemLabel="4" itemValue="#{q.quatriemeBonneReponse}" />
+					</p:selectOneRadio>
+					<br />
+					<p:commandButton action="#{examenBean.registerV3}"
+						onclick="this.disabled=true" value="Répondre" update="display"
+						ajax="true">
+					</p:commandButton>
+
+					<h:outputText style="margin-top:10px;display:block;color:green"
+						id="display" value="#{examenBean.confirm}" />
+
+				</h:form>
 			</div>
 		</p:dataList>
 		<h:form>

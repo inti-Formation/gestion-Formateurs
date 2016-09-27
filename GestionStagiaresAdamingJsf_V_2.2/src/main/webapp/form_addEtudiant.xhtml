@@ -101,15 +101,23 @@
 					required-message="Veuillez Rensiegnez le Mail SVP!!"
 					renderLabel="true" />
 				<h:message for="mail" />
-
+                <br/>
 
 				<!-- exception add new Etudiant -->
-				<h:outputText value="#{etudiantBean.addEtudiantException}"
-					styleClass="errorExeption"></h:outputText>
+				<c:if test="#{not empty etudiantBean.addEtudiantException}">
+					<div class="alert alert-warning">
+						<h:outputText value="#{etudiantBean.addEtudiantException}"
+							styleClass="errorExeption"/>
+					</div>
+				</c:if>
 				<!-- message success -->
-				<h:outputText value="#{etudiantBean.success}"
-					styleClass="messageSuccess" />
-				<br></br>
+				<c:if test="#{not empty etudiantBean.success}">
+					<div class="alert alert-info">
+						<h:outputText value="#{etudiantBean.success}"
+							styleClass="messageSuccess" />
+					</div>
+				</c:if>
+				<br/>
 				<b:commandButton action="#{etudiantBean.addEtudiant}" update="@form"
 					value="Ajouter" look="primary" ajax="true" />
 				<b:commandButton value="Cancel" type="reset" look="warning"
@@ -180,19 +188,19 @@
 							<h:outputText style="color:red;font-weight:bold;"
 								value="#{etudiantBean.idSession}" />
 						</f:facet>
-						<p:column style="width:150px;">
+						<p:column style="width:140px;">
 							<f:facet name="header">
 								<h:outputText value="Nom" />
 							</f:facet>
 							<h:outputText value="#{newStudents.nomEtudiant}" />
 						</p:column>
-						<p:column style="width:150px;">
+						<p:column style="width:140px;">
 							<f:facet name="header">
 								<h:outputText value="Prénom" />
 							</f:facet>
 							<h:outputText value="#{newStudents.prenomEtudiant}" />
 						</p:column>
-						<p:column style="width:150px;">
+						<p:column style="width:140px;">
 							<f:facet name="header">
 								<h:outputText value="Specialitee" />
 							</f:facet>
@@ -217,14 +225,14 @@
 							</f:facet>
 							<h:outputText value="#{newStudents.sessionEtudiant.lieu}" />
 						</p:column>
-					    <p:column style="width:50px;text-align:center;">
+					    <p:column style="width:80px;text-align:center;">
 					       <f:facet name="header">
 							 <h:outputText value="Actions" />
 						   </f:facet>
 					       <p:commandLink oncomplete="PF('carDialog').show()"
 							update=":form2:moduleDetail"
-							    title="modifier">
-							    <h:graphicImage name="NiceAdmin/img/rotate.png"></h:graphicImage>
+							    title="Modifier">
+							    <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
 								<f:param value="#{newStudents.idEtudiant}" name="idEtudiant"/>
 								<f:param value="#{newStudents.sessionEtudiant.idSession}" name="idSession"/>
 						        <p:ajax update=":form2:moduleDetail" event="click" listener="#{etudiantBean.getCurrentEtudiant(newStudents.idEtudiant)}"/>

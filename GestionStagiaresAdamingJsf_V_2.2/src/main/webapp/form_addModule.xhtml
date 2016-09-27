@@ -140,8 +140,8 @@
 								<h:outputText value="Actions" />
 							</f:facet>
 							<p:commandLink oncomplete="PF('carDialog').show()"
-								update=":form2:moduleDetail" title="modifier">
-								<h:graphicImage name="NiceAdmin/img/rotate.png"></h:graphicImage>
+								update=":form2:moduleDetail" title="Modifier">
+								 <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
 								<f:param value="#{newModule.idModule}" name="idModule" />
 								<p:ajax update=":form2:moduleDetail" event="click"
 									listener="#{moduleBean.getCurrentModule(newModule.idModule)}" />
