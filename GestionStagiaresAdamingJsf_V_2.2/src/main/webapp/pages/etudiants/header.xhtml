@@ -58,13 +58,17 @@
                             <li>
                                 <a href="#"><i class="icon_chat_alt"></i> Chats</a>
                             </li>
+                            <li><h:form id="formExit">
+								<p:commandLink action="#{deconnectionBean.deconnection}">
+									<p:outputLabel value="Logout" />
+								</p:commandLink>
+							</h:form></li>
                             <li>
-                                <h:outputLink value="${pageContext.request.contextPath}/myapp/j_spring_security_logout">logouttt</h:outputLink><i class="icon_key_alt"></i> 
+                                <a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
                             </li>
                             <li>
                                 <a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
                             </li>
-                           
                         </ul>
                     </li>
                     <!-- user login dropdown end -->

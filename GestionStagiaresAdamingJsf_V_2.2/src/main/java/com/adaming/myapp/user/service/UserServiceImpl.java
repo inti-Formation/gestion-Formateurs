@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.entities.User;
+import com.adaming.myapp.exception.GetUserException;
 import com.adaming.myapp.user.dao.IUserDao;
 
 
@@ -40,5 +41,10 @@ public class UserServiceImpl implements IUserService{
 		    result = result + alphabet.charAt(r.nextInt(n)); //13
 
 		return result;
+	}
+
+	@Override
+	public User getUser(String mail) throws GetUserException {
+		return dao.getUser(mail);
 	}
 }

@@ -5,9 +5,8 @@
 	xmlns:h = "http://java.sun.com/jsf/html"
 	xmlns:p = "http://primefaces.org/ui"
     xmlns:ui= "http://java.sun.com/jsf/facelets">
-  
 <h:head>
-	<title>Session Modification Success</title>
+	<title>Notes Success</title>
 	   <f:facet name="middle">
             <h:outputStylesheet name="NiceAdmin/css/bootstrap.min.css"/>
             <h:outputStylesheet name="NiceAdmin/css/bootstrap-theme.css"/>
@@ -32,13 +31,12 @@
 <br/>
 <br/>
 <br/>
-<div class="well container">
-		<div class="alert alert-info" style="text-align:center; margin-bottom:0px!important;">
-		   <h:outputText style="color:black" value="le mail a bien été envoyé"/><br/>
-		   <h:link style=" color:red;font-weight:bold" outcome="home.xhtml" value="Retoure à la Page d'accueil "></h:link>
-		</div> 
-</div>
-
-
+	<div class="well container">
+			<div class="alert alert-info" style="text-align:center;margin-bottom:5px!important">
+			   <h:graphicImage style="margin-right:10px;vertical-align: sub!important" name="NiceAdmin/img/tick.png"/> 
+			   <h:outputText style="color:black" value="La Note de L'étudiant N° #{noteBean.idEtudiant} , Module N° #{noteBean.idModule} à bien été Enregistré "/><br/>
+			   <h:link style="color:red;font-weight:bold" outcome="notes.xhtml" value="Retoure à la Page Notes"></h:link>
+			</div>   
+	</div>
 </h:body>
 </html>

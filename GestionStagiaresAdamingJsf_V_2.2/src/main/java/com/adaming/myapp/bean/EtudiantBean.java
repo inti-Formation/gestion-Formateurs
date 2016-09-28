@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Etudiant;
@@ -73,14 +74,14 @@ public class EtudiantBean implements Serializable {
 		//new Etudiant
 		Etudiant e = new Etudiant(nomEtudiant, prenomEtudiant, dateDeNaissance, formationInitial, ecole, dateObtention, adressePostal, codePostal, numTel, mail);
 		// new User
-		User u     = new User(nomEtudiant+"_"+prenomEtudiant,passwordRandom, true);
+		User u     = new User(mail,passwordRandom, true);
 		// new Role
 		Role r = new Role("ROLE_ADMIN1");
 		try {
 			serviceEtudiant.addStudent(e, idSession);
 			serviceUser.saveUser(u);
 			serviceRole.saveRole(r, u.getIdUser());
-			setSuccess("l'Etudiant "+nomEtudiant+", "+prenomEtudiant+" à bien été ajoutée avec Success"+" Voici les informations du compte etudiant : "+"Pseudo : "+nomEtudiant+"_"+prenomEtudiant+", Password : "+passwordRandom);
+			setSuccess("l'Etudiant "+nomEtudiant+", "+prenomEtudiant+" à bien été ajoutée avec Success"+" Voici les informations du compte etudiant : "+"Pseudo : "+mail+", Password : "+passwordRandom);
 			setAddEtudiantException("");
 		} catch (AddEtudiantException e1) {
 			setAddEtudiantException(e1.getMessage());

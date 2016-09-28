@@ -145,6 +145,10 @@ table tr th { color: #688a7e;}
   -o-background-size: cover;
   background-size: cover;
 }
+.bodyImg{
+ background: url("#{resource['NiceAdmin/img/indeximg.jpg']}"); 
+}
+ 
 .login-img2-body{
   background: url('../img/bg-1.jpg') no-repeat center center fixed; 
   -webkit-background-size: cover;

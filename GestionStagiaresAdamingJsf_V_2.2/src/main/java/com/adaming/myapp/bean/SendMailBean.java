@@ -31,7 +31,6 @@ public class SendMailBean {
 	//
 	
 	private String msgSuccess;
-    private UIComponent mybutton;
 	private String to;
 	private String from="nymraif.stark8623@gmail.com";
 	
@@ -134,13 +133,7 @@ public class SendMailBean {
 		this.msgSuccess = msgSuccess;
 	}
 
-	public UIComponent getMybutton() {
-		return mybutton;
-	}
-
-	public void setMybutton(UIComponent mybutton) {
-		this.mybutton = mybutton;
-	}
+	
 
 	public SendMailBean() {
 		super();
