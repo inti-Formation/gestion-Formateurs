@@ -55,24 +55,38 @@
 					<h:inputHidden value="#{examenBean.idSession}" />
 					<h:inputHidden value="#{examenBean.idEtudiant}" />
 					<h:inputHidden value="#{examenBean.idModule}" />
-					<h:outputText style="color:red"
-						value=" #{iteration.index+1}/ #{q.propositionquestion} ?"></h:outputText>
-					<br />
-					<br />
-					<h:outputText style="margin-left:12px"
-						value="1- #{q.premeiereReponse}" />
-					<br />
-					<h:outputText style="margin-left:12px"
-						value="2- #{q.douxiemeReponse}" />
-					<br />
-					<h:outputText style="margin-left:12px"
-						value="3- #{q.troisiemeReponse}" />
-					<br />
-					<h:outputText style="margin-left:12px"
-						value="4- #{q.quatriemeReponse}" />
-					<br />
-					<br />
-					<p:selectOneRadio id="grid"
+				    <!-- Questions -->
+					<div class="padd sscroll">
+	                    <ul class="chats">
+	                      <!-- Chat by us. Use the class "by-me". -->
+	                      <li class="by-me">
+	                        <!-- Use the class "pull-left" in avatar -->
+	                        <div class="avatar pull-left">
+	                          <h:graphicImage name="NiceAdmin/img/student_examen.png" alt=""/>
+	                        </div>
+	                        <div class="chat-content">
+	                          <!-- Questions -->
+	                          <div class="chat-meta">
+	                          #{iteration.index+1} -
+	                          <h:outputText value="#{q.propositionquestion} ?"></h:outputText>
+	                          <span class="pull-right">#{iteration.index+1}</span></div>
+	                          <div class="separator"></div>
+	                          <br/>
+	                          <!-- Responses -->
+	                          <h:outputText style="margin-left:12px;color:black;"
+									value="1- #{q.premeiereReponse}" />
+								<br />
+								<h:outputText style="margin-left:12px;color:black;"
+									value="2- #{q.douxiemeReponse}" />
+								<br />
+								<h:outputText style="margin-left:12px;color:black;"
+									value="3- #{q.troisiemeReponse}" />
+								<br />
+								<h:outputText style="margin-left:12px;color:black;"
+									value="4- #{q.quatriemeReponse}" />
+	                          <br/>
+	                          <!-- select responses  -->
+	                          <p:selectOneRadio id="grid"
 						value="#{examenBean.reponseSelectionnee}" layout="grid"
 						columns="4">
 						<f:selectItem itemLabel="1" itemValue="#{q.premeiereBonneReponse}" />
@@ -81,14 +95,19 @@
 						<f:selectItem itemLabel="4" itemValue="#{q.quatriemeBonneReponse}" />
 					</p:selectOneRadio>
 					<br />
+					<!-- button click -->
 					<p:commandButton action="#{examenBean.registerV3}"
 						onclick="this.disabled=true" value="Répondre" update="display"
 						ajax="true">
 					</p:commandButton>
-
+                     <!-- message button click confirm -->
 					<h:outputText style="margin-top:10px;display:block;color:green"
 						id="display" value="#{examenBean.confirm}" />
-
+	                          <div class="clearfix"></div>
+	                        </div>
+	                      </li> 
+	                    </ul>
+                   </div>
 				</h:form>
 			</div>
 		</p:dataList>
@@ -110,7 +129,6 @@
 			</p:dialog>
 		</h:form>
 	</div>
-
 </ui:composition>
 
 </html>

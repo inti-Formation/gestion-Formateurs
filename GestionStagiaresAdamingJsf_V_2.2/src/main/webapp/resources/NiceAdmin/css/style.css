@@ -9,10 +9,23 @@ Website: http://geekslabs.com/
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(line-icons.css);
 /*adel css*/
-#form,#form2,#form4{
+#form,#form2,#form4,.backgroundGray{
 	border-radius:4px;
-	background-color: rgba(0, 0, 0, 0.1);
-	border: 4px solid #fed189;
+	/*background-color:#f0f2f7;*/
+	/*border: 4px solid #fed189;*/
+	background-color:rgba(0,0,0,.1);
+	padding-bottom:10px;
+}
+/*btn menu*/
+.lines { 
+    border-top: 2px solid white; 
+    height: 9px; 
+    width:30px;
+}
+.separator{
+    border-top: 1px dashed black;
+    width: 100%;
+    margin-top: 10px;
 }
 .errorValidation{
 	color: red!important;
@@ -49,10 +62,16 @@ border-radius:4px!important;
 .errorExeption{
 	color: red;
 	font-weight: bold;
+	text-align: center!important;
+	display: block;
+	margin-top:5px;
+	margin-bottom: 5px;
 }
 .messageSuccess{
 	color: green;
 	font-weight: bold;
+	text-align: center!important;
+	display: block;
 }
 .ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
     margin-top: 6px!important;
@@ -146,7 +165,11 @@ table tr th { color: #688a7e;}
   background-size: cover;
 }
 .bodyImg{
- background: url("#{resource['NiceAdmin/img/indeximg.jpg']}"); 
+ background: url("#{resource['NiceAdmin/img/indeximg.jpg']}") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
  
 .login-img2-body{
@@ -165,10 +188,11 @@ table tr th { color: #688a7e;}
 }
 
 .login-form {
-    max-width: 350px;
-    margin: 100px auto 0;
+    max-width: 400px;
+    margin: 300px auto 0;
     background: #d5d7de;    
 }
+
 .login-img-body .login-form{
     max-width: 350px;
     margin: 200px auto 0;
@@ -1146,6 +1170,8 @@ div[data-role="editor-toolbar"] {
   min-height: 34px;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;  
@@ -1341,8 +1367,8 @@ div[data-role="editor-toolbar"] {
 }
 
 .chats .by-me .chat-meta{
-	font-size: 11px;
-	color: #999;
+	font-size: 15px;
+	color: black;
 }
 
 .chats .by-me .chat-content{

@@ -1,0 +1,54 @@
+<div class="well container">
+	
+	   <h:form id="form">
+			<div class="inputpersso">
+
+
+				<h:panelGrid columns="2" cellpadding="5" style="margin-top:30px">
+					<p:outputLabel for="to" value="to :      ">
+					</p:outputLabel>
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:selectOneRadio id="to"
+							requiredMessage="veuillez sélectionner un destinataire"
+							required="true" value="#{mailBean.to}">
+							<f:selectItem itemLabel="Responsable Pédagogique" itemValue="ad.boumaza@yahoo.fr" />
+							<f:selectItem itemLabel="Administrateur"
+								itemValue="ad.boumaza@yahoo.fr" />
+						</p:selectOneRadio>
+						<h:message for="to"></h:message>
+					</h:panelGrid>
+					<p:outputLabel for="objet" value="  objet :   "></p:outputLabel>
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:inputTextarea id="objet" rows="1" cols="50" autoResize="false"
+							value="#{mailBean.objet}" required="true"
+							requiredMessage="veuillez entrer un objet"/>
+						<h:message for="objet"></h:message>
+					</h:panelGrid>
+					<p:outputLabel for="message" value="  mail :  "></p:outputLabel>
+
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:inputTextarea id="message" rows="8" cols="50" counter="display"
+							maxlength="500" counterTemplate="{0} characters remaining."
+							autoResize="false" value="#{mailBean.msg}" required="true"
+							requiredMessage="veuillez entrer votre message" />
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputText id="display" />
+							<h:message for="message"></h:message>
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<b:commandButton id="mybutton" action="#{mailBean.sendMail}"
+					value="Envoyer" look="primary"
+					style="margin-left:200px" />
+				<c:if test=" #{not empty mailBean.msgSuccess}">
+					<div class="alert alert-info">
+						<h:message for="mybutton" style="color: green; font-weight: bold;" />
+					</div>
+				</c:if>
+			</div>
+			<br />
+			<br />
+		</h:form>
+		
+	</div>

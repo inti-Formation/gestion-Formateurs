@@ -45,13 +45,13 @@
 						placeholder="Password"/>
 				</div>
 				<label class="checkbox"> <input type="checkbox"
-					value="remember-me"/> Remember me <span class="pull-right">
+					value="remember-me"/> Se souvenir de moi <span class="pull-right">
 						
 				</span>
 				</label>
-				<button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+				<button class="btn btn-primary btn-lg btn-block" type="submit">Connexion</button>
 				<button class="btn btn-info btn-lg btn-block" data-toggle="modal"
-					data-target="#myModal" type="submit">Forgot Password?</button>
+					data-target="#myModal" type="submit">Mot De Passe Oublié?</button>
 			</div>
 		</form>
 	</div>
@@ -67,11 +67,11 @@
 						aria-label="Close">
 						<span aria-hidden="true"><i><img src="resources/NiceAdmin/img/close.png"/></i></span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Récupération Mot de Passe
+					<h4 class="modal-title" id="myModalLabel" style="text-align:center">MOT DE PASSE OUBLIÉ
 						</h4>
 				</div>
 				<div class="modal-body">
-					<h:form styleClass="login-form">
+					<h:form styleClass="login-form" style="margin:50px auto 0!important;">
 						<div class="login-wrap">
 							<p class="login-img">
 								<i><img style="width: 200px;"
@@ -80,7 +80,7 @@
 							<div class="input-group">
 								<span class="input-group-addon"> <i><img src="resources/NiceAdmin/img/opened-email-envelope.png"/></i>
 								</span> <h:inputText type="text" styleClass="form-control" placeholder="Adresse Mail"
-									 value="#{passBean.mail}" a:placeholder="Votre Email"/>
+									 value="#{passBean.mail}" a:placeholder="Email"/>
 							</div>
 							<h:commandButton styleClass="btn btn-info btn-lg btn-block" value="Envoyer" action="#{passBean.sendPass}"/>
 						</div>

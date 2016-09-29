@@ -8,25 +8,13 @@
 <h:head>
 	<title>Home</title>
 	<f:facet name="middle">
-		<h:outputStylesheet name="NiceAdmin/css/bootstrap.min.css" />
-		<h:outputStylesheet name="NiceAdmin/css/bootstrap-theme.css" />
-		<h:outputStylesheet name="NiceAdmin/css/style.css" />
-		<h:outputStylesheet name="NiceAdmin/css/style-responsive.css" />
-		<h:outputStylesheet name="NiceAdmin/css/elegant-icons-style.css" />
-		<h:outputStylesheet name="NiceAdmin/css/font-awesome.min.css" />
-		<h:outputScript name="NiceAdmin/js/jquery.js" />
-		<h:outputScript name="NiceAdmin/js/bootstrap.js" />
-		<h:outputScript name="NiceAdmin/js/jquery.scrollTo.min.js" />
-		<h:outputScript name="NiceAdmin/js/jquery.nicescroll.js" />
-		<h:outputScript name="NiceAdmin/js/jquery.customSelect.min.js" />
-		<h:outputScript name="NiceAdmin/js/scripts.js" />
+		<h:outputStylesheet name="NiceAdmin/css/normalize.css" />
+		<h:outputStylesheet name="NiceAdmin/css/demo.css" />
+		<h:outputStylesheet name="NiceAdmin/css/set2.css" />
+		<h:outputStylesheet name="NiceAdmin/css/font-awesom.css" />
 	</f:facet>
 </h:head>
 <h:body>
-	<ui:include src="header.xhtml"></ui:include>
-	<br/><br/><br/><br/><br/><br/>
-	<h:link outcome="pages/etudiants/examen.xhtml">Accées Etudiant</h:link>
-	<h:link outcome="pages/admin/index.xhtml">Accées Administrateur</h:link>
-	<h:link outcome="pages/etudiants/examen.xhtml">Accées Formateur</h:link>
+<ui:include src="body_home.xhtml"></ui:include>
 </h:body>
 </html>

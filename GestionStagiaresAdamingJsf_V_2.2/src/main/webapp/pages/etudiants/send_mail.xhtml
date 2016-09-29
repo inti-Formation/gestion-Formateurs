@@ -26,37 +26,8 @@
 		<h:outputScript name="NiceAdmin/js/charts.js" />
 	</f:facet>
 </h:head>
-<body>
+<h:body>
 	<ui:include src="header.xhtml"></ui:include>
-	<br> </br>
-	<br> </br>
-	<br> </br>
-
-	<div class="well container">
-		<h:form id="form">
-			<div class="inputpersso">
-
-                <h:outputText value="#{passBean.error}"></h:outputText>
-				<h:panelGrid columns="2" cellpadding="5" style="margin-top:30px">
-					
-					<p:outputLabel for="mail" value="  identifiant :   "></p:outputLabel>
-					<h:panelGrid columns="2" cellpadding="5">
-						<p:inputTextarea id="mail" rows="1" cols="50" autoResize="false"
-							value="#{passBean.mail}" required="true"
-							requiredMessage="veuillez entrer votre identifiant"/>
-						<h:message for="mail"></h:message>
-					
-				</h:panelGrid>
-				</h:panelGrid>
-				<b:commandButton id="mybutton" action="#{passBean.sendPass}"
-					value="Send" look="primary"
-					style="margin-left:200px" />
-				
-			</div>
-			<br />
-			<br />
-		</h:form>
-
-	</div>
-</body>
+	<ui:include src="form_send_email.xhtml"></ui:include>
+</h:body>
 </html>

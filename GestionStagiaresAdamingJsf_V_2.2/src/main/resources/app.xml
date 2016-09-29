@@ -99,14 +99,22 @@
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<context:annotation-config></context:annotation-config>
-   
+    <!-- spring security configuration pour le cache du navigateures -->
+	<mvc:interceptors>
+		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+		 <property name="cacheSeconds" value="0"/>
+		 <property name="useExpiresHeader" value="true"/>
+		 <property name="useCacheControlHeader" value="true"/>
+		 <property name="useCacheControlNoStore" value="true"/>
+		</bean>
+	</mvc:interceptors>
     <!-- spring security -->
     <security:http pattern="/resources/**" security="none"/> 
 	<security:http auto-config="true" use-expressions="true">
-	  <security:intercept-url pattern="/pages/etudiants/**" access="hasRole('ROLE_ADMIN1')"/>
-	  <security:intercept-url pattern="/pages/admin/**" access="hasRole('ROLE_ADMIN2')"/>
+	  <security:intercept-url pattern="/pages/etudiants/**" access="hasRole('ROLE_ETUDIANT')"/>
+	  <security:intercept-url pattern="/pages/admin/**" access="hasRole('ROLE_ADMIN')"/>
 	  <security:form-login login-page="/login.xhtml"/>
-	  <security:logout logout-url="/logout" logout-success-url="/home" invalidate-session="true"/>
+	  <security:logout  logout-success-url="/home.xhtml" invalidate-session="true"/>
 	</security:http>
 	
 	<security:authentication-manager>
@@ -116,14 +124,6 @@
 			  authorities-by-username-query="select u.name,r.roleName from user u, role r where u.idUser = r.id_users and u.name =? "/>
 		</security:authentication-provider>
 	</security:authentication-manager>
-	<!-- spring security configuration pour le cache du navigateures -->
-	<mvc:interceptors>
-		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-		 <property name="cacheSeconds" value="0"/>
-		 <property name="useExpiresHeader" value="true"/>
-		 <property name="useCacheControlHeader" value="true"/>
-		 <property name="useCacheControlNoStore" value="true"/>
-		</bean>
-	</mvc:interceptors>
+	
 	
 </beans>

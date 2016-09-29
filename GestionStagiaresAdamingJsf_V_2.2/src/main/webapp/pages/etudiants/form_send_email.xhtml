@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+
+		<h:form id="form">
+			<br />
+			<div class="container">
+			    
+				<h:selectOneRadio value="#{mailBean.to}" style="margin:auto;text-align: center">
+				   <f:selectItem itemLabel="Responsable Pédagogique" itemValue="ad.boumaza@yahoo.fr" />
+				   <f:selectItem itemLabel="Administrateur" itemValue="ad.boumaza@yahoo.fr"/>	   			
+				</h:selectOneRadio>
+				
+                <div class="form-group">
+					 <label for="usr">Objet:</label>
+					 <h:inputText value="#{mailBean.objet}" type="text" class="form-control" id="usr"/>
+                </div>
+
+				<div class="form-group">
+					<label for="comment">Message :</label>
+					<h:inputTextarea a:placeholder="Votre Nom, Prénom, Spécialitée, le lieu" autoResize="false" value="#{mailBean.msg}" class="form-control" rows="5" id="comment"/>
+				</div>
+                <br/>
+				<h:commandButton styleClass="btn btn-info btn-lg btn-block" value="Envoyer" action="#{mailBean.sendMail}"/>	
+				<c:if test=" #{not empty mailBean.msgSuccess}">
+					<div class="alert alert-info">
+						<h:message for="mybutton" style="color: green; font-weight: bold;" />
+					</div>
+				</c:if>
+			</div>
+			<br />
+			<br />
+		</h:form>
+
+	</div>
+</ui:composition>
+</html>

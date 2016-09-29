@@ -76,7 +76,7 @@ public class EtudiantBean implements Serializable {
 		// new User
 		User u     = new User(mail,passwordRandom, true);
 		// new Role
-		Role r = new Role("ROLE_ADMIN1");
+		Role r = new Role("ROLE_ETUDIANT");
 		try {
 			serviceEtudiant.addStudent(e, idSession);
 			serviceUser.saveUser(u);

@@ -11,128 +11,116 @@
 	<br> </br>
 	<br> </br>
 	<br> </br>
-	<div class="well container">
 	
-		<h:form id="form">
 		    <br/>
-			<div class="inputpersso">
-				<b:inputText id="name" value="#{specialiteBean.designation}"
-					label="Specialitée " required="true"
-					required-message="Veuillez Rensiegnez la spécialitée SVP!!"
-					renderLabel="true"/>
-				<h:message for="name" />
-				<!-- exception add new Specialite -->
-				<h:outputText value="#{specialiteBean.addSpecialiteException}"
-					styleClass="errorExeption"></h:outputText>
-				<!-- message success -->
-				<h:outputText value="#{specialiteBean.succes}"
-					styleClass="messageSuccess" />
-				<br></br>
-				<b:commandButton action="#{specialiteBean.addSpecialite}"
-					update="@form" value="Ajouter" look="primary" ajax="true" />
-				<b:commandButton value="Cancel" type="reset" look="warning"
-					class="btn-cancel" />
-			</div>
-			<br />
-			<br />
-			<br />
-			<br />
-			<div align="center">
-				<p:dataTable var="newSpecialite"
-					value="#{specialiteBean.specialites}" id="studentTable"
-					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-					paginator="true" rows="10" style="width:50%;margin-bottom:20px;">
-					<f:facet name="header">
-					<h:outputText value="----------------"></h:outputText>
-					</f:facet>
-					<f:facet name="header">
-						<p:outputPanel>
-							<h:graphicImage name="NiceAdmin/img/java.png" width="24" style="margin-right:10px;"/>
-							<h:graphicImage name="NiceAdmin/img/cobol.png" width="24" style="margin-right:10px;" />
-							<h:graphicImage name="NiceAdmin/img/php.png" width="24" style="margin-right:10px;"/>
-							<h:graphicImage name="NiceAdmin/img/c++.png" width="24" style="margin-right:10px;"/>
-							<h:graphicImage name="NiceAdmin/img/mainframe.png" width="24" style="margin-right:10px;" />
-                            <h:graphicImage name="NiceAdmin/img/net.png" width="24" style="margin-right:10px;"/>
-                            <h:graphicImage name="NiceAdmin/img/oracle.png" width="24" style="margin-right:10px;"/>
-                            <h:graphicImage name="NiceAdmin/img/MySQL.png" width="24" style="margin-right:10px;"/>
-                            <h:graphicImage name="NiceAdmin/img/Cobol.jpg" width="24" />
-						</p:outputPanel>
-					</f:facet>
-					<f:facet name="header">
-					<h:outputText value="----------------"></h:outputText>
-					</f:facet>
-					<f:facet name="{Exporters}">
-						<p:commandLink ajax="false" style="float:right;"
-							title="Fichier XML">
-							<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
-							<p:dataExporter type="xml" target=":form:studentTable"
-								fileName="Spécialitées" />
-						</p:commandLink>
-
-						<p:commandLink ajax="false" style="float:right;"
-							title="Fichier CSV">
-							<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
-							<p:dataExporter type="csv" target=":form:studentTable"
-								fileName="Spécialitées" />
-						</p:commandLink>
-
-						<p:commandLink ajax="false" style="float:right;"
-							title="Fichier PDF">
-							<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
-							<p:dataExporter type="pdf" target=":form:studentTable"
-								fileName="Spécialitées" />
-						</p:commandLink>
-
-						<p:commandLink ajax="false" style="float:right;"
-							title="Fichier EXCEL">
-							<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
-							<p:dataExporter type="xls" target=":form:studentTable"
-								fileName="Spécialitées" />
-						</p:commandLink>
-					</f:facet>
-
-					<p:column style="width:50px;">
-						<f:facet name="header">
-							<h:outputText value="IdSpecialite" />
-						</f:facet>
-						<h:outputText value="#{newSpecialite.idSpecialite}" />
-					</p:column>
-					<p:column style="width:150px;">
-						<f:facet name="header">
-							<h:outputText value="Designation" />
-						</f:facet>
-						<h:outputText value="#{newSpecialite.designation}" />
-					</p:column>
-					<!-- <p:column style="width:10px">
-				       <p:commandLink
-						    oncomplete="PF('carDialog').show()"
-							update=":form:carDetail" title="View Détaile"
-							styleClass="ui-icon ui-icon-search">
-							<f:param value="#{newSpecialite.idSpecialite}" name="idSpe"> </f:param>
-							 <f:setPropertyActionListener value="#{newSpecialite}"
-								target="#{specialiteBean.specialite}"/>
-						</p:commandLink> 
-					</p:column> -->
-				</p:dataTable>
-				<!-- <p:dialog header="Spécialitée Info" widgetVar="carDialog"
-					modal="true" showEffect="blind" hideEffect="explode"
-					resizable="false">
-					<p:outputPanel id="carDetail" style="text-align:center;">
-						<p:panelGrid columns="2"
-							rendered="#{not empty specialiteBean.specialite}"
-							columnClasses="label,value">
-							<h:outputText value="Id:" />
-							<h:outputText value="#{specialiteBean.specialite.idSpecialite}" />
-							<h:outputText value="designation" />
-							<h:outputText value="#{specialiteBean.specialite.designation}" />
-						</p:panelGrid>
-					</p:outputPanel>
-				</p:dialog> -->
-			</div>
-			<br/>
-		    <br/>
-		</h:form>
-		
-	</div>
+			 <!-- Form validations -->              
+              <div class="row" style="width:90%;display: block;margin:auto">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Spécialitées
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                  <h:form class="form-validate form-horizontal" id="form5">
+                                      <!-- exception add new Specialite -->
+				                      <h:outputText value="#{specialiteBean.addSpecialiteException}"
+					                  styleClass="errorExeption"></h:outputText>
+                                      <!-- input specialites -->
+                                      <div class="form-group ">
+                                          <label for="cname" class="control-label col-lg-2">Spécialitée <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                            <h:inputText id="name" required="true" style="margin-bottom: 10px"  value="#{specialiteBean.designation}" class="form-control"/>
+                                          </div>
+                                      </div>
+                                      <h:message for="name" />
+                                      <!-- message success -->
+				                      <h:outputText value="#{specialiteBean.succes}"
+					                  styleClass="messageSuccess" />
+					                  <!-- button save and cancel -->
+                                      <div class="form-group">
+                                          <div class="col-lg-offset-2 col-lg-10">
+                                             <h:commandButton styleClass="btn btn-info btn-lm" action="#{specialiteBean.addSpecialite}"
+					                         update="@form" value="Ajouter"  ajax="true" style="margin-right:20px;margin-top:10px;"/>
+				                             <h:commandButton styleClass="btn btn-default btn-lm" style="margin-top:10px;" value="Cancel" type="reset"/>
+                                          </div>
+                                      </div>
+                                      <br/><br/>
+                                      <div align="center" class="backgroundGray">
+									  <br/><br/>
+											<p:dataTable var="newSpecialite"
+												value="#{specialiteBean.specialites}" id="studentTable"
+												paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+												paginator="true" rows="10" style="width:50%;margin-bottom:20px;">
+												<f:facet name="header">
+												<h:outputText value="----------------"></h:outputText>
+												</f:facet>
+												<f:facet name="header">
+													<p:outputPanel>
+														<h:graphicImage name="NiceAdmin/img/java.png" width="24" style="margin-right:10px;"/>
+														<h:graphicImage name="NiceAdmin/img/cobol.png" width="24" style="margin-right:10px;" />
+														<h:graphicImage name="NiceAdmin/img/php.png" width="24" style="margin-right:10px;"/>
+														<h:graphicImage name="NiceAdmin/img/c++.png" width="24" style="margin-right:10px;"/>
+														<h:graphicImage name="NiceAdmin/img/mainframe.png" width="24" style="margin-right:10px;" />
+							                            <h:graphicImage name="NiceAdmin/img/net.png" width="24" style="margin-right:10px;"/>
+							                            <h:graphicImage name="NiceAdmin/img/oracle.png" width="24" style="margin-right:10px;"/>
+							                            <h:graphicImage name="NiceAdmin/img/MySQL.png" width="24" style="margin-right:10px;"/>
+							                            <h:graphicImage name="NiceAdmin/img/Cobol.jpg" width="24" />
+													</p:outputPanel>
+												</f:facet>
+												<f:facet name="header">
+												<h:outputText value="----------------"></h:outputText>
+												</f:facet>
+												<f:facet name="{Exporters}">
+													<p:commandLink ajax="false" style="float:right;"
+														title="Fichier XML">
+														<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
+														<p:dataExporter type="xml" target=":form5:studentTable"
+															fileName="Spécialitées" />
+													</p:commandLink>
+							
+													<p:commandLink ajax="false" style="float:right;"
+														title="Fichier CSV">
+														<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
+														<p:dataExporter type="csv" target=":form5:studentTable"
+															fileName="Spécialitées" />
+													</p:commandLink>
+							
+													<p:commandLink ajax="false" style="float:right;"
+														title="Fichier PDF">
+														<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
+														<p:dataExporter type="pdf" target=":form5:studentTable"
+															fileName="Spécialitées" />
+													</p:commandLink>
+							
+													<p:commandLink ajax="false" style="float:right;"
+														title="Fichier EXCEL">
+														<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
+														<p:dataExporter type="xls" target=":form5:studentTable"
+															fileName="Spécialitées" />
+													</p:commandLink>
+												</f:facet>
+							
+												<p:column style="width:50px;">
+													<f:facet name="header">
+														<h:outputText value="IdSpecialite" />
+													</f:facet>
+													<h:outputText value="#{newSpecialite.idSpecialite}" />
+												</p:column>
+												<p:column style="width:150px;">
+													<f:facet name="header">
+														<h:outputText value="Designation" />
+													</f:facet>
+													<h:outputText value="#{newSpecialite.designation}" />
+												</p:column>
+											</p:dataTable>
+								          </div>
+                                  </h:form>
+                                  <!-- data table -->
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
 </ui:composition>
 </html>
