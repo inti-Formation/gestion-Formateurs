@@ -5,7 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 <ui:composition>
@@ -47,7 +48,18 @@
 			</div>
 		</div>
 		<br /> <br />
-		
+		<!-- timer -->
+		<h:form id="form">
+		<p:growl autoUpdate="true"/>  
+		<pe:timer  
+		    timeout="30"  
+		    format="HH:mm:ss"
+		    singleRun="true"  
+		    listener="#{examenBean.onTimeout}"
+		  />  
+		</h:form>    		
+
+		    
 		<p:dataList value="#{examenBean.questionsByModule}" var="q"
 			varStatus="iteration">
 			<div class="alert alert-info">
@@ -132,3 +144,4 @@
 </ui:composition>
 
 </html>
+
