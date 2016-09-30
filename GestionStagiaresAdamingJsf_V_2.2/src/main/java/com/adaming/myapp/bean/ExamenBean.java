@@ -2,22 +2,12 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -29,15 +19,13 @@ import com.adaming.myapp.entities.Question;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.examen.service.IExamenService;
-import com.adaming.myapp.exception.AddExamenException;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.question.service.IQuestionService;
 import com.adaming.myapp.session.service.ISessionService;
-import com.lowagie.text.pdf.AcroFields.Item;
 
 @Component("examenBean")
-@Scope(value="session")
+@Scope(value = "session")
 public class ExamenBean implements Serializable {
 
 	/**
@@ -68,26 +56,36 @@ public class ExamenBean implements Serializable {
 	private List<Etudiant> etudiantsBySession;
 	private List<Module> moduleBySessions;
 	private String addExamException;
-	private String confirm=null;
-	private Double note=0.0;
+	private String confirm = null;
+	private Double note = 0.0;
 	private String reponseSelectionnee;
 	private Object scoreFinal;
 
-	
-
-	
-
-	/* @method load Page */
+	/* @method load Pagee */
 	public void init() {
 		sessionEnCours = serviceSession.getAllSessionsInProgress();
-		confirm=new String();//ok on click in button we show message
-	   
+		confirm = new String();// ok on click in button we show message
+
 	}
-	
-	
-	/*@method redirection à la fin de l'examen et afficher la note final*/
-	public String redirect(){
-		scoreFinal=serviceExamen.getScoreExamen(idSession, idEtudiant, idModule);
+
+	public void onTimeout() {
+		scoreFinal = serviceExamen.getScoreExamen(idSession, idEtudiant,
+				idModule);
+		Note note = new Note(scoreFinal);
+		serviceNotes.addNoteFinal(note, idSession, idEtudiant, idModule);
+		FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getNavigationHandler()
+				.handleNavigation(FacesContext.getCurrentInstance(), null,
+						"examen_success");
+
+	}
+
+	/* @method redirection à la fin de l'examen et afficher la note final */
+	public String redirect() {
+		scoreFinal = serviceExamen.getScoreExamen(idSession, idEtudiant,
+				idModule);
 		Note note = new Note(scoreFinal);
 		serviceNotes.addNoteFinal(note, idSession, idEtudiant, idModule);
 		return "examen_success?redirect=true";
@@ -100,14 +98,13 @@ public class ExamenBean implements Serializable {
 		return "start_examen?redirect=true";
 	}
 
-	
 	/* @method add ExamenV3 */
-	public void registerV3(){
-			Examen ex = new Examen(dateExamen,note,reponseSelectionnee);
-			serviceExamen.addExamenV2(ex, idEtudiant, idSession, idModule);
-			setConfirm("OK");
-			//init reponsesFinal
-			reponseSelectionnee=new String();
+	public void registerV3() {
+		Examen ex = new Examen(dateExamen, note, reponseSelectionnee);
+		serviceExamen.addExamenV2(ex, idEtudiant, idSession, idModule);
+		setConfirm("OK");
+		// init reponsesFinal
+		reponseSelectionnee = new String();
 	}
 
 	/* @method get All Students By Session */
@@ -118,16 +115,15 @@ public class ExamenBean implements Serializable {
 
 	/* @@method get All Modules By Session */
 	public void getAllModulesBySession() {
-		moduleBySessions= new ArrayList<Module>();
+		moduleBySessions = new ArrayList<Module>();
 		moduleBySessions = serviceModule.getModulesBySession(idSession);
 	}
 
 	/* @@method getAllQuestions By Module */
 	public void getAllQuestionByModule() {
-		questionsByModule= new ArrayList<Question>();
+		questionsByModule = new ArrayList<Question>();
 		questionsByModule = serviceQuestion.getAllQuestionsByModule(idModule);
 	}
-
 
 	public Long getIdSession() {
 		return idSession;
@@ -233,16 +229,12 @@ public class ExamenBean implements Serializable {
 		this.reponseSelectionnee = reponseSelectionnee;
 	}
 
-
 	public Object getScoreFinal() {
 		return scoreFinal;
 	}
 
-
 	public void setScoreFinal(Object scoreFinal) {
 		this.scoreFinal = scoreFinal;
 	}
-
-	
 
 }
