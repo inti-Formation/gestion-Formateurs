@@ -83,6 +83,18 @@ border-radius:4px!important;
 .ui-carousel .ui-carousel-dropdown{
 	display: none;
 }
+.icon-pdf{
+	background-image: url("#{resource['NiceAdmin/img/pdf.png']}")  !important ;
+	background-repeat: no-repeat;
+	
+    background-position: center; 
+}
+.icon-excel{
+	background-image: url("#{resource['NiceAdmin/img/excel.png']}") !important ; 
+	background-repeat: no-repeat;
+	
+    background-position: center; 
+}
 td{
 	padding-left: 5px!important;
 }

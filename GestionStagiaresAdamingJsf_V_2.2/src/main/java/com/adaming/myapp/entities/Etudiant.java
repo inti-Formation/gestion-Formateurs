@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 @Entity
 public class Etudiant {
 	@Id
@@ -28,6 +29,8 @@ public class Etudiant {
 	private String codePostal;
 	private String numTel;
 	private String mail;
+	@Transient
+	private String [] presence = {"P","P","P","P","P","P","P","P","P","P"};
 	/*assoc*/
 	@ManyToOne
 	@JoinColumn(name="ID_SESS_ETUDIANT")
@@ -159,6 +162,14 @@ public class Etudiant {
 
 	public void setExamens(List<Examen> examens) {
 		this.examens = examens;
+	}
+
+	public String[] getPresence() {
+		return presence;
+	}
+
+	public void setPresence(String[] presence) {
+		this.presence = presence;
 	}
 
 

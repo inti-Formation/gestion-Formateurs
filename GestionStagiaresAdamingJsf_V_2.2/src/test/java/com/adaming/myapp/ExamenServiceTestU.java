@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.codec.language.bm.Rule.RPattern;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;

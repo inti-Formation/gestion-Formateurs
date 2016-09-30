@@ -115,7 +115,13 @@
 	  <security:intercept-url pattern="/pages/admin/**" access="hasRole('ROLE_ADMIN')"/>
 	  <security:form-login login-page="/login.xhtml"/>
 	  <security:logout  logout-success-url="/home.xhtml" invalidate-session="true"/>
+	  <!-- contre les attack et redirection  -->
+	  <security:session-management session-fixation-protection="migrateSession">
+       <security:concurrency-control error-if-maximum-exceeded="false" expired-url="/expired_url.xhtml" max-sessions="1"/>
+      </security:session-management>
+	
 	</security:http>
+	
 	
 	<security:authentication-manager>
 		<security:authentication-provider>
