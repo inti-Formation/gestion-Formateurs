@@ -9,15 +9,17 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.SessionEtudiant;
+import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.session.service.ISessionService;
 
 @Component("scheduleView")
-@ViewScoped
+@Scope("session")
 public class ScheduleView {
 
 	private Long idSession;
@@ -28,6 +30,7 @@ public class ScheduleView {
 	private String[] dateString;
 	private int annee;
 	private int semaine;
+	private SessionEtudiant sessionEtudiant;
 
 	private boolean dispo;
 
@@ -48,14 +51,17 @@ public class ScheduleView {
 	@PostConstruct
 	public void init() {
 		sessionEnCours = serviceSession.getAllSessionsInProgress();
-
+       
 	}
 
 	/* @method get All Students By Session */
 	public void getAllStudentsBySession() {
 		etudiantsBySession = new ArrayList<Etudiant>();
 		etudiantsBySession = serviceEtudiant.getEtudiantBySession(idSession);
-
+		 for(Etudiant se : etudiantsBySession){
+	        	sessionEtudiant= new SessionEtudiant();
+	        	sessionEtudiant=se.getSessionEtudiant();
+	        }
 	}
 
 	public void genererSchedule() {
@@ -156,5 +162,16 @@ public class ScheduleView {
 	public void setDispo(boolean dispo) {
 		this.dispo = dispo;
 	}
+
+	public SessionEtudiant getSessionEtudiant() {
+		return sessionEtudiant;
+	}
+
+	public void setSessionEtudiant(SessionEtudiant sessionEtudiant) {
+		this.sessionEtudiant = sessionEtudiant;
+	}
+
+	
+	
 
 }

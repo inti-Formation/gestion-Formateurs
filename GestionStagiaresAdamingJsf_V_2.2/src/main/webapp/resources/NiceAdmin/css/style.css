@@ -9,6 +9,15 @@ Website: http://geekslabs.com/
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(line-icons.css);
 /*adel css*/
+.champsObligatoire{
+	    background: #fed189;
+    width: 80%;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
 #form,#form2,#form4,.backgroundGray{
 	border-radius:4px;
 	/*background-color:#f0f2f7;*/
@@ -16,6 +25,7 @@ Website: http://geekslabs.com/
 	background-color:rgba(0,0,0,.1);
 	padding-bottom:10px;
 }
+
 /*btn menu*/
 .lines { 
     border-top: 2px solid white; 

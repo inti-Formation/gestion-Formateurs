@@ -4,13 +4,10 @@
 	xmlns:f = "http://java.sun.com/jsf/core"
 	xmlns:h = "http://java.sun.com/jsf/html"
 	xmlns:p = "http://primefaces.org/ui"
-    xmlns:ui= "http://java.sun.com/jsf/facelets"
-    xmlns:sec="http://www.springframework.org/security/tags">
-   <f:metadata>
-		<f:viewAction action="#{examenBean.init}" />
-	</f:metadata>
+    xmlns:ui= "http://java.sun.com/jsf/facelets">
+  
 <h:head>
-	<title>Examen</title>
+	<title>Comportement</title>
 	   <f:facet name="middle">
             <h:outputStylesheet name="NiceAdmin/css/bootstrap.min.css"/>
             <h:outputStylesheet name="NiceAdmin/css/bootstrap-theme.css"/>
@@ -30,20 +27,7 @@
 <h:body>
 <ui:include src="header.xhtml"></ui:include>
 <!--ui:include src="aside.xhtml" ></ui:include-->
-<ui:include src="form_addExamen.xhtml"></ui:include>
+<ui:include src="form_comportement_etudiant.xhtml"></ui:include>
 
-    <sec:authorize ifAllGranted="ROLE_ADMIN">
-		Lorem ipsum dolor sit amet 1 
-	</sec:authorize>
-
-	<sec:authorize ifNotGranted="ROLE_ADMIN">
-		Lorem ipsum dolor sit amet 2 
-	</sec:authorize>
-
-	<sec:authorize ifAnyGranted="ROLE_ADMIN, ROLE_ETUDIANT">
-		Lorem ipsum dolor sit amet 3 
-	</sec:authorize>
-	
-	
 </h:body>
 </html>

@@ -1,5 +1,6 @@
 package com.adaming.myapp.entities;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+
+import com.mysql.fabric.xmlrpc.base.Array;
 @Entity
 public class Etudiant {
 	@Id
@@ -31,6 +34,13 @@ public class Etudiant {
 	private String mail;
 	@Transient
 	private String [] presence = {"P","P","P","P","P","P","P","P","P","P"};
+	
+	@Transient
+	private String [] comportement = {"Veuillez Choisir l'un des Commentaires..........","Niveau technique moyen. Tres bonne progression depuis le debut. Beaucoup de volonté et de serieux malgré quelques difficultés,bonne communication.","Niveau technique satisfaisant.  Sérieux et appliqué.bonne communication.","Niveau technique moyen.  Sérieux et motivé mais doit travailler d'avantage.","Niveau technique satisfaisant.  Personne sérieuse, autonome, motivée  et appliquée,bonne communication,  Parmis  les meilleurs elements.","Niveau technique moyen, motivée, ralleur .","Niveau technique satisfaisant. autonome et motivé mais distrait quelques fois, bonne capacité à comprendre, Parmi les meilleurs de la session.","Niveau technique satisfaisant. Tres bonne progression. Sérieux et bonne communication.","Niveau technique satisfaisant.  Autonome, Parmis  les meilleurs elements de la session,Communique peut.","Niveau technique moyen,  Assez discret,  Sérieux et motivé mais doit travailler d'avantage.","Niveau technique moyen. Tres bonne progression depuis le debut. Beaucoup de volonté et de serieux malgré quelques difficultés,bonne communication.","Niveau technique moyen,Communique peut.","Niveau technique satisfaisant, autonome,  Parmis  les meilleurs elements,bonne communication.","Niveau technique moyen.  Sérieux et motivé mais doit travailler d'avantage."};
+	
+	@Transient
+	private String [] risque = {"Moyen","Faible","Élévé"};
+	
 	/*assoc*/
 	@ManyToOne
 	@JoinColumn(name="ID_SESS_ETUDIANT")
@@ -42,6 +52,10 @@ public class Etudiant {
 	public Etudiant() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+	/*construct*/
 
 	public Etudiant(String nomEtudiant, String prenomEtudiant,
 			Date dateDeNaissance, String formationInitial, String ecole,
@@ -173,12 +187,29 @@ public class Etudiant {
 	}
 
 
-	
-	
 
-	
-	
-	
-	
+	public String[] getComportement() {
+		return comportement;
+	}
+
+
+
+	public void setComportement(String[] comportement) {
+		this.comportement = comportement;
+	}
+
+
+
+	public String[] getRisque() {
+		return risque;
+	}
+
+
+
+	public void setRisque(String[] risque) {
+		this.risque = risque;
+	}
+
+
 	
 }
