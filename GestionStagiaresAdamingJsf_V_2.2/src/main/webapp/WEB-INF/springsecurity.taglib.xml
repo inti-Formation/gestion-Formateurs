@@ -8,6 +8,12 @@
 		<tag-name>authorize</tag-name>
 		<handler-class>org.springframework.faces.security.FaceletsAuthorizeTagHandler</handler-class>
 	</tag>
+	<tag>
+        <tag-name>authentication</tag-name>
+        <component>
+            <component-type>org.springframework.security.taglibs.authz.AuthenticationTag</component-type>
+        </component>
+    </tag>
 	<function>
 		<function-name>areAllGranted</function-name>
 		<function-class>org.springframework.faces.security.FaceletsAuthorizeTagUtils</function-class>
@@ -28,4 +34,5 @@
 		<function-class>org.springframework.faces.security.FaceletsAuthorizeTagUtils</function-class>
 		<function-signature>boolean isAllowed(java.lang.String, java.lang.String)</function-signature>
 	</function>
+	  
 </facelet-taglib>

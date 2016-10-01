@@ -13,7 +13,7 @@
    
     <mvc:resources mapping="/resources/**" location="/resources/" />
 	<context:component-scan base-package="com.adaming.myapp" />
-
+   
 	
 	<!-- injection de dépendances User-->
 	<bean id="UserDao" class="com.adaming.myapp.user.dao.UserDaoImpl"></bean>
@@ -121,15 +121,14 @@
       </security:session-management>
 	
 	</security:http>
-	
-	
-	<security:authentication-manager>
+
+	 <security:authentication-manager>
 		<security:authentication-provider>
 		  <security:jdbc-user-service data-source-ref="datasource" 
 			  users-by-username-query="select name,password,actived from user where name=?" 
 			  authorities-by-username-query="select u.name,r.roleName from user u, role r where u.idUser = r.id_users and u.name =? "/>
 		</security:authentication-provider>
-	</security:authentication-manager>
+	</security:authentication-manager> 
 	
 	
 </beans>

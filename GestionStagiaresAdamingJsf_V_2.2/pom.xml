@@ -43,7 +43,7 @@
 			<version>4.0.0</version>
 		</dependency>
 
-
+        <!-- pour expedier en pdf,  -->
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
@@ -127,11 +127,13 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<!-- tag library security -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-taglibs</artifactId>
+    <version>3.2.5.RELEASE</version>
+</dependency>
+
 		
 		<dependency>
   <groupId>org.springframework.webflow</groupId>
