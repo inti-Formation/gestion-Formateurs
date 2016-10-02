@@ -66,6 +66,10 @@
 					  <h:outputText value="Entretient  - " />
 					  <h:outputText style="color:red;font-weight:bold;"
 					  value="E"  />
+					  <p:spacer width="20"></p:spacer>
+					  <h:outputText value="Férié  - " />
+					  <h:outputText style="color:red;font-weight:bold;"
+					  value="F"  />
 				    <br/> <br/>
 				    <p:dataTable var="e" value="#{scheduleView.etudiantsBySession}"
 						id="studentTable" editable="true" editMode="cell" widgetVar="cellSchedule"
@@ -113,68 +117,85 @@
 
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[0]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[0]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[0]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[1]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[1]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[1]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[2]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[2]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[2]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[3]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[3]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[3]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[4]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[4]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[4]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[5]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[5]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[5]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[6]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[6]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[6]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[7]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[7]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[7]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[8]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[8]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[8]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
 						<p:column>
 				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[9]}" /></f:facet>
+				               <f:facet name="output"><h:outputText value="#{e.presence[9]}" style="cursor:pointer" /></f:facet>
 				               <f:facet name="input"><p:inputText value="#{e.presence[9]}" style="width:96%"/></f:facet>
 				           </p:cellEditor>
 						</p:column>
+						<p:columnGroup type="footer">
+                          
+			                 <p:row>
+								
+								<p:column colspan="3"
+									footerText="Présent - P" />
+								<p:column colspan="2"
+									footerText="Absent - A" />
+								<p:column colspan="2"
+									footerText="Retard - R" />
+								<p:column colspan="2"
+									footerText="Entretient - E" />
+								<p:column colspan="2"
+									footerText="Férié - F" />
+							</p:row>
+			             
+			            </p:columnGroup>
 					</p:dataTable>
 					<p:commandButton value="générer un excel" id="xls" ajax="false">  
 			        <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  

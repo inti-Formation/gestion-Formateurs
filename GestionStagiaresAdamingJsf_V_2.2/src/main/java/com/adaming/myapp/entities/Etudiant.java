@@ -41,6 +41,9 @@ public class Etudiant {
 	@Transient
 	private String [] risque = {"Moyen","Faible","Élévé"};
 	
+	@Transient
+	private String [] evaluation = {"Excellent","Très Bien","Moyen","Passable","Trop Juste"};
+	
 	/*assoc*/
 	@ManyToOne
 	@JoinColumn(name="ID_SESS_ETUDIANT")
@@ -208,6 +211,18 @@ public class Etudiant {
 
 	public void setRisque(String[] risque) {
 		this.risque = risque;
+	}
+
+
+
+	public String[] getEvaluation() {
+		return evaluation;
+	}
+
+
+
+	public void setEvaluation(String[] evaluation) {
+		this.evaluation = evaluation;
 	}
 
 

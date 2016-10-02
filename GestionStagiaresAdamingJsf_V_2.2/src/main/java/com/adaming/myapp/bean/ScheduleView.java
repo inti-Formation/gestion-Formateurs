@@ -13,18 +13,31 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Etudiant;
+import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
+import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.session.service.ISessionService;
 
 @Component("scheduleView")
 @Scope("session")
 public class ScheduleView {
+    
+	@Inject
+	private ISessionService serviceSession;
 
+	@Inject
+	private IEtudiantService serviceEtudiant;
+	@Inject
+	private IModuleService serviceModule;
+	
 	private Long idSession;
+	private Long idModule;
 	private List<SessionEtudiant> sessionEnCours;
 	private List<Etudiant> etudiantsBySession;
+	private List<Module> modules;
+	private Module module;
 
 	private Date dateIn;
 	private String[] dateString;
@@ -34,11 +47,7 @@ public class ScheduleView {
 
 	private boolean dispo;
 
-	@Inject
-	private ISessionService serviceSession;
-
-	@Inject
-	private IEtudiantService serviceEtudiant;
+	
 
 	public void setServiceSession(ISessionService serviceSession) {
 		this.serviceSession = serviceSession;
@@ -58,19 +67,39 @@ public class ScheduleView {
 	public void getAllStudentsBySession() {
 		etudiantsBySession = new ArrayList<Etudiant>();
 		etudiantsBySession = serviceEtudiant.getEtudiantBySession(idSession);
-		 for(Etudiant se : etudiantsBySession){
+		
+		for(Etudiant se : etudiantsBySession){
 	        	sessionEtudiant= new SessionEtudiant();
 	        	sessionEtudiant=se.getSessionEtudiant();
-	        }
+	    }
 	}
-
+	
+	
+    /* @method generate Absences*/
 	public void genererSchedule() {
 
 		getAllStudentsBySession();
 		genererDates();
 
 	}
+	/* @method get all modules by sessions*/
+	public void getAllModulesBySession(){
+		modules=serviceModule.getModulesBySession(idSession);
+	}
+	/* @method get module by id*/
+	public void getModuleById(){
+		module= new Module();
+		module=serviceModule.getModuleById(idModule);
+	}
+	/* @methode generate Evaluations*/
+	public void genererScheduleEvaluations() {
 
+		getAllStudentsBySession();
+		getModuleById();
+
+	}
+	
+   /* @method generate date*/
 	public void genererDates() {
 
 		DateTime date = new DateTime(dateIn);
@@ -171,6 +200,31 @@ public class ScheduleView {
 		this.sessionEtudiant = sessionEtudiant;
 	}
 
+	public List<Module> getModules() {
+		return modules;
+	}
+
+	public void setModules(List<Module> modules) {
+		this.modules = modules;
+	}
+
+	public Long getIdModule() {
+		return idModule;
+	}
+
+	public void setIdModule(Long idModule) {
+		this.idModule = idModule;
+	}
+
+	public Module getModule() {
+		return module;
+	}
+
+	public void setModule(Module module) {
+		this.module = module;
+	}
+
+	
 	
 	
 
