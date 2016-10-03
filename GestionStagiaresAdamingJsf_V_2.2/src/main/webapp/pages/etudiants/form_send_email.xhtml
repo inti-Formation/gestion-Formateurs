@@ -13,24 +13,24 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-
+        <h:messages style="color:red;"></h:messages>
 		<h:form id="form">
 			<br />
 			<div class="container">
 			    
-				<h:selectOneRadio value="#{mailBean.to}" style="margin:auto;text-align: center">
+				<h:selectOneRadio required="true" requiredMessage="1- Veuillez Sélectionner  Un Destinataire" value="#{mailBean.to}" style="margin:auto;text-align: center;color:black!important">
 				   <f:selectItem itemLabel="Responsable Pédagogique" itemValue="ad.boumaza@yahoo.fr" />
 				   <f:selectItem itemLabel="Administrateur" itemValue="ad.boumaza@yahoo.fr"/>	   			
 				</h:selectOneRadio>
 				
                 <div class="form-group">
-					 <label for="usr">Objet:</label>
-					 <h:inputText value="#{mailBean.objet}" type="text" class="form-control" id="usr"/>
+					 <label for="usr" style="color:black!important">Objet*:</label>
+					 <h:inputText requiredMessage="2- Le Champ Objet est Obligatoire" required="true" value="#{mailBean.objet}" type="text" class="form-control" id="usr"/>
                 </div>
 
 				<div class="form-group">
-					<label for="comment">Message :</label>
-					<h:inputTextarea a:placeholder="Votre Nom, Prénom, Spécialitée, le lieu" autoResize="false" value="#{mailBean.msg}" class="form-control" rows="5" id="comment"/>
+					<label for="comment" style="color:black!important">Message*:</label>
+					<h:inputTextarea requiredMessage="3- Le Champ Message est Obligatoire" required="true" a:placeholder="Votre Nom, Prénom, Spécialitée, le lieu" autoResize="false" value="#{mailBean.msg}" class="form-control" rows="5" id="comment"/>
 				</div>
                 <br/>
 				<h:commandButton styleClass="btn btn-info btn-lg btn-block" value="Envoyer" action="#{mailBean.sendMail}"/>	
@@ -45,5 +45,6 @@
 		</h:form>
 
 	</div>
+	
 </ui:composition>
 </html>

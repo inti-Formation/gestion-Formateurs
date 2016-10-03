@@ -10,4 +10,6 @@ public interface IUserService {
 	public String generateSessionKey(int length);
 	
 	public User getUser(String mail) throws GetUserException;
+	
+	public User updatePassword(String mail, String password, String newPassword) throws GetUserException;
 }

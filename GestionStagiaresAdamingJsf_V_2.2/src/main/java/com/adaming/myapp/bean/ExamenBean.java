@@ -31,7 +31,11 @@ public class ExamenBean implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1907479773940246301L;
+	/**
+	 * 
+	 */
+	
 
 	@Inject
 	private IExamenService serviceExamen;

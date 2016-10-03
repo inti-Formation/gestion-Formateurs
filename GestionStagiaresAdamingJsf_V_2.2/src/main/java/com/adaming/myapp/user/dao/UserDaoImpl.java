@@ -42,4 +42,22 @@ public class UserDaoImpl implements IUserDao{
 		return u.get(0);
 	}
 
+	@Override
+	public User updatePassword(String mail, String password, String newPassword) throws GetUserException {
+		Query query = em.createQuery("from User u where u.name=:x and u.password =:y");
+		query.setParameter("x",mail);
+		query.setParameter("y",password);
+		List<User> u = query.getResultList();
+
+		if(u.size()==0)
+			throw new GetUserException("Ce mail ne correspond a aucun utilisateur !");
+		if(u.get(0).getPassword().equals(newPassword))
+			throw new GetUserException("Vuillez utiliser un nouveau mot de passe !");
+		User user = u.get(0);
+		user.setPassword(newPassword);
+		em.merge(user);
+		logger.info("le passwode de "+mail+" à bien été modifié");
+		return user;
+	}
+
 }

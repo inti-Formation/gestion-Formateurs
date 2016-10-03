@@ -47,4 +47,11 @@ public class UserServiceImpl implements IUserService{
 	public User getUser(String mail) throws GetUserException {
 		return dao.getUser(mail);
 	}
+    @Transactional
+	@Override
+	public User updatePassword(String mail, String password, String newPassword)
+			throws GetUserException {
+		// TODO Auto-generated method stub
+		return dao.updatePassword(mail, password, newPassword);
+	}
 }

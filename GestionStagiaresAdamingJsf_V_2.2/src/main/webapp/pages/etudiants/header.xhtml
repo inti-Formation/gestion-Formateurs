@@ -4,7 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
 	<title>BootsFaces Basic Page</title>
 </h:head>
@@ -36,17 +37,17 @@
 						</li>
 					</ul></li>
 				<li class="dropdown"><a data-toggle="dropdown"
-					class="dropdown-toggle" href="#"> <span class="profile-ava">
-
-					</span> <span class="username">Jenifer Smith</span> <b class="caret"></b>
-				</a>
+					class="dropdown-toggle" href="#">
+                    <span class="profile-ava">
+					<sec:authorize ifAllGranted="ROLE_ETUDIANT">Extranet Etudiant</sec:authorize></span> <b class="caret"></b></a>
+				
 					<ul class="dropdown-menu extended logout">
 						<div class="log-arrow-up"></div>
 						<li class="eborder-top"><a href="#"><i
 								class="icon_profile"></i> My Profile</a></li>
 						<li><a href="#"><i class="icon_chat_alt"></i> Chats</a></li>
 						<li>
-							<h:outputLink value="${pageContext.request.contextPath}/myapp/j_spring_security_logout">logouttt</h:outputLink><i class="icon_key_alt"></i>
+							<h:outputLink value="${pageContext.request.contextPath}/myapp/j_spring_security_logout">Déconnextion</h:outputLink><i class="icon_key_alt"></i>
 							</li>
 					</ul>
 				</li>

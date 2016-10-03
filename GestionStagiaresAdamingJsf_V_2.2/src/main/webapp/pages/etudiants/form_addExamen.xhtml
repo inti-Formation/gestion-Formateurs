@@ -5,7 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
 <ui:composition>
 	<br> </br>
@@ -32,7 +33,7 @@
 				</p:selectOneMenu>
 				<br />
 				<h:message for="session" />
-				<br></br>
+				<br/>
 				<p:outputLabel for="etudiant" value="Etudiant:"
 					styleClass="paddingTop20" />
 				<br />
@@ -51,8 +52,7 @@
 				</p:selectOneMenu>
 				<br />
 				<h:message for="etudiant" />
-		
-				<br></br>
+				<br/>
 				<p:outputLabel for="module" value="Module:"
 					styleClass="paddingTop20" />
 				<br />

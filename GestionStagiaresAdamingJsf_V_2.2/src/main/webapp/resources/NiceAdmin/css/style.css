@@ -9,6 +9,12 @@ Website: http://geekslabs.com/
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(line-icons.css);
 /*adel css*/
+/*timer*/
+.timer{
+	text-align: center;
+    padding-bottom: 50px
+}
+/*evaluations*/
 .inline li{
 	display: inline-block;
 	padding-right: 20px;
@@ -153,7 +159,7 @@ h1,h2,h3,h4,h5{
     font-weight: 300;
 }
 label{
-    font-weight: 300;   
+    /*font-weight: 300;*/   
 }
 ul li {
     list-style: none;

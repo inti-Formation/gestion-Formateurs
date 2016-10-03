@@ -113,6 +113,7 @@
 	<security:http auto-config="true" use-expressions="true">
 	  <security:intercept-url pattern="/pages/etudiants/**" access="hasRole('ROLE_ETUDIANT')"/>
 	  <security:intercept-url pattern="/pages/admin/**" access="hasRole('ROLE_ADMIN')"/>
+	  <security:intercept-url pattern="/pages/formateur/**" access="hasRole('ROLE_FORMATEUR')"/>
 	  <security:form-login login-page="/login.xhtml"/>
 	  <security:logout  logout-success-url="/home.xhtml" invalidate-session="true"/>
 	  <!-- contre les attack et redirection  -->
