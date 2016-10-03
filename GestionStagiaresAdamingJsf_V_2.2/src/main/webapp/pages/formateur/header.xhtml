@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+	<title>BootsFaces Basic Page</title>
+</h:head>
+<ui:composition>
+	<header class="header dark-bg">
+		<div class="toggle-nav">
+			<div class="icon-reorder tooltips"
+				data-original-title="Toggle Navigation" data-placement="bottom">
+				<i><div class="lines"></div></i>
+				<i><div class="lines"></div></i>
+				<i><div class="lines"></div></i>
+				
+			</div>
+		</div>
+		<h:link outcome="index" class="logo">INTI 
+        <span class="lite">FORMATION</span>
+		</h:link>
+		<div class="top-nav notification-row">
+			<!-- notificatoin dropdown start-->
+			<ul class="nav pull-right top-menu">
+
+				<!-- task notificatoin start -->
+				<li id="task_notificatoin_bar" class="dropdown"><a
+					data-toggle="dropdown" class="dropdown-toggle" href="#"> </a>
+					<ul class="dropdown-menu extended tasks-bar">
+						<div class="notify-arrow notify-arrow-blue"></div>
+						<li>
+							<p class="blue">You have 6 pending letter</p>
+						</li>
+					</ul></li>
+				<li class="dropdown"><a data-toggle="dropdown"
+					class="dropdown-toggle" href="#"> 
+					<span class="profile-ava">
+					<sec:authorize ifAllGranted="ROLE_FORMATEUR">Extranet Formateur</sec:authorize></span> <b class="caret"></b></a>
+					<ul class="dropdown-menu extended logout">
+						<div class="log-arrow-up"></div>
+						<li class="eborder-top"><a href="#"><i
+								class="icon_profile"></i> My Profile</a></li>
+						<li><a href="#"><i class="icon_chat_alt"></i> Chats</a></li>
+						<li>
+							<a><h:outputLink value="${pageContext.request.contextPath}/myapp/j_spring_security_logout">Déconnextion</h:outputLink><i class="icon_key_alt"></i></a>
+							</li>
+					</ul>
+				</li>
+				<!-- user login dropdown end -->
+			</ul>
+			<!-- notificatoin dropdown end-->
+		</div>
+	</header>
+	<!--header end-->
+</ui:composition>
+</html>
