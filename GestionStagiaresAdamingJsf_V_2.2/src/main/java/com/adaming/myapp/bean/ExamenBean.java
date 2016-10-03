@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Etudiant;
-import com.adaming.myapp.entities.Examen;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.entities.Question;
@@ -35,7 +34,6 @@ public class ExamenBean implements Serializable {
 	/**
 	 * 
 	 */
-	
 
 	@Inject
 	private IExamenService serviceExamen;
@@ -72,43 +70,60 @@ public class ExamenBean implements Serializable {
 
 	}
 
+	/* @method redirection à la fin de l'examen et afficher la note final */
+	public String redirect() {
+
+		// on cree la note finale
+		Note noteF = new Note(note);
+		serviceNotes.addNoteFinal(noteF, idSession, idEtudiant, idModule);
+
+		// init reponsesFinal
+		reponseSelectionnee = new String();
+		scoreFinal = note;
+		note = 0.0;
+
+		return "examen_success?redirect=true";
+	}
+
+	/* @method copie de redirect() avec redirection a fin de Timeout */
 	public void onTimeout() {
-		scoreFinal = serviceExamen.getScoreExamen(idSession, idEtudiant,
-				idModule);
-		Note note = new Note(scoreFinal);
-		serviceNotes.addNoteFinal(note, idSession, idEtudiant, idModule);
+
+		Note noteF = new Note(note);
+		serviceNotes.addNoteFinal(noteF, idSession, idEtudiant, idModule);
+
+		// init reponsesFinal
+		reponseSelectionnee = new String();
+		scoreFinal = note;
+		note = 0.0;
+
 		FacesContext
 				.getCurrentInstance()
 				.getApplication()
 				.getNavigationHandler()
 				.handleNavigation(FacesContext.getCurrentInstance(), null,
 						"examen_success");
-
 	}
 
-	/* @method redirection à la fin de l'examen et afficher la note final */
-	public String redirect() {
-		scoreFinal = serviceExamen.getScoreExamen(idSession, idEtudiant,
-				idModule);
-		Note note = new Note(scoreFinal);
-		serviceNotes.addNoteFinal(note, idSession, idEtudiant, idModule);
-		return "examen_success?redirect=true";
+	/* @method add ExamenV3 */
+	public void registerV3() {
+
+		System.out
+				.println("reponse selectionnee init : " + reponseSelectionnee);
+		System.out.println("init Note Obtenu:" + note);
+		// on incremente si reponse bonne
+		if (reponseSelectionnee.equals("bonne")) {
+			note++;
+		}
+		System.out.println("init apres test:" + note);
+
 	}
 
 	/* @method for to passe un examens */
 	public String goStartExamen() {
 		setEtudiantsBySession(null);
 		setModuleBySessions(null);
+		scoreFinal = 0.0;
 		return "start_examen?redirect=true";
-	}
-
-	/* @method add ExamenV3 */
-	public void registerV3() {
-		Examen ex = new Examen(dateExamen, note, reponseSelectionnee);
-		serviceExamen.addExamenV2(ex, idEtudiant, idSession, idModule);
-		setConfirm("OK");
-		// init reponsesFinal
-		reponseSelectionnee = new String();
 	}
 
 	/* @method get All Students By Session */
