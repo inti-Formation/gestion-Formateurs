@@ -159,6 +159,17 @@
 					<h:outputText value="designation" />
 					<br />
 					<h:inputText value="#{moduleBean.m.nomModule}" />
+					<br/><br/>
+					<h:outputText value="Activation Du Module" />
+					<br />
+				    <p:selectOneMenu  value="#{moduleBean.m.actif}">
+
+					<f:selectItem itemLabel="Autorisé"
+						itemValue="true"/>
+					<f:selectItem itemLabel="No Autorisé"
+						itemValue="false"  />
+					
+				</p:selectOneMenu>
 				</p:outputPanel>
 				<br />
 				<br />

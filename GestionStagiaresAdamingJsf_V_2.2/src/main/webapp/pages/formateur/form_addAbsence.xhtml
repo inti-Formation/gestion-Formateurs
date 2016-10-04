@@ -20,7 +20,7 @@
 		<h:form id="form">
 			<br />
 			<div class="inputpersso">
-				<p:outputLabel for="session" value="Session(En Cours):"
+				<p:outputLabel for="session" style="color:black" value="Session(En Cours):"
 					styleClass="paddingTop20" />
 				<br />
 				<p:selectOneMenu id="session" required="true"
@@ -36,7 +36,7 @@
 				<br />
 				<h:message for="session" />
 
-				<p:outputLabel for="dateD" value="Date debut:" />
+				<p:outputLabel style="color:black" for="dateD" value="Date debut:" />
 				<p:calendar id="dateD" navigator="true"
 					yearRange="c-10:c+0" value="#{scheduleView.dateIn}" showWeek="true" />
 
@@ -51,23 +51,23 @@
 			<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
 				<div align="center">
 				      <!-- more Informations width tag absence-->
-				      <h:outputText value="Présent - " />
+				      <h:outputText style="color:black" value="Présent - " />
 					  <h:outputText style="color:red;font-weight:bold;"
 					  value="P"  />
 					  <p:spacer width="20"></p:spacer>
-					  <h:outputText value="Absent  - " />
+					  <h:outputText style="color:black" value="Absent  - " />
 					  <h:outputText style="color:red;font-weight:bold;"
 					  value="A"  />
 					  <p:spacer width="20"></p:spacer>
-					  <h:outputText value="Retard  - " />
+					  <h:outputText style="color:black" value="Retard  - " />
 					  <h:outputText style="color:red;font-weight:bold;"
 					  value="R : 10h30"  />
 					  <p:spacer width="20"></p:spacer>
-					  <h:outputText value="Entretient  - " />
+					  <h:outputText style="color:black" value="Entretient  - " />
 					  <h:outputText style="color:red;font-weight:bold;"
 					  value="E"  />
 					  <p:spacer width="20"></p:spacer>
-					  <h:outputText value="Férié  - " />
+					  <h:outputText style="color:black" value="Férié  - " />
 					  <h:outputText style="color:red;font-weight:bold;"
 					  value="F"  />
 				    <br/> <br/>

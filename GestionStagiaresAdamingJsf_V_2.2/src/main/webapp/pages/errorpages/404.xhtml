@@ -1,13 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+	xmlns:b = "http://bootsfaces.net/ui"
+	xmlns:f = "http://java.sun.com/jsf/core"
+	xmlns:h = "http://java.sun.com/jsf/html"
+	xmlns:p = "http://primefaces.org/ui"
+    xmlns:ui= "http://java.sun.com/jsf/facelets">
+  
+<h:head>
+	<title>Page 404</title>
+	   <f:facet name="middle">
+            <h:outputStylesheet name="NiceAdmin/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="NiceAdmin/css/bootstrap-theme.css"/>
+            <h:outputStylesheet name="NiceAdmin/css/style.css"/>
+     </f:facet>
+</h:head>
+<h:body style="background:#2e3b46!important">
 
-<h:head></h:head> 
-<body> 
-
-<h1>Test Error 404</h1>
-
-</body> 
+<ui:include src="body_404.xhtml"></ui:include>
+<!-- commentaire -->
+</h:body>
 </html>

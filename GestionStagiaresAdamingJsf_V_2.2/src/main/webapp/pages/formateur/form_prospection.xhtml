@@ -20,7 +20,7 @@
 		<h:form id="form">
 			<br />
 			<div class="inputpersso">
-				<p:outputLabel for="session" value="Session(En Cours):"
+				<p:outputLabel for="session" style="color:black" value="Session(En Cours):"
 					styleClass="paddingTop20" />
 				<br />
 				<p:selectOneMenu id="session" required="true"
@@ -47,7 +47,7 @@
 				<div align="center">
 				      <!-- more Informations width tag absence-->
 				      <div class="champsObligatoire">
-				      <h:outputText value="Merci de remplir tous les champs du tableau ci-dessous afin que nous puissions rediriger toutes les informations  vers Nos clients.  " />
+				      <h:outputText style="color:black" value="Merci de remplir tous les champs du tableau ci-dessous afin que nous puissions rediriger toutes les informations  vers Nos clients.  " />
                       </div>
 				    <br/> <br/>
 				    <p:dataTable reflow="true" var="e" value="#{scheduleView.etudiantsBySession}"

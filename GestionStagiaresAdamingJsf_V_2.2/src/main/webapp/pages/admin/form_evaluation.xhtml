@@ -60,7 +60,7 @@
 			<br />
 			<br />
 			<br />
-			<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
+			<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 and fn:length(scheduleView.modules)>0}">
 				<div align="center">
 				      <!-- Message obligation-->
 				      <div class="champsObligatoire">
