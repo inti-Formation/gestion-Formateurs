@@ -147,6 +147,7 @@ public class ExamenBean implements Serializable {
 		List<Module> modulesInter = new ArrayList<Module>();
 		List<Module> modulesNotDisplay = new ArrayList<Module>();
 
+		// on boucle les notes
 		for (Note note : notes) {
 
 			if (note.getEtudiant().getIdEtudiant() == idEtudiant) {
