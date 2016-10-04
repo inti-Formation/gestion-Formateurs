@@ -49,16 +49,19 @@
 		</div>
 		<br /> <br />
 		<!-- timer -->
-		<h:form id="form">
-		<p:growl autoUpdate="true"/>  
-		<pe:timer  
-		    timeout="30"  
-		    format="HH:mm:ss"
-		    singleRun="true"  
-		    listener="#{examenBean.onTimeout}"
-		  />  
-		</h:form>    		
-
+		<div class="timer">
+			<h:form>
+			
+			<p:growl autoUpdate="true"/>  
+			<pe:timer  
+			    timeout="1500"  
+			    format="HH:mm:ss"
+			    singleRun="true"  
+			    listener="#{examenBean.onTimeout}"
+			  /> 
+			  
+			</h:form>    		
+         </div>
 		    
 		<p:dataList value="#{examenBean.questionsByModule}" var="q"
 			varStatus="iteration">
