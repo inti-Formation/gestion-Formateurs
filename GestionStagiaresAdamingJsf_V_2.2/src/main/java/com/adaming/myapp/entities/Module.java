@@ -8,25 +8,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Module {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idModule;
 	private String nomModule;
-	/*assoc*/
+	private boolean actif = false;
+	/* assoc */
 	@ManyToOne
-	@JoinColumn(name="ID_SP_MODULE")
+	@JoinColumn(name = "ID_SP_MODULE")
 	private Specialite specialite;
-	
-	@OneToMany(mappedBy="module",fetch=FetchType.EAGER)
+
+	@OneToMany(mappedBy = "module", fetch = FetchType.EAGER)
 	private List<Question> questions;
-	/*construct*/
+
+	/* construct */
 	public Module() {
 		// TODO Auto-generated constructor stub
 	}
@@ -67,7 +67,13 @@ public class Module {
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
-	
-	
-	
+
+	public boolean isActif() {
+		return actif;
+	}
+
+	public void setActif(boolean actif) {
+		this.actif = actif;
+	}
+
 }

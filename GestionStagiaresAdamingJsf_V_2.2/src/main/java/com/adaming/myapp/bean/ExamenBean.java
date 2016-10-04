@@ -57,6 +57,7 @@ public class ExamenBean implements Serializable {
 	private List<SessionEtudiant> sessionEnCours;
 	private List<Etudiant> etudiantsBySession;
 	private List<Module> moduleBySessions;
+	private List<Note> notes;
 	private String addExamException;
 	private String confirm = null;
 	private Double note = 0.0;
@@ -106,10 +107,12 @@ public class ExamenBean implements Serializable {
 
 	/* @method add ExamenV3 */
 	public void registerV3() {
-
+		confirm = new String();
+		setConfirm("Clicked");
 		System.out
 				.println("reponse selectionnee init : " + reponseSelectionnee);
 		System.out.println("init Note Obtenu:" + note);
+
 		// on incremente si reponse bonne
 		if (reponseSelectionnee.equals("bonne")) {
 			note++;
@@ -135,7 +138,64 @@ public class ExamenBean implements Serializable {
 	/* @@method get All Modules By Session */
 	public void getAllModulesBySession() {
 		moduleBySessions = new ArrayList<Module>();
+
 		moduleBySessions = serviceModule.getModulesBySession(idSession);
+		notes = serviceNotes.getAllNotes();
+		boolean hasNotes = false;
+
+		List<Module> modulesBySessionsActif = new ArrayList<Module>();
+		List<Module> modulesInter = new ArrayList<Module>();
+		List<Module> modulesNotDisplay = new ArrayList<Module>();
+
+		for (Note note : notes) {
+
+			if (note.getEtudiant().getIdEtudiant() == idEtudiant) {
+
+				System.out.println("Boucle Note "
+						+ note.getEtudiant().getNomEtudiant());
+
+				if (note.getScore() != null) {
+					// modules passés par l'étudiant
+					modulesNotDisplay.add(note.getModule());
+					System.out.println(note.getModule().getNomModule());
+				}
+			}
+		}
+
+		for (Module mod : moduleBySessions) {
+
+			if (mod.isActif()) {
+
+				System.out.println("Boucle Module " + mod.getNomModule());
+				modulesBySessionsActif.add(mod);
+
+				for (Module modN : modulesNotDisplay) {
+
+					System.out.println("Test Boucle For n2");
+					System.out.println("Id mod " + mod.getIdModule());
+					System.out.println("Id modN " + mod.getIdModule());
+					modulesInter = modulesBySessionsActif;
+					if (mod.getIdModule().equals(modN.getIdModule())) {
+						System.out.println("Test Add moduleList");
+						modulesInter.remove(mod);
+						hasNotes = true;
+
+					}
+				}
+			}
+		}
+
+		if (hasNotes) {
+			moduleBySessions = modulesInter;
+		} else {
+			moduleBySessions = modulesBySessionsActif;
+
+		}
+
+		if (moduleBySessions.size() == 0) {
+
+		}
+
 	}
 
 	/* @@method getAllQuestions By Module */
@@ -254,6 +314,14 @@ public class ExamenBean implements Serializable {
 
 	public void setScoreFinal(Object scoreFinal) {
 		this.scoreFinal = scoreFinal;
+	}
+
+	public List<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
 	}
 
 }
