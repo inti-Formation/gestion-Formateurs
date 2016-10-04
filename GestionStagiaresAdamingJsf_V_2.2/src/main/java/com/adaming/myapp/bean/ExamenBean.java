@@ -146,55 +146,61 @@ public class ExamenBean implements Serializable {
 		List<Module> modulesBySessionsActif = new ArrayList<Module>();
 		List<Module> modulesInter = new ArrayList<Module>();
 		List<Module> modulesNotDisplay = new ArrayList<Module>();
+		if (!moduleBySessions.isEmpty()) {
 
-		// on boucle les notes
-		for (Note note : notes) {
+			// on boucle les notes
+			for (Note note : notes) {
 
-			if (note.getEtudiant().getIdEtudiant() == idEtudiant) {
+				if (note.getEtudiant().getIdEtudiant() == idEtudiant) {
 
-				System.out.println("Boucle Note "
-						+ note.getEtudiant().getNomEtudiant());
+					System.out.println("Boucle Note "
+							+ note.getEtudiant().getNomEtudiant());
 
-				if (note.getScore() != null) {
-					// modules passés par l'étudiant
-					modulesNotDisplay.add(note.getModule());
-					System.out.println(note.getModule().getNomModule());
-				}
-			}
-		}
-
-		for (Module mod : moduleBySessions) {
-
-			if (mod.isActif()) {
-
-				System.out.println("Boucle Module " + mod.getNomModule());
-				modulesBySessionsActif.add(mod);
-
-				for (Module modN : modulesNotDisplay) {
-
-					System.out.println("Test Boucle For n2");
-					System.out.println("Id mod " + mod.getIdModule());
-					System.out.println("Id modN " + mod.getIdModule());
-					modulesInter = modulesBySessionsActif;
-					if (mod.getIdModule().equals(modN.getIdModule())) {
-						System.out.println("Test Add moduleList");
-						modulesInter.remove(mod);
-						hasNotes = true;
-
+					if (note.getScore() != null) {
+						// modules passés par l'étudiant
+						modulesNotDisplay.add(note.getModule());
+						System.out.println(note.getModule().getNomModule());
 					}
 				}
 			}
-		}
 
-		if (hasNotes) {
-			moduleBySessions = modulesInter;
+			for (Module mod : moduleBySessions) {
+
+				if (mod.isActif()) {
+
+					System.out.println("Boucle Module " + mod.getNomModule());
+					modulesBySessionsActif.add(mod);
+
+					for (Module modN : modulesNotDisplay) {
+
+						System.out.println("Test Boucle For n2");
+						System.out.println("Id mod " + mod.getIdModule());
+						System.out.println("Id modN " + mod.getIdModule());
+						modulesInter = modulesBySessionsActif;
+						if (mod.getIdModule().equals(modN.getIdModule())) {
+							System.out.println("Test Add moduleList");
+							modulesInter.remove(mod);
+							hasNotes = true;
+
+						}
+					}
+				}
+			}
+
+			if (hasNotes) {
+				moduleBySessions = modulesInter;
+			} else {
+				moduleBySessions = modulesBySessionsActif;
+
+			}
+
+			if (moduleBySessions.isEmpty()) {
+				setAddExamException("Vous n'avez pas de modules à valider !");
+			}
+
 		} else {
-			moduleBySessions = modulesBySessionsActif;
 
-		}
-
-		if (moduleBySessions.size() == 0) {
-
+			setAddExamException("Pas de modules pour cette session !");
 		}
 
 	}
