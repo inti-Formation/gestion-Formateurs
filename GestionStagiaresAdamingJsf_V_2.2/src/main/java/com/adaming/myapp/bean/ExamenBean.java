@@ -196,6 +196,8 @@ public class ExamenBean implements Serializable {
 
 			if (moduleBySessions.isEmpty()) {
 				setAddExamException("Vous n'avez pas de modules à valider !");
+			} else {
+				setAddExamException("");
 			}
 
 		} else {
