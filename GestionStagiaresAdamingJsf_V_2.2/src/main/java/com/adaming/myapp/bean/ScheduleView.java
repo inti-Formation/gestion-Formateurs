@@ -12,11 +12,15 @@ import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.adaming.myapp.entities.Absence;
+import com.adaming.myapp.entities.Entretien;
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Module;
+import com.adaming.myapp.entities.Retard;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
+import com.adaming.myapp.evenement.service.IEvenementService;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.session.service.ISessionService;
 
@@ -32,6 +36,9 @@ public class ScheduleView {
 	@Inject
 	private IModuleService serviceModule;
 	
+	@Inject
+	private IEvenementService serviceEvenement;
+	
 	private Long idSession;
 	private Long idModule;
 	private List<SessionEtudiant> sessionEnCours;
@@ -44,19 +51,14 @@ public class ScheduleView {
 	private int annee;
 	private int semaine;
 	private SessionEtudiant sessionEtudiant;
-
 	private boolean dispo;
-
+	/*evenement*/
 	
-
-	public void setServiceSession(ISessionService serviceSession) {
-		this.serviceSession = serviceSession;
-	}
-
-	public void setServiceEtudiant(IEtudiantService serviceEtudiant) {
-		this.serviceEtudiant = serviceEtudiant;
-	}
-
+	private Long idEtudiant;
+	private Date dateStart;
+	private Date dateEnd;
+	private String typeEvenement;
+	
 	@PostConstruct
 	public void init() {
 		sessionEnCours = serviceSession.getAllSessionsInProgress();
@@ -125,6 +127,31 @@ public class ScheduleView {
 		}
 
 	}
+	
+	/*@method signaler un evenement */
+	public void signalerEvenement(){
+		Retard  retard       = null;
+		Absence absence      = null;
+		Entretien entretient = null;
+		
+		if(!typeEvenement.equals(null)){
+			if(typeEvenement.equals("retard")){
+				retard=new Retard(dateStart, dateEnd);
+				serviceEvenement.addRetard(retard, idSession, idEtudiant);
+			}
+			else if(typeEvenement.equals("absence")){
+				absence=new Absence(dateStart, dateEnd);
+				serviceEvenement.addAbsence(absence, idSession, idEtudiant);
+			}
+			else if(typeEvenement.equals("entretient")){
+				entretient = new Entretien(dateStart,dateEnd);
+				serviceEvenement.addEntretien(entretient, idSession, idEtudiant);
+			}
+		}
+		
+		
+	}
+
 
 	/* :::::::::::::::::::::: */
 
@@ -224,7 +251,46 @@ public class ScheduleView {
 		this.module = module;
 	}
 
-	
+	public Long getIdEtudiant() {
+		return idEtudiant;
+	}
+
+	public void setIdEtudiant(Long idEtudiant) {
+		this.idEtudiant = idEtudiant;
+	}
+
+	public Date getDateStart() {
+		return dateStart;
+	}
+
+	public void setDateStart(Date dateStart) {
+		this.dateStart = dateStart;
+	}
+
+	public Date getDateEnd() {
+		return dateEnd;
+	}
+
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+
+	public String getTypeEvenement() {
+		return typeEvenement;
+	}
+
+	public void setTypeEvenement(String typeEvenement) {
+		this.typeEvenement = typeEvenement;
+	}
+
+	public void setServiceSession(ISessionService serviceSession) {
+		this.serviceSession = serviceSession;
+	}
+
+	public void setServiceEtudiant(IEtudiantService serviceEtudiant) {
+		this.serviceEtudiant = serviceEtudiant;
+	}
+
 	
 	
 
