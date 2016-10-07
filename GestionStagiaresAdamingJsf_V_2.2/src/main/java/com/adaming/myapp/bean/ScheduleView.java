@@ -136,15 +136,15 @@ public class ScheduleView {
 		
 		if(!typeEvenement.equals(null)){
 			if(typeEvenement.equals("retard")){
-				retard=new Retard(dateStart, dateEnd);
+				retard=new Retard(dateStart, dateEnd,new Date());
 				serviceEvenement.addRetard(retard, idSession, idEtudiant);
 			}
 			else if(typeEvenement.equals("absence")){
-				absence=new Absence(dateStart, dateEnd);
+				absence=new Absence(dateStart, dateEnd,new Date());
 				serviceEvenement.addAbsence(absence, idSession, idEtudiant);
 			}
 			else if(typeEvenement.equals("entretient")){
-				entretient = new Entretien(dateStart,dateEnd);
+				entretient = new Entretien(dateStart,dateEnd,new Date());
 				serviceEvenement.addEntretien(entretient, idSession, idEtudiant);
 			}
 		}

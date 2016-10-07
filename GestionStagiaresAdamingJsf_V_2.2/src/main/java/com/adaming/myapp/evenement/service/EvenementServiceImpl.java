@@ -1,5 +1,6 @@
 package com.adaming.myapp.evenement.service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,26 @@ public class EvenementServiceImpl implements IEvenementService {
 	}
 
 
-	
+	@Override
+	public List<Evenement> getEvenementsRetards() {
+		// TODO Auto-generated method stub
+		return dao.getEvenementsRetards();
+	}
+
+
+	@Override
+	public List<Evenement> getEvenementsAbsences() {
+		// TODO Auto-generated method stub
+		return dao.getEvenementsAbsences();
+	}
+
+
+	@Override
+	public List<Evenement> getEvenementsEntretien() {
+		// TODO Auto-generated method stub
+		return dao.getEvenementsEntretien();
+	}
+
+
 
 }

@@ -13,10 +13,12 @@ public class Retard extends Evenement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Retard(Date startDate, Date endDate) {
-		super(startDate, endDate);
+	public Retard(Date startDate, Date endDate, Date currentDate) {
+		super(startDate, endDate, currentDate);
 		// TODO Auto-generated constructor stub
 	}
+
+	
 
 	
 }

@@ -13,9 +13,11 @@ public class Entretien extends Evenement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Entretien(Date startDate, Date endDate) {
-		super(startDate, endDate);
+	public Entretien(Date startDate, Date endDate, Date currentDate) {
+		super(startDate, endDate, currentDate);
 		// TODO Auto-generated constructor stub
 	}
+
+
 
 }

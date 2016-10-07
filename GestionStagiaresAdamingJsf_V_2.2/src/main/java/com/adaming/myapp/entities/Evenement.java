@@ -12,6 +12,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+import org.apache.commons.lang3.time.DateUtils;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -22,6 +25,8 @@ public class Evenement {
 	private Long idEvenement;
 	private Date startDate;
 	private Date endDate;
+	private Date curentDate = new Date();
+
 	/*assoc*/
 	@ManyToOne
 	@JoinColumn(name="ID_EVE_ETUDIANT")
@@ -30,15 +35,15 @@ public class Evenement {
 	@JoinColumn(name="ID_EVE_SESSION")
 	private SessionEtudiant sessionEtudiant;
 	
-	
 	public Evenement() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Evenement(Date startDate, Date endDate) {
+	public Evenement(Date startDate, Date endDate,Date currentDate) {
 		super();
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.curentDate=currentDate;
 	}
 
 
@@ -81,7 +86,15 @@ public class Evenement {
 	public void setSessionEtudiant(SessionEtudiant sessionEtudiant) {
 		this.sessionEtudiant = sessionEtudiant;
 	}
-	
+
+	public Date getCurentDate() {
+		return curentDate;
+	}
+
+	public void setCurentDate(Date curentDate) {
+		this.curentDate = curentDate;
+	}
+
 	
 	
 }

@@ -13,9 +13,11 @@ public class Absence extends Evenement{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Absence(Date startDate, Date endDate) {
-		super(startDate, endDate);
+	public Absence(Date startDate, Date endDate, Date currentDate) {
+		super(startDate, endDate, currentDate);
 		// TODO Auto-generated constructor stub
 	}
+
+	
 
 }

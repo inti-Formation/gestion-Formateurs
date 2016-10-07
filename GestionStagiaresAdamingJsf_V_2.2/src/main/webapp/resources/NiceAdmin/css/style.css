@@ -18,6 +18,9 @@ Website: http://geekslabs.com/
     /*border: 3px solid #22bacf !important;*/
     
 }
+.progress{
+	width:300px;
+}
 
 /*timer*/
 .timer{

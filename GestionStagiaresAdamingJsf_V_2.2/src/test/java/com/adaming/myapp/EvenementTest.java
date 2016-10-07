@@ -2,8 +2,12 @@ package com.adaming.myapp;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
+import java.util.List;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -29,22 +33,38 @@ public class EvenementTest {
 	public static void tearDownAfterClass() throws Exception {
 		context.close();
 	}
+	@Ignore
 	@Test
 	public void addEntretien(){
-		Entretien e =  new Entretien(null, null);
+		Entretien e =  new Entretien(new Date(),new Date(),new Date());
 		serviceEvenement.addEntretien(e, 1L,1L);
 	}
-	
+	@Ignore
 	@Test
 	public void addAbsence(){
-		Absence a =  new Absence(null, null);
+		Absence a =  new Absence(new Date(),new Date(),new Date());
 		serviceEvenement.addAbsence(a,1L, 1L);
 	}
-	
+	@Ignore
 	@Test
 	public void addRetard(){
-		Retard r =  new Retard(null, null);
+		Retard r =  new Retard(new Date(),new Date(),new Date());
 		serviceEvenement.addRetard(r, 1L, 1L);
+	}
+	@Test
+	public void getEntretien(){
+		List<Evenement> evenements = serviceEvenement.getEvenementsEntretien();
+		assertTrue(evenements.size()>0);
+	}
+	@Test
+	public void getRetard(){
+		List<Evenement> evenements = serviceEvenement.getEvenementsRetards();
+		assertTrue(evenements.size()>0);
+	}
+	@Test
+	public void getAbsence(){
+		List<Evenement> evenements = serviceEvenement.getEvenementsAbsences();
+		assertTrue(evenements.size()>0);
 	}
 
 }
