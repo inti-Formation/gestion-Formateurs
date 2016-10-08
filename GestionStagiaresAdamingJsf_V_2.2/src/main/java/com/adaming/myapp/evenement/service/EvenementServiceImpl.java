@@ -10,6 +10,7 @@ import com.adaming.myapp.entities.Entretien;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Retard;
 import com.adaming.myapp.evenement.dao.IEvenementDao;
+import com.adaming.myapp.exception.EvenementNotFoundException;
 @Transactional
 public class EvenementServiceImpl implements IEvenementService {
     
@@ -46,23 +47,37 @@ public class EvenementServiceImpl implements IEvenementService {
 
 
 	@Override
-	public List<Evenement> getEvenementsRetards() {
+	public List<Evenement> getEvenementsRetards() throws EvenementNotFoundException {
 		// TODO Auto-generated method stub
 		return dao.getEvenementsRetards();
 	}
 
 
 	@Override
-	public List<Evenement> getEvenementsAbsences() {
+	public List<Evenement> getEvenementsAbsences() throws EvenementNotFoundException {
 		// TODO Auto-generated method stub
 		return dao.getEvenementsAbsences();
 	}
 
 
 	@Override
-	public List<Evenement> getEvenementsEntretien() {
+	public List<Evenement> getEvenementsEntretien() throws EvenementNotFoundException {
 		// TODO Auto-generated method stub
 		return dao.getEvenementsEntretien();
+	}
+
+
+	@Override
+	public List<Evenement> getNumberOfCurrentsRetards() {
+		// TODO Auto-generated method stub
+		return dao.getNumberOfCurrentsRetards();
+	}
+
+
+	@Override
+	public List<Evenement> getNumberOfCurrentsAbsence() {
+		// TODO Auto-generated method stub
+		return dao.getNumberOfCurrentsAbsence();
 	}
 
 

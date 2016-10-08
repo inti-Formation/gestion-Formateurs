@@ -7,6 +7,7 @@ public interface IUserService {
 
 	public User saveUser(User u);
 	
+	
 	public String generateSessionKey(int length);
 	
 	public User getUser(String mail) throws GetUserException;

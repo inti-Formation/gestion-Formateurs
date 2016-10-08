@@ -4,8 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:sec="http://www.springframework.org/security/tags">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<title>BootsFaces Basic Page</title>
 </h:head>
@@ -39,7 +38,7 @@
 				<li class="dropdown"><a data-toggle="dropdown"
 					class="dropdown-toggle" href="#">
                     <span class="profile-ava">
-					<sec:authorize ifAllGranted="ROLE_ETUDIANT">Extranet Etudiant</sec:authorize></span> <b class="caret"></b></a>
+					#{userAuthentification.user.name}</span> <b class="caret"></b></a>
 				
 					<ul class="dropdown-menu extended logout">
 						<div class="log-arrow-up"></div>

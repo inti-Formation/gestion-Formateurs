@@ -35,7 +35,7 @@ public class UserServiceTestU {
 			User u = new User("adel",motDePass,true);
 			serviceUser.saveUser(u);
 		}
-		
+		@Ignore
 		@Test
 		public void UpdateUser() {
 			try {
@@ -44,5 +44,6 @@ public class UserServiceTestU {
 				System.out.println(e.getMessage());
 			}
 		}
+		
 
 }

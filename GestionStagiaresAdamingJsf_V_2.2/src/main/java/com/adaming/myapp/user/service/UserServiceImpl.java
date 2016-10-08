@@ -54,4 +54,6 @@ public class UserServiceImpl implements IUserService{
 		// TODO Auto-generated method stub
 		return dao.updatePassword(mail, password, newPassword);
 	}
+
+	
 }

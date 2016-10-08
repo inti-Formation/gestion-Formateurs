@@ -13,12 +13,18 @@ import org.springframework.stereotype.Component;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.evenement.service.IEvenementService;
+import com.adaming.myapp.exception.EvenementNotFoundException;
 import com.adaming.myapp.session.service.ISessionService;
 
 @Component("dashboardBean")
-@ViewScoped
+@Scope("session")
 public class DashboardBean implements Serializable{
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Inject
 	private IEvenementService serviceEvenement;
 	@Inject
@@ -32,12 +38,55 @@ public class DashboardBean implements Serializable{
 	private Date dateFin;
 	private Long dateDebuteInDays;
 	private Long dateFinInDays;
+	private String retardNotFoundException;
+	private String absenceNotFoundException;
+	private String entretienNotFoundException;
+	private int numberOfCurrentAbsences;
+	private int numberOfCurrentRetards;
+	private List<Evenement> currentRetards;
+	private List<Evenement> currentAbsences;
+
 	
 	public void init(){
-		getSessionEnCours();
-		retards   = serviceEvenement.getEvenementsRetards();
-		absences  = serviceEvenement.getEvenementsAbsences();
-		entretiens= serviceEvenement.getEvenementsEntretien();
+		retardNotFoundException    = new String();
+		absenceNotFoundException   = new String();
+		entretienNotFoundException = new String();
+		/*getSessionsInProgress*/
+		 getSessionEnCours();
+		/*getCurrentAbsenceAndRetard*/
+		getCurentsAbsencesAndRetards();
+		/*getWeecklyEvenemenets*/
+		try {
+			retards   = serviceEvenement.getEvenementsRetards();
+			setRetardNotFoundException("");
+		} catch (EvenementNotFoundException e) {
+			setRetardNotFoundException(e.getMessage());
+			setRetards(null);
+		}
+		try {
+			absences  = serviceEvenement.getEvenementsAbsences();
+			setAbsenceNotFoundException("");
+		} catch (EvenementNotFoundException e) {
+			setAbsenceNotFoundException(e.getMessage());
+			setAbsences(null);
+		}
+		try {
+			entretiens= serviceEvenement.getEvenementsEntretien();
+			setEntretienNotFoundException("");
+		} catch (EvenementNotFoundException e) {
+			setEntretienNotFoundException(e.getMessage());
+			setEntretiens(null);
+		}
+		
+	}
+	
+	/*getcurrentRetardsandAbsences*/
+	public void getCurentsAbsencesAndRetards(){
+		currentRetards=serviceEvenement.getNumberOfCurrentsRetards();
+		numberOfCurrentRetards=currentRetards.size();
+		System.out.println("nombre retards"+numberOfCurrentRetards);
+		currentAbsences=serviceEvenement.getNumberOfCurrentsAbsence();
+		numberOfCurrentAbsences=currentAbsences.size();
 	}
 	
 	/*@ method pour avoir les jours d'une sessions (progress bar in css)*/
@@ -137,6 +186,62 @@ public class DashboardBean implements Serializable{
 
 	public void setDateFinInDays(Long dateFinInDays) {
 		this.dateFinInDays = dateFinInDays;
+	}
+
+	public String getRetardNotFoundException() {
+		return retardNotFoundException;
+	}
+
+	public void setRetardNotFoundException(String retardNotFoundException) {
+		this.retardNotFoundException = retardNotFoundException;
+	}
+
+	public String getAbsenceNotFoundException() {
+		return absenceNotFoundException;
+	}
+
+	public void setAbsenceNotFoundException(String absenceNotFoundException) {
+		this.absenceNotFoundException = absenceNotFoundException;
+	}
+
+	public String getEntretienNotFoundException() {
+		return entretienNotFoundException;
+	}
+
+	public void setEntretienNotFoundException(String entretienNotFoundException) {
+		this.entretienNotFoundException = entretienNotFoundException;
+	}
+
+	public int getNumberOfCurrentAbsences() {
+		return numberOfCurrentAbsences;
+	}
+
+	public void setNumberOfCurrentAbsences(int numberOfCurrentAbsences) {
+		this.numberOfCurrentAbsences = numberOfCurrentAbsences;
+	}
+
+	public int getNumberOfCurrentRetards() {
+		return numberOfCurrentRetards;
+	}
+
+	public void setNumberOfCurrentRetards(int numberOfCurrentRetards) {
+		this.numberOfCurrentRetards = numberOfCurrentRetards;
+	}
+
+	public List<Evenement> getCurrentRetards() {
+		return currentRetards;
+	}
+
+	public void setCurrentRetards(List<Evenement> currentRetards) {
+		this.currentRetards = currentRetards;
+	}
+
+	public List<Evenement> getCurrentAbsences() {
+		return currentAbsences;
+	}
+
+	public void setCurrentAbsences(List<Evenement> currentAbsences) {
+		this.currentAbsences = currentAbsences;
 	}
 	
 	

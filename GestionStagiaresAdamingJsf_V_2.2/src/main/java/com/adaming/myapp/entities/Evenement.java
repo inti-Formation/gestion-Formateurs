@@ -12,6 +12,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -25,6 +27,7 @@ public class Evenement {
 	private Long idEvenement;
 	private Date startDate;
 	private Date endDate;
+	@Temporal(TemporalType.DATE)
 	private Date curentDate = new Date();
 
 	/*assoc*/

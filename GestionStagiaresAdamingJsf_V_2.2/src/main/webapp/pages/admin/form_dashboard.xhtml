@@ -31,6 +31,7 @@
                           <h4>Session En Cours</h4>
                       </header>
                      <div class="panel-body text-center">
+                            
 							<form>
 									<table class="table bootstrap-datatable countries">
 										<thead>
@@ -59,6 +60,7 @@
 										  </ui:repeat>
 							        </table>
 							</form>
+						
 							</div>
 					   </div>
 			   </section>
@@ -82,8 +84,9 @@
                                                   Retard
                                               </header>
                                                <div class="panel-body text-center">
+                                               <c:if test="#{fn:length(dashboardBean.retards) >0 }">
                                                  <form>
-												<table class="table bootstrap-datatable countries">
+												 <table class="table bootstrap-datatable countries">
 													<thead>
 														<tr>
 															<th>N ° Session</th>
@@ -106,6 +109,13 @@
 													  </ui:repeat>
 										        </table>
 							                </form>
+							                </c:if>
+							                    <!-- exception retard not found -->
+							                    <c:if test="#{not empty dashboardBean.retardNotFoundException}">
+							                    <p style="color:red">
+							                      #{dashboardBean.retardNotFoundException}
+							                    </p>
+							                    </c:if>
                                               </div>
 							               
                                           </section>
@@ -117,6 +127,7 @@
                                                   Absence
                                               </header>
                                               <div class="panel-body text-center">
+                                               <c:if test="#{fn:length(dashboardBean.absences) >0 }">
                                                   <form>
 												<table class="table bootstrap-datatable countries">
 													<thead>
@@ -141,6 +152,11 @@
 													  </ui:repeat>
 										        </table>
 							                </form>
+							                </c:if>
+							                 <!-- exception absence not found -->
+							                <c:if test="#{not empty dashboardBean.absenceNotFoundException}">
+							                  <p style="color:red"> #{dashboardBean.absenceNotFoundException}</p>
+							                 </c:if>
                                               </div>
                                           </section>
                                       </div>
@@ -153,6 +169,7 @@
                                                   Entretien
                                               </header>
                                               <div class="panel-body text-center">
+                                              <c:if test="#{fn:length(dashboardBean.entretiens) >0 }">
                                                  <form>
 												<table class="table bootstrap-datatable countries">
 													<thead>
@@ -177,6 +194,13 @@
 													  </ui:repeat>
 										        </table>
 							                </form>
+							                </c:if>
+							               <!-- exception entretien not found -->
+							                <c:if test="#{not empty dashboardBean.entretienNotFoundException}">
+							               <p style="color:red">
+							                   #{dashboardBean.entretienNotFoundException}
+							                </p>
+							                </c:if>
                                               </div>
                                           </section>
                                       </div>

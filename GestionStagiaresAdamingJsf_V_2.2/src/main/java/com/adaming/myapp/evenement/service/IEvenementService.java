@@ -6,6 +6,7 @@ import com.adaming.myapp.entities.Absence;
 import com.adaming.myapp.entities.Entretien;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Retard;
+import com.adaming.myapp.exception.EvenementNotFoundException;
 
 public interface IEvenementService {
 	
@@ -17,11 +18,15 @@ public interface IEvenementService {
 	
 	/*get all*/
 	
-	public List<Evenement> getEvenementsRetards();
+	public List<Evenement> getEvenementsRetards() throws EvenementNotFoundException;
 	
-	public List<Evenement> getEvenementsAbsences();
+	public List<Evenement> getEvenementsAbsences() throws EvenementNotFoundException;
 	
-	public List<Evenement> getEvenementsEntretien();
+	public List<Evenement> getEvenementsEntretien() throws EvenementNotFoundException;
 	
+	
+	public List<Evenement> getNumberOfCurrentsRetards();
+
+	public List<Evenement> getNumberOfCurrentsAbsence();
 	
 }

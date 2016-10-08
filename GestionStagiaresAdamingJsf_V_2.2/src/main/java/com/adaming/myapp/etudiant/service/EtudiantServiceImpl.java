@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.entities.Etudiant;
+import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.etudiant.dao.IEtudiantDao;
 import com.adaming.myapp.exception.AddEtudiantException;
 @Transactional
@@ -50,5 +51,7 @@ public class EtudiantServiceImpl implements IEtudiantService{
 		// TODO Auto-generated method stub
 		return dao.getEtudiantBySession(idSession);
 	}
+
+	
 
 }

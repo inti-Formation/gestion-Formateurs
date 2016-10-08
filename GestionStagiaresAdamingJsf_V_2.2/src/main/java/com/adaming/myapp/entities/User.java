@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User {
@@ -18,8 +19,10 @@ public class User {
 	private String name;
 	private String password;
 	private boolean actived;
+	/*assocition*/
 	@OneToMany(mappedBy="user")
 	private Collection<Role> roles;
+	
 	
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -71,6 +74,7 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
+
 	
 	
 }

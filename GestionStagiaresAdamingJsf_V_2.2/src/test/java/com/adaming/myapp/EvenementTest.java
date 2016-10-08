@@ -16,6 +16,7 @@ import com.adaming.myapp.entities.Entretien;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Retard;
 import com.adaming.myapp.evenement.service.IEvenementService;
+import com.adaming.myapp.exception.EvenementNotFoundException;
 import com.adaming.myapp.module.service.IModuleService;
 
 public class EvenementTest {
@@ -53,18 +54,47 @@ public class EvenementTest {
 	}
 	@Test
 	public void getEntretien(){
-		List<Evenement> evenements = serviceEvenement.getEvenementsEntretien();
-		assertTrue(evenements.size()>0);
+		List<Evenement> evenements;
+		try {
+			evenements = serviceEvenement.getEvenementsEntretien();
+			assertTrue(evenements.size()>0);
+		} catch (EvenementNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	@Test
 	public void getRetard(){
-		List<Evenement> evenements = serviceEvenement.getEvenementsRetards();
-		assertTrue(evenements.size()>0);
+		List<Evenement> evenements;
+		try {
+			evenements = serviceEvenement.getEvenementsRetards();
+			assertTrue(evenements.size()>0);
+		} catch (EvenementNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	@Test
 	public void getAbsence(){
-		List<Evenement> evenements = serviceEvenement.getEvenementsAbsences();
-		assertTrue(evenements.size()>0);
+		List<Evenement> evenements;
+		try {
+			evenements = serviceEvenement.getEvenementsAbsences();
+			assertTrue(evenements.size()>0);
+		} catch (EvenementNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	@Test
+	public void getCurrentAbsences(){
+		List<Evenement> evenements = serviceEvenement.getNumberOfCurrentsAbsence();
+		
+	}
+	@Test
+	public void getCurrentRetards(){
+		List<Evenement> evenements = serviceEvenement.getNumberOfCurrentsRetards();
+		
 	}
 
 }

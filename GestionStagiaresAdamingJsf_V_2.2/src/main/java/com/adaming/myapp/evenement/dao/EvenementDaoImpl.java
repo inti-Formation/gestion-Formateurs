@@ -13,6 +13,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.SessionEtudiant;
+import com.adaming.myapp.exception.EvenementNotFoundException;
 
 public class EvenementDaoImpl implements IEvenementDao{
    
@@ -34,37 +35,64 @@ public class EvenementDaoImpl implements IEvenementDao{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Evenement> getEvenementsRetards() {
+	public List<Evenement> getEvenementsRetards() throws EvenementNotFoundException {
 		Date weeckAgo = DateUtils.addDays(new Date(), -6);
 		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y");
 		query.setParameter("y",weeckAgo);
 		logger.info("weeck"+weeckAgo);
 		query.setParameter("x","RETARD");
 		logger.info("le size de retarad est"+query.getResultList().size());
+		if(query.getResultList().size() == 0){
+			throw new EvenementNotFoundException("Aucun retard mentionné !");
+		}
 		return query.getResultList();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Evenement> getEvenementsAbsences() {
+	public List<Evenement> getEvenementsAbsences() throws EvenementNotFoundException {
 		Date weeckAgo = DateUtils.addDays(new Date(), -6);
 		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y");
 		query.setParameter("y",weeckAgo);
 		logger.info("weeck"+weeckAgo);
 		query.setParameter("x","ABSENCE");
 		logger.info("le size de Absences est"+query.getResultList().size());
+		if(query.getResultList().size() == 0){
+			throw new EvenementNotFoundException("Aucune absence mentionnée !");
+		}
 		return query.getResultList();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Evenement> getEvenementsEntretien() {
+	public List<Evenement> getEvenementsEntretien() throws EvenementNotFoundException {
 		Date weeckAgo = DateUtils.addDays(new Date(), -6);
 		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate >= :y");
 		query.setParameter("y",weeckAgo);
 		logger.info("weeck"+weeckAgo);
 		query.setParameter("x","ENTRETIENT");
 		logger.info("le size de ENTRETIENT est"+query.getResultList().size());
+		if(query.getResultList().size() == 0){
+			throw new EvenementNotFoundException("Aucun entretien mentionné !");
+		}
+		return query.getResultList();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Evenement> getNumberOfCurrentsRetards() {
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate =CURRENT_DATE");
+		query.setParameter("x","RETARD");
+		logger.info("les retards d'aujourdhuit sont :"+query.getResultList().size());
+		return query.getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Evenement> getNumberOfCurrentsAbsence() {
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate =CURRENT_DATE");
+		query.setParameter("x","ABSENCE");
+		logger.info("les absences d'aujourdhuit sont :"+query.getResultList().size());
 		return query.getResultList();
 	}
 
