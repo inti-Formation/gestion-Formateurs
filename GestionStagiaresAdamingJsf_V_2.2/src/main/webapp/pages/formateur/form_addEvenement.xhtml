@@ -16,91 +16,124 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-
-		<h:form id="form">
-			<br />
-			   <div align="center" style="margin:auto">
-				<h:outputLabel  style="color:black;padding-right:10px" value="Session(En Cours):*"
-					styleClass="paddingTop20" />
-				<h:selectOneMenu style="height:35px;width:50%;color:black;font-size:18px;" styleClass="selectpicker" id="session" required="true"
-					required-message="Veuillez Rensiegnez la Session SVP!!"
-					value="#{scheduleView.idSession}">
-					<f:selectItem itemLabel="Sélectionnez Une Session En Cours"
-						itemValue="#{null}" />
-					<f:selectItems value="#{scheduleView.sessionEnCours}" var="s"
-						itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
-						itemValue="#{s.idSession}" />
-
-				</h:selectOneMenu>
-				<br />
-				<h:message for="session" />
-				<br />
-			
-				<b:commandButton action="#{scheduleView.genererSchedule()}"
-					value="Generer"  look="primary" />
-
-			</div>
-			<br />
-			<br />
-			<br />
-			<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
-				
-				<br/>
-				<div class="alert alert-info" style="width:80%;margin:auto">
-				   <div>
-			      	 <h:messages style="color:red"></h:messages>
-				   </div>
-				   <div>
-				        <h:inputHidden value="#{scheduleView.idSession}"/>
-				    </div>
-			          <div>
-				         <h:outputLabel style="color:black" for="etudiant" value="Etudiant*"/><br/>
-					     <h:selectOneMenu id="etudiant" required="true" style="height:35px;color:black;font-size:18px;width:100%" styleClass="selectpicker"
-									required-message="Veuillez Rensiegnez l'etudiant SVP!!"
-									renderLabel="true" value="#{scheduleView.idEtudiant}">
-									<f:selectItem itemLabel="Sélectionnez un etudiant"
-										itemValue="#{null}" />
-									<f:selectItems value="#{scheduleView.etudiantsBySession}" var="e"
-										itemLabel="#{e.nomEtudiant},#{e.prenomEtudiant}"
-										itemValue="#{e.idEtudiant}" />
-				
-					     </h:selectOneMenu>
-			          </div>
-			          <br/>
-					<div>
-					   <h:outputLabel style="color:black" value="Evénement*"/><br/>
-				       <h:selectOneMenu required="true" style="height:35px;color:black;font-size:18px;" styleClass="selectpicker"
-							required-message="Veuillez Rensiegnez le Type Evénement SVP!!"
-							value="#{scheduleView.typeEvenement}">
-							<f:selectItem itemLabel="Sélectionnez Un Evenement"
-								itemValue="#{null}" />
-							<f:selectItem itemLabel="Retard"
-								itemValue="retard" />
-							<f:selectItem itemLabel="Absence"
-								itemValue="absence" />
-							<f:selectItem itemLabel="Entretien"
-								itemValue="entretient" />
-						</h:selectOneMenu>
-					</div>
-					<br/>
-					<div>
-					    <h:outputLabel style="color:black" value="De *" /><br/>
-					    <p:calendar  required="true" requiredMessage="Veuillez rensiegnez la date d'événement SVP!!"  value="#{scheduleView.dateStart}" pattern="MM/dd/yyyy HH:mm:ss" />
-					</div>   
-					<div>
-						<h:outputLabel style="color:black" value="À *" /><br/>
-					    <p:calendar required="true" requiredMessage="Veuillez rensiegnez la date d'événement SVP!!"  value="#{scheduleView.dateEnd}" pattern="MM/dd/yyyy HH:mm:ss" />
-					</div>
-					    
-				    <br/>
-				    <div align="center">
-					    <b:commandButton action="#{scheduleView.signalerEvenement()}"
-						value="Signaler Un Evenement" look="primary" />
-				   </div>
-				</div>   
+       <br/>
+			<!-- exception add new Formateur -->
+			<c:if test="#{not empty formateurBean.addFormateurException}">
+				<div class="alert alert-warning">
+					<h:outputText value="#{formateurBean.addFormateurException}"
+							styleClass="errorExeption"/>
+				</div>
 			</c:if>
-			<br />
-		</h:form>
+			<!-- message success -->
+			<c:if test="#{not empty formateurBean.success}">
+				<div class="alert alert-info">
+					<h:outputText value="#{formateurBean.success}"
+							styleClass="messageSuccess" />
+				</div>
+			</c:if>
+	     <!-- errors de validation -->
+	     <h:messages style="color:red;"></h:messages>
+		 <!-- Form validations -->  
+		 <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Événement</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Ajouter Un Événement
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                  <h:form class="form-validate form-horizontal">
+                                      <div class="form-group ">
+                                          <label for="session" class="control-label col-lg-2">Session En Cours <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+												required-message="1 - Session *"
+												value="#{scheduleView.idSession}">
+												<f:selectItem itemLabel="Sélectionnez Votre Session "
+													itemValue="#{null}" />
+												<f:selectItems value="#{scheduleView.sessionEnCours}" var="s"
+													itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
+													itemValue="#{s.idSession}" />
+											</h:selectOneMenu>
+                                          </div>
+                                       </div>
+                                        <div class="form-group">
+                                          <div class="col-lg-offset-2 col-lg-10">
+                                              <h:commandButton action="#{scheduleView.genererSchedule()}" value="Generer" class="btn btn-primary"/>
+                                          </div>
+                                        </div>
+                                      <c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
+                                            <div>
+				                                <h:inputHidden value="#{scheduleView.idSession}"/>
+				                            </div>
+				                            <div>
+				                                <h:inputHidden value="#{userAuthentification.user.name}"/>
+				                            </div>
+	                                        <div class="form-group ">
+	                                          <label for="session" class="control-label col-lg-2">Etudiant <span class="required">*</span></label>
+	                                          <div class="col-lg-10">
+	                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+													required-message="2 - l'Etudiant *"
+													value="#{scheduleView.idEtudiant}">
+													<f:selectItem itemLabel="Sélectionnez un etudiant"
+														itemValue="#{null}" />
+													<f:selectItems value="#{scheduleView.etudiantsBySession}" var="e"
+														itemLabel="#{e.nomEtudiant},#{e.prenomEtudiant}"
+														itemValue="#{e.idEtudiant}" />
+												</h:selectOneMenu>
+	                                          </div>
+	                                       </div>
+	                                       <div class="form-group ">
+	                                          <label for="session" class="control-label col-lg-2">Evénement <span class="required">*</span></label>
+	                                          <div class="col-lg-10">
+	                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+													required-message="3 - l'Evénement*"
+														value="#{scheduleView.typeEvenement}">
+														<f:selectItem itemLabel="Sélectionnez Un Evénement"
+															itemValue="#{null}" />
+														<f:selectItem itemLabel="Retard"
+															itemValue="retard" />
+														<f:selectItem itemLabel="Absence"
+															itemValue="absence" />
+														<f:selectItem itemLabel="Entretien"
+															itemValue="entretient" />
+												</h:selectOneMenu>
+	                                          </div>
+	                                       </div>
+                                      
+	                                      <div class="form-group ">
+	                                          <label for="De" class="control-label col-lg-2">De <span class="required">*</span></label>
+	                                          <div class="col-lg-10">
+	                                             <p:calendar  required="true" requiredMessage="4 - la date début d'événement"  value="#{scheduleView.dateStart}" pattern="MM/dd/yyyy HH:mm:ss" />
+	                                          </div>
+	                                      </div>
+	                                      <div class="form-group ">
+	                                          <label for="A" class="control-label col-lg-2">À <span class="required">*</span></label>
+	                                          <div class="col-lg-10">
+	                                              <p:calendar required="true" requiredMessage="5 - la date Fin d'événement"  value="#{scheduleView.dateEnd}" pattern="MM/dd/yyyy HH:mm:ss" />
+	                                          </div>
+	                                      </div>
+	                                      <div class="form-group">
+	                                          <div class="col-lg-offset-2 col-lg-10">
+	                                              <h:commandButton action="#{scheduleView.signalerEvenement()}" value="Signaler Un Evenement" class="btn btn-primary"/>
+	                                          </div>
+	                                      </div>
+                                   </c:if>
+                                  </h:form>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+          </section>
 	</div>
 </ui:composition>
 </html>

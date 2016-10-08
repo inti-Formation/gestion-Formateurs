@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -39,6 +40,9 @@ public class ScheduleView {
 	@Inject
 	private IEvenementService serviceEvenement;
 	
+	@Inject
+	private UserAuthentificationBean userAuthentificationBean;
+	
 	private Long idSession;
 	private Long idModule;
 	private List<SessionEtudiant> sessionEnCours;
@@ -58,6 +62,7 @@ public class ScheduleView {
 	private Date dateStart;
 	private Date dateEnd;
 	private String typeEvenement;
+	
 	
 	@PostConstruct
 	public void init() {
@@ -136,20 +141,19 @@ public class ScheduleView {
 		
 		if(!typeEvenement.equals(null)){
 			if(typeEvenement.equals("retard")){
-				retard=new Retard(dateStart, dateEnd,new Date());
+				retard=new Retard(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
 				serviceEvenement.addRetard(retard, idSession, idEtudiant);
 			}
 			else if(typeEvenement.equals("absence")){
-				absence=new Absence(dateStart, dateEnd,new Date());
+				absence=new Absence(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
 				serviceEvenement.addAbsence(absence, idSession, idEtudiant);
 			}
 			else if(typeEvenement.equals("entretient")){
-				entretient = new Entretien(dateStart,dateEnd,new Date());
+				entretient = new Entretien(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
 				serviceEvenement.addEntretien(entretient, idSession, idEtudiant);
 			}
 		}
-		
-		
+
 	}
 
 
@@ -289,6 +293,12 @@ public class ScheduleView {
 
 	public void setServiceEtudiant(IEtudiantService serviceEtudiant) {
 		this.serviceEtudiant = serviceEtudiant;
+	}
+
+
+	public void setUserAuthentificationBean(
+			UserAuthentificationBean userAuthentificationBean) {
+		this.userAuthentificationBean = userAuthentificationBean;
 	}
 
 	

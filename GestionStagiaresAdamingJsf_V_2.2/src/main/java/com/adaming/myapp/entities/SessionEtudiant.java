@@ -1,5 +1,6 @@
 package com.adaming.myapp.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -16,8 +18,12 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
-public class SessionEtudiant {
-    @Id
+public class SessionEtudiant implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idSession;
     @Temporal(TemporalType.DATE)
@@ -41,6 +47,9 @@ public class SessionEtudiant {
 	
 	@OneToMany(mappedBy="sessionEtudiant")
 	private List<Etudiant> etudiants;
+	
+	@ManyToMany(mappedBy="sessionsEtudiant")
+	private List<Formateur> formateurs;
 	
 	/*construct*/
     public SessionEtudiant() {
@@ -132,6 +141,14 @@ public class SessionEtudiant {
 
 	public void setDateFinInDays(String dateFinInDays) {
 		this.dateFinInDays = dateFinInDays;
+	}
+
+	public List<Formateur> getFormateurs() {
+		return formateurs;
+	}
+
+	public void setFormateurs(List<Formateur> formateurs) {
+		this.formateurs = formateurs;
 	}
 
 	

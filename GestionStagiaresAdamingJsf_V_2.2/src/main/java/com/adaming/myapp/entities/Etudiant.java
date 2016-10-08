@@ -1,5 +1,6 @@
 package com.adaming.myapp.entities;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,11 @@ import javax.persistence.Transient;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 @Entity
-public class Etudiant {
+public class Etudiant implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long idEtudiant;

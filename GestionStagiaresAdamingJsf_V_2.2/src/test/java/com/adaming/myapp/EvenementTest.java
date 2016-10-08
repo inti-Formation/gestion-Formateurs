@@ -37,19 +37,19 @@ public class EvenementTest {
 	@Ignore
 	@Test
 	public void addEntretien(){
-		Entretien e =  new Entretien(new Date(),new Date(),new Date());
+		Entretien e =  new Entretien(new Date(), new Date(), null, new Date());
 		serviceEvenement.addEntretien(e, 1L,1L);
 	}
 	@Ignore
 	@Test
 	public void addAbsence(){
-		Absence a =  new Absence(new Date(),new Date(),new Date());
+		Absence a =  new Absence(new Date(), new Date(), null, new Date());
 		serviceEvenement.addAbsence(a,1L, 1L);
 	}
 	@Ignore
 	@Test
 	public void addRetard(){
-		Retard r =  new Retard(new Date(),new Date(),new Date());
+		Retard r =  new Retard(new Date(), new Date(), null, new Date());;
 		serviceEvenement.addRetard(r, 1L, 1L);
 	}
 	@Test

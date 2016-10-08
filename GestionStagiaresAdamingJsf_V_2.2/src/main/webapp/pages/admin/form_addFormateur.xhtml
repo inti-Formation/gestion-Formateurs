@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+
+	<div class="well container">
+		    <br/>
+			<!-- exception add new Formateur -->
+			<c:if test="#{not empty formateurBean.addFormateurException}">
+				<div class="alert alert-warning">
+					<h:outputText value="#{formateurBean.addFormateurException}"
+							styleClass="errorExeption"/>
+				</div>
+			</c:if>
+			<!-- message success -->
+			<c:if test="#{not empty formateurBean.success}">
+				<div class="alert alert-info">
+					<h:outputText value="#{formateurBean.success}"
+							styleClass="messageSuccess" />
+				</div>
+			</c:if>
+	     <!-- errors de validation -->
+	     <h:messages style="color:red;"></h:messages>
+		 <!-- Form validations -->  
+		 <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Formateur</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Ajouter Un Formateur
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                  <h:form class="form-validate form-horizontal">
+                                      <div class="form-group ">
+                                          <label for="civilite" class="control-label col-lg-2">Civilité <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:selectOneMenu style="height:35px;width:25%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+												requiredMessage="1 - Civilité *"
+												value="#{formateurBean.civilite}">
+												<f:selectItem itemLabel="Sélectionnez Une civilitée"
+													itemValue="#{null}" />
+											     <f:selectItem itemLabel="M"
+													itemValue="M" />
+												<f:selectItem itemLabel="Mme"
+													itemValue="Mme" />
+											</h:selectOneMenu>
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="cname" class="control-label col-lg-2">Nom <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="2 - Nom *" required="true" value="#{formateurBean.nom}" class="form-control" id="cname"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="prenom" class="control-label col-lg-2">Prénom <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="3 - Prénom *" required="true" value="#{formateurBean.prenom}" class="form-control" id="prenom"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="adresse" class="control-label col-lg-2">Adresse <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="4 - Adresse *" required="true" value="#{formateurBean.adresse}" class="form-control" id="adresse"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="codePostal" class="control-label col-lg-2">Code Postal <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="5 - Code Postal *" required="true" value="#{formateurBean.codePostal}" class="form-control" id="codePostal"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="telMobile" class="control-label col-lg-2">Tél <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="6 - Tél *" required="true" value="#{formateurBean.telMobile}" class="form-control" id="telMobile"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="mail" class="control-label col-lg-2">Mail <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="7 - Mail *" required="true" value="#{formateurBean.mail}"  class="form-control" id="mail"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="nationalite" class="control-label col-lg-2">Nationalité <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="8 - Nationalité *" required="true" value="#{formateurBean.nationalite}"  class="form-control" id="nationalite"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="dateDeNaissance" class="control-label col-lg-2">Date De Naissance <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <p:calendar styleClass="calendar" id="effect"
+												value="#{formateurBean.dateDeNaissance}" effect="fold" required="true"
+												required-message="9 - Date De Naissance * " />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="lieuDeNaissance" class="control-label col-lg-2">Lieu De Naissance <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="10 - Lieu De Naissance *" required="true" value="#{formateurBean.lieuDeNaissance}"  class="form-control" id="lieuDeNaissance"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="specialite" class="control-label col-lg-2">Specialité <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText requiredMessage="11 - Spécialité *" required="true" value="#{formateurBean.specialite}" class="form-control" id="specialite"  type="text" />
+                                          </div>
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                          <div class="col-lg-offset-2 col-lg-10">
+                                              <h:commandButton action="#{formateurBean.addFormateur}" value="Save" class="btn btn-primary"/>
+                                          </div>
+                                      </div>
+                                  </h:form>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+          </section>
+	</div>
+</ui:composition>
+</html>

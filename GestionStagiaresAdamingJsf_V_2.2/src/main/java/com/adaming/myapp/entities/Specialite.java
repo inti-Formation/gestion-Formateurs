@@ -1,5 +1,6 @@
 package com.adaming.myapp.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,8 +11,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Specialite {
-    @Id
+public class Specialite implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idSpecialite;
 	private String designation;

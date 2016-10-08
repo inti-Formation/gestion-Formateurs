@@ -1,5 +1,6 @@
 package com.adaming.myapp.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -14,8 +15,12 @@ import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.SessionEtudiant;
 
 @Entity
-public class Note {
-    @Id
+public class Note implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idNote;
 	private Double score;

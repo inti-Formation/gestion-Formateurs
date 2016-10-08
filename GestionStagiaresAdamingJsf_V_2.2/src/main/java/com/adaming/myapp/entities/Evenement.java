@@ -1,5 +1,6 @@
 package com.adaming.myapp.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.DiscriminatorColumn;
@@ -21,12 +22,17 @@ import org.apache.commons.lang3.time.DateUtils;
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="TYPE_EVENEMENT",discriminatorType=DiscriminatorType.STRING)
-public class Evenement {
-    @Id
+public class Evenement implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idEvenement;
 	private Date startDate;
 	private Date endDate;
+	private String signaleur;
 	@Temporal(TemporalType.DATE)
 	private Date curentDate = new Date();
 
@@ -42,12 +48,16 @@ public class Evenement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Evenement(Date startDate, Date endDate,Date currentDate) {
+	public Evenement(Date startDate, Date endDate, String signaleur,
+			Date curentDate) {
 		super();
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.curentDate=currentDate;
+		this.signaleur = signaleur;
+		this.curentDate = curentDate;
 	}
+
+
 
 
 	public Date getStartDate() {
@@ -96,6 +106,14 @@ public class Evenement {
 
 	public void setCurentDate(Date curentDate) {
 		this.curentDate = curentDate;
+	}
+
+	public String getSignaleur() {
+		return signaleur;
+	}
+
+	public void setSignaleur(String signaleur) {
+		this.signaleur = signaleur;
 	}
 
 	

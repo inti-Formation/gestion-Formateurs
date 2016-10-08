@@ -1,22 +1,31 @@
 package com.adaming.myapp.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("ENTRETIENT")
-public class Entretien extends Evenement {
+public class Entretien extends Evenement implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Entretien() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Entretien(Date startDate, Date endDate, Date currentDate) {
-		super(startDate, endDate, currentDate);
+	public Entretien(Date startDate, Date endDate, String signaleur,
+			Date curentDate) {
+		super(startDate, endDate, signaleur, curentDate);
 		// TODO Auto-generated constructor stub
 	}
+
+	
 
 
 
