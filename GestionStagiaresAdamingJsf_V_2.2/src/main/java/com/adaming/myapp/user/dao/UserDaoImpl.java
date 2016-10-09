@@ -53,7 +53,7 @@ public class UserDaoImpl implements IUserDao{
 		if(u.size()==0)
 			throw new GetUserException("Ce mail ne correspond a aucun utilisateur !");
 		if(u.get(0).getPassword().equals(newPassword))
-			throw new GetUserException("Vuillez utiliser un nouveau mot de passe !");
+			throw new GetUserException("Veuillez utiliser un nouveau mot de passe !");
 		User user = u.get(0);
 		user.setPassword(newPassword);
 		em.merge(user);
