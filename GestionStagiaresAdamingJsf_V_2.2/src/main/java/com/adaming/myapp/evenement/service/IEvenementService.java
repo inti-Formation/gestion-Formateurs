@@ -7,26 +7,37 @@ import com.adaming.myapp.entities.Entretien;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Retard;
 import com.adaming.myapp.exception.EvenementNotFoundException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IEvenementService {
-	
-	public Retard addRetard(Retard r,Long idSession,Long idEtudiant);
-	
-	public Absence addAbsence(Absence a,Long idSession,Long idEtudiant);
-	
-	public Entretien addEntretien(Entretien e,Long idSession,Long idEtudiant);
-	
-	/*get all*/
-	
-	public List<Evenement> getEvenementsRetards() throws EvenementNotFoundException;
-	
-	public List<Evenement> getEvenementsAbsences() throws EvenementNotFoundException;
-	
-	public List<Evenement> getEvenementsEntretien() throws EvenementNotFoundException;
-	
-	
+
+	public Retard addRetard(Retard r, Long idSession, Long idEtudiant) throws VerificationInDataBaseException;
+
+	public Absence addAbsence(Absence a, Long idSession, Long idEtudiant) throws VerificationInDataBaseException;
+
+	public Entretien addEntretien(Entretien e, Long idSession, Long idEtudiant) throws VerificationInDataBaseException;
+
+	/* get all */
+
+	public List<Evenement> getEvenementsRetards()
+			throws EvenementNotFoundException;
+
+	public List<Evenement> getEvenementsAbsences()
+			throws EvenementNotFoundException;
+
+	public List<Evenement> getEvenementsEntretien()
+			throws EvenementNotFoundException;
+
 	public List<Evenement> getNumberOfCurrentsRetards();
 
 	public List<Evenement> getNumberOfCurrentsAbsence();
+
+	public List<Evenement> getAllEvenementsRetards();
+
+	public List<Evenement> getAllEvenementsEntretient();
+
+	public List<Evenement> getAllEvenementsAbsences();
 	
+	public List<Evenement> getAllEvenements();
+
 }

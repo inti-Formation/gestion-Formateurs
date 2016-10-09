@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.apache.taglibs.standard.tag.common.core.SetSupport;
 import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.evenement.service.IEvenementService;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.session.service.ISessionService;
 
@@ -39,7 +41,7 @@ public class ScheduleView {
 	
 	@Inject
 	private IEvenementService serviceEvenement;
-	
+	/*get the name of user (formateur) for evenement*/
 	@Inject
 	private UserAuthentificationBean userAuthentificationBean;
 	
@@ -62,7 +64,8 @@ public class ScheduleView {
 	private Date dateStart;
 	private Date dateEnd;
 	private String typeEvenement;
-	
+	private String evenementFoundException;
+	private String evenementSuccess;
 	
 	@PostConstruct
 	public void init() {
@@ -137,20 +140,41 @@ public class ScheduleView {
 	public void signalerEvenement(){
 		Retard  retard       = null;
 		Absence absence      = null;
-		Entretien entretient = null;
+		Entretien entretien  = null;
 		
 		if(!typeEvenement.equals(null)){
 			if(typeEvenement.equals("retard")){
 				retard=new Retard(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
-				serviceEvenement.addRetard(retard, idSession, idEtudiant);
+				try {
+					serviceEvenement.addRetard(retard, idSession, idEtudiant);
+					setEvenementSuccess("le Retard de "+dateStart+" A "+dateEnd+" à bien été signalé");
+					setEvenementFoundException("");
+				} catch (VerificationInDataBaseException e) {
+					setEvenementFoundException(e.getMessage());
+					setEvenementSuccess("");
+				}
 			}
 			else if(typeEvenement.equals("absence")){
 				absence=new Absence(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
-				serviceEvenement.addAbsence(absence, idSession, idEtudiant);
+				try {
+					serviceEvenement.addAbsence(absence, idSession, idEtudiant);
+					setEvenementSuccess("l'absence"+" de "+dateStart+" A "+dateEnd+" à bien été signalée");
+					setEvenementFoundException("");
+				} catch (VerificationInDataBaseException e) {
+					setEvenementFoundException(e.getMessage());
+					setEvenementSuccess("");
+				}
 			}
 			else if(typeEvenement.equals("entretient")){
-				entretient = new Entretien(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
-				serviceEvenement.addEntretien(entretient, idSession, idEtudiant);
+				entretien = new Entretien(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
+				try {
+					serviceEvenement.addEntretien(entretien, idSession, idEtudiant);
+					setEvenementSuccess("l'entretien de "+dateStart+" A "+dateEnd+" à bien été signalée");
+					setEvenementFoundException("");
+				} catch (VerificationInDataBaseException e) {
+					setEvenementFoundException(e.getMessage());
+					setEvenementSuccess("");
+				}
 			}
 		}
 
@@ -299,6 +323,22 @@ public class ScheduleView {
 	public void setUserAuthentificationBean(
 			UserAuthentificationBean userAuthentificationBean) {
 		this.userAuthentificationBean = userAuthentificationBean;
+	}
+
+	public String getEvenementFoundException() {
+		return evenementFoundException;
+	}
+
+	public void setEvenementFoundException(String evenementFoundException) {
+		this.evenementFoundException = evenementFoundException;
+	}
+
+	public String getEvenementSuccess() {
+		return evenementSuccess;
+	}
+
+	public void setEvenementSuccess(String evenementSuccess) {
+		this.evenementSuccess = evenementSuccess;
 	}
 
 	

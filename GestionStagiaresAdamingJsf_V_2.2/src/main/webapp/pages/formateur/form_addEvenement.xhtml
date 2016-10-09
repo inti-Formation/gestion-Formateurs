@@ -17,17 +17,17 @@
 	<br> </br>
 	<div class="well container">
        <br/>
-			<!-- exception add new Formateur -->
-			<c:if test="#{not empty formateurBean.addFormateurException}">
+			<!-- exception add new evenement -->
+			<c:if test="#{not empty scheduleView.evenementFoundException}">
 				<div class="alert alert-warning">
-					<h:outputText value="#{formateurBean.addFormateurException}"
+					<h:outputText value="#{scheduleView.evenementFoundException}"
 							styleClass="errorExeption"/>
 				</div>
 			</c:if>
 			<!-- message success -->
-			<c:if test="#{not empty formateurBean.success}">
+			<c:if test="#{not empty scheduleView.evenementSuccess}">
 				<div class="alert alert-info">
-					<h:outputText value="#{formateurBean.success}"
+					<h:outputText value="#{scheduleView.evenementSuccess}"
 							styleClass="messageSuccess" />
 				</div>
 			</c:if>

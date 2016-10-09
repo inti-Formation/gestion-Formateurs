@@ -17,6 +17,7 @@ import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Retard;
 import com.adaming.myapp.evenement.service.IEvenementService;
 import com.adaming.myapp.exception.EvenementNotFoundException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
 
 public class EvenementTest {
@@ -36,19 +37,19 @@ public class EvenementTest {
 	}
 	@Ignore
 	@Test
-	public void addEntretien(){
+	public void addEntretien() throws VerificationInDataBaseException{
 		Entretien e =  new Entretien(new Date(), new Date(), null, new Date());
 		serviceEvenement.addEntretien(e, 1L,1L);
 	}
 	@Ignore
 	@Test
-	public void addAbsence(){
+	public void addAbsence() throws VerificationInDataBaseException{
 		Absence a =  new Absence(new Date(), new Date(), null, new Date());
 		serviceEvenement.addAbsence(a,1L, 1L);
 	}
 	@Ignore
 	@Test
-	public void addRetard(){
+	public void addRetard() throws VerificationInDataBaseException{
 		Retard r =  new Retard(new Date(), new Date(), null, new Date());;
 		serviceEvenement.addRetard(r, 1L, 1L);
 	}

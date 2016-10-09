@@ -11,6 +11,7 @@ import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Retard;
 import com.adaming.myapp.evenement.dao.IEvenementDao;
 import com.adaming.myapp.exception.EvenementNotFoundException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 @Transactional
 public class EvenementServiceImpl implements IEvenementService {
     
@@ -26,21 +27,21 @@ public class EvenementServiceImpl implements IEvenementService {
 
 
 	@Override
-	public Retard addRetard(Retard r, Long idSession, Long idEtudiant) {
+	public Retard addRetard(Retard r, Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
 		// TODO Auto-generated method stub
 		return (Retard) dao.addEvenement(r, idSession, idEtudiant);
 	}
 
 
 	@Override
-	public Absence addAbsence(Absence a, Long idSession, Long idEtudiant) {
+	public Absence addAbsence(Absence a, Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
 		// TODO Auto-generated method stub
 		return (Absence) dao.addEvenement(a, idSession, idEtudiant);
 	}
 
 
 	@Override
-	public Entretien addEntretien(Entretien e, Long idSession, Long idEtudiant) {
+	public Entretien addEntretien(Entretien e, Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
 		// TODO Auto-generated method stub
 		return (Entretien) dao.addEvenement(e, idSession, idEtudiant);
 	}
@@ -78,6 +79,34 @@ public class EvenementServiceImpl implements IEvenementService {
 	public List<Evenement> getNumberOfCurrentsAbsence() {
 		// TODO Auto-generated method stub
 		return dao.getNumberOfCurrentsAbsence();
+	}
+
+
+	@Override
+	public List<Evenement> getAllEvenementsRetards() {
+		// TODO Auto-generated method stub
+		return dao.getAllEvenementsRetards();
+	}
+
+
+	@Override
+	public List<Evenement> getAllEvenementsEntretient() {
+		// TODO Auto-generated method stub
+		return dao.getAllEvenementsEntretient();
+	}
+
+
+	@Override
+	public List<Evenement> getAllEvenementsAbsences() {
+		// TODO Auto-generated method stub
+		return dao.getAllEvenementsAbsences();
+	}
+
+
+	@Override
+	public List<Evenement> getAllEvenements() {
+		// TODO Auto-generated method stub
+		return dao.getAllEvenements();
 	}
 
 

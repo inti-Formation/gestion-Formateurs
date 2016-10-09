@@ -14,6 +14,7 @@ import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.EvenementNotFoundException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public class EvenementDaoImpl implements IEvenementDao{
    
@@ -23,13 +24,25 @@ public class EvenementDaoImpl implements IEvenementDao{
 	Logger logger = Logger.getLogger("EvenementDaoImpl");
 
 	@Override
-	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant) {
+	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
 		SessionEtudiant se = em.find(SessionEtudiant.class,idSession);
 		Etudiant e1 = em.find(Etudiant.class,idEtudiant);
 	    e.setEtudiant(e1);
 	    e.setSessionEtudiant(se);
+	    List<Evenement> evenements = null;
+	    evenements=getAllEvenements();
+	    for(Evenement evenement:evenements){
+	    	if(evenement != null){
+	    		if(evenement.getSessionEtudiant().getIdSession() == idSession 
+	    		&& evenement.getEtudiant().getIdEtudiant() == idEtudiant
+	    		&& evenement.getStartDate().compareTo(e.getStartDate()) ==0
+	    		&& evenement.getEndDate().compareTo(e.getEndDate()) ==0){
+	    			throw new VerificationInDataBaseException(" cette evènement est déja signalé");
+	    		}
+	    	}
+	    }
 		em.persist(e);
-		logger.info("l'entretien a bien été enregistrer "+"Session id : "+idSession+"etudiant :"+idEtudiant);
+		logger.info("l'evenement a bien été enregistrer "+"Session id : "+idSession+"etudiant :"+idEtudiant);
 		return e;
 	}
 
@@ -93,6 +106,41 @@ public class EvenementDaoImpl implements IEvenementDao{
 		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate =CURRENT_DATE");
 		query.setParameter("x","ABSENCE");
 		logger.info("les absences d'aujourdhuit sont :"+query.getResultList().size());
+		return query.getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Evenement> getAllEvenementsRetards() {
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x");
+		query.setParameter("x","RETARD");
+		logger.info("les retards  sont :"+query.getResultList().size());
+		return query.getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Evenement> getAllEvenementsEntretient() {
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x");
+		query.setParameter("x","ENTRETIENT");
+		logger.info("les retards d'aujourdhuit sont :"+query.getResultList().size());
+		return query.getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Evenement> getAllEvenementsAbsences() {
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x");
+		query.setParameter("x","ABSENCE");
+		logger.info("les absences  sont :"+query.getResultList().size());
+		return query.getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Evenement> getAllEvenements() {
+		Query query = em.createQuery("from Evenement e");
+		logger.info("il existe :"+query.getResultList().size()+"evenements dans la base de données");
 		return query.getResultList();
 	}
 
