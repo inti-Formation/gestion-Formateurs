@@ -1,7 +1,6 @@
 package com.adaming.myapp.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,39 +13,49 @@ import javax.persistence.Transient;
 
 @Entity
 public class Question implements Serializable {
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idQuestion;
-    @Column(length=1000)
+	@Column(length = 1000)
 	private String propositionquestion;
-    @Column(length=500)
+	@Column(length = 500)
 	private String premeiereReponse;
-    @Column(length=500)
+	@Column(length = 500)
 	private String douxiemeReponse;
-    @Column(length=500)
+	@Column(length = 500)
 	private String troisiemeReponse;
-    @Column(length=500)
+	@Column(length = 500)
 	private String quatriemeReponse;
-    @Column(length=500)
-   	private String premeiereBonneReponse;
-       @Column(length=500)
-   	private String douxiemeBonneReponse;
-       @Column(length=500)
-   	private String troisiemeBonneReponse;
-       @Column(length=500)
-   	private String quatriemeBonneReponse;
-    
-    
-   
-	/*Assoc*/
+	@Column(length = 500)
+	private String premeiereBonneReponse;
+	@Column(length = 500)
+	private String douxiemeBonneReponse;
+	@Column(length = 500)
+	private String troisiemeBonneReponse;
+	@Column(length = 500)
+	private String quatriemeBonneReponse;
+
+	private int numQuestion;
+
+	@Transient
+	private int choixReponse;
+
+	@Transient
+	private String strReponse;
+
+	@Transient
+	private int point;
+
+	/* Assoc */
 	@ManyToOne
-	@JoinColumn(name="ID_MO_QUESTION")
-    private Module module;
-	/*construct*/
+	@JoinColumn(name = "ID_MO_QUESTION")
+	private Module module;
+
+	/* construct */
 	public Question(String propositionquestion, String premeiereReponse,
 			String douxiemeReponse, String troisiemeReponse,
 			String quatriemeReponse) {
@@ -57,7 +66,6 @@ public class Question implements Serializable {
 		this.troisiemeReponse = troisiemeReponse;
 		this.quatriemeReponse = quatriemeReponse;
 	}
-	
 
 	public Question(String propositionquestion, String premeiereReponse,
 			String douxiemeReponse, String troisiemeReponse,
@@ -76,12 +84,31 @@ public class Question implements Serializable {
 		this.quatriemeBonneReponse = quatriemeBonneReponse;
 	}
 
+	// constructeur pour reponse
+	public Question(int numQuestion, String propositionquestion,
+			int choixReponse, String premeiereReponse, String douxiemeReponse,
+			String troisiemeReponse, String quatriemeReponse,
+			String premeiereBonneReponse, String douxiemeBonneReponse,
+			String troisiemeBonneReponse, String quatriemeBonneReponse) {
+		super();
+		this.numQuestion = numQuestion;
+		this.propositionquestion = propositionquestion;
+		this.choixReponse = choixReponse;
+		this.premeiereReponse = premeiereReponse;
+		this.douxiemeReponse = douxiemeReponse;
+		this.troisiemeReponse = troisiemeReponse;
+		this.quatriemeReponse = quatriemeReponse;
+		this.premeiereBonneReponse = premeiereBonneReponse;
+		this.douxiemeBonneReponse = douxiemeBonneReponse;
+		this.troisiemeBonneReponse = troisiemeBonneReponse;
+		this.quatriemeBonneReponse = quatriemeBonneReponse;
+	}
 
 	public Question() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	/*get and set*/
+
+	/* get and set */
 
 	public Long getIdQuestion() {
 		return idQuestion;
@@ -148,45 +175,68 @@ public class Question implements Serializable {
 				+ ", quatriemeReponse=" + quatriemeReponse + "]";
 	}
 
-
 	public String getPremeiereBonneReponse() {
 		return premeiereBonneReponse;
 	}
-
 
 	public void setPremeiereBonneReponse(String premeiereBonneReponse) {
 		this.premeiereBonneReponse = premeiereBonneReponse;
 	}
 
-
 	public String getDouxiemeBonneReponse() {
 		return douxiemeBonneReponse;
 	}
-
 
 	public void setDouxiemeBonneReponse(String douxiemeBonneReponse) {
 		this.douxiemeBonneReponse = douxiemeBonneReponse;
 	}
 
-
 	public String getTroisiemeBonneReponse() {
 		return troisiemeBonneReponse;
 	}
-
 
 	public void setTroisiemeBonneReponse(String troisiemeBonneReponse) {
 		this.troisiemeBonneReponse = troisiemeBonneReponse;
 	}
 
-
 	public String getQuatriemeBonneReponse() {
 		return quatriemeBonneReponse;
 	}
-
 
 	public void setQuatriemeBonneReponse(String quatriemeBonneReponse) {
 		this.quatriemeBonneReponse = quatriemeBonneReponse;
 	}
 
-	
+	public int getNumQuestion() {
+		return numQuestion;
+	}
+
+	public void setNumQuestion(int numQuestion) {
+		this.numQuestion = numQuestion;
+	}
+
+	public int getChoixReponse() {
+		return choixReponse;
+	}
+
+	public void setChoixReponse(int choixReponse) {
+		this.choixReponse = choixReponse;
+	}
+
+	public String getStrReponse() {
+		return strReponse;
+	}
+
+	public void setStrReponse(String strReponse) {
+		this.strReponse = strReponse;
+	}
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
+
 }

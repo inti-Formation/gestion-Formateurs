@@ -2,6 +2,7 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.question.service.IQuestionService;
 import com.adaming.myapp.session.service.ISessionService;
+import com.adaming.myapp.tools.MyComparator;
 
 @Component("examenBean")
 @Scope(value = "session")
@@ -63,6 +65,7 @@ public class ExamenBean implements Serializable {
 	private Double note = 0.0;
 	private String reponseSelectionnee;
 	private Object scoreFinal;
+	private List<Question> reponses;
 
 	/* @method load Pagee */
 	public void init() {
@@ -82,6 +85,9 @@ public class ExamenBean implements Serializable {
 		reponseSelectionnee = new String();
 		scoreFinal = note;
 		note = 0.0;
+		reponseSelectionnee = null;
+		// on ordonne la listes des reponses par num
+		Collections.sort(reponses, new MyComparator());
 
 		return "examen_success?redirect=true";
 	}
@@ -96,6 +102,9 @@ public class ExamenBean implements Serializable {
 		reponseSelectionnee = new String();
 		scoreFinal = note;
 		note = 0.0;
+		reponseSelectionnee = null;
+		// on ordonne la listes des reponses par num
+		Collections.sort(reponses, new MyComparator());
 
 		FacesContext
 				.getCurrentInstance()
@@ -109,15 +118,27 @@ public class ExamenBean implements Serializable {
 	public void registerV3() {
 		confirm = new String();
 		setConfirm("Clicked");
-		System.out
-				.println("reponse selectionnee init : " + reponseSelectionnee);
-		System.out.println("init Note Obtenu:" + note);
 
-		// on incremente si reponse bonne
-		if (reponseSelectionnee.equals("bonne")) {
+		// on decoupe les différentes vars separees par ','
+		String[] str = reponseSelectionnee.split(",");
+
+		// on cree notre objet Reponse basee que Question
+		Question reponse = new Question(Integer.parseInt(str[0]), str[1],
+				Integer.parseInt(str[2]), str[7], str[8], str[9], str[10],
+				str[3], str[4], str[5], str[6]);
+
+		// on set le string de la reponse choisie
+		reponse.setStrReponse(str[reponse.getChoixReponse() + 6]);
+
+		// on incremente la note si reponse bonne
+		if (str[2 + reponse.getChoixReponse()].equals("bonne")) {
 			note++;
+			reponse.setPoint(1);
+		} else {
+			reponse.setPoint(0);
 		}
-		System.out.println("init apres test:" + note);
+		// on ajoute l'objet Reponse à une liste
+		reponses.add(reponse);
 
 	}
 
@@ -126,6 +147,8 @@ public class ExamenBean implements Serializable {
 		setEtudiantsBySession(null);
 		setModuleBySessions(null);
 		scoreFinal = 0.0;
+		reponseSelectionnee = null;
+		reponses = new ArrayList<Question>();
 		return "start_examen?redirect=true";
 	}
 
@@ -331,6 +354,14 @@ public class ExamenBean implements Serializable {
 
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
+	}
+
+	public List<Question> getReponses() {
+		return reponses;
+	}
+
+	public void setReponses(List<Question> reponses) {
+		this.reponses = reponses;
 	}
 
 }

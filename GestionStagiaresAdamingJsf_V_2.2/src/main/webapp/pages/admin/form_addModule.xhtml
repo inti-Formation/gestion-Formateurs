@@ -247,10 +247,15 @@
 							var="module" itemLabel="#{module.nomModule}"
 							itemValue="#{module.idModule}" />
 						<!-- get Nombre Questions By Module -->
-						<p:ajax event="valueChange" update="NombreQuestions"
-							listener="#{bean.getQuestionByModule}" render="NombreQuestions" />
+						<p:ajax event="valueChange" update="NombreQuestions,numeroQ"
+							listener="#{bean.getQuestionByModule}" render="NombreQuestions,numeroQ" />
 					</p:selectOneMenu>
 					<h:message styleClass="errorValidation" for="nomModule"></h:message>
+				</p:column>
+				
+				<p:column headerText="Numero">
+				<h:outputLabel id="numeroQ" value="#{bean.nombreQuestionsByModule + 1}" />
+				
 				</p:column>
 
 				<p:column headerText="Question *">
@@ -326,8 +331,9 @@
 							immediate="true" render="@form" />
 					</p:commandButton>
 					<p:column>
-						<b:commandButton action="#{bean.addQuestionV2}" value="Save"
-							look="primary" ajax="true" />
+						<b:commandButton  value="Save"  ajax="true" action="#{bean.addQuestionV2}"
+							look="primary"/>
+							
 					</p:column>
 				</p:column>
 			</p:dataTable>

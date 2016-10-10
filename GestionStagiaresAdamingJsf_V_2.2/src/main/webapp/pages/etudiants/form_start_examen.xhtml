@@ -89,25 +89,33 @@
 	                          <br/>
 	                          <!-- Responses -->
 	                          <h:outputText style="margin-left:12px;color:black;"
-									value="1- #{q.premeiereReponse}" />
+									value="A- #{q.premeiereReponse}" />
 								<br />
 								<h:outputText style="margin-left:12px;color:black;"
-									value="2- #{q.douxiemeReponse}" />
+									value="B- #{q.douxiemeReponse}" />
 								<br />
 								<h:outputText style="margin-left:12px;color:black;"
-									value="3- #{q.troisiemeReponse}" />
+									value="C- #{q.troisiemeReponse}" />
 								<br />
 								<h:outputText style="margin-left:12px;color:black;"
-									value="4- #{q.quatriemeReponse}" />
+									value="D- #{q.quatriemeReponse}" />
 	                          <br/>
 	                          <!-- select responses  -->
 	                          <p:selectOneRadio id="grid"
 						value="#{examenBean.reponseSelectionnee}" layout="grid"
 						columns="4">
-						<f:selectItem itemLabel="1" itemValue="#{q.premeiereBonneReponse}" />
-						<f:selectItem itemLabel="2" itemValue="#{q.douxiemeBonneReponse}" />
-						<f:selectItem itemLabel="3" itemValue="#{q.troisiemeBonneReponse}" />
-						<f:selectItem itemLabel="4" itemValue="#{q.quatriemeBonneReponse}" />
+						<f:selectItem itemLabel="A" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse = 1},
+						#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},
+						#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+						<f:selectItem itemLabel="B" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse = 2},
+						#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},
+						#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+						<f:selectItem itemLabel="C" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse = 3},
+						#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},
+						#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+						<f:selectItem itemLabel="D" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse = 4},
+							#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},
+							#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
 					</p:selectOneRadio>
 					<br />
 					<!-- button click -->
@@ -126,6 +134,8 @@
 				</h:form>
 			</div>
 		</p:dataList>
+		
+		
 		<h:form>
 
 			<b:commandButton look="danger" value="Terminer"
