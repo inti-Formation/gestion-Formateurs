@@ -116,6 +116,12 @@
 								</p:column>
 								<p:column style="width:140px;">
 									<f:facet name="header">
+										<h:outputText value="durée" />
+									</f:facet>
+									<h:outputText value="#{r.hoursOfEvenement}h #{r.minuteOfEvenement}min" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
 										<h:outputText value="De" />
 									</f:facet>
 									<h:outputText value="#{r.startDate}" />

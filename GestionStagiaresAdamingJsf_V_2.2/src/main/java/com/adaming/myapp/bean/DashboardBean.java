@@ -2,11 +2,13 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.persistence.TemporalType;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -46,10 +48,16 @@ public class DashboardBean implements Serializable{
 	private String entretienNotFoundException;
 	private int numberOfCurrentAbsences;
 	private int numberOfCurrentRetards;
+	private int numberOfCurrentWarning;
+	private int numberOfCurrentTop;
 	private List<Evenement> currentRetards;
 	private List<Evenement> currentAbsences;
 	private List<Evenement> limitationAbsences;
 	private List<Evenement> limitationRetards;
+	private List<Evenement> currentWarning;
+	private List<Evenement> currentTop;
+	private List<Evenement> limitationWarning;
+	private List<Evenement> limitationTop;
 	private int minuteOfEvenement;
 	private int hoursOfEvenement;
 	private Date dateOfEvenement;
@@ -68,6 +76,14 @@ public class DashboardBean implements Serializable{
 		/*getWeecklyEvenemenets*/
 		try {
 			retards   = serviceEvenement.getEvenementsRetards();
+			for(Evenement evenement:retards){
+				/*get durrée de retard*/
+				long difference = evenement.getEndDate().getTime() - evenement.getStartDate().getTime();
+				minuteOfEvenement = (int) ((difference / (1000*60)) % 60);
+	            hoursOfEvenement   = (int) ((difference / (1000*60*60)) % 24);
+	            evenement.setMinuteOfEvenement(minuteOfEvenement);
+	            evenement.setHoursOfEvenement(hoursOfEvenement);
+			}
 			setRetardNotFoundException("");
 		} catch (EvenementNotFoundException e) {
 			setRetardNotFoundException(e.getMessage());
@@ -100,7 +116,12 @@ public class DashboardBean implements Serializable{
                 hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
                 e.setMinuteOfEvenement(minuteOfEvenement);
                 e.setHoursOfEvenement(hoursOfEvenement);
-                
+                /*get durrée de retard*/
+				long difference = e.getEndDate().getTime() - e.getStartDate().getTime();
+				minuteOfEvenement = (int) ((difference / (1000*60)) % 60);
+	            hoursOfEvenement   = (int) ((difference / (1000*60*60)) % 24);
+	            e.setMinuteOfEvenement(minuteOfEvenement);
+	            e.setHoursOfEvenement(hoursOfEvenement);
 	    	}
 	    }
 	}
@@ -109,6 +130,34 @@ public class DashboardBean implements Serializable{
 	public void getAbsenceForToDay(){
 		if(currentAbsences.size() >0){
 	    	for(Evenement e:currentAbsences){
+                Date today = new Date();
+                long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
+                minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
+                hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
+                e.setMinuteOfEvenement(minuteOfEvenement);
+                e.setHoursOfEvenement(hoursOfEvenement);
+                
+	    	}
+	    }
+	}
+	/*get current time of evenement Warning*/
+	public void getWarningForToDay(){
+		if(currentWarning.size() >0){
+	    	for(Evenement e:currentWarning){
+                Date today = new Date();
+                long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
+                minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
+                hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
+                e.setMinuteOfEvenement(minuteOfEvenement);
+                e.setHoursOfEvenement(hoursOfEvenement);
+                
+	    	}
+	    }
+	}
+	/*get current time of evenement Top*/
+	public void getTopForToDay(){
+		if(currentTop.size() >0){
+	    	for(Evenement e:currentTop){
                 Date today = new Date();
                 long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
                 minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
@@ -141,6 +190,26 @@ public class DashboardBean implements Serializable{
 			limitationAbsences.addAll(currentAbsences);
 		}
 	}
+    /*limiter l'affichage des Top journalière a 4 dans le header*/
+	public void limitDisplayTop(){
+		limitationTop  = new ArrayList<Evenement>();
+		if(currentTop.size() >5){
+			limitationTop=currentTop.subList(0,4);
+			System.out.println("limitation Top "+limitationTop.size());
+		}else{
+			limitationTop.addAll(currentTop);
+		}
+	}
+	/*limiter l'affichage des Des Warning journalière a 4 dans le header*/
+	public void limitDisplayWarning(){
+		limitationWarning  = new ArrayList<Evenement>();
+		if(currentWarning.size() >5){
+			limitationWarning=currentWarning.subList(0,4);
+			System.out.println("limitation Warning "+limitationWarning.size());
+		}else{
+			limitationWarning.addAll(currentWarning);
+		}
+	}
     
 	/*getcurrentRetardsandAbsences*/
 	public void getCurentsAbsencesAndRetards(){
@@ -148,14 +217,21 @@ public class DashboardBean implements Serializable{
 		numberOfCurrentRetards=currentRetards.size();
 		currentAbsences=serviceEvenement.getNumberOfCurrentsAbsence();
 		numberOfCurrentAbsences=currentAbsences.size();
+		currentWarning=serviceEvenement.getNumberOfCurrentsWarning();
+		numberOfCurrentWarning=currentWarning.size();
+		currentTop=serviceEvenement.getNumberOfCurrentsTop();
+		numberOfCurrentTop=currentTop.size();
 		
-		/*get current time of evenement Retards*/
+		/*get current time of evenement Retards,absence,warning,top*/
 		getRetardForToDay();
-	    /*get current time of evenement absences*/
+		getWarningForToDay();
+		getTopForToDay();
 		getAbsenceForToDay();
-		/*limiter l'affichage des retards et absences journalière a 4 dans le header*/
+		/*limiter l'affichage des retards, absences,warning et top, journalière a 4 dans le header*/
 		limitDisplayRetards();
 		limitDisplayAbsences();
+		limitDisplayWarning();
+		limitDisplayTop();
 	}
 	
 	/*@ method pour avoir les jours d'une sessions (progress bar in css)*/
@@ -344,6 +420,54 @@ public class DashboardBean implements Serializable{
 
 	public void setHoursOfEvenement(int hoursOfEvenement) {
 		this.hoursOfEvenement = hoursOfEvenement;
+	}
+
+	public List<Evenement> getCurrentWarning() {
+		return currentWarning;
+	}
+
+	public void setCurrentWarning(List<Evenement> currentWarning) {
+		this.currentWarning = currentWarning;
+	}
+
+	public List<Evenement> getCurrentTop() {
+		return currentTop;
+	}
+
+	public void setCurrentTop(List<Evenement> currentTop) {
+		this.currentTop = currentTop;
+	}
+
+	public List<Evenement> getLimitationWarning() {
+		return limitationWarning;
+	}
+
+	public void setLimitationWarning(List<Evenement> limitationWarning) {
+		this.limitationWarning = limitationWarning;
+	}
+
+	public List<Evenement> getLimitationTop() {
+		return limitationTop;
+	}
+
+	public void setLimitationTop(List<Evenement> limitationTop) {
+		this.limitationTop = limitationTop;
+	}
+
+	public int getNumberOfCurrentWarning() {
+		return numberOfCurrentWarning;
+	}
+
+	public void setNumberOfCurrentWarning(int numberOfCurrentWarning) {
+		this.numberOfCurrentWarning = numberOfCurrentWarning;
+	}
+
+	public int getNumberOfCurrentTop() {
+		return numberOfCurrentTop;
+	}
+
+	public void setNumberOfCurrentTop(int numberOfCurrentTop) {
+		this.numberOfCurrentTop = numberOfCurrentTop;
 	}
 
 	

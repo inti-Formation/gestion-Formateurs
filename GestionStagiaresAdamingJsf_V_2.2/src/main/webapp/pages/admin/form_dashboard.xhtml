@@ -111,15 +111,15 @@
 														</p:column>
 														<p:column style="width:100px;">
 															<f:facet name="header">
-																<h:outputText value="De" />
+																<h:outputText value="Durée" />
 															</f:facet>
-															<h:outputText value="#{r.startDate}" />
+															<h:outputText value="#{r.hoursOfEvenement}h #{r.minuteOfEvenement}min" />
 														</p:column>
 														<p:column style="width:100px;">
 															<f:facet name="header">
-																<h:outputText value="A" />
+																<h:outputText value="Date" />
 															</f:facet>
-															<h:outputText value="#{r.endDate}" />
+															<h:outputText value="#{r.startDate}" />
 														</p:column>
 							                          </p:dataTable> 
 						                          </h:form>

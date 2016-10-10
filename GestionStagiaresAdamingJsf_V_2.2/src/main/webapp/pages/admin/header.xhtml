@@ -65,7 +65,7 @@
                     <li id="task_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span>
-	                            <i><h:graphicImage name="NiceAdmin/img/going-to-work.png"/></i>
+	                            <i><h:graphicImage style="width: 20px;" name="NiceAdmin/img/going-to-work.png"/></i>
 	                            <span class="badge bg-important">#{dashboardBean.numberOfCurrentRetards}</span>
                             </span>
                         </a>
@@ -99,7 +99,7 @@
                     <!-- inbox notificatoin start-->
                     <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i><h:graphicImage name="NiceAdmin/img/bell.png"/></i>
+                            <i><h:graphicImage style="width: 20px;" name="NiceAdmin/img/bell.png"/></i>
                             <span class="badge bg-important">#{dashboardBean.numberOfCurrentAbsences}</span>
                         </a>
                         <ul class="dropdown-menu extended inbox">
@@ -130,50 +130,71 @@
                     </li>
                     <!-- inbox notificatoin end -->
                     <!-- alert notification start-->
-                    <li id="alert_notificatoin_bar" class="dropdown">
+                     
+                    <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-
-                            <i><h:graphicImage name="NiceAdmin/img/warning-road-sign.png"/></i>
-                            <span class="badge bg-important">7</span>
+                            <i><h:graphicImage style="width: 20px;" name="NiceAdmin/img/warning.png"/></i>
+                            <span class="badge bg-important">#{dashboardBean.numberOfCurrentWarning}</span>
                         </a>
-                        <ul class="dropdown-menu extended notification">
+                        <ul class="dropdown-menu extended inbox">
                             <div class="notify-arrow notify-arrow-blue"></div>
                             <li>
-                                <p class="blue">You have 4 new notifications</p>
+                                <p class="blue">il y a  #{dashboardBean.numberOfCurrentWarning} nouveaux Warning</p>
                             </li>
                             <li>
-                                <a href="#">
-                                    <span class="label label-primary"><i class="icon_profile"></i></span> 
-                                    Friend Request
-                                    <span class="small italic pull-right">5 mins</span>
-                                </a>
+                              <ui:repeat var="s" value="#{dashboardBean.limitationWarning}">
+                                <h:link outcome="evenement_journaliere">
+                                    
+                                    <span class="subject">
+	                                    <span class="from">#{s.signaleur}</span>
+	                                    <span class="time">#{s.hoursOfEvenement}h #{s.minuteOfEvenement} min</span>
+                                    </span>
+                                    <span class="message">
+                                       l'étudiant #{s.etudiant.nomEtudiant} #{s.etudiant.prenomEtudiant} en Warning
+                                    </span>
+                                </h:link>
+                              </ui:repeat>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <span class="label label-warning"><i class="icon_pin"></i></span>  
-                                    John location.
-                                    <span class="small italic pull-right">50 mins</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="label label-danger"><i class="icon_book_alt"></i></span> 
-                                    Project 3 Completed.
-                                    <span class="small italic pull-right">1 hr</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="label label-success"><i class="icon_like"></i></span> 
-                                    Mick appreciated your work.
-                                    <span class="small italic pull-right"> Today</span>
-                                </a>
-                            </li>                            
-                            <li>
-                                <a href="#">See all notifications</a>
-                            </li>
+                             <c:if test="#{fn:length(dashboardBean.limitationWarning) >=4 }">
+	                            <li>
+	                                <h:link outcome="evenement_journaliere">Voir tous les messages</h:link>
+	                            </li>
+                            </c:if>
                         </ul>
                     </li>
+                     <!-- inbox notificatoin start-->
+                    <li id="mail_notificatoin_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i><h:graphicImage style="width: 20px;" name="NiceAdmin/img/star.png"/></i>
+                            <span class="badge bg-important">#{dashboardBean.numberOfCurrentTop}</span>
+                        </a>
+                        <ul class="dropdown-menu extended inbox">
+                            <div class="notify-arrow notify-arrow-blue"></div>
+                            <li>
+                                <p class="blue">il y a  #{dashboardBean.numberOfCurrentTop} nouveaux Top</p>
+                            </li>
+                            <li>
+                              <ui:repeat var="s" value="#{dashboardBean.limitationTop}">
+                                <h:link outcome="evenement_journaliere">
+                                    
+                                    <span class="subject">
+	                                    <span class="from">#{s.signaleur}</span>
+	                                    <span class="time">#{s.hoursOfEvenement}h #{s.minuteOfEvenement} min</span>
+                                    </span>
+                                    <span class="message">
+                                       l'étudiant #{s.etudiant.nomEtudiant} #{s.etudiant.prenomEtudiant} est le Top
+                                    </span>
+                                </h:link>
+                              </ui:repeat>
+                            </li>
+                             <c:if test="#{fn:length(dashboardBean.limitationTop) >=4 }">
+	                            <li>
+	                                <h:link outcome="evenement_journaliere">Voir tous les messages</h:link>
+	                            </li>
+                            </c:if>
+                        </ul>
+                    </li>
+                    <!-- inbox notificatoin end -->
                     <!-- alert notification end-->
                     
                 </ul>

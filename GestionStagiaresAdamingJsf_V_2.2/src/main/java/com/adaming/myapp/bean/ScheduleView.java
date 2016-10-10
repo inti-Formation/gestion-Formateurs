@@ -21,6 +21,8 @@ import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Retard;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.entities.Specialite;
+import com.adaming.myapp.entities.TopEtudiant;
+import com.adaming.myapp.entities.WarningEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.evenement.service.IEvenementService;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
@@ -138,9 +140,11 @@ public class ScheduleView {
 	
 	/*@method signaler un evenement */
 	public void signalerEvenement(){
-		Retard  retard       = null;
-		Absence absence      = null;
-		Entretien entretien  = null;
+		Retard  retard                  = null;
+		Absence absence                 = null;
+		Entretien entretien             = null;
+		TopEtudiant topEtudiant         = null;
+		WarningEtudiant warningEtudiant = null;
 		
 		if(!typeEvenement.equals(null)){
 			if(typeEvenement.equals("retard")){
@@ -170,6 +174,28 @@ public class ScheduleView {
 				try {
 					serviceEvenement.addEntretien(entretien, idSession, idEtudiant);
 					setEvenementSuccess("l'entretien de "+dateStart+" A "+dateEnd+" à bien été signalée");
+					setEvenementFoundException("");
+				} catch (VerificationInDataBaseException e) {
+					setEvenementFoundException(e.getMessage());
+					setEvenementSuccess("");
+				}
+			}
+			else if(typeEvenement.equals("top")){
+				topEtudiant = new TopEtudiant(userAuthentificationBean.getName(),new Date());
+				try {
+					serviceEvenement.addTop(topEtudiant, idSession, idEtudiant);
+					setEvenementSuccess("l'evènement à bien été signalée");
+					setEvenementFoundException("");
+				} catch (VerificationInDataBaseException e) {
+					setEvenementFoundException(e.getMessage());
+					setEvenementSuccess("");
+				}
+			}
+			else if(typeEvenement.equals("warning")){
+				warningEtudiant = new WarningEtudiant(userAuthentificationBean.getName(),new Date());
+				try {
+					serviceEvenement.addWarning(warningEtudiant, idSession, idEtudiant);
+					setEvenementSuccess("l'evènement à bien été signalée");
 					setEvenementFoundException("");
 				} catch (VerificationInDataBaseException e) {
 					setEvenementFoundException(e.getMessage());

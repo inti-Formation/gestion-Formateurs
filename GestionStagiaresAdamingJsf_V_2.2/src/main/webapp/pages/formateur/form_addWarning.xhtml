@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+       <br/>
+			<!-- exception add new evenement -->
+			<c:if test="#{not empty scheduleView.evenementFoundException}">
+				<div class="alert alert-warning">
+					<h:outputText value="#{scheduleView.evenementFoundException}"
+							styleClass="errorExeption"/>
+				</div>
+			</c:if>
+			<!-- message success -->
+			<c:if test="#{not empty scheduleView.evenementSuccess}">
+				<div class="alert alert-info">
+					<h:outputText value="#{scheduleView.evenementSuccess}"
+							styleClass="messageSuccess" />
+				</div>
+			</c:if>
+	     <!-- errors de validation -->
+	     <h:messages style="color:red;"></h:messages>
+		 <!-- Form validations -->  
+		 <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Événement</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Signaler un warning
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                  <h:form class="form-validate form-horizontal">
+                                      <div class="form-group ">
+                                          <label for="session" class="control-label col-lg-2">Session En Cours <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+												required-message="1 - Session *"
+												value="#{scheduleView.idSession}">
+												<f:selectItem itemLabel="Sélectionnez Votre Session "
+													itemValue="#{null}" />
+												<f:selectItems value="#{scheduleView.sessionEnCours}" var="s"
+													itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
+													itemValue="#{s.idSession}" />
+											</h:selectOneMenu>
+                                          </div>
+                                       </div>
+                                        <div class="form-group">
+                                          <div class="col-lg-offset-2 col-lg-10">
+                                              <h:commandButton action="#{scheduleView.genererSchedule()}" value="Generer" class="btn btn-primary"/>
+                                          </div>
+                                        </div>
+                                      <c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
+                                            <div>
+				                                <h:inputHidden value="#{scheduleView.idSession}"/>
+				                            </div>
+				                            <div>
+				                                <h:inputHidden value="#{userAuthentification.user.name}"/>
+				                            </div>
+	                                        <div class="form-group ">
+	                                          <label for="session" class="control-label col-lg-2">Etudiant <span class="required">*</span></label>
+	                                          <div class="col-lg-10">
+	                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+													required-message="2 - l'Etudiant *"
+													value="#{scheduleView.idEtudiant}">
+													<f:selectItem itemLabel="Sélectionnez un etudiant"
+														itemValue="#{null}" />
+													<f:selectItems value="#{scheduleView.etudiantsBySession}" var="e"
+														itemLabel="#{e.nomEtudiant},#{e.prenomEtudiant}"
+														itemValue="#{e.idEtudiant}" />
+												</h:selectOneMenu>
+	                                          </div>
+	                                       </div>
+	                                       <div class="form-group ">
+	                                          <label for="session" class="control-label col-lg-2">Evénement <span class="required">*</span></label>
+	                                          <div class="col-lg-10">
+	                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+													required-message="3 - l'Evénement*"
+														value="#{scheduleView.typeEvenement}">
+														<f:selectItem itemLabel="Sélectionnez Un Evénement"
+															itemValue="#{null}" />
+														<f:selectItem itemLabel="Top"
+															itemValue="top" />
+														<f:selectItem itemLabel="Warning"
+															itemValue="warning" />
+														
+												</h:selectOneMenu>
+	                                          </div>
+	                                       </div>
+                                      
+	                                      <div class="form-group">
+	                                          <div class="col-lg-offset-2 col-lg-10">
+	                                              <h:commandButton action="#{scheduleView.signalerEvenement()}" value="Signaler Un Evenement" class="btn btn-primary"/>
+	                                          </div>
+	                                      </div>
+                                   </c:if>
+                                  </h:form>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+          </section>
+	</div>
+</ui:composition>
+</html>
+

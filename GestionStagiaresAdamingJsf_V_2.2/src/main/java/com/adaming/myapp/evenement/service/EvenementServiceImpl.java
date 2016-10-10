@@ -9,6 +9,8 @@ import com.adaming.myapp.entities.Absence;
 import com.adaming.myapp.entities.Entretien;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Retard;
+import com.adaming.myapp.entities.TopEtudiant;
+import com.adaming.myapp.entities.WarningEtudiant;
 import com.adaming.myapp.evenement.dao.IEvenementDao;
 import com.adaming.myapp.exception.EvenementNotFoundException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
@@ -87,6 +89,18 @@ public class EvenementServiceImpl implements IEvenementService {
 		// TODO Auto-generated method stub
 		return dao.getAllEvenementsRetards();
 	}
+	
+	@Override
+	public List<Evenement> getNumberOfCurrentsWarning() {
+		// TODO Auto-generated method stub
+		return dao.getNumberOfCurrentsWarning();
+	}
+	
+	@Override
+	public List<Evenement> getNumberOfCurrentsTop() {
+		// TODO Auto-generated method stub
+		return dao.getNumberOfCurrentsTop();
+	}
 
 
 	@Override
@@ -108,6 +122,28 @@ public class EvenementServiceImpl implements IEvenementService {
 		// TODO Auto-generated method stub
 		return dao.getAllEvenements();
 	}
+
+
+	@Override
+	public TopEtudiant addTop(TopEtudiant t, Long idSession, Long idEtudiant)
+			throws VerificationInDataBaseException {
+		// TODO Auto-generated method stub
+		return (TopEtudiant)dao.AddWarningAndTop(t, idSession, idEtudiant);
+	}
+
+
+	@Override
+	public WarningEtudiant addWarning(WarningEtudiant w, Long idSession,
+			Long idEtudiant) throws VerificationInDataBaseException {
+		// TODO Auto-generated method stub
+		return (WarningEtudiant)dao.AddWarningAndTop(w, idSession, idEtudiant);
+	}
+
+
+	
+
+
+	
 
 
 

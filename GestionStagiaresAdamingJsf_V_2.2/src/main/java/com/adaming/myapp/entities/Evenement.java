@@ -59,9 +59,16 @@ public class Evenement implements Serializable {
 		this.signaleur = signaleur;
 		this.curentDate = curentDate;
 	}
+    
+	
 
 
 
+	public Evenement(String signaleur, Date curentDate) {
+		super();
+		this.signaleur = signaleur;
+		this.curentDate = curentDate;
+	}
 
 	public Date getStartDate() {
 		return startDate;
