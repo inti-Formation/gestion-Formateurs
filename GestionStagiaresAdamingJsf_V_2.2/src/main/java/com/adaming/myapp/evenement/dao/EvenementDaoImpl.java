@@ -58,7 +58,10 @@ public class EvenementDaoImpl implements IEvenementDao{
 	    for(Evenement evenement:evenements){
 	    	if(evenement != null){
 	    		if(evenement.getSessionEtudiant().getIdSession() == idSession 
-	    		&& evenement.getEtudiant().getIdEtudiant() == idEtudiant)
+	    		&& evenement.getEtudiant().getIdEtudiant() == idEtudiant
+	    		&& !evenement.getClass().getSimpleName().equals("Absence")
+	    		&& !evenement.getClass().getSimpleName().equals("Entretien")
+	    		&& !evenement.getClass().getSimpleName().equals("Retard"))
 	            {
 	    			throw new VerificationInDataBaseException("l' etudiant "+evenement.getEtudiant().getNomEtudiant()+" , "+evenement.getEtudiant().getPrenomEtudiant()+" est déja signalé");
 	    		}

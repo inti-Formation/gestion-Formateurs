@@ -104,18 +104,10 @@
 	                          <p:selectOneRadio id="grid"
 						value="#{examenBean.reponseSelectionnee}" layout="grid"
 						columns="4">
-						<f:selectItem itemLabel="A" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse = 1},
-						#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},
-						#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-						<f:selectItem itemLabel="B" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse = 2},
-						#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},
-						#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-						<f:selectItem itemLabel="C" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse = 3},
-						#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},
-						#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-						<f:selectItem itemLabel="D" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse = 4},
-							#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},
-							#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+						<f:selectItem itemLabel="A" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse+1},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+						<f:selectItem itemLabel="B" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse+2},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+						<f:selectItem itemLabel="C" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse+3},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+						<f:selectItem itemLabel="D" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse+4},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
 					</p:selectOneRadio>
 					<br />
 					<!-- button click -->

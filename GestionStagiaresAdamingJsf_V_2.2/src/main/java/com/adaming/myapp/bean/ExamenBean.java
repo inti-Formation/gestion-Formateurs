@@ -118,10 +118,13 @@ public class ExamenBean implements Serializable {
 	public void registerV3() {
 		confirm = new String();
 		setConfirm("Clicked");
-
+       
 		// on decoupe les différentes vars separees par ','
 		String[] str = reponseSelectionnee.split(",");
-
+        System.out.println("choix de reponse "+str[2]);
+        for(String s:str){
+        	System.out.println(s);
+        }
 		// on cree notre objet Reponse basee que Question
 		Question reponse = new Question(Integer.parseInt(str[0]), str[1],
 				Integer.parseInt(str[2]), str[7], str[8], str[9], str[10],
@@ -129,7 +132,7 @@ public class ExamenBean implements Serializable {
 
 		// on set le string de la reponse choisie
 		reponse.setStrReponse(str[reponse.getChoixReponse() + 6]);
-
+        System.out.println(reponse.getChoixReponse());
 		// on incremente la note si reponse bonne
 		if (str[2 + reponse.getChoixReponse()].equals("bonne")) {
 			note++;
@@ -137,9 +140,10 @@ public class ExamenBean implements Serializable {
 		} else {
 			reponse.setPoint(0);
 		}
+		System.out.println("note"+reponse.getPoint());
 		// on ajoute l'objet Reponse à une liste
 		reponses.add(reponse);
-
+      
 	}
 
 	/* @method for to passe un examens */
