@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -50,7 +51,7 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getEvenementsRetards() throws EvenementNotFoundException {
 		Date weeckAgo = DateUtils.addDays(new Date(), -6);
-		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y");
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y ORDER BY e.idEvenement DESC");
 		query.setParameter("y",weeckAgo);
 		logger.info("weeck"+weeckAgo);
 		query.setParameter("x","RETARD");
@@ -65,7 +66,7 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getEvenementsAbsences() throws EvenementNotFoundException {
 		Date weeckAgo = DateUtils.addDays(new Date(), -6);
-		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y");
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y ORDER BY e.idEvenement DESC");
 		query.setParameter("y",weeckAgo);
 		logger.info("weeck"+weeckAgo);
 		query.setParameter("x","ABSENCE");
@@ -80,7 +81,7 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getEvenementsEntretien() throws EvenementNotFoundException {
 		Date weeckAgo = DateUtils.addDays(new Date(), -6);
-		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate >= :y");
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate >= :y ORDER BY e.idEvenement DESC");
 		query.setParameter("y",weeckAgo);
 		logger.info("weeck"+weeckAgo);
 		query.setParameter("x","ENTRETIENT");
@@ -94,8 +95,12 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getNumberOfCurrentsRetards() {
-		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate =CURRENT_DATE");
+		Date tomorrow = DateUtils.addDays(new Date(), +1);
+		Date yesterday = DateUtils.addDays(new Date(), -1);
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate BETWEEN :y AND :t ORDER BY e.idEvenement DESC");
 		query.setParameter("x","RETARD");
+		query.setParameter("y",yesterday,TemporalType.DATE);
+		query.setParameter("t",tomorrow,TemporalType.DATE);
 		logger.info("les retards d'aujourdhuit sont :"+query.getResultList().size());
 		return query.getResultList();
 	}
@@ -103,8 +108,12 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getNumberOfCurrentsAbsence() {
-		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate =CURRENT_DATE");
+		Date tomorrow = DateUtils.addDays(new Date(), +1);
+		Date yesterday = DateUtils.addDays(new Date(), -1);
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate BETWEEN :y AND :t ORDER BY e.idEvenement DESC");
 		query.setParameter("x","ABSENCE");
+		query.setParameter("y",yesterday,TemporalType.DATE);
+		query.setParameter("t",tomorrow,TemporalType.DATE);
 		logger.info("les absences d'aujourdhuit sont :"+query.getResultList().size());
 		return query.getResultList();
 	}
@@ -112,7 +121,7 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getAllEvenementsRetards() {
-		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x");
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x ORDER BY e.idEvenement DESC");
 		query.setParameter("x","RETARD");
 		logger.info("les retards  sont :"+query.getResultList().size());
 		return query.getResultList();
@@ -121,7 +130,7 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getAllEvenementsEntretient() {
-		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x");
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x ORDER BY e.idEvenement DESC");
 		query.setParameter("x","ENTRETIENT");
 		logger.info("les retards d'aujourdhuit sont :"+query.getResultList().size());
 		return query.getResultList();
@@ -130,7 +139,7 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getAllEvenementsAbsences() {
-		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x");
+		Query query = em.createQuery("from Evenement e where TYPE_EVENEMENT=:x ORDER BY e.idEvenement DESC");
 		query.setParameter("x","ABSENCE");
 		logger.info("les absences  sont :"+query.getResultList().size());
 		return query.getResultList();
@@ -139,7 +148,7 @@ public class EvenementDaoImpl implements IEvenementDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getAllEvenements() {
-		Query query = em.createQuery("from Evenement e");
+		Query query = em.createQuery("from Evenement e ORDER BY e.idEvenement DESC");
 		logger.info("il existe :"+query.getResultList().size()+"evenements dans la base de données");
 		return query.getResultList();
 	}

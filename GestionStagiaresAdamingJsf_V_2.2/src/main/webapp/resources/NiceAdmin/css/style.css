@@ -14,7 +14,6 @@ Website: http://geekslabs.com/
 /*custom primefaces*/
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     background: #fed189 !important;
-    height: 35px
     /*border: 3px solid #22bacf !important;*/
     
 }

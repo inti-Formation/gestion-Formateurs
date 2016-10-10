@@ -33,8 +33,11 @@ public class Evenement implements Serializable {
 	private Date startDate;
 	private Date endDate;
 	private String signaleur;
-	@Temporal(TemporalType.DATE)
-	private Date curentDate = new Date();
+	private Date curentDate;
+	@Transient
+	private int minuteOfEvenement;
+	@Transient
+	private int hoursOfEvenement;
 
 	/*assoc*/
 	@ManyToOne
@@ -116,6 +119,23 @@ public class Evenement implements Serializable {
 		this.signaleur = signaleur;
 	}
 
+	public int getMinuteOfEvenement() {
+		return minuteOfEvenement;
+	}
+
+	public void setMinuteOfEvenement(int minuteOfEvenement) {
+		this.minuteOfEvenement = minuteOfEvenement;
+	}
+
+	public int getHoursOfEvenement() {
+		return hoursOfEvenement;
+	}
+
+	public void setHoursOfEvenement(int hoursOfEvenement) {
+		this.hoursOfEvenement = hoursOfEvenement;
+	}
+
+	
 	
 	
 }

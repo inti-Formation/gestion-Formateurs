@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+
+<ui:composition>
+<br> </br>
+	<br> </br>
+	<br> </br>
+<div class="well container">
+        <section class="wrapper">
+           <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/event.png"/> </i> Form Evénements</h3>
+					</ol>
+				</div>
+			</div>   
+			<div class="row">
+				<div class="col-lg-12">
+				 <section class="panel">
+				    <div class="panel-body">
+				          <header class="panel-heading">
+	                          <h4>Evènement journalière Absence</h4>
+	                      </header>
+	                     <div class="panel-body text-center">
+                           <p:dataTable paginator="true" rows="5" value="#{dashboardBean.currentAbsences}" var="a">
+	                              <f:facet name="header">
+							         <h:outputText value="Liste Des Absences " />
+						         </f:facet>
+						         <p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="N° Session" />
+									</f:facet>
+									<h:outputText value="#{a.sessionEtudiant.idSession}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="Nom" />
+									</f:facet>
+									<h:outputText value="#{a.etudiant.nomEtudiant}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="prénom" />
+									</f:facet>
+									<h:outputText value="#{a.etudiant.prenomEtudiant}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="Formateur" />
+									</f:facet>
+									<h:outputText value="#{a.signaleur}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="De" />
+									</f:facet>
+									<h:outputText value="#{a.startDate}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="A" />
+									</f:facet>
+									<h:outputText value="#{a.endDate}" />
+								</p:column>
+	                          </p:dataTable> 
+						 </div>
+				     </div>
+				   </section>
+				</div>
+	         </div>
+	         <div class="row">
+				<div class="col-lg-12">
+				 <section class="panel">
+				    <div class="panel-body">
+				        <header class="panel-heading">
+	                          <h4>Evènement journalière Retards</h4>
+	                      </header>
+	                     <div class="panel-body text-center">
+	                          <p:dataTable paginator="true" rows="5" value="#{dashboardBean.currentRetards}" var="r">
+	                              <f:facet name="header">
+							         <h:outputText value="Liste Des Retards " />
+						         </f:facet>
+						          <p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="N° Session" />
+									</f:facet>
+									<h:outputText value="#{r.sessionEtudiant.idSession}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="Nom" />
+									</f:facet>
+									<h:outputText value="#{r.etudiant.nomEtudiant}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="prénom" />
+									</f:facet>
+									<h:outputText value="#{r.etudiant.prenomEtudiant}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="Formateur" />
+									</f:facet>
+									<h:outputText value="#{r.signaleur}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="De" />
+									</f:facet>
+									<h:outputText value="#{r.startDate}" />
+								</p:column>
+								<p:column style="width:140px;">
+									<f:facet name="header">
+										<h:outputText value="A" />
+									</f:facet>
+									<h:outputText value="#{r.endDate}" />
+								</p:column>
+	                          </p:dataTable> 
+						 </div>
+				     </div>
+				   </section>
+				</div>
+	         </div>
+	         <div class="row">
+				<div class="col-lg-12">
+				 <section class="panel">
+				    <div class="panel-body">
+				        <header class="panel-heading">
+	                         <h4>Toutes les evènements</h4>
+	                      </header>
+	                     <div class="panel-body text-center">
+                           
+						 </div>
+				     </div>
+				   </section>
+				</div>
+	         </div>
+       </section>
+  </div>
+</ui:composition>
+</html>

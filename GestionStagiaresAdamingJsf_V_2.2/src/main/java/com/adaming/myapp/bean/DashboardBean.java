@@ -1,12 +1,15 @@
 package com.adaming.myapp.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +48,13 @@ public class DashboardBean implements Serializable{
 	private int numberOfCurrentRetards;
 	private List<Evenement> currentRetards;
 	private List<Evenement> currentAbsences;
+	private List<Evenement> limitationAbsences;
+	private List<Evenement> limitationRetards;
+	private int minuteOfEvenement;
+	private int hoursOfEvenement;
+	private Date dateOfEvenement;
+	
+	
 
 	
 	public void init(){
@@ -80,13 +90,72 @@ public class DashboardBean implements Serializable{
 		
 	}
 	
+	/*get current time of evenement Retards*/
+	public void getRetardForToDay(){
+		if(currentRetards.size() >0){
+	    	for(Evenement e:currentRetards){
+                Date today = new Date();
+                long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
+                minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
+                hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
+                e.setMinuteOfEvenement(minuteOfEvenement);
+                e.setHoursOfEvenement(hoursOfEvenement);
+                
+	    	}
+	    }
+	}
+	
+	/*get current time of evenement absences*/
+	public void getAbsenceForToDay(){
+		if(currentAbsences.size() >0){
+	    	for(Evenement e:currentAbsences){
+                Date today = new Date();
+                long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
+                minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
+                hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
+                e.setMinuteOfEvenement(minuteOfEvenement);
+                e.setHoursOfEvenement(hoursOfEvenement);
+                
+	    	}
+	    }
+	}
+	
+	/*limiter l'affichage des retards journalière a 4 dans le header*/
+	public void limitDisplayRetards(){
+		limitationRetards  = new ArrayList<Evenement>();
+		if(currentRetards.size() >5){
+			limitationRetards=currentRetards.subList(0,4);
+			System.out.println("limitation retards "+limitationRetards.size());
+		}else{
+			limitationRetards.addAll(currentRetards);
+		}
+	}
+	
+	/*limiter l'affichage des absences journalière a 4 dans le header*/
+    public void limitDisplayAbsences(){
+    	limitationAbsences = new ArrayList<Evenement>();
+    	if(currentAbsences.size() >5){
+			limitationAbsences=currentAbsences.subList(0,4);
+			System.out.println("limitation absences "+limitationAbsences.size());
+		}else{
+			limitationAbsences.addAll(currentAbsences);
+		}
+	}
+    
 	/*getcurrentRetardsandAbsences*/
 	public void getCurentsAbsencesAndRetards(){
 		currentRetards=serviceEvenement.getNumberOfCurrentsRetards();
 		numberOfCurrentRetards=currentRetards.size();
-		System.out.println("nombre retards"+numberOfCurrentRetards);
 		currentAbsences=serviceEvenement.getNumberOfCurrentsAbsence();
 		numberOfCurrentAbsences=currentAbsences.size();
+		
+		/*get current time of evenement Retards*/
+		getRetardForToDay();
+	    /*get current time of evenement absences*/
+		getAbsenceForToDay();
+		/*limiter l'affichage des retards et absences journalière a 4 dans le header*/
+		limitDisplayRetards();
+		limitDisplayAbsences();
 	}
 	
 	/*@ method pour avoir les jours d'une sessions (progress bar in css)*/
@@ -95,13 +164,7 @@ public class DashboardBean implements Serializable{
 		for(SessionEtudiant s:sessionsInProgress){
 			dateDebuteInDays=s.getDateDebute().getTime()/ (24 * 60 * 60 * 1000);
 			dateFinInDays=s.getDateFin().getTime()/ (24 * 60 * 60 * 1000);
-			/*String dayDebut=Long.toString(dateDebuteInDays);
-			String dayFin=Long.toString(dateFinInDays);
-			s.setDateDebuteInDays(dayDebut);
-			s.setDateFinInDays(dayFin);
-			System.out.println("date debut : "+dayDebut);
-			System.out.println("date fIN :"+dayFin);*/
-			
+
 			/*la date du jour */
 			Date currentDay = new Date();
 			long currentDate= currentDay.getTime()/(24*60*60*1000);
@@ -116,11 +179,8 @@ public class DashboardBean implements Serializable{
 			long differenceTwo =currentDate-dateDebuteInDays;
 			String differenceTwoStr=Long.toString(differenceTwo);
 			s.setDateDebuteInDays(differenceTwoStr);
-			
 			System.out.println("la difference entre debut et current day"+differenceTwo);
-			
-			/**/
-			//System.out.println("date de jour "+curentDayString);
+		
 		}
 	}
 
@@ -243,6 +303,51 @@ public class DashboardBean implements Serializable{
 	public void setCurrentAbsences(List<Evenement> currentAbsences) {
 		this.currentAbsences = currentAbsences;
 	}
+
+	public List<Evenement> getLimitationAbsences() {
+		return limitationAbsences;
+	}
+
+	public void setLimitationAbsences(List<Evenement> limitationAbsences) {
+		this.limitationAbsences = limitationAbsences;
+	}
+
+	public List<Evenement> getLimitationRetards() {
+		return limitationRetards;
+	}
+
+	public void setLimitationRetards(List<Evenement> limitationRetards) {
+		this.limitationRetards = limitationRetards;
+	}
+
+	
+
+	public Date getDateOfEvenement() {
+		return dateOfEvenement;
+	}
+
+	public void setDateOfEvenement(Date dateOfEvenement) {
+		this.dateOfEvenement = dateOfEvenement;
+	}
+
+	public int getMinuteOfEvenement() {
+		return minuteOfEvenement;
+	}
+
+	public void setMinuteOfEvenement(int minuteOfEvenement) {
+		this.minuteOfEvenement = minuteOfEvenement;
+	}
+
+	public int getHoursOfEvenement() {
+		return hoursOfEvenement;
+	}
+
+	public void setHoursOfEvenement(int hoursOfEvenement) {
+		this.hoursOfEvenement = hoursOfEvenement;
+	}
+
+	
+
 	
 	
 }

@@ -4,7 +4,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 <h:head>
 	<title>BootsFaces Basic Page</title>
 </h:head>
@@ -73,56 +75,24 @@
                                 <p class="blue">il y a  #{dashboardBean.numberOfCurrentRetards} nouveaux retards</p>
                             </li>
                             <li>
-                                <a href="#">
+                              <ui:repeat var="r" value="#{dashboardBean.limitationRetards}">
+                                <h:link outcome="evenement_journaliere">
                                     
                                     <span class="subject">
-                                    <span class="from">Greg  Martin</span>
-                                    <span class="time">1 min</span>
+	                                    <span class="from">#{r.signaleur}</span>
+	                                    <span class="time">#{r.hoursOfEvenement}h #{r.minuteOfEvenement} min</span>
                                     </span>
                                     <span class="message">
-                                        I really like this admin panel.
+                                       l'étudiant #{r.etudiant.nomEtudiant} #{r.etudiant.prenomEtudiant} est en retard
                                     </span>
-                                </a>
+                                </h:link>
+                              </ui:repeat>
                             </li>
-                            <li>
-                                <a href="#">
-                                    
-                                    <span class="subject">
-                                    <span class="from">Bob   Mckenzie</span>
-                                    <span class="time">5 mins</span>
-                                    </span>
-                                    <span class="message">
-                                     Hi, What is next project plan?
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                   
-                                    <span class="subject">
-                                    <span class="from">Phillip   Park</span>
-                                    <span class="time">2 hrs</span>
-                                    </span>
-                                    <span class="message">
-                                        I am like to buy this Admin Template.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                  
-                                    <span class="subject">
-                                    <span class="from">Ray   Munoz</span>
-                                    <span class="time">1 day</span>
-                                    </span>
-                                    <span class="message">
-                                        Icon fonts are great.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">See all messages</a>
-                            </li>
+                            <c:if test="#{fn:length(dashboardBean.limitationRetards) >=4 }">
+	                            <li>
+	                                <h:link outcome="evenement_journaliere">Voir tous les messages</h:link>
+	                            </li>
+                            </c:if>
                         </ul>
                     </li>
                     <!-- task notificatoin end -->
@@ -138,56 +108,24 @@
                                 <p class="blue">il y a  #{dashboardBean.numberOfCurrentAbsences} nouveaux absences</p>
                             </li>
                             <li>
-                                <a href="#">
+                              <ui:repeat var="s" value="#{dashboardBean.limitationAbsences}">
+                                <h:link outcome="evenement_journaliere">
                                     
                                     <span class="subject">
-                                    <span class="from">Greg  Martin</span>
-                                    <span class="time">1 min</span>
+	                                    <span class="from">#{s.signaleur}</span>
+	                                    <span class="time">#{s.hoursOfEvenement}h #{s.minuteOfEvenement} min</span>
                                     </span>
                                     <span class="message">
-                                        I really like this admin panel.
+                                       l'étudiant #{s.etudiant.nomEtudiant} #{s.etudiant.prenomEtudiant} est absent
                                     </span>
-                                </a>
+                                </h:link>
+                              </ui:repeat>
                             </li>
-                            <li>
-                                <a href="#">
-                                    
-                                    <span class="subject">
-                                    <span class="from">Bob   Mckenzie</span>
-                                    <span class="time">5 mins</span>
-                                    </span>
-                                    <span class="message">
-                                     Hi, What is next project plan?
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                   
-                                    <span class="subject">
-                                    <span class="from">Phillip   Park</span>
-                                    <span class="time">2 hrs</span>
-                                    </span>
-                                    <span class="message">
-                                        I am like to buy this Admin Template.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                  
-                                    <span class="subject">
-                                    <span class="from">Ray   Munoz</span>
-                                    <span class="time">1 day</span>
-                                    </span>
-                                    <span class="message">
-                                        Icon fonts are great.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">See all messages</a>
-                            </li>
+                             <c:if test="#{fn:length(dashboardBean.limitationAbsences) >=4 }">
+	                            <li>
+	                                <h:link outcome="evenement_journaliere">Voir tous les messages</h:link>
+	                            </li>
+                            </c:if>
                         </ul>
                     </li>
                     <!-- inbox notificatoin end -->
