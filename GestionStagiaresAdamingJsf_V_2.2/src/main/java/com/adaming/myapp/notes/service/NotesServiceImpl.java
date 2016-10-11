@@ -5,23 +5,20 @@ import java.util.logging.Logger;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.notes.dao.INotesDao;
+
 @Transactional
 public class NotesServiceImpl implements INotesService {
-    
+
 	private INotesDao dao;
-	
+
 	Logger log = Logger.getLogger("NotesServiceImpl");
-	
-	
+
 	public void setDao(INotesDao dao) {
 		this.dao = dao;
 		log.info("<----------- Dao Notes Injected----------->");
 	}
-
-
 
 	@Override
 	public List<Note> getAllNotes() {
@@ -36,15 +33,17 @@ public class NotesServiceImpl implements INotesService {
 		return dao.addNoteFinal(note, idSession, idEtudiant, idModule);
 	}
 
-
-
 	@Override
 	public List<Note> getNotesBySessionAndModule(Long idSession, Long idMoule) {
 		// TODO Auto-generated method stub
 		return dao.getNotesBySessionAndModule(idSession, idMoule);
 	}
 
-
-	
+	@Override
+	public boolean testNoteByEtuAndByModule(Long idSession, Long idModule,
+			Long idEtudiant) {
+		// TODO Auto-generated method stub
+		return dao.testNoteByEtuAndByModule(idSession, idModule, idEtudiant);
+	}
 
 }

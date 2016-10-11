@@ -49,6 +49,8 @@ public class ExamenBean implements Serializable {
 	private IQuestionService serviceQuestion;
 	@Inject
 	private INotesService serviceNotes;
+	@Inject
+	private UserAuthentificationBean userAuthentification;
 
 	private Long idSession;
 	private Long idModule;
@@ -66,6 +68,7 @@ public class ExamenBean implements Serializable {
 	private String reponseSelectionnee;
 	private Object scoreFinal;
 	private List<Question> reponses;
+	private Etudiant etudiant;
 
 	/* @method load Pagee */
 	public void init() {
@@ -79,13 +82,17 @@ public class ExamenBean implements Serializable {
 
 		// on cree la note finale
 		Note noteF = new Note(note);
-		serviceNotes.addNoteFinal(noteF, idSession, idEtudiant, idModule);
+
+		try {
+			serviceNotes.addNoteFinal(noteF, etudiant.getSessionEtudiant()
+					.getIdSession(), etudiant.getIdEtudiant(), idModule);
+		} catch (Exception e) {
+			resetVarsExam();
+			return "index?redirect=true";
+		}
 
 		// init reponsesFinal
-		reponseSelectionnee = new String();
-		scoreFinal = note;
-		note = 0.0;
-		reponseSelectionnee = null;
+		resetVarsExam();
 		// on ordonne la listes des reponses par num
 		Collections.sort(reponses, new MyComparator());
 
@@ -96,13 +103,11 @@ public class ExamenBean implements Serializable {
 	public void onTimeout() {
 
 		Note noteF = new Note(note);
-		serviceNotes.addNoteFinal(noteF, idSession, idEtudiant, idModule);
+		serviceNotes.addNoteFinal(noteF, etudiant.getSessionEtudiant()
+				.getIdSession(), etudiant.getIdEtudiant(), idModule);
 
 		// init reponsesFinal
-		reponseSelectionnee = new String();
-		scoreFinal = note;
-		note = 0.0;
-		reponseSelectionnee = null;
+		resetVarsExam();
 		// on ordonne la listes des reponses par num
 		Collections.sort(reponses, new MyComparator());
 
@@ -118,13 +123,10 @@ public class ExamenBean implements Serializable {
 	public void registerV3() {
 		confirm = new String();
 		setConfirm("Clicked");
-       
+
 		// on decoupe les différentes vars separees par ','
 		String[] str = reponseSelectionnee.split(",");
-        System.out.println("choix de reponse "+str[2]);
-        for(String s:str){
-        	System.out.println(s);
-        }
+
 		// on cree notre objet Reponse basee que Question
 		Question reponse = new Question(Integer.parseInt(str[0]), str[1],
 				Integer.parseInt(str[2]), str[7], str[8], str[9], str[10],
@@ -132,7 +134,7 @@ public class ExamenBean implements Serializable {
 
 		// on set le string de la reponse choisie
 		reponse.setStrReponse(str[reponse.getChoixReponse() + 6]);
-        System.out.println(reponse.getChoixReponse());
+
 		// on incremente la note si reponse bonne
 		if (str[2 + reponse.getChoixReponse()].equals("bonne")) {
 			note++;
@@ -140,10 +142,20 @@ public class ExamenBean implements Serializable {
 		} else {
 			reponse.setPoint(0);
 		}
-		System.out.println("note"+reponse.getPoint());
 		// on ajoute l'objet Reponse à une liste
 		reponses.add(reponse);
-      
+
+	}
+
+	public void resetVarsExam() {
+		// init reponsesFinal
+		reponseSelectionnee = new String();
+		scoreFinal = note;
+		note = 0.0;
+		reponseSelectionnee = null;
+		setConfirm("");
+		questionsByModule = new ArrayList<Question>();
+
 	}
 
 	/* @method for to passe un examens */
@@ -160,6 +172,17 @@ public class ExamenBean implements Serializable {
 	public void getAllStudentsBySession() {
 		etudiantsBySession = new ArrayList<Etudiant>();
 		etudiantsBySession = serviceEtudiant.getEtudiantBySession(idSession);
+
+	}
+
+	public String initExamen() {
+		etudiant = new Etudiant();
+		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
+		idSession = etudiant.getSessionEtudiant().getIdSession();
+		idEtudiant = etudiant.getIdEtudiant();
+		getAllModulesBySession();
+		return "examen?redirect=true";
+
 	}
 
 	/* @@method get All Modules By Session */
@@ -366,6 +389,19 @@ public class ExamenBean implements Serializable {
 
 	public void setReponses(List<Question> reponses) {
 		this.reponses = reponses;
+	}
+
+	public Etudiant getEtudiant() {
+		return etudiant;
+	}
+
+	public void setEtudiant(Etudiant etudiant) {
+		this.etudiant = etudiant;
+	}
+
+	public void setUserAuthentification(
+			UserAuthentificationBean userAuthentification) {
+		this.userAuthentification = userAuthentification;
 	}
 
 }

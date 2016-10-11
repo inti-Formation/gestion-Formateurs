@@ -3,7 +3,6 @@ package com.adaming.myapp.etudiant.service;
 import java.util.List;
 
 import com.adaming.myapp.entities.Etudiant;
-import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.exception.AddEtudiantException;
 
 public interface IEtudiantService {
@@ -19,6 +18,6 @@ public interface IEtudiantService {
 
 	public List<Etudiant> getEtudiantBySession(Long idSession);
 
-	
+	public Etudiant getEtudiant(String mail);
 
 }
