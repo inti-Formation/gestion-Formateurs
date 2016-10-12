@@ -38,6 +38,10 @@ public class Evenement implements Serializable {
 	private int minuteOfEvenement;
 	@Transient
 	private int hoursOfEvenement;
+	@Transient
+	private int dureeInMinute;
+	@Transient
+	private int dureeInHours;
 
 	/*assoc*/
 	@ManyToOne
@@ -140,6 +144,22 @@ public class Evenement implements Serializable {
 
 	public void setHoursOfEvenement(int hoursOfEvenement) {
 		this.hoursOfEvenement = hoursOfEvenement;
+	}
+
+	public int getDureeInMinute() {
+		return dureeInMinute;
+	}
+
+	public void setDureeInMinute(int dureeInMinute) {
+		this.dureeInMinute = dureeInMinute;
+	}
+
+	public int getDureeInHours() {
+		return dureeInHours;
+	}
+
+	public void setDureeInHours(int dureeInHours) {
+		this.dureeInHours = dureeInHours;
 	}
 
 	

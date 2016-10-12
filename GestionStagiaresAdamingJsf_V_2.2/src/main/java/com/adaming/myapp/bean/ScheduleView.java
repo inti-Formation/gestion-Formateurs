@@ -181,7 +181,7 @@ public class ScheduleView {
 				}
 			}
 			else if(typeEvenement.equals("top")){
-				topEtudiant = new TopEtudiant(userAuthentificationBean.getName(),new Date());
+				topEtudiant = new TopEtudiant(new Date(), new Date(), userAuthentificationBean.getName(),new Date());
 				try {
 					serviceEvenement.addTop(topEtudiant, idSession, idEtudiant);
 					setEvenementSuccess("l'evènement à bien été signalée");
@@ -192,7 +192,7 @@ public class ScheduleView {
 				}
 			}
 			else if(typeEvenement.equals("warning")){
-				warningEtudiant = new WarningEtudiant(userAuthentificationBean.getName(),new Date());
+				warningEtudiant = new WarningEtudiant(new Date(), new Date(), userAuthentificationBean.getName(),new Date());
 				try {
 					serviceEvenement.addWarning(warningEtudiant, idSession, idEtudiant);
 					setEvenementSuccess("l'evènement à bien été signalée");

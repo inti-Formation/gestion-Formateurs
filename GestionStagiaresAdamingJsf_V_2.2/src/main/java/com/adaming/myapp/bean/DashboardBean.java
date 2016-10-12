@@ -60,6 +60,8 @@ public class DashboardBean implements Serializable{
 	private List<Evenement> limitationTop;
 	private int minuteOfEvenement;
 	private int hoursOfEvenement;
+	private int dureeInMinute;
+	private int dureeInHours;
 	private Date dateOfEvenement;
 	
 	
@@ -73,16 +75,16 @@ public class DashboardBean implements Serializable{
 		 getSessionEnCours();
 		/*getCurrentAbsenceAndRetard*/
 		getCurentsAbsencesAndRetards();
-		/*getWeecklyEvenemenets*/
+		/*getWeecklyEvenements*/
 		try {
 			retards   = serviceEvenement.getEvenementsRetards();
 			for(Evenement evenement:retards){
-				/*get durrée de retard*/
+				/*get durrée de retard
 				long difference = evenement.getEndDate().getTime() - evenement.getStartDate().getTime();
-				minuteOfEvenement = (int) ((difference / (1000*60)) % 60);
-	            hoursOfEvenement   = (int) ((difference / (1000*60*60)) % 24);
-	            evenement.setMinuteOfEvenement(minuteOfEvenement);
-	            evenement.setHoursOfEvenement(hoursOfEvenement);
+				dureeInMinute = (int) ((difference / (1000*60)) % 60);
+	            dureeInHours   = (int) ((difference / (1000*60*60)) % 24);
+	            evenement.setDureeInMinute(dureeInMinute);
+	            evenement.setDureeInHours(dureeInHours);*/
 			}
 			setRetardNotFoundException("");
 		} catch (EvenementNotFoundException e) {
@@ -117,11 +119,11 @@ public class DashboardBean implements Serializable{
                 e.setMinuteOfEvenement(minuteOfEvenement);
                 e.setHoursOfEvenement(hoursOfEvenement);
                 /*get durrée de retard*/
-				long difference = e.getEndDate().getTime() - e.getStartDate().getTime();
+				/*long difference = e.getEndDate().getTime() - e.getStartDate().getTime();
 				minuteOfEvenement = (int) ((difference / (1000*60)) % 60);
 	            hoursOfEvenement   = (int) ((difference / (1000*60*60)) % 24);
 	            e.setMinuteOfEvenement(minuteOfEvenement);
-	            e.setHoursOfEvenement(hoursOfEvenement);
+	            e.setHoursOfEvenement(hoursOfEvenement);*/
 	    	}
 	    }
 	}
@@ -468,6 +470,22 @@ public class DashboardBean implements Serializable{
 
 	public void setNumberOfCurrentTop(int numberOfCurrentTop) {
 		this.numberOfCurrentTop = numberOfCurrentTop;
+	}
+
+	public int getDureeInMinute() {
+		return dureeInMinute;
+	}
+
+	public void setDureeInMinute(int dureeInMinute) {
+		this.dureeInMinute = dureeInMinute;
+	}
+
+	public int getDureeInHours() {
+		return dureeInHours;
+	}
+
+	public void setDureeInHours(int dureeInHours) {
+		this.dureeInHours = dureeInHours;
 	}
 
 	

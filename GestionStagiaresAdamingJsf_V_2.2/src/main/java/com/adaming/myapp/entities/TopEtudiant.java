@@ -16,8 +16,9 @@ public class TopEtudiant extends Evenement implements Serializable{
 
 	
 
-	public TopEtudiant(String signaleur, Date curentDate) {
-		super(signaleur, curentDate);
+	public TopEtudiant(Date startDate, Date endDate, String signaleur,
+			Date curentDate) {
+		super(startDate, endDate, signaleur, curentDate);
 		// TODO Auto-generated constructor stub
 	}
 

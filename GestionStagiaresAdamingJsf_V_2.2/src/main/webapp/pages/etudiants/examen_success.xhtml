@@ -25,8 +25,6 @@
      </f:facet>
 </h:head>
 <h:body>
-<ui:include src="header.xhtml"></ui:include>
-<!--ui:include src="aside.xhtml" ></ui:include-->
 <br/>
 <br/>
 <br/>
@@ -69,6 +67,9 @@
 				        <h:outputText value="#{r.point}" />
 				    </p:column>
 				</p:dataTable>
+				<h:form>
+				<!-- add boutton accueil -->
+				<p:commandButton ajax="false" action="index?faces-redirect=true" value="Retour Accueil"/></h:form>
    		 </h:panelGroup>
 	</div>		  
 	</div>

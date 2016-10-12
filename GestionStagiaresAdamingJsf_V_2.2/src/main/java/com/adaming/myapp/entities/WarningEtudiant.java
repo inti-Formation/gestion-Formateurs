@@ -16,11 +16,11 @@ public class WarningEtudiant extends Evenement implements Serializable{
 
 	
 
-	public WarningEtudiant(String signaleur, Date curentDate) {
-		super(signaleur, curentDate);
+	public WarningEtudiant(Date startDate, Date endDate, String signaleur,
+			Date curentDate) {
+		super(startDate, endDate, signaleur, curentDate);
 		// TODO Auto-generated constructor stub
 	}
-
 
 
 	public WarningEtudiant() {

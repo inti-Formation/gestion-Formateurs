@@ -12,33 +12,53 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
+	    
+	   
 	
 		<h:form id="form">
-		    <br/>
-			<div class="inputpersso">
+		     <br/><br/>
+		     <!-- add if pour exception -->
+				<c:if test="#{not empty examenBean.addExamException}">
+					<div class="alert alert-warning">
+					<h:outputText id="exception" style="color:red;text-align:center;display: block" value="#{examenBean.addExamException}"/>
+					</div>
+				</c:if>
 				
-				<h:outputText value="#{examenBean.etudiant.nomEtudiant}"></h:outputText>
-				<h:outputText value="#{examenBean.etudiant.prenomEtudiant}"></h:outputText>
-				<h:outputText id="exception" style="color:red" value="#{examenBean.addExamException}"/>
-				<br></br>
-				<p:outputLabel for="module" value="Module:"
+			<div class="inputpersso">
+			   <div class="alert alert-info" style="color: black">
+					<p:outputLabel  value="Informations:"
+						styleClass="paddingTop20" />
+					<br />
+	
+	
+					<br />
+					<strong>Etudiant : </strong><br />
+					<h:outputText value="#{examenBean.etudiant.nomEtudiant} - #{examenBean.etudiant.prenomEtudiant}"/><br />
+					<strong>Session : </strong><br />
+					<h:outputText value="Formation: #{examenBean.etudiant.sessionEtudiant.specialite.designation}"/><br />
+					<h:outputText value="Lieu: #{examenBean.etudiant.sessionEtudiant.lieu}"/><br />
+					<p:outputLabel for="module" value="Module:"
 					styleClass="paddingTop20" />
 				<br />
-				<p:selectOneMenu id="module" required="true"
-					required-message="Veuillez Rensiegnez la Session SVP!!"
-					renderLabel="true" value="#{examenBean.idModule}">
-					<f:selectItem itemLabel="Sélectionnez Un Module"
-						itemValue="#{null}" noSelectionOption="true"/>
-					<f:selectItems value="#{examenBean.moduleBySessions}" var="m"
-						itemLabel="#{m.nomModule}" itemValue="#{m.idModule}" />
-				    <p:ajax event="valueChange" 
-							listener="#{examenBean.getAllQuestionByModule}" />
-				</p:selectOneMenu>
-				<br />
-				<h:message for="module" />
-				<br></br>
-				<h:commandButton action="#{examenBean.goStartExamen}"
-					value="Start" styleClass="btn btn-info btn-lm"/>
+					<p:selectOneMenu id="module" required="true"
+						required-message="Veuillez Rensiegnez la Session SVP!!"
+						renderLabel="true" value="#{examenBean.idModule}">
+						<f:selectItem itemLabel="Sélectionnez Un Module"
+							itemValue="#{null}" noSelectionOption="true"/>
+						<f:selectItems value="#{examenBean.moduleBySessions}" var="m"
+							itemLabel="#{m.nomModule}" itemValue="#{m.idModule}" />
+					    <p:ajax event="valueChange" 
+								listener="#{examenBean.getAllQuestionByModule}" />
+					</p:selectOneMenu>
+					<br />
+					<h:message for="module" />
+					<br></br>
+					<h:commandButton action="#{examenBean.goStartExamen}"
+						value="Start" styleClass="btn btn-info btn-lm"/>
+		        </div>
+
+				
+				
 				
 			</div>
 			<br />
