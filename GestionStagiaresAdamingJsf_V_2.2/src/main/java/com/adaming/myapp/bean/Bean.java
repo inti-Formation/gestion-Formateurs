@@ -96,16 +96,7 @@ public class Bean implements Serializable {
 		return m_lFields;
 	}
 
-	public void onButtonRemoveFieldClick(final Question p_oField) {
-		m_lFields.remove(p_oField);
-	}
-
-	public void onButtonAddFieldClick(AjaxBehaviorEvent p_oEvent) {
-		m_lFields.add(new Question(propositionquestion, premeiereReponse,
-				douxiemeReponse, troisiemeReponse, quatriemeReponse));
-
-	}
-
+	
 	public List<Question> getM_lFields() {
 		return m_lFields;
 	}

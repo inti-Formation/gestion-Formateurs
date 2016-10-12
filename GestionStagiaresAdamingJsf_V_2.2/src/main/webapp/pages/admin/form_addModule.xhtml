@@ -13,68 +13,102 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-	   
-		<h:form id="form">
-			<div class="inputpersso">
-				<p:outputLabel for="name" styleClass="paddingTop20"
-					value="Specialitée :" />
-				<br />
-				<p:selectOneMenu id="name" required="true"
-					required-message="Veuillez Rensiegnez la spécialitée SVP!!"
-					renderLabel="true" value="#{moduleBean.idSpecialite}">
-					<f:selectItem itemLabel="Sélectionnez Une Spécialitée" itemValue="" />
-					<f:selectItems value="#{specialiteBean.specialites}" var="spec"
-						itemLabel="#{spec.designation}" itemValue="#{spec.idSpecialite}" />
-					<p:ajax event="valueChange" update="name" render="name"></p:ajax>
-				</p:selectOneMenu>
-				<br />
-				<h:message for="name" />
-				<b:inputText id="desc" value="#{moduleBean.nomModule}"
-					label="Module" required="true"
-					required-message="Veuillez Rensiegnez le Module  SVP!!"
-					renderLabel="true" />
-				<h:message for="desc" />
-				<br />
-				<b:commandButton action="#{moduleBean.addModule}" update="@form"
-					value="Ajouter" look="primary" ajax="true" />
-				<b:commandButton value="Cancel" type="reset" look="warning"
-					class="btn-cancel" />
-				<br /> <br />
-				<!-- message success -->
-				<h:outputText value="#{moduleBean.success}"
-					styleClass="messageSuccess" />
-				<!-- exception add new Session -->
-				<h:outputText value="#{moduleBean.addModuleException}"
-					styleClass="errorExeption" />
-			</div>
-			<br />
-			<br />
-		</h:form>
-
+			<!-- exception add new Module -->
+			<c:if test="#{not empty moduleBean.success}">
+				<div class="alert alert-warning">
+					<h:outputText value="#{moduleBean.success}"
+							styleClass="errorExeption"/>
+				</div>
+			</c:if>
+			<!-- message success -->
+			<c:if test="#{not empty moduleBean.addModuleException}">
+				<div class="alert alert-info">
+					<h:outputText value="#{moduleBean.addModuleException}"
+							styleClass="messageSuccess" />
+				</div>
+			</c:if>
+	     <!-- errors de validation -->
+	     <h:messages style="color:red;"></h:messages>
+		 <!-- Form validations -->  
+		 <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Module</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Ajouter un module
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                  <h:form class="form-validate form-horizontal">
+                                      <div class="form-group ">
+                                          <label for="formation" class="control-label col-lg-2">Formation <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:selectOneMenu value="#{moduleBean.idSpecialite}" style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+												requiredMessage="1 - Formation *">
+												<f:selectItem itemLabel="Sélectionnez Une Formation" itemValue="" />
+												<f:selectItems value="#{specialiteBean.specialites}" var="spec"
+														itemLabel="#{spec.designation}" itemValue="#{spec.idSpecialite}" />
+											</h:selectOneMenu>
+                                          </div>
+                                       </div>
+                                       <div class="form-group ">
+                                          <label for="Module" class="control-label col-lg-2">Module <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:inputText value="#{moduleBean.nomModule}" requiredMessage="2 - Module *" required="true" class="form-control" id="module"  type="text" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <div class="col-lg-offset-2 col-lg-10">
+                                              <h:commandButton action="#{moduleBean.addModule}" update="@form" value="Ajouter" styleClass="btn btn-primary"/>
+                                          </div>
+                                      </div>
+                                  </h:form>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+          </section>
 		<br /> <br /> <br />
-		<h:form id="form2">
-			<div class="inputpersso">
-				<p:outputLabel value="Liste des Modules par Spécialitée :"
-					style="padding-top:20px" />
-				<br />
-
-				<p:selectOneMenu id="select" value="#{moduleBean.idSpecialite}"
-					required="true"
-					requiredMessage="Veuillez Selectionnez Une Spécialitée">
-
-					<f:selectItem itemLabel="Sélectionnez Une Specialitée"
-						itemValue="#{null}" noSelectionOption="true" />
-					<f:selectItems value="#{specialiteBean.specialites}" var="s"
-						itemLabel="#{s.designation}" itemValue="#{s.idSpecialite}" />
-					<p:ajax event="valueChange"
-						listener="#{moduleBean.getModulesBySpecialite}" update="@form" />
-				</p:selectOneMenu>
-				<br />
-				<h:message styleClass="errorValidation" for="select"></h:message>
-			</div>
-			<br />
-			<br />
-			<c:if test="#{fn:length(moduleBean.modulesBySpecialites) >0 }">
+		
+		<!-- get etudiant by session  -->
+        
+          <div class="row">
+               <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Afficher la liste des Modules par Formation 
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                <h:form id="form10" class="form-validate form-horizontal">
+									
+                                      <div class="form-group ">
+                                          <label for="session" class="control-label col-lg-2">Sessions <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+                                              <h:selectOneMenu style="cursor:pointer; height:35px;width:75%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+												requiredMessage="1 - Veuillez Sélectionnez Une Formation *"
+												value="#{moduleBean.idSpecialite}" >
+												<f:selectItem itemLabel="Sélectionnez Une Specialitée"
+													itemValue="#{null}" noSelectionOption="true" />
+												<f:selectItems value="#{specialiteBean.specialites}" var="s"
+													itemLabel="#{s.designation}" itemValue="#{s.idSpecialite}" />
+												<p:ajax event="valueChange"
+													listener="#{moduleBean.getModulesBySpecialite}" update="@form" />
+											</h:selectOneMenu>
+                                          </div>
+                                      </div>
+									<h:messages styleClass="errorValidation" ></h:messages>
+								<br />
+								<br />
+								<c:if test="#{fn:length(moduleBean.modulesBySpecialites) >0 }">
 				<div align="center">
 					<p:dataTable var="newModule"
 						value="#{moduleBean.modulesBySpecialites}" id="studentTable"
@@ -85,28 +119,28 @@
 							<p:commandLink ajax="false" style="float:right;"
 								title="Fichier XML">
 								<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
-								<p:dataExporter type="xml" target=":form2:studentTable"
+								<p:dataExporter type="xml" target=":form10:studentTable"
 									fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
 							</p:commandLink>
 
 							<p:commandLink ajax="false" style="float:right;"
 								title="Fichier CSV">
 								<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
-								<p:dataExporter type="csv" target=":form2:studentTable"
+								<p:dataExporter type="csv" target=":form10:studentTable"
 									fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
 							</p:commandLink>
 
 							<p:commandLink ajax="false" style="float:right;"
 								title="Fichier PDF">
 								<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
-								<p:dataExporter type="pdf" target=":form2:studentTable"
+								<p:dataExporter type="pdf" target=":form10:studentTable"
 									fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
 							</p:commandLink>
 
 							<p:commandLink ajax="false" style="float:right;"
 								title="Fichier EXCEL">
 								<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
-								<p:dataExporter type="xls" target=":form2:studentTable"
+								<p:dataExporter type="xls" target=":form10:studentTable"
 									fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
 							</p:commandLink>
 						</f:facet>
@@ -137,10 +171,10 @@
 								<h:outputText value="Actions" />
 							</f:facet>
 							<p:commandLink oncomplete="PF('carDialog').show()"
-								update=":form2:moduleDetail" title="Modifier">
+								update=":form10:moduleDetail" title="Modifier">
 								 <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
 								<f:param value="#{newModule.idModule}" name="idModule" />
-								<p:ajax update=":form2:moduleDetail" event="click"
+								<p:ajax update=":form10:moduleDetail" event="click"
 									listener="#{moduleBean.getCurrentModule(newModule.idModule)}" />
 							</p:commandLink>
 						</p:column>
@@ -177,181 +211,185 @@
 			</p:dialog>
 
 		</h:form>
+                              </div>
+                          </div>
+                      </section>
+               </div>
+          </div> 
+		
+		
+		
+		
+		
+		
+		
 		<br/><br/>
 		<!-- form add Questions for every module -->
-		<h:form id="form4">
+		 <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Ajouter Des Questions
+                          </header>
+                          <div class="panel-body">
+                              
+       <h:form id="form4" class="form-validate form-horizontal">
 		    <br/><br/>
-		    <div align="center">
-			<p:toolbar style="width:98%">
-				<f:facet name="left">
-					<p:commandButton type="button"
-						value="Ajouter Une Nouvelle Question" icon="ui-icon-document">
-						<f:ajax listener="#{bean.onButtonAddFieldClick}" execute="@form"
-							render="tblFields" />
-					</p:commandButton>
-
-					<p:commandButton type="button" value="Open"
-						icon="ui-icon-folder-open" />
-
-					<span class="ui-separator"> <span
-						class="ui-icon ui-icon-grip-dotted-vertical" />
-					</span>
-				</f:facet>
-
-				<f:facet name="right">
-					<p:selectOneMenu id="select" value="#{moduleBean.idSpecialite}"
-						required="true"
-						requiredMessage="Veuillez Selectionnez Une Spécialitée Svp!">
-
-						<f:selectItem itemLabel="Sélectionnez Une Specialitée"
-							itemValue="#{null}" noSelectionOption="true" />
-						<f:selectItems value="#{specialiteBean.specialites}" var="s"
-							itemLabel="#{s.designation}" itemValue="#{s.idSpecialite}" />
-						<p:ajax event="valueChange"
-							listener="#{moduleBean.getModulesBySpecialite}" update="@form" />
-					</p:selectOneMenu>
-					<br />
-					<h:message styleClass="errorValidation" for="select"></h:message>
-				</f:facet>
-			</p:toolbar>
-			</div>
-			<!-- data table  -->
-			<div align="center">
-			<p:dataTable id="tblFields" value="#{bean.fields}" var="field" style="width:98%;margin-bottom:40px;">
-				<f:facet name="header">
-					<h:outputText styleClass="messageSuccess" value="#{bean.success}"></h:outputText>
-					<h:outputText styleClass="errorExeption"
-						value="#{bean.addQuestionException}"></h:outputText>
-				</f:facet>
-				<p:column headerText="Choisir Un Module * ">
-					<!-- Show  Nombre For Questions -->
-					<p:outputLabel style="color:red;text-align:center;display:block;"
-						id="NombreQuestions"
-						value="#{bean.nombreQuestionsByModule} Questions " />
-					<!-- Show Window Modal -->
-					<p:commandLink oncomplete="PF('carDialog').show()"
-						update=":form4:carDetail" title="View Détaile">
-						<f:param value="#{bean.idModule}" name="idModule">
-						</f:param>
-						<h:graphicImage style="display: block;margin: auto;"
-							name="NiceAdmin/img/icons/Search.png"></h:graphicImage>
-					</p:commandLink>
-
-					<p:selectOneMenu id="nomModule" value="#{bean.idModule}"
-						required="true"
-						requiredMessage="Veuillez Selectionnez un Module SVP!!">
-
-						<f:selectItem itemLabel="Choisir Un Module" itemValue="#{null}"
-							noSelectionOption="true" />
-						<f:selectItems value="#{moduleBean.modulesBySpecialites}"
-							var="module" itemLabel="#{module.nomModule}"
-							itemValue="#{module.idModule}" />
-						<!-- get Nombre Questions By Module -->
-						<p:ajax event="valueChange" update="NombreQuestions,numeroQ"
-							listener="#{bean.getQuestionByModule}" render="NombreQuestions,numeroQ" />
-					</p:selectOneMenu>
-					<h:message styleClass="errorValidation" for="nomModule"></h:message>
-				</p:column>
-				
-				<p:column headerText="Numero">
-				<h:outputLabel id="numeroQ" value="#{bean.nombreQuestionsByModule + 1}" />
-				
-				</p:column>
-
-				<p:column headerText="Question *">
-					<h:inputTextarea id="question" required="true"
-						requiredMessage="Tapez Une Question SVP" rows="11" cols="16"
-						value="#{bean.propositionquestion}" />
-					<h:message styleClass="errorValidation" for="question"></h:message>
-				</p:column>
-				<p:column headerText="Réponse 1 *">
-					<p:selectOneMenu value="#{bean.premeiereBonneReponse}"
-						required="true"
-						requiredMessage="Veuillez Selectionnez un Module SVP!!">
-
-						<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
-							noSelectionOption="true" />
-						<f:selectItem itemLabel="Bonne Réponse" itemValue="bonne"/>
-						<f:selectItem itemLabel="Mauvaise Réponse" itemValue="mauvaise"/>		
-					</p:selectOneMenu>
-					<h:inputTextarea id="rep1" required="true"
-						requiredMessage="Tapez La Réponse 1 SVP" rows="9" cols="16"
-						value="#{bean.premeiereReponse}" />
-					<h:message styleClass="errorValidation" for="rep1"></h:message>
-				</p:column>
-				<p:column headerText="Réponse 2 *">
-				    <p:selectOneMenu value="#{bean.douxiemeBonneReponse}"
-						required="true"
-						requiredMessage="Veuillez Selectionnez un Module SVP!!">
-
-						<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
-							noSelectionOption="true" />
-						<f:selectItem itemLabel="Bonne Réponse" itemValue="bonne"/>
-						<f:selectItem itemLabel="Mauvaise Réponse" itemValue="mauvaise"/>		
-					</p:selectOneMenu>
-					<h:inputTextarea id="rep2" required="true"
-						requiredMessage="Tapez La Réponse 2 SVP" rows="9" cols="16"
-						value="#{bean.douxiemeReponse}" />
-					<h:message styleClass="errorValidation" for="rep2"></h:message>
-				</p:column>
-				<p:column headerText="Réponse 3 *">
-				    <p:selectOneMenu value="#{bean.troisiemeBonneReponse}"
-						required="true"
-						requiredMessage="Veuillez Selectionnez un Module SVP!!">
-
-						<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
-							noSelectionOption="true" />
-						<f:selectItem itemLabel="Bonne Réponse" itemValue="bonne"/>
-						<f:selectItem itemLabel="Mauvaise Réponse" itemValue="mauvaise"/>		
-					</p:selectOneMenu>
-					<h:inputTextarea id="rep3" required="true"
-						requiredMessage="Tapez La Réponse 3 SVP" rows="9" cols="16"
-						value="#{bean.troisiemeReponse}" />
-					<h:message styleClass="errorValidation" for="rep3"></h:message>
-				</p:column>
-				<p:column headerText="Réponse 4 *">
-				    <p:selectOneMenu value="#{bean.quatriemeBonneReponse}"
-						required="true"
-						requiredMessage="Veuillez Selectionnez un Module SVP!!">
-
-						<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
-							noSelectionOption="true" />
-						<f:selectItem itemLabel="Bonne Réponse" itemValue="bonne"/>
-						<f:selectItem itemLabel="Mauvaise Réponse" itemValue="mauvaise"/>		
-					</p:selectOneMenu>
-					<h:inputTextarea id="rep4" required="true"
-						requiredMessage="Tapez La Réponse 4 SVP" rows="9" cols="16"
-						value="#{bean.quatriemeReponse}" />
-					<h:message styleClass="errorValidation" for="rep4"></h:message>
-				</p:column>
-				<p:column headerText="Actions"
-					style="width:100px;text-align: center">
-					<p:commandButton icon="ui-icon-trash" title="Supprimer">
-						<f:ajax listener="#{bean.onButtonRemoveFieldClick(field)}"
-							immediate="true" render="@form" />
-					</p:commandButton>
-					<p:column>
-						<b:commandButton  value="Save"  ajax="true" action="#{bean.addQuestionV2}"
-							look="primary"/>
-							
-					</p:column>
-				</p:column>
-			</p:dataTable>
-            </div>
-			<!-- fenetre Modal -->
-			<p:dialog header="Toutes Les Questions" widgetVar="carDialog"
-				modal="true" showEffect="blind" hideEffect="explode"
-				resizable="false">
-				<p:outputPanel id="carDetail" style="text-align-last: left;">
-					<p:dataList value="#{bean.questions}" var="q" varStatus="iteration">
-						<p:column>
-							<h:outputText value="Q) :#{iteration.index+1}"/>
-							<h:outputText value="#{q.propositionquestion}"/>
+		         <div align="center">
+					<p:toolbar style="width:98%">
+						<f:facet name="left">
+							<p:selectOneMenu id="select" value="#{moduleBean.idSpecialite}"
+								required="true" style="width:250px"
+								requiredMessage="Veuillez Selectionnez Une Spécialitée Svp!">
+		
+								<f:selectItem itemLabel="Sélectionnez Une Specialitée"
+									itemValue="#{null}" noSelectionOption="true" />
+								<f:selectItems value="#{specialiteBean.specialites}" var="s"
+									itemLabel="#{s.designation}" itemValue="#{s.idSpecialite}" />
+								<p:ajax event="valueChange"
+									listener="#{moduleBean.getModulesBySpecialite}" update="@form" />
+							</p:selectOneMenu>
+							<br />
+							<h:message styleClass="errorValidation" for="select"></h:message>
+						</f:facet>
+					</p:toolbar>
+			     </div>
+			     <!-- data table  -->
+			     <div align="center">
+					<p:dataTable id="tblFields" value="#{bean.fields}" var="field" style="width:98%;margin-bottom:40px;">
+						<f:facet name="header">
+							<h:outputText styleClass="messageSuccess" value="#{bean.success}"/>
+							<h:outputText styleClass="errorExeption"
+								value="#{bean.addQuestionException}"/>
+						</f:facet>
+						<p:column headerText="Choisir Un Module * ">
+							<!-- Show  Nombre For Questions -->
+							<p:outputLabel style="color:red;text-align:center;display:block;"
+								id="NombreQuestions"
+								value="#{bean.nombreQuestionsByModule} Questions " />
+							<!-- Show Window Modal -->
+							<p:commandLink oncomplete="PF('carDialog').show()"
+								update=":form4:carDetail" title="View Détaile">
+								<f:param value="#{bean.idModule}" name="idModule">
+								</f:param>
+								<h:graphicImage style="display: block;margin: auto;"
+									name="NiceAdmin/img/icons/Search.png"></h:graphicImage>
+							</p:commandLink>
+		
+							<p:selectOneMenu id="nomModule" value="#{bean.idModule}"
+								required="true"
+								requiredMessage="Veuillez Selectionnez un Module SVP!!">
+		
+								<f:selectItem itemLabel="Choisir Un Module" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItems value="#{moduleBean.modulesBySpecialites}"
+									var="module" itemLabel="#{module.nomModule}"
+									itemValue="#{module.idModule}" />
+								<!-- get Nombre Questions By Module -->
+								<p:ajax event="valueChange" update="NombreQuestions,numeroQ"
+									listener="#{bean.getQuestionByModule}" render="NombreQuestions,numeroQ" />
+							</p:selectOneMenu>
+							<h:message styleClass="errorValidation" for="nomModule"></h:message>
 						</p:column>
-					</p:dataList>
-				</p:outputPanel>
-			</p:dialog>
-		</h:form>
-	</div>
+						
+						<p:column headerText="Numero" style="width:70px">
+						<h:outputLabel id="numeroQ" style="display: block;text-align: center" value="#{bean.nombreQuestionsByModule + 1}" />
+						
+						</p:column>
+		
+						<p:column headerText="Question *">
+							<h:inputTextarea id="question" required="true"
+								requiredMessage="Tapez Une Question SVP" rows="11" cols="16"
+								value="#{bean.propositionquestion}" />
+							<h:message styleClass="errorValidation" for="question"></h:message>
+						</p:column>
+						<p:column headerText="Réponse 1 *">
+							<p:selectOneMenu value="#{bean.premeiereBonneReponse}"
+								required="true"
+								requiredMessage="Veuillez Selectionnez un Module SVP!!">
+		
+								<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Bonne Réponse" itemValue="bonne"/>
+								<f:selectItem itemLabel="Mauvaise Réponse" itemValue="mauvaise"/>		
+							</p:selectOneMenu>
+							<h:inputTextarea id="rep1" required="true"
+								requiredMessage="Tapez La Réponse 1 SVP" rows="9" cols="16"
+								value="#{bean.premeiereReponse}" />
+							<h:message styleClass="errorValidation" for="rep1"></h:message>
+						</p:column>
+						<p:column headerText="Réponse 2 *">
+						    <p:selectOneMenu value="#{bean.douxiemeBonneReponse}"
+								required="true"
+								requiredMessage="Veuillez Selectionnez un Module SVP!!">
+		
+								<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Bonne Réponse" itemValue="bonne"/>
+								<f:selectItem itemLabel="Mauvaise Réponse" itemValue="mauvaise"/>		
+							</p:selectOneMenu>
+							<h:inputTextarea id="rep2" required="true"
+								requiredMessage="Tapez La Réponse 2 SVP" rows="9" cols="16"
+								value="#{bean.douxiemeReponse}" />
+							<h:message styleClass="errorValidation" for="rep2"></h:message>
+						</p:column>
+						<p:column headerText="Réponse 3 *">
+						    <p:selectOneMenu value="#{bean.troisiemeBonneReponse}"
+								required="true"
+								requiredMessage="Veuillez Selectionnez un Module SVP!!">
+		
+								<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Bonne Réponse" itemValue="bonne"/>
+								<f:selectItem itemLabel="Mauvaise Réponse" itemValue="mauvaise"/>		
+							</p:selectOneMenu>
+							<h:inputTextarea id="rep3" required="true"
+								requiredMessage="Tapez La Réponse 3 SVP" rows="9" cols="16"
+								value="#{bean.troisiemeReponse}" />
+							<h:message styleClass="errorValidation" for="rep3"></h:message>
+						</p:column>
+						<p:column headerText="Réponse 4 *">
+						    <p:selectOneMenu value="#{bean.quatriemeBonneReponse}"
+								required="true"
+								requiredMessage="Veuillez Selectionnez un Module SVP!!">
+		
+								<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Bonne Réponse" itemValue="bonne"/>
+								<f:selectItem itemLabel="Mauvaise Réponse" itemValue="mauvaise"/>		
+							</p:selectOneMenu>
+							<h:inputTextarea id="rep4" required="true"
+								requiredMessage="Tapez La Réponse 4 SVP" rows="9" cols="16"
+								value="#{bean.quatriemeReponse}" />
+							<h:message styleClass="errorValidation" for="rep4"></h:message>
+						</p:column>
+						<p:column headerText="Actions"
+							style="width:100px;text-align: center">
+							
+							<p:column>
+								<h:commandButton styleClass="btn btn-primary" value="Save"  ajax="true" action="#{bean.addQuestionV2}"/>	
+							</p:column>
+						</p:column>
+					</p:dataTable>
+                </div>
+					<!-- fenetre Modal -->
+					<p:dialog header="Toutes Les Questions" widgetVar="carDialog"
+						modal="true" showEffect="blind" hideEffect="explode"
+						resizable="false">
+						<p:outputPanel id="carDetail" style="text-align-last: left;">
+							<p:dataList value="#{bean.questions}" var="q" varStatus="iteration">
+								<p:column>
+									<h:outputText value="Q):#{iteration.index+1} "/>
+									<h:outputText value="#{q.propositionquestion}"/>
+								</p:column>
+							</p:dataList>
+						</p:outputPanel>
+					</p:dialog>
+		      </h:form>             
+            </div>
+         </section>
+       </div>
+    </div>
+</div>
 </ui:composition>
 </html>

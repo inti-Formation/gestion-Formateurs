@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Specialite;
@@ -20,7 +21,7 @@ import com.adaming.myapp.exception.AddSpecialiteException;
 import com.adaming.myapp.specialite.service.ISpecialiteService;
 
 @Component("specialiteBean")
-@ApplicationScoped
+@Scope(value="session")
 public class SpecialiteBean implements Serializable{
 	
 	/**

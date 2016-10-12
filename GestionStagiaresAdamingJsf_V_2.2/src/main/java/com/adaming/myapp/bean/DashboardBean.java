@@ -79,12 +79,14 @@ public class DashboardBean implements Serializable{
 		try {
 			retards   = serviceEvenement.getEvenementsRetards();
 			for(Evenement evenement:retards){
-				/*get durrée de retard
+				/*get durrée de retard*/
 				long difference = evenement.getEndDate().getTime() - evenement.getStartDate().getTime();
 				dureeInMinute = (int) ((difference / (1000*60)) % 60);
 	            dureeInHours   = (int) ((difference / (1000*60*60)) % 24);
+	            System.out.println("duree Minute"+dureeInMinute);
+	            System.out.println("duree hours"+dureeInHours);
 	            evenement.setDureeInMinute(dureeInMinute);
-	            evenement.setDureeInHours(dureeInHours);*/
+	            evenement.setDureeInHours(dureeInHours);
 			}
 			setRetardNotFoundException("");
 		} catch (EvenementNotFoundException e) {
@@ -112,6 +114,7 @@ public class DashboardBean implements Serializable{
 	public void getRetardForToDay(){
 		if(currentRetards.size() >0){
 	    	for(Evenement e:currentRetards){
+	    		/*get duree d'envois de l'evenement */
                 Date today = new Date();
                 long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
                 minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
@@ -119,11 +122,13 @@ public class DashboardBean implements Serializable{
                 e.setMinuteOfEvenement(minuteOfEvenement);
                 e.setHoursOfEvenement(hoursOfEvenement);
                 /*get durrée de retard*/
-				/*long difference = e.getEndDate().getTime() - e.getStartDate().getTime();
-				minuteOfEvenement = (int) ((difference / (1000*60)) % 60);
-	            hoursOfEvenement   = (int) ((difference / (1000*60*60)) % 24);
-	            e.setMinuteOfEvenement(minuteOfEvenement);
-	            e.setHoursOfEvenement(hoursOfEvenement);*/
+				long difference = e.getEndDate().getTime() - e.getStartDate().getTime();
+				dureeInMinute = (int) ((difference / (1000*60)) % 60);
+	            dureeInHours   = (int) ((difference / (1000*60*60)) % 24);
+	            System.out.println("duree Minute"+dureeInMinute);
+	            System.out.println("duree hours"+dureeInHours);
+	            e.setDureeInMinute(dureeInMinute);
+	            e.setDureeInHours(dureeInHours);
 	    	}
 	    }
 	}
@@ -132,6 +137,7 @@ public class DashboardBean implements Serializable{
 	public void getAbsenceForToDay(){
 		if(currentAbsences.size() >0){
 	    	for(Evenement e:currentAbsences){
+	    		/*get duree d'envois de l'evenement */
                 Date today = new Date();
                 long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
                 minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
@@ -146,6 +152,7 @@ public class DashboardBean implements Serializable{
 	public void getWarningForToDay(){
 		if(currentWarning.size() >0){
 	    	for(Evenement e:currentWarning){
+	    		/*get duree d'envois de l'evenement */
                 Date today = new Date();
                 long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
                 minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
@@ -160,6 +167,7 @@ public class DashboardBean implements Serializable{
 	public void getTopForToDay(){
 		if(currentTop.size() >0){
 	    	for(Evenement e:currentTop){
+	    		/*get duree d'envois de l'evenement */
                 Date today = new Date();
                 long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
                 minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
