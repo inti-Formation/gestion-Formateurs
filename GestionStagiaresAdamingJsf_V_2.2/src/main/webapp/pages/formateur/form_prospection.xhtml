@@ -16,33 +16,50 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-
-		<h:form id="form">
-			<br />
-			<div class="inputpersso">
-				<p:outputLabel for="session" style="color:black" value="Session(En Cours):"
-					styleClass="paddingTop20" />
-				<br />
-				<p:selectOneMenu id="session" required="true"
-					required-message="Veuillez Rensiegnez la Session SVP!!"
-					renderLabel="true" value="#{scheduleView.idSession}">
-					<f:selectItem itemLabel="Sélectionnez Une Session En Cours"
-						itemValue="#{null}" />
-					<f:selectItems value="#{scheduleView.sessionEnCours}" var="s"
-						itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
-						itemValue="#{s.idSession}" />
-
-				</p:selectOneMenu>
-				<br />
-				<h:message for="session" />
-				<br />
-				<b:commandButton action="#{scheduleView.genererSchedule()}"
-					value="Generer" look="primary" />
-
-			</div>
-			<br />
-			<br />
-			<br />
+       <br/>
+			<!-- exception add new evenement -->
+			<c:if test="#{not empty scheduleView.evenementFoundException}">
+				<div class="alert alert-warning">
+					<h:outputText value="#{scheduleView.evenementFoundException}"
+							styleClass="errorExeption"/>
+				</div>
+			</c:if>
+			<!-- message success -->
+			<c:if test="#{not empty scheduleView.evenementSuccess}">
+				<div class="alert alert-info">
+					<h:outputText value="#{scheduleView.evenementSuccess}"
+							styleClass="messageSuccess" />
+				</div>
+			</c:if>
+	     <!-- errors de validation -->
+	     <h:messages style="color:red;"></h:messages>
+		 <!-- Form validations -->  
+		 <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Événement</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Suivi Prospection
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                  <h:form class="form-validate form-horizontal">
+                                      <div class="form-group ">
+                                          <label for="session" class="control-label col-lg-2">Session en Cours :</label>
+                                          <div class="col-lg-10">
+											<h:outputText value="Formation: #{scheduleView.sessionFormateur.specialite.designation}"/><br />
+											<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}"/><br />
+                                          </div>
+                                       </div>
+                                        
+                                       <!-- Affichage Evenement/Etudiant --> 
 			<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
 				<div align="center">
 				      <!-- more Informations width tag absence-->
@@ -118,8 +135,13 @@
 					
 				</div>
 			</c:if>
-			<br />
-		</h:form>
+                                  </h:form>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+          </section>
 	</div>
 </ui:composition>
 </html>

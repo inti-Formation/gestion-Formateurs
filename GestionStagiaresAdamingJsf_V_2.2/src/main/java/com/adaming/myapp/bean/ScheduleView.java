@@ -5,11 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import org.apache.taglibs.standard.tag.common.core.SetSupport;
 import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -17,22 +14,23 @@ import org.springframework.stereotype.Component;
 import com.adaming.myapp.entities.Absence;
 import com.adaming.myapp.entities.Entretien;
 import com.adaming.myapp.entities.Etudiant;
+import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Retard;
 import com.adaming.myapp.entities.SessionEtudiant;
-import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.entities.TopEtudiant;
 import com.adaming.myapp.entities.WarningEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.evenement.service.IEvenementService;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.formateur.service.IFormateurService;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.session.service.ISessionService;
 
 @Component("scheduleView")
 @Scope("session")
 public class ScheduleView {
-    
+
 	@Inject
 	private ISessionService serviceSession;
 
@@ -40,13 +38,16 @@ public class ScheduleView {
 	private IEtudiantService serviceEtudiant;
 	@Inject
 	private IModuleService serviceModule;
-	
+
+	@Inject
+	private IFormateurService serviceFormateur;
+
 	@Inject
 	private IEvenementService serviceEvenement;
-	/*get the name of user (formateur) for evenement*/
+	/* get the name of user (formateur) for evenement */
 	@Inject
 	private UserAuthentificationBean userAuthentificationBean;
-	
+
 	private Long idSession;
 	private Long idModule;
 	private List<SessionEtudiant> sessionEnCours;
@@ -60,58 +61,147 @@ public class ScheduleView {
 	private int semaine;
 	private SessionEtudiant sessionEtudiant;
 	private boolean dispo;
-	/*evenement*/
-	
+	/* evenement */
+
 	private Long idEtudiant;
 	private Date dateStart;
 	private Date dateEnd;
 	private String typeEvenement;
 	private String evenementFoundException;
 	private String evenementSuccess;
-	
+
+	private Formateur formateur;
+	private Long idFormateur;
+	private List<SessionEtudiant> sessionsFormateur;
+	private SessionEtudiant sessionFormateur;
+
 	@PostConstruct
 	public void init() {
 		sessionEnCours = serviceSession.getAllSessionsInProgress();
-       
+
+	}
+
+	public void initReporting() {
+		evenementFoundException = "";
+		formateur = new Formateur();
+		formateur = serviceFormateur.getFormateur(userAuthentificationBean
+				.getName());
+		System.out.println(":::::::idFormateur" + formateur.getIdFormateur());
+		sessionsFormateur = formateur.getSessionsEtudiant();
+
+		if (sessionsFormateur.size() > 0) {
+
+			for (SessionEtudiant session : sessionsFormateur) {
+
+				DateTime dateFinS = new DateTime(session.getDateFin());
+				if (dateFinS.isAfterNow()) {
+					System.out
+							.println("::::::::    on rentre dans if compare date");
+					idSession = session.getIdSession();
+					System.out.println(":::::::: idSession: " + idSession);
+					sessionFormateur = session;
+				}
+
+			}
+			evenementFoundException = "";
+			genererSchedule();
+
+		} else {
+			evenementFoundException = "Pas de sessions en cours !";
+		}
+		idFormateur = formateur.getIdFormateur();
+	}
+
+	public String initEvenement() {
+		initReporting();
+		return "evenement?redirect=true";
+
+	}
+
+	public String initWarning() {
+		initReporting();
+		return "warning?redirect=true";
+
+	}
+
+	public String initAbsences() {
+		initReporting();
+		dateIn = new Date();
+		genererSchedule();
+		return "absence?redirect=true";
+
+	}
+
+	public String initProspection() {
+		initReporting();
+		return "prospection?redirect=true";
+
+	}
+
+	public String initEvaluation() {
+		initReporting();
+		getAllModulesBySession();
+		return "evaluation?redirect=true";
+
 	}
 
 	/* @method get All Students By Session */
 	public void getAllStudentsBySession() {
 		etudiantsBySession = new ArrayList<Etudiant>();
-		etudiantsBySession = serviceEtudiant.getEtudiantBySession(idSession);
-		
-		for(Etudiant se : etudiantsBySession){
-	        	sessionEtudiant= new SessionEtudiant();
-	        	sessionEtudiant=se.getSessionEtudiant();
-	    }
+
+		if (idSession != null) {
+			etudiantsBySession = serviceEtudiant
+					.getEtudiantBySession(idSession);
+
+			if (etudiantsBySession.size() > 0) {
+				for (Etudiant se : etudiantsBySession) {
+					sessionEtudiant = new SessionEtudiant();
+					sessionEtudiant = se.getSessionEtudiant();
+				}
+				evenementFoundException = "";
+			} else {
+				evenementFoundException = "Pas d'étudiants dans cette session !";
+			}
+		} else {
+			evenementFoundException = "Pas de sessions en cours !";
+		}
+
 	}
-	
-	
-    /* @method generate Absences*/
+
+	/* @method generate Absences */
 	public void genererSchedule() {
 
-		getAllStudentsBySession();
 		genererDates();
+		getAllStudentsBySession();
 
 	}
-	/* @method get all modules by sessions*/
-	public void getAllModulesBySession(){
-		modules=serviceModule.getModulesBySession(idSession);
+
+	/* @method get all modules by sessions */
+	public void getAllModulesBySession() {
+		if (idSession != null) {
+			modules = serviceModule.getModulesBySession(idSession);
+			evenementFoundException = "";
+		} else {
+			evenementFoundException = "Pas de sessions en cours !";
+		}
+
 	}
-	/* @method get module by id*/
-	public void getModuleById(){
-		module= new Module();
-		module=serviceModule.getModuleById(idModule);
+
+	/* @method get module by id */
+	public void getModuleById() {
+		module = new Module();
+		module = serviceModule.getModuleById(idModule);
 	}
-	/* @methode generate Evaluations*/
+
+	/* @methode generate Evaluations */
 	public void genererScheduleEvaluations() {
 
 		getAllStudentsBySession();
 		getModuleById();
 
 	}
-	
-   /* @method generate date*/
+
+	/* @method generate date */
 	public void genererDates() {
 
 		DateTime date = new DateTime(dateIn);
@@ -137,51 +227,56 @@ public class ScheduleView {
 		}
 
 	}
-	
-	/*@method signaler un evenement */
-	public void signalerEvenement(){
-		Retard  retard                  = null;
-		Absence absence                 = null;
-		Entretien entretien             = null;
-		TopEtudiant topEtudiant         = null;
+
+	/* @method signaler un evenement */
+	public void signalerEvenement() {
+		Retard retard = null;
+		Absence absence = null;
+		Entretien entretien = null;
+		TopEtudiant topEtudiant = null;
 		WarningEtudiant warningEtudiant = null;
-		
-		if(!typeEvenement.equals(null)){
-			if(typeEvenement.equals("retard")){
-				retard=new Retard(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
+
+		if (!typeEvenement.equals(null)) {
+			if (typeEvenement.equals("retard")) {
+				retard = new Retard(dateStart, dateEnd,
+						userAuthentificationBean.getName(), new Date());
 				try {
 					serviceEvenement.addRetard(retard, idSession, idEtudiant);
-					setEvenementSuccess("le Retard de "+dateStart+" A "+dateEnd+" à bien été signalé");
+					setEvenementSuccess("le Retard de " + dateStart + " A "
+							+ dateEnd + " à bien été signalé");
 					setEvenementFoundException("");
 				} catch (VerificationInDataBaseException e) {
 					setEvenementFoundException(e.getMessage());
 					setEvenementSuccess("");
 				}
-			}
-			else if(typeEvenement.equals("absence")){
-				absence=new Absence(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
+			} else if (typeEvenement.equals("absence")) {
+				absence = new Absence(dateStart, dateEnd,
+						userAuthentificationBean.getName(), new Date());
 				try {
 					serviceEvenement.addAbsence(absence, idSession, idEtudiant);
-					setEvenementSuccess("l'absence"+" de "+dateStart+" A "+dateEnd+" à bien été signalée");
+					setEvenementSuccess("l'absence" + " de " + dateStart
+							+ " A " + dateEnd + " à bien été signalée");
 					setEvenementFoundException("");
 				} catch (VerificationInDataBaseException e) {
 					setEvenementFoundException(e.getMessage());
 					setEvenementSuccess("");
 				}
-			}
-			else if(typeEvenement.equals("entretient")){
-				entretien = new Entretien(dateStart, dateEnd, userAuthentificationBean.getName(),new Date());
+			} else if (typeEvenement.equals("entretient")) {
+				entretien = new Entretien(dateStart, dateEnd,
+						userAuthentificationBean.getName(), new Date());
 				try {
-					serviceEvenement.addEntretien(entretien, idSession, idEtudiant);
-					setEvenementSuccess("l'entretien de "+dateStart+" A "+dateEnd+" à bien été signalée");
+					serviceEvenement.addEntretien(entretien, idSession,
+							idEtudiant);
+					setEvenementSuccess("l'entretien de " + dateStart + " A "
+							+ dateEnd + " à bien été signalée");
 					setEvenementFoundException("");
 				} catch (VerificationInDataBaseException e) {
 					setEvenementFoundException(e.getMessage());
 					setEvenementSuccess("");
 				}
-			}
-			else if(typeEvenement.equals("top")){
-				topEtudiant = new TopEtudiant(new Date(), new Date(), userAuthentificationBean.getName(),new Date());
+			} else if (typeEvenement.equals("top")) {
+				topEtudiant = new TopEtudiant(new Date(), new Date(),
+						userAuthentificationBean.getName(), new Date());
 				try {
 					serviceEvenement.addTop(topEtudiant, idSession, idEtudiant);
 					setEvenementSuccess("l'evènement à bien été signalée");
@@ -190,11 +285,12 @@ public class ScheduleView {
 					setEvenementFoundException(e.getMessage());
 					setEvenementSuccess("");
 				}
-			}
-			else if(typeEvenement.equals("warning")){
-				warningEtudiant = new WarningEtudiant(new Date(), new Date(), userAuthentificationBean.getName(),new Date());
+			} else if (typeEvenement.equals("warning")) {
+				warningEtudiant = new WarningEtudiant(new Date(), new Date(),
+						userAuthentificationBean.getName(), new Date());
 				try {
-					serviceEvenement.addWarning(warningEtudiant, idSession, idEtudiant);
+					serviceEvenement.addWarning(warningEtudiant, idSession,
+							idEtudiant);
 					setEvenementSuccess("l'evènement à bien été signalée");
 					setEvenementFoundException("");
 				} catch (VerificationInDataBaseException e) {
@@ -205,7 +301,6 @@ public class ScheduleView {
 		}
 
 	}
-
 
 	/* :::::::::::::::::::::: */
 
@@ -345,7 +440,6 @@ public class ScheduleView {
 		this.serviceEtudiant = serviceEtudiant;
 	}
 
-
 	public void setUserAuthentificationBean(
 			UserAuthentificationBean userAuthentificationBean) {
 		this.userAuthentificationBean = userAuthentificationBean;
@@ -367,7 +461,40 @@ public class ScheduleView {
 		this.evenementSuccess = evenementSuccess;
 	}
 
-	
-	
+	public Formateur getFormateur() {
+		return formateur;
+	}
+
+	public void setFormateur(Formateur formateur) {
+		this.formateur = formateur;
+	}
+
+	public void setServiceFormateur(IFormateurService serviceFormateur) {
+		this.serviceFormateur = serviceFormateur;
+	}
+
+	public List<SessionEtudiant> getSessionsFormateur() {
+		return sessionsFormateur;
+	}
+
+	public void setSessionsFormateur(List<SessionEtudiant> sessionsFormateur) {
+		this.sessionsFormateur = sessionsFormateur;
+	}
+
+	public Long getIdFormateur() {
+		return idFormateur;
+	}
+
+	public void setIdFormateur(Long idFormateur) {
+		this.idFormateur = idFormateur;
+	}
+
+	public SessionEtudiant getSessionFormateur() {
+		return sessionFormateur;
+	}
+
+	public void setSessionFormateur(SessionEtudiant sessionFormateur) {
+		this.sessionFormateur = sessionFormateur;
+	}
 
 }

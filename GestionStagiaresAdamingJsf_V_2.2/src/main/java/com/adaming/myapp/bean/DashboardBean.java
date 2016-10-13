@@ -11,9 +11,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Evenement;
+import com.adaming.myapp.entities.Module;
+import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.evenement.service.IEvenementService;
 import com.adaming.myapp.exception.EvenementNotFoundException;
+import com.adaming.myapp.module.service.IModuleService;
+import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.session.service.ISessionService;
 
 @Component("dashboardBean")
@@ -29,6 +33,10 @@ public class DashboardBean implements Serializable {
 	private IEvenementService serviceEvenement;
 	@Inject
 	private ISessionService serviceSession;
+	@Inject
+	private IModuleService serviceModule;
+	@Inject
+	private INotesService serviceNote;
 
 	private List<Evenement> retards;
 	private List<Evenement> absences;
@@ -53,6 +61,9 @@ public class DashboardBean implements Serializable {
 	private List<Evenement> currentTop;
 	private List<Evenement> limitationWarning;
 	private List<Evenement> limitationTop;
+	private List<Module> modules;
+	private List<Note> notes;
+	private String etatModule;
 	private int minuteOfEvenement;
 	private int hoursOfEvenement;
 	private int dureeInMinute;
@@ -106,6 +117,11 @@ public class DashboardBean implements Serializable {
 			setEntretiens(null);
 		}
 
+	}
+	
+	/*@methode remplir la session en cours */
+	public void sessionEnCours(){
+		sessionsInProgress = serviceSession.getAllSessionsInProgress();
 	}
 
 	/* get current time of evenement Retards */
@@ -259,7 +275,9 @@ public class DashboardBean implements Serializable {
 
 	/* @ method pour avoir les jours d'une sessions (progress bar in css) */
 	public void getSessionEnCours() {
-		sessionsInProgress = serviceSession.getAllSessionsInProgress();
+		/*remplire la session en cours */
+		sessionEnCours();
+		/*parcourir chaque session en cours */
 		for (SessionEtudiant s : sessionsInProgress) {
 			dateDebuteInDays = s.getDateDebute().getTime()
 					/ (24 * 60 * 60 * 1000);
@@ -273,21 +291,20 @@ public class DashboardBean implements Serializable {
 			long differenceDate = dateFinInDays - dateDebuteInDays;
 			String dayFin = Long.toString(differenceDate);
 			s.setDateFinInDays(dayFin);
-			System.out.println("difference " + differenceDate);
+			
 
 			/* nombre de jours entre le début et le jour courant */
 			long differenceTwo = currentDate - dateDebuteInDays;
 			String differenceTwoStr = Long.toString(differenceTwo);
 			s.setDateDebuteInDays(differenceTwoStr);
-			System.out.println("la difference entre debut et current day"
-					+ differenceTwo);
-
 		}
 	}
 
 	/* Methode pour obtenir les Evenements d'une session */
 	public void getEvenementEnCours() {
-
+        /*get modules By session*/
+		getModulesBySession();
+		/*evenement by session*/
 		evenementsSession = serviceEvenement
 				.getAllEvenementsBySession(idSession);
 
@@ -296,6 +313,21 @@ public class DashboardBean implements Serializable {
 			e.setTypeEvenement(typeEvenement);
 		}
 
+	}
+	/*get modules by session */
+	public void getModulesBySession(){
+		modules=serviceModule.getModulesBySession(idSession);
+		for(Module m:modules){
+			notes=serviceNote.getNotesBySessionAndModule(idSession, m.getIdModule());
+			for(Note n:notes){
+				if(n.getSessionEtudiant().getIdSession() == idSession
+				   && n.getModule().getIdModule() == m.getIdModule()
+				   && n.getScore() != null){
+				    m.setEtatModule("Validé");
+				    System.out.println("validé"+etatModule);
+				}
+			}
+		}
 	}
 
 	public List<Evenement> getRetards() {
@@ -553,5 +585,30 @@ public class DashboardBean implements Serializable {
 	public void setEvenementsSession(List<Evenement> evenementsSession) {
 		this.evenementsSession = evenementsSession;
 	}
+
+	public List<Module> getModules() {
+		return modules;
+	}
+
+	public void setModules(List<Module> modules) {
+		this.modules = modules;
+	}
+
+	public List<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
+	}
+
+	public String getEtatModule() {
+		return etatModule;
+	}
+
+	public void setEtatModule(String etatModule) {
+		this.etatModule = etatModule;
+	}
+
 
 }

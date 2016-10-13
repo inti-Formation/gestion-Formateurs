@@ -9,163 +9,200 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:pe="http://primefaces.org/ui/extensions">
-	
+
 
 <ui:composition>
 	<br> </br>
 	<br> </br>
 	<br> </br>
 	<div class="well container">
+		<br />
+		<!-- exception add new evenement -->
+		<c:if test="#{not empty scheduleView.evenementFoundException}">
+			<div class="alert alert-warning">
+				<h:outputText value="#{scheduleView.evenementFoundException}"
+					styleClass="errorExeption" />
+			</div>
+		</c:if>
+		<!-- message success -->
+		<c:if test="#{not empty scheduleView.evenementSuccess}">
+			<div class="alert alert-info">
+				<h:outputText value="#{scheduleView.evenementSuccess}"
+					styleClass="messageSuccess" />
+			</div>
+		</c:if>
+		<!-- errors de validation -->
+		<h:messages style="color:red;"></h:messages>
+		<h:form class="form-validate form-horizontal">
+			<div class="form-group ">
+				<label for="session" class="control-label col-lg-2">Session
+					en Cours :</label>
+				<div class="col-lg-10">
+					<h:outputText
+						value="Formation: #{scheduleView.sessionFormateur.specialite.designation}" />
+					<br />
+					<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}" />
+					<br />
+				</div>
+				<div class="col-lg-10">
 
-		<h:form id="form">
-			<br />
-			<div class="inputpersso">
-				<p:outputLabel for="session" value="Session(En Cours):"
-					styleClass="paddingTop20" />
-				<br />
-				<p:selectOneMenu id="session" required="true"
-					required-message="Veuillez Rensiegnez la Session SVP!!"
-					renderLabel="true" value="#{scheduleView.idSession}">
-					<f:selectItem itemLabel="Sélectionnez Une Session En Cours"
-						itemValue="#{null}" />
-					<f:selectItems value="#{scheduleView.sessionEnCours}" var="s"
-						itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
-						itemValue="#{s.idSession}" />
-                    <p:ajax event="valueChange" update="module" 
-							listener="#{scheduleView.getAllModulesBySession}"/>
-				</p:selectOneMenu>
-				<br />
-				<h:message for="session" />
-				
-				<p:outputLabel for="module" value="Modules:"
-					styleClass="paddingTop20" />
-				<br />
-				<p:selectOneMenu id="module" required="true"
-					required-message="Veuillez Rensiegnez le Module SVP!!"
-					renderLabel="true" value="#{scheduleView.idModule}">
-					<f:selectItem itemLabel="Sélectionnez Un Module"
-						itemValue="#{null}" />
-					<f:selectItems value="#{scheduleView.modules}" var="m"
-						itemLabel="#{m.nomModule}"
-						itemValue="#{m.idModule}" />
+					<p:outputLabel for="module" value="Modules:"
+						styleClass="paddingTop20" />
+					<br />
+					<p:selectOneMenu id="module" required="true"
+						required-message="Veuillez Rensiegnez le Module SVP!!"
+						renderLabel="true" value="#{scheduleView.idModule}">
+						<f:selectItem itemLabel="Sélectionnez Un Module"
+							itemValue="#{null}" />
+						<f:selectItems value="#{scheduleView.modules}" var="m"
+							itemLabel="#{m.nomModule}" itemValue="#{m.idModule}" />
 
-				</p:selectOneMenu>
-				<br />
-				<h:message for="module" />
-				<br />
-				<b:commandButton action="#{scheduleView.genererScheduleEvaluations()}"
-					value="Generer" look="primary" />
+					</p:selectOneMenu>
+					<br />
+					<h:message for="module" />
+					<br />
+					<b:commandButton
+						action="#{scheduleView.genererScheduleEvaluations}"
+						value="Generer" look="primary" />
+
+				</div>
 
 			</div>
+
+
+
+
 			<br />
 			<br />
 			<br />
-			<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 and fn:length(scheduleView.modules)>0}">
+			<c:if
+				test="#{fn:length(scheduleView.etudiantsBySession) >0 and fn:length(scheduleView.modules)>0}">
 				<div align="center">
-				      <!-- Message obligation-->
-				      <div class="champsObligatoire">
-				      <h:outputText value="Merci de remplir tous les champs du tableau ci-dessous afin que nous puissions rediriger toutes les informations  vers Nos clients.  " />
-                      </div>
-				      <br/> <br/>
-				       <!-- more Informations width tag evaluation-->
-					  <ul class="inline">
-					    <li>Excellent - </li>
-					    <li class="green">.</li>
-					    <li>Très Bien  -</li>
-					    <li class="green2">.</li>
-					    <li>Moyen -</li>
-					    <li class="yellow">.</li>
-					    <li>Passable  -</li>
-					    <li class="orange">.</li>
-					    <li>Trop Juste  -</li>
-					    <li class="red">.</li>
-					  </ul>
-				    <br/> <br/>
-				   
-				    <p:dataTable reflow="true" var="e" value="#{scheduleView.etudiantsBySession}"
-						id="studentTable" editable="true" editMode="cell" widgetVar="cellSchedule"
+					<!-- Message obligation-->
+					<div class="champsObligatoire">
+						<h:outputText
+							value="Merci de remplir tous les champs du tableau ci-dessous afin que nous puissions rediriger toutes les informations  vers Nos clients.  " />
+					</div>
+					<br /> <br />
+					<!-- more Informations width tag evaluation-->
+					<ul class="inline">
+						<li>Excellent -</li>
+						<li class="green">.</li>
+						<li>Très Bien -</li>
+						<li class="green2">.</li>
+						<li>Moyen -</li>
+						<li class="yellow">.</li>
+						<li>Passable -</li>
+						<li class="orange">.</li>
+						<li>Trop Juste -</li>
+						<li class="red">.</li>
+					</ul>
+					<br /> <br />
+
+					<p:dataTable reflow="true" var="e"
+						value="#{scheduleView.etudiantsBySession}" id="studentTable"
+						editable="true" editMode="cell" widgetVar="cellSchedule"
 						style="width:96%;margin-bottom:20px;">
-                        
+
 						<f:facet name="header">
 							<h:outputText value="Evaluation - Session n°: " />
-							<h:outputText style="color:red;font-weight:bold;" value="#{scheduleView.sessionEtudiant.idSession}"/>
-							<h:outputText style="color:red;font-weight:bold" value="  Formation : #{scheduleView.sessionEtudiant.specialite.designation} ; " />
-							<h:outputText style="color:red;font-weight:bold" value="  Lieu : #{scheduleView.sessionEtudiant.lieu} ; "/>
-							<h:outputText style="color:red;font-weight:bold" value="  Début:#{scheduleView.sessionEtudiant.dateDebute} ; "/>
-							<h:outputText style="color:red;font-weight:bold" value="  Fin:#{scheduleView.sessionEtudiant.dateFin}"/>
-							<h:outputText style="color:red;font-weight:bold" value=" / Module:#{scheduleView.module.nomModule}"/>
+							<h:outputText style="color:red;font-weight:bold;"
+								value="#{scheduleView.sessionEtudiant.idSession}" />
+							<h:outputText style="color:red;font-weight:bold"
+								value="  Formation : #{scheduleView.sessionEtudiant.specialite.designation} ; " />
+							<h:outputText style="color:red;font-weight:bold"
+								value="  Lieu : #{scheduleView.sessionEtudiant.lieu} ; " />
+							<h:outputText style="color:red;font-weight:bold"
+								value="  Début:#{scheduleView.sessionEtudiant.dateDebute} ; " />
+							<h:outputText style="color:red;font-weight:bold"
+								value="  Fin:#{scheduleView.sessionEtudiant.dateFin}" />
+							<h:outputText style="color:red;font-weight:bold"
+								value=" / Module:#{scheduleView.module.nomModule}" />
 						</f:facet>
-						
+
 						<p:column style="width:100px;">
-								<f:facet name="header">
+							<f:facet name="header">
 								<h:outputText value="Nom" />
-								</f:facet>
-							    <h:outputText value="#{e.nomEtudiant}" />
+							</f:facet>
+							<h:outputText value="#{e.nomEtudiant}" />
 						</p:column>
 						<p:column style="width:100px;">
-								<f:facet name="header">
+							<f:facet name="header">
 								<h:outputText value="Prenom" />
-								</f:facet>
-							    <h:outputText value="#{e.prenomEtudiant}" />
+							</f:facet>
+							<h:outputText value="#{e.prenomEtudiant}" />
 						</p:column>
-						
+
 						<p:column headerText="Compréhension" style="width:300px;">
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.evaluation[0]}" style="cursor:pointer"/></f:facet>
-				               <f:facet name="input">
-				                <p:selectOneMenu value="#{e.evaluation[0]}" style="width:100%">
-                                  <f:selectItems value="#{e.evaluation}" var="r" itemLabel="#{r}" itemValue="#{r}"  />
-                                </p:selectOneMenu>
-				               </f:facet>
-				            </p:cellEditor>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{e.evaluation[0]}" style="cursor:pointer" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{e.evaluation[0]}" style="width:100%">
+										<f:selectItems value="#{e.evaluation}" var="r"
+											itemLabel="#{r}" itemValue="#{r}" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 						<p:column headerText="Participation">
-				            <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.evaluation[1]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input">
-				                <p:selectOneMenu value="#{e.evaluation[1]}" style="width:100%">
-                                  <f:selectItems value="#{e.evaluation}" var="c" itemLabel="#{c}" itemValue="#{c}" />
-                                </p:selectOneMenu>
-				               </f:facet>
-				            </p:cellEditor>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{e.evaluation[1]}" style="cursor:pointer" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{e.evaluation[1]}" style="width:100%">
+										<f:selectItems value="#{e.evaluation}" var="c"
+											itemLabel="#{c}" itemValue="#{c}" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
 						<p:column headerText="Application TP">
-				            <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.evaluation[2]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input">
-				                <p:selectOneMenu value="#{e.evaluation[2]}" style="width:100%">
-                                  <f:selectItems value="#{e.evaluation}" var="c" itemLabel="#{c}" itemValue="#{c}" />
-                                </p:selectOneMenu>
-				               </f:facet>
-				            </p:cellEditor>
-				            
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{e.evaluation[2]}" style="cursor:pointer" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu value="#{e.evaluation[2]}" style="width:100%">
+										<f:selectItems value="#{e.evaluation}" var="c"
+											itemLabel="#{c}" itemValue="#{c}" />
+									</p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+
 						</p:column>
 						<p:columnGroup type="footer">
-                          <p:row>
-			                 <p:column colspan="2" style="text-align:center" footerText="Etudiant"/>
-			                 <p:column colspan="3" style="text-align:center;font-wieght:bold" footerText="Evaluation Module : #{scheduleView.module.nomModule}"/>
-			              </p:row>
-			            </p:columnGroup>
+							<p:row>
+								<p:column colspan="2" style="text-align:center"
+									footerText="Etudiant" />
+								<p:column colspan="3" style="text-align:center;font-wieght:bold"
+									footerText="Evaluation Module : #{scheduleView.module.nomModule}" />
+							</p:row>
+						</p:columnGroup>
 					</p:dataTable>
-					
-					<p:commandButton value="générer un excel" id="xls" ajax="false">  
-			        <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-			        <pe:exporter type="xlsx" target="studentTable" fileName="GroupedTable"/>  
-  
-                    </p:commandButton>  
-                    
-                    <p:commandButton value="générer un pdf"  id="pdf" ajax="false">  
-			        <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-			        <pe:exporter type="pdf" target="studentTable" fileName="GroupedTable"/>  
-  
-                    </p:commandButton> 
+
+					<p:commandButton value="générer un excel" id="xls" ajax="false">
+						<f:setPropertyActionListener value="false"
+							target="#{exporterController.customExporter}" />
+						<pe:exporter type="xlsx" target="studentTable"
+							fileName="GroupedTable" />
+
+					</p:commandButton>
+
+					<p:commandButton value="générer un pdf" id="pdf" ajax="false">
+						<f:setPropertyActionListener value="false"
+							target="#{exporterController.customExporter}" />
+						<pe:exporter type="pdf" target="studentTable"
+							fileName="GroupedTable" />
+
+					</p:commandButton>
 				</div>
 			</c:if>
-			
 			<br />
-			
 		</h:form>
-	
+
 	</div>
 </ui:composition>
 </html>

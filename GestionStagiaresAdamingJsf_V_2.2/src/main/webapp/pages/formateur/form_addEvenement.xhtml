@@ -52,24 +52,14 @@
                               <div class="form">
                                   <h:form class="form-validate form-horizontal">
                                       <div class="form-group ">
-                                          <label for="session" class="control-label col-lg-2">Session En Cours <span class="required">*</span></label>
+                                          <label for="session" class="control-label col-lg-2">Session en Cours :</label>
                                           <div class="col-lg-10">
-                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-												required-message="1 - Session *"
-												value="#{scheduleView.idSession}">
-												<f:selectItem itemLabel="Sélectionnez Votre Session "
-													itemValue="#{null}" />
-												<f:selectItems value="#{scheduleView.sessionEnCours}" var="s"
-													itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
-													itemValue="#{s.idSession}" />
-											</h:selectOneMenu>
+											<h:outputText value="Formation: #{scheduleView.sessionFormateur.specialite.designation}"/><br />
+											<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}"/><br />
                                           </div>
                                        </div>
-                                        <div class="form-group">
-                                          <div class="col-lg-offset-2 col-lg-10">
-                                              <h:commandButton action="#{scheduleView.genererSchedule()}" value="Generer" class="btn btn-primary"/>
-                                          </div>
-                                        </div>
+                                        
+                                       <!-- Affichage Evenement/Etudiant --> 
                                       <c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
                                             <div>
 				                                <h:inputHidden value="#{scheduleView.idSession}"/>

@@ -275,7 +275,7 @@
 										<f:selectItems value="#{dashboardBean.sessionsInProgress}" var="s"
 											itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
 											itemValue="#{s.idSession}" />
-									<p:ajax event="valueChange" update="tabEvent" 
+									<p:ajax event="valueChange" update="tabEvent,:form10:tabModule" 
 										listener="#{dashboardBean.getEvenementEnCours}"/>
 									</h:selectOneMenu>
 								</div>
@@ -318,7 +318,45 @@
 				</section>
 			</div>
 		</div>
-       
+       <br/><br/>
+       <!-- les modules validée par session -->
+       <div class="row">
+              <!-- chart morris start -->
+              <div class="col-lg-12">
+                  <section class="panel">
+                      <header class="panel-heading">
+                          <h4>Suivi Examens</h4>
+                      </header>
+
+                      <div class="panel-body">
+                            <div class="tab-pane" id="chartjs">
+                                  <div class="row">
+                                      <!-- Line -->
+                                       <h:form id="form10">
+                                        <div class="col-lg-12">
+                                          <section class="panel">
+                                              <header class="panel-heading">
+                                                  sessions 
+                                              </header>
+                                               <div class="panel-body text-center">
+	                                                <p:dataTable id="tabModule" value="#{dashboardBean.modules}" var="m">
+	                                                  <p:column headerText="Module">
+												            <h:outputText value="#{m.nomModule}" />
+												      </p:column>
+												      <p:column headerText="Statut">
+												            <h:outputText value="#{m.etatModule}" />
+												      </p:column>
+	                                                </p:dataTable>
+                                               </div>
+                                          </section>
+                                      </div>             
+                                  </h:form>                    
+                                  </div>
+                            </div>
+                      </div>
+                  </section>
+              </div>
+          </div>
        
     </div>
 </ui:composition>

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class Module implements Serializable {
@@ -23,6 +24,8 @@ public class Module implements Serializable {
 	private Long idModule;
 	private String nomModule;
 	private boolean actif = false;
+	@Transient
+	private String etatModule="En Cours";
 	/* assoc */
 	@ManyToOne
 	@JoinColumn(name = "ID_SP_MODULE")
@@ -80,5 +83,14 @@ public class Module implements Serializable {
 	public void setActif(boolean actif) {
 		this.actif = actif;
 	}
+
+	public String getEtatModule() {
+		return etatModule;
+	}
+
+	public void setEtatModule(String etatModule) {
+		this.etatModule = etatModule;
+	}
+	
 
 }

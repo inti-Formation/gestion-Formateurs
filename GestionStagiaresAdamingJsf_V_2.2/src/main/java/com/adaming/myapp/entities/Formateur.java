@@ -6,21 +6,21 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Formateur implements Serializable {
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idFormateur;
 	private String civilite;
 	private String nom;
@@ -33,12 +33,12 @@ public class Formateur implements Serializable {
 	private Date dateDeNaissance;
 	private String lieuDeNaissance;
 	private String specialite;
-	
-	/*assoc*/
-	@ManyToMany
-	@JoinTable(name="TB_SES_FORMATEUR")
-	private List<SessionEtudiant> sessionsEtudiant= new ArrayList<SessionEtudiant>();
-	
+
+	/* assoc */
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "TB_SES_FORMATEUR")
+	private List<SessionEtudiant> sessionsEtudiant = new ArrayList<SessionEtudiant>();
+
 	public Formateur() {
 		// TODO Auto-generated constructor stub
 	}
@@ -165,5 +165,4 @@ public class Formateur implements Serializable {
 		this.sessionsEtudiant = sessionsEtudiant;
 	}
 
-	
 }

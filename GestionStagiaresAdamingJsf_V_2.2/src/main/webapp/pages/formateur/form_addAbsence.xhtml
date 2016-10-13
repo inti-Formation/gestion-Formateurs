@@ -9,210 +9,253 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:pe="http://primefaces.org/ui/extensions">
-	
+
 
 <ui:composition>
 	<br> </br>
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-
-		<h:form id="form">
-			<br />
-			<div class="inputpersso">
-				<p:outputLabel for="session" style="color:black" value="Session(En Cours):"
-					styleClass="paddingTop20" />
-				<br />
-				<p:selectOneMenu id="session" required="true"
-					required-message="Veuillez Rensiegnez la Session SVP!!"
-					renderLabel="true" value="#{scheduleView.idSession}">
-					<f:selectItem itemLabel="Sélectionnez Une Session En Cours"
-						itemValue="#{null}" />
-					<f:selectItems value="#{scheduleView.sessionEnCours}" var="s"
-						itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
-						itemValue="#{s.idSession}" />
-
-				</p:selectOneMenu>
-				<br />
-				<h:message for="session" />
-
-				<p:outputLabel style="color:black" for="dateD" value="Date debut:" />
-				<p:calendar id="dateD" navigator="true"
-					yearRange="c-10:c+0" value="#{scheduleView.dateIn}" showWeek="true" />
-
-				<br /> <br></br>
-				<b:commandButton action="#{scheduleView.genererSchedule()}"
-					value="Generer" look="primary" />
-
-			</div>
-			<br />
-			<br />
-			<br />
-			<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
-				<div align="center">
-				      <!-- more Informations width tag absence-->
-				      <h:outputText style="color:black" value="Présent - " />
-					  <h:outputText style="color:red;font-weight:bold;"
-					  value="P"  />
-					  <p:spacer width="20"></p:spacer>
-					  <h:outputText style="color:black" value="Absent  - " />
-					  <h:outputText style="color:red;font-weight:bold;"
-					  value="A"  />
-					  <p:spacer width="20"></p:spacer>
-					  <h:outputText style="color:black" value="Retard  - " />
-					  <h:outputText style="color:red;font-weight:bold;"
-					  value="R : 10h30"  />
-					  <p:spacer width="20"></p:spacer>
-					  <h:outputText style="color:black" value="Entretient  - " />
-					  <h:outputText style="color:red;font-weight:bold;"
-					  value="E"  />
-					  <p:spacer width="20"></p:spacer>
-					  <h:outputText style="color:black" value="Férié  - " />
-					  <h:outputText style="color:red;font-weight:bold;"
-					  value="F"  />
-				    <br/> <br/>
-				    <p:dataTable var="e" value="#{scheduleView.etudiantsBySession}"
-						id="studentTable" editable="true" editMode="cell" widgetVar="cellSchedule"
-						rows="10" style="width:96%;margin-bottom:20px;">
-
-						<f:facet name="header">
-							<h:outputText value="Feuille D'Emmargement - Semaine n°:" />
-							<h:outputText style="color:red;font-weight:bold;"
-								value="#{scheduleView.semaine} - #{scheduleView.annee}"  />
-						</f:facet>
-						<p:columnGroup type="header">
-							<p:row>
-									<p:column rowspan="3" headerText="Etudiant" />
-									<p:column colspan="10" style="color:red;font-weight:bold;"
-										headerText="Session n° #{scheduleView.idSession} - Formation: #{scheduleView.sessionEtudiant.specialite.designation}"/>
-							</p:row>
-							<p:row>
-								<p:column colspan="2"
-									headerText="Lundi #{scheduleView.dateString[0]}" />
-								<p:column colspan="2"
-									headerText="Mardi #{scheduleView.dateString[1]}" />
-								<p:column colspan="2"
-									headerText="Mercredi #{scheduleView.dateString[2]}" />
-								<p:column colspan="2"
-									headerText="Jeudi #{scheduleView.dateString[3]}" />
-								<p:column colspan="2"
-									headerText="Vendredi #{scheduleView.dateString[4]}" />
-							</p:row>
-							<p:row>
-								<p:column headerText="Matin" />
-								<p:column headerText="Après-Midi" />
-								<p:column headerText="Matin" />
-								<p:column headerText="Après-Midi" />
-								<p:column headerText="Matin" />
-								<p:column headerText="Après-Midi" />
-								<p:column headerText="Matin" />
-								<p:column headerText="Après-Midi" />
-								<p:column headerText="Matin" />
-								<p:column headerText="Après-Midi" />
-							</p:row>
-						</p:columnGroup>					
-						<p:column>
-							<h:outputText value="#{e.nomEtudiant} #{e.prenomEtudiant}" />
-						</p:column>
-
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[0]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[0]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[1]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[1]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[2]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[2]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[3]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[3]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[4]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[4]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[5]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[5]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[6]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[6]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[7]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[7]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[8]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[8]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-						<p:column>
-				           <p:cellEditor>
-				               <f:facet name="output"><h:outputText value="#{e.presence[9]}" style="cursor:pointer" /></f:facet>
-				               <f:facet name="input"><p:inputText value="#{e.presence[9]}" style="width:96%"/></f:facet>
-				           </p:cellEditor>
-						</p:column>
-						<p:columnGroup type="footer">
-                          
-			                 <p:row>
-								
-								<p:column colspan="3"
-									footerText="Présent - P" />
-								<p:column colspan="2"
-									footerText="Absent - A" />
-								<p:column colspan="2"
-									footerText="Retard - R" />
-								<p:column colspan="2"
-									footerText="Entretient - E" />
-								<p:column colspan="2"
-									footerText="Férié - F" />
-							</p:row>
-			             
-			            </p:columnGroup>
-					</p:dataTable>
-					<p:commandButton value="générer un excel" id="xls" ajax="false">  
-			        <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-			        <pe:exporter type="xlsx" target="studentTable" fileName="GroupedTable"/>  
-  
-                    </p:commandButton>  
-                    
-                    <p:commandButton value="générer un pdf"  id="pdf" ajax="false">  
-			        <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-			        <pe:exporter type="pdf" target="studentTable" fileName="GroupedTable"/>  
-  
-                    </p:commandButton> 
-					
+ 	<br/>
+			<!-- exception add new evenement -->
+			<c:if test="#{not empty scheduleView.evenementFoundException}">
+				<div class="alert alert-warning">
+					<h:outputText value="#{scheduleView.evenementFoundException}"
+							styleClass="errorExeption"/>
 				</div>
 			</c:if>
-			<br />
-		</h:form>
+			<!-- message success -->
+			<c:if test="#{not empty scheduleView.evenementSuccess}">
+				<div class="alert alert-info">
+					<h:outputText value="#{scheduleView.evenementSuccess}"
+							styleClass="messageSuccess" />
+				</div>
+			</c:if>
+	     <!-- errors de validation -->
+	     <h:messages style="color:red;"></h:messages>
+		<h:form class="form-validate form-horizontal">
+			<div class="form-group ">
+				<label for="session" class="control-label col-lg-2">Session
+					en Cours :</label>
+				<div class="col-lg-10">
+					<h:outputText
+						value="Formation: #{scheduleView.sessionFormateur.specialite.designation}" />
+					<br />
+					<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}" />
+					<br />
+				</div>
+				
+				<label for="dateD" class="control-label col-lg-2">Modifier Semaine :</label>
+				<p:calendar id="dateD" navigator="true" yearRange="c-10:c+0"
+					value="#{scheduleView.dateIn}" showWeek="true" />
+				<b:commandButton action="#{scheduleView.genererSchedule}"
+					value="Generer" look="primary" style="margin-left: 15px!important;margin-top:0px!important" />
+			</div>
+
+
+	<br />
+	<br />
+	<br />
+	<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
+		<div align="center">
+			<!-- more Informations width tag absence-->
+			<h:outputText style="color:black" value="Présent - " />
+			<h:outputText style="color:red;font-weight:bold;" value="P" />
+			<p:spacer width="20"></p:spacer>
+			<h:outputText style="color:black" value="Absent  - " />
+			<h:outputText style="color:red;font-weight:bold;" value="A" />
+			<p:spacer width="20"></p:spacer>
+			<h:outputText style="color:black" value="Retard  - " />
+			<h:outputText style="color:red;font-weight:bold;" value="R : 10h30" />
+			<p:spacer width="20"></p:spacer>
+			<h:outputText style="color:black" value="Entretient  - " />
+			<h:outputText style="color:red;font-weight:bold;" value="E" />
+			<p:spacer width="20"></p:spacer>
+			<h:outputText style="color:black" value="Férié  - " />
+			<h:outputText style="color:red;font-weight:bold;" value="F" />
+			<br /> <br />
+			<p:dataTable var="e" value="#{scheduleView.etudiantsBySession}"
+				id="studentTable" editable="true" editMode="cell"
+				widgetVar="cellSchedule" rows="10"
+				style="width:96%;margin-bottom:20px;">
+
+				<f:facet name="header">
+					<h:outputText value="Feuille D'Emmargement - Semaine n°:" />
+					<h:outputText style="color:red;font-weight:bold;"
+						value="#{scheduleView.semaine} - #{scheduleView.annee}" />
+				</f:facet>
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column rowspan="3" headerText="Etudiant" />
+						<p:column colspan="10" style="color:red;font-weight:bold;"
+							headerText="Session n° #{scheduleView.idSession} - Formation: #{scheduleView.sessionEtudiant.specialite.designation}" />
+					</p:row>
+					<p:row>
+						<p:column colspan="2"
+							headerText="Lundi #{scheduleView.dateString[0]}" />
+						<p:column colspan="2"
+							headerText="Mardi #{scheduleView.dateString[1]}" />
+						<p:column colspan="2"
+							headerText="Mercredi #{scheduleView.dateString[2]}" />
+						<p:column colspan="2"
+							headerText="Jeudi #{scheduleView.dateString[3]}" />
+						<p:column colspan="2"
+							headerText="Vendredi #{scheduleView.dateString[4]}" />
+					</p:row>
+					<p:row>
+						<p:column headerText="Matin" />
+						<p:column headerText="Après-Midi" />
+						<p:column headerText="Matin" />
+						<p:column headerText="Après-Midi" />
+						<p:column headerText="Matin" />
+						<p:column headerText="Après-Midi" />
+						<p:column headerText="Matin" />
+						<p:column headerText="Après-Midi" />
+						<p:column headerText="Matin" />
+						<p:column headerText="Après-Midi" />
+					</p:row>
+				</p:columnGroup>
+				<p:column>
+					<h:outputText value="#{e.nomEtudiant} #{e.prenomEtudiant}" />
+				</p:column>
+
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[0]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[0]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[1]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[1]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[2]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[2]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[3]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[3]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[4]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[4]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[5]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[5]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[6]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[6]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[7]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[7]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[8]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[8]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{e.presence[9]}" style="cursor:pointer" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{e.presence[9]}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:columnGroup type="footer">
+
+					<p:row>
+
+						<p:column colspan="3" footerText="Présent - P" />
+						<p:column colspan="2" footerText="Absent - A" />
+						<p:column colspan="2" footerText="Retard - R" />
+						<p:column colspan="2" footerText="Entretient - E" />
+						<p:column colspan="2" footerText="Férié - F" />
+					</p:row>
+
+				</p:columnGroup>
+			</p:dataTable>
+			<p:commandButton value="générer un excel" id="xls" ajax="false">
+				<f:setPropertyActionListener value="false"
+					target="#{exporterController.customExporter}" />
+				<pe:exporter type="xlsx" target="studentTable"
+					fileName="GroupedTable" />
+
+			</p:commandButton>
+
+			<p:commandButton value="générer un pdf" id="pdf" ajax="false">
+				<f:setPropertyActionListener value="false"
+					target="#{exporterController.customExporter}" />
+				<pe:exporter type="pdf" target="studentTable"
+					fileName="GroupedTable" />
+
+			</p:commandButton>
+
+		</div>
+	</c:if>
+	<br />
+	</h:form>
 
 	</div>
 </ui:composition>
