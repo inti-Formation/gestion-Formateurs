@@ -244,42 +244,6 @@
                                               </div>
                                           </section>
                                       </div>
-                                      <!-- Polar Area -->
-                                      <div class="col-lg-6">
-                                          <section class="panel">
-                                              <header class="panel-heading">
-                                                  Polar Area
-                                              </header>
-                                              <div class="panel-body text-center">
-                                                  <canvas id="polarArea" height="300" width="400"></canvas>
-                                              </div>
-                                          </section>
-                                      </div>
-                                  </div>
-                                  <div class="row">
-                                      
-                                      <!-- Pie -->
-                                      <div class="col-lg-6">
-                                          <section class="panel">
-                                              <header class="panel-heading">
-                                                  Pie
-                                              </header>
-                                              <div class="panel-body text-center">
-                                                  <canvas id="pie" height="300" width="400"></canvas>
-                                              </div>
-                                          </section>
-                                      </div>
-                                      <!-- Doughnut -->
-                                      <div class="col-lg-6">
-                                          <section class="panel">
-                                              <header class="panel-heading">
-                                                  Doughnut
-                                              </header>
-                                              <div class="panel-body text-center">
-                                                  <canvas id="doughnut" height="300" width="400"></canvas>
-                                              </div>
-                                          </section>
-                                      </div>
                                   </div>
                             </div>
                       </div>
@@ -287,6 +251,75 @@
               </div>
           </div>
        </section>
+       <!-- Evenements par Session -->
+       <div class="row">
+			<div class="col-lg-12">
+				<section class="panel">
+					<div class="panel-body">
+						<header class="panel-heading">
+							<h4>Evenements par session</h4>
+						</header>
+						<h:form >
+							<div class="form-group ">
+								<label for="session" class="control-label col-lg-2">Session
+									En Cours <span class="required">*</span>
+								</label>
+								<div class="col-lg-10">
+									<h:selectOneMenu
+										style="height:35px;width:50%;color:#797979;font-size:16px;"
+										styleClass="selectpicker" required="true"
+										required-message="1 - Session *"
+										value="#{dashboardBean.idSession}">
+										<f:selectItem itemLabel="Sélectionnez Votre Session "
+											itemValue="#{null}" />
+										<f:selectItems value="#{dashboardBean.sessionsInProgress}" var="s"
+											itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
+											itemValue="#{s.idSession}" />
+									<p:ajax event="valueChange" update="tabEvent" 
+										listener="#{dashboardBean.getEvenementEnCours}"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+							
+							<!-- Datatable Evenement avec Selections -->
+							<p:dataTable var="event" value="#{dashboardBean.evenementsSession}" widgetVar="carsTable"
+                 				emptyMessage="Aucuns events avec ces paramètres" id="tabEvent">
+ 
+						        <f:facet name="header">
+						            <p:outputPanel>
+						                <h:outputText value="Search all fields:" />
+						                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+						            </p:outputPanel>
+						        </f:facet>
+						 
+						        <p:column filterBy="#{event.etudiant.nomEtudiant}" headerText="Etudiant" filterMatchMode="contains">
+						            <h:outputText value="#{event.etudiant.nomEtudiant}" />
+						        </p:column>
+						        
+						       <p:column filterBy="#{event.typeEvenement}" headerText="Evenement" filterMatchMode="in">
+						            <f:facet name="filter">
+						                <p:selectCheckboxMenu label="Type" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">
+						                    <f:selectItems value="#{dashboardBean.typesEvenement}" />
+						                </p:selectCheckboxMenu>
+						            </f:facet>
+						            <h:outputText value="#{event.typeEvenement}" />
+						        </p:column>
+						 		 				 
+						        <p:column headerText="Date D" sortBy="#{event.startDate}">
+						            <h:outputText value="#{event.startDate}" />
+						        </p:column>
+						        
+						        <p:column headerText="Date F" sortBy="#{event.endDate}">
+						            <h:outputText value="#{event.endDate}" />
+						        </p:column>
+						    </p:dataTable>
+					</h:form>							
+					</div>
+				</section>
+			</div>
+		</div>
+       
+       
     </div>
 </ui:composition>
 </html>

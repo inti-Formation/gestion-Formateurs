@@ -13,22 +13,18 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang3.time.DateUtils;
-
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="TYPE_EVENEMENT",discriminatorType=DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE_EVENEMENT", discriminatorType = DiscriminatorType.STRING)
 public class Evenement implements Serializable {
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idEvenement;
 	private Date startDate;
 	private Date endDate;
@@ -42,15 +38,17 @@ public class Evenement implements Serializable {
 	private int dureeInMinute;
 	@Transient
 	private int dureeInHours;
+	@Transient
+	private String typeEvenement;
 
-	/*assoc*/
+	/* assoc */
 	@ManyToOne
-	@JoinColumn(name="ID_EVE_ETUDIANT")
+	@JoinColumn(name = "ID_EVE_ETUDIANT")
 	private Etudiant etudiant;
 	@ManyToOne
-	@JoinColumn(name="ID_EVE_SESSION")
+	@JoinColumn(name = "ID_EVE_SESSION")
 	private SessionEtudiant sessionEtudiant;
-	
+
 	public Evenement() {
 		// TODO Auto-generated constructor stub
 	}
@@ -63,10 +61,6 @@ public class Evenement implements Serializable {
 		this.signaleur = signaleur;
 		this.curentDate = curentDate;
 	}
-    
-	
-
-
 
 	public Evenement(String signaleur, Date curentDate) {
 		super();
@@ -162,7 +156,12 @@ public class Evenement implements Serializable {
 		this.dureeInHours = dureeInHours;
 	}
 
-	
-	
-	
+	public String getTypeEvenement() {
+		return typeEvenement;
+	}
+
+	public void setTypeEvenement(String typeEvenement) {
+		this.typeEvenement = typeEvenement;
+	}
+
 }

@@ -2,16 +2,11 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.persistence.TemporalType;
 
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -23,18 +18,18 @@ import com.adaming.myapp.session.service.ISessionService;
 
 @Component("dashboardBean")
 @Scope("session")
-public class DashboardBean implements Serializable{
-    
+public class DashboardBean implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	private IEvenementService serviceEvenement;
 	@Inject
 	private ISessionService serviceSession;
-	
+
 	private List<Evenement> retards;
 	private List<Evenement> absences;
 	private List<Evenement> entretiens;
@@ -63,30 +58,33 @@ public class DashboardBean implements Serializable{
 	private int dureeInMinute;
 	private int dureeInHours;
 	private Date dateOfEvenement;
-	
-	
 
-	
-	public void init(){
-		retardNotFoundException    = new String();
-		absenceNotFoundException   = new String();
+	private String typeEvenement;
+	private String[] typesEvenement = { "Retard", "Absence", "Entretien" };
+	private Long idSession;
+	private List<Evenement> evenementsSession;
+
+	public void init() {
+		retardNotFoundException = new String();
+		absenceNotFoundException = new String();
 		entretienNotFoundException = new String();
-		/*getSessionsInProgress*/
-		 getSessionEnCours();
-		/*getCurrentAbsenceAndRetard*/
+		/* getSessionsInProgress */
+		getSessionEnCours();
+		/* getCurrentAbsenceAndRetard */
 		getCurentsAbsencesAndRetards();
-		/*getWeecklyEvenements*/
+		/* getWeecklyEvenements */
 		try {
-			retards   = serviceEvenement.getEvenementsRetards();
-			for(Evenement evenement:retards){
-				/*get durrée de retard*/
-				long difference = evenement.getEndDate().getTime() - evenement.getStartDate().getTime();
-				dureeInMinute = (int) ((difference / (1000*60)) % 60);
-	            dureeInHours   = (int) ((difference / (1000*60*60)) % 24);
-	            System.out.println("duree Minute"+dureeInMinute);
-	            System.out.println("duree hours"+dureeInHours);
-	            evenement.setDureeInMinute(dureeInMinute);
-	            evenement.setDureeInHours(dureeInHours);
+			retards = serviceEvenement.getEvenementsRetards();
+			for (Evenement evenement : retards) {
+				/* get durrée de retard */
+				long difference = evenement.getEndDate().getTime()
+						- evenement.getStartDate().getTime();
+				dureeInMinute = (int) ((difference / (1000 * 60)) % 60);
+				dureeInHours = (int) ((difference / (1000 * 60 * 60)) % 24);
+				System.out.println("duree Minute" + dureeInMinute);
+				System.out.println("duree hours" + dureeInHours);
+				evenement.setDureeInMinute(dureeInMinute);
+				evenement.setDureeInHours(dureeInHours);
 			}
 			setRetardNotFoundException("");
 		} catch (EvenementNotFoundException e) {
@@ -94,180 +92,210 @@ public class DashboardBean implements Serializable{
 			setRetards(null);
 		}
 		try {
-			absences  = serviceEvenement.getEvenementsAbsences();
+			absences = serviceEvenement.getEvenementsAbsences();
 			setAbsenceNotFoundException("");
 		} catch (EvenementNotFoundException e) {
 			setAbsenceNotFoundException(e.getMessage());
 			setAbsences(null);
 		}
 		try {
-			entretiens= serviceEvenement.getEvenementsEntretien();
+			entretiens = serviceEvenement.getEvenementsEntretien();
 			setEntretienNotFoundException("");
 		} catch (EvenementNotFoundException e) {
 			setEntretienNotFoundException(e.getMessage());
 			setEntretiens(null);
 		}
-		
+
 	}
-	
-	/*get current time of evenement Retards*/
-	public void getRetardForToDay(){
-		if(currentRetards.size() >0){
-	    	for(Evenement e:currentRetards){
-	    		/*get duree d'envois de l'evenement */
-                Date today = new Date();
-                long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
-                minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
-                hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
-                e.setMinuteOfEvenement(minuteOfEvenement);
-                e.setHoursOfEvenement(hoursOfEvenement);
-                /*get durrée de retard*/
-				long difference = e.getEndDate().getTime() - e.getStartDate().getTime();
-				dureeInMinute = (int) ((difference / (1000*60)) % 60);
-	            dureeInHours   = (int) ((difference / (1000*60*60)) % 24);
-	            System.out.println("duree Minute"+dureeInMinute);
-	            System.out.println("duree hours"+dureeInHours);
-	            e.setDureeInMinute(dureeInMinute);
-	            e.setDureeInHours(dureeInHours);
-	    	}
-	    }
+
+	/* get current time of evenement Retards */
+	public void getRetardForToDay() {
+		if (currentRetards.size() > 0) {
+			for (Evenement e : currentRetards) {
+				/* get duree d'envois de l'evenement */
+				Date today = new Date();
+				long differenceInMilis = today.getTime()
+						- e.getCurentDate().getTime();
+				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
+				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
+				e.setMinuteOfEvenement(minuteOfEvenement);
+				e.setHoursOfEvenement(hoursOfEvenement);
+				/* get durrée de retard */
+				long difference = e.getEndDate().getTime()
+						- e.getStartDate().getTime();
+				dureeInMinute = (int) ((difference / (1000 * 60)) % 60);
+				dureeInHours = (int) ((difference / (1000 * 60 * 60)) % 24);
+				System.out.println("duree Minute" + dureeInMinute);
+				System.out.println("duree hours" + dureeInHours);
+				e.setDureeInMinute(dureeInMinute);
+				e.setDureeInHours(dureeInHours);
+			}
+		}
 	}
-	
-	/*get current time of evenement absences*/
-	public void getAbsenceForToDay(){
-		if(currentAbsences.size() >0){
-	    	for(Evenement e:currentAbsences){
-	    		/*get duree d'envois de l'evenement */
-                Date today = new Date();
-                long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
-                minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
-                hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
-                e.setMinuteOfEvenement(minuteOfEvenement);
-                e.setHoursOfEvenement(hoursOfEvenement);
-                
-	    	}
-	    }
+
+	/* get current time of evenement absences */
+	public void getAbsenceForToDay() {
+		if (currentAbsences.size() > 0) {
+			for (Evenement e : currentAbsences) {
+				/* get duree d'envois de l'evenement */
+				Date today = new Date();
+				long differenceInMilis = today.getTime()
+						- e.getCurentDate().getTime();
+				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
+				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
+				e.setMinuteOfEvenement(minuteOfEvenement);
+				e.setHoursOfEvenement(hoursOfEvenement);
+
+			}
+		}
 	}
-	/*get current time of evenement Warning*/
-	public void getWarningForToDay(){
-		if(currentWarning.size() >0){
-	    	for(Evenement e:currentWarning){
-	    		/*get duree d'envois de l'evenement */
-                Date today = new Date();
-                long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
-                minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
-                hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
-                e.setMinuteOfEvenement(minuteOfEvenement);
-                e.setHoursOfEvenement(hoursOfEvenement);
-                
-	    	}
-	    }
+
+	/* get current time of evenement Warning */
+	public void getWarningForToDay() {
+		if (currentWarning.size() > 0) {
+			for (Evenement e : currentWarning) {
+				/* get duree d'envois de l'evenement */
+				Date today = new Date();
+				long differenceInMilis = today.getTime()
+						- e.getCurentDate().getTime();
+				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
+				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
+				e.setMinuteOfEvenement(minuteOfEvenement);
+				e.setHoursOfEvenement(hoursOfEvenement);
+
+			}
+		}
 	}
-	/*get current time of evenement Top*/
-	public void getTopForToDay(){
-		if(currentTop.size() >0){
-	    	for(Evenement e:currentTop){
-	    		/*get duree d'envois de l'evenement */
-                Date today = new Date();
-                long differenceInMilis = today.getTime() - e.getCurentDate().getTime();
-                minuteOfEvenement = (int) ((differenceInMilis / (1000*60)) % 60);
-                hoursOfEvenement   = (int) ((differenceInMilis / (1000*60*60)) % 24);
-                e.setMinuteOfEvenement(minuteOfEvenement);
-                e.setHoursOfEvenement(hoursOfEvenement);
-                
-	    	}
-	    }
+
+	/* get current time of evenement Top */
+	public void getTopForToDay() {
+		if (currentTop.size() > 0) {
+			for (Evenement e : currentTop) {
+				/* get duree d'envois de l'evenement */
+				Date today = new Date();
+				long differenceInMilis = today.getTime()
+						- e.getCurentDate().getTime();
+				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
+				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
+				e.setMinuteOfEvenement(minuteOfEvenement);
+				e.setHoursOfEvenement(hoursOfEvenement);
+
+			}
+		}
 	}
-	
-	/*limiter l'affichage des retards journalière a 4 dans le header*/
-	public void limitDisplayRetards(){
-		limitationRetards  = new ArrayList<Evenement>();
-		if(currentRetards.size() >5){
-			limitationRetards=currentRetards.subList(0,4);
-			System.out.println("limitation retards "+limitationRetards.size());
-		}else{
+
+	/* limiter l'affichage des retards journalière a 4 dans le header */
+	public void limitDisplayRetards() {
+		limitationRetards = new ArrayList<Evenement>();
+		if (currentRetards.size() > 5) {
+			limitationRetards = currentRetards.subList(0, 4);
+			System.out
+					.println("limitation retards " + limitationRetards.size());
+		} else {
 			limitationRetards.addAll(currentRetards);
 		}
 	}
-	
-	/*limiter l'affichage des absences journalière a 4 dans le header*/
-    public void limitDisplayAbsences(){
-    	limitationAbsences = new ArrayList<Evenement>();
-    	if(currentAbsences.size() >5){
-			limitationAbsences=currentAbsences.subList(0,4);
-			System.out.println("limitation absences "+limitationAbsences.size());
-		}else{
+
+	/* limiter l'affichage des absences journalière a 4 dans le header */
+	public void limitDisplayAbsences() {
+		limitationAbsences = new ArrayList<Evenement>();
+		if (currentAbsences.size() > 5) {
+			limitationAbsences = currentAbsences.subList(0, 4);
+			System.out.println("limitation absences "
+					+ limitationAbsences.size());
+		} else {
 			limitationAbsences.addAll(currentAbsences);
 		}
 	}
-    /*limiter l'affichage des Top journalière a 4 dans le header*/
-	public void limitDisplayTop(){
-		limitationTop  = new ArrayList<Evenement>();
-		if(currentTop.size() >5){
-			limitationTop=currentTop.subList(0,4);
-			System.out.println("limitation Top "+limitationTop.size());
-		}else{
+
+	/* limiter l'affichage des Top journalière a 4 dans le header */
+	public void limitDisplayTop() {
+		limitationTop = new ArrayList<Evenement>();
+		if (currentTop.size() > 5) {
+			limitationTop = currentTop.subList(0, 4);
+			System.out.println("limitation Top " + limitationTop.size());
+		} else {
 			limitationTop.addAll(currentTop);
 		}
 	}
-	/*limiter l'affichage des Des Warning journalière a 4 dans le header*/
-	public void limitDisplayWarning(){
-		limitationWarning  = new ArrayList<Evenement>();
-		if(currentWarning.size() >5){
-			limitationWarning=currentWarning.subList(0,4);
-			System.out.println("limitation Warning "+limitationWarning.size());
-		}else{
+
+	/* limiter l'affichage des Des Warning journalière a 4 dans le header */
+	public void limitDisplayWarning() {
+		limitationWarning = new ArrayList<Evenement>();
+		if (currentWarning.size() > 5) {
+			limitationWarning = currentWarning.subList(0, 4);
+			System.out
+					.println("limitation Warning " + limitationWarning.size());
+		} else {
 			limitationWarning.addAll(currentWarning);
 		}
 	}
-    
-	/*getcurrentRetardsandAbsences*/
-	public void getCurentsAbsencesAndRetards(){
-		currentRetards=serviceEvenement.getNumberOfCurrentsRetards();
-		numberOfCurrentRetards=currentRetards.size();
-		currentAbsences=serviceEvenement.getNumberOfCurrentsAbsence();
-		numberOfCurrentAbsences=currentAbsences.size();
-		currentWarning=serviceEvenement.getNumberOfCurrentsWarning();
-		numberOfCurrentWarning=currentWarning.size();
-		currentTop=serviceEvenement.getNumberOfCurrentsTop();
-		numberOfCurrentTop=currentTop.size();
-		
-		/*get current time of evenement Retards,absence,warning,top*/
+
+	/* getcurrentRetardsandAbsences */
+	public void getCurentsAbsencesAndRetards() {
+		currentRetards = serviceEvenement.getNumberOfCurrentsRetards();
+		numberOfCurrentRetards = currentRetards.size();
+		currentAbsences = serviceEvenement.getNumberOfCurrentsAbsence();
+		numberOfCurrentAbsences = currentAbsences.size();
+		currentWarning = serviceEvenement.getNumberOfCurrentsWarning();
+		numberOfCurrentWarning = currentWarning.size();
+		currentTop = serviceEvenement.getNumberOfCurrentsTop();
+		numberOfCurrentTop = currentTop.size();
+
+		/* get current time of evenement Retards,absence,warning,top */
 		getRetardForToDay();
 		getWarningForToDay();
 		getTopForToDay();
 		getAbsenceForToDay();
-		/*limiter l'affichage des retards, absences,warning et top, journalière a 4 dans le header*/
+		/*
+		 * limiter l'affichage des retards, absences,warning et top, journalière
+		 * a 4 dans le header
+		 */
 		limitDisplayRetards();
 		limitDisplayAbsences();
 		limitDisplayWarning();
 		limitDisplayTop();
 	}
-	
-	/*@ method pour avoir les jours d'une sessions (progress bar in css)*/
-	public void getSessionEnCours(){
-		sessionsInProgress=serviceSession.getAllSessionsInProgress();
-		for(SessionEtudiant s:sessionsInProgress){
-			dateDebuteInDays=s.getDateDebute().getTime()/ (24 * 60 * 60 * 1000);
-			dateFinInDays=s.getDateFin().getTime()/ (24 * 60 * 60 * 1000);
 
-			/*la date du jour */
+	/* @ method pour avoir les jours d'une sessions (progress bar in css) */
+	public void getSessionEnCours() {
+		sessionsInProgress = serviceSession.getAllSessionsInProgress();
+		for (SessionEtudiant s : sessionsInProgress) {
+			dateDebuteInDays = s.getDateDebute().getTime()
+					/ (24 * 60 * 60 * 1000);
+			dateFinInDays = s.getDateFin().getTime() / (24 * 60 * 60 * 1000);
+
+			/* la date du jour */
 			Date currentDay = new Date();
-			long currentDate= currentDay.getTime()/(24*60*60*1000);
-			
-			/*nombre de jours de la formation*/
-			long differenceDate = dateFinInDays-dateDebuteInDays;
-			String dayFin=Long.toString(differenceDate);
+			long currentDate = currentDay.getTime() / (24 * 60 * 60 * 1000);
+
+			/* nombre de jours de la formation */
+			long differenceDate = dateFinInDays - dateDebuteInDays;
+			String dayFin = Long.toString(differenceDate);
 			s.setDateFinInDays(dayFin);
-			System.out.println("difference "+differenceDate);
-			
-			/*nombre de jours entre le début et le jour courant */
-			long differenceTwo =currentDate-dateDebuteInDays;
-			String differenceTwoStr=Long.toString(differenceTwo);
+			System.out.println("difference " + differenceDate);
+
+			/* nombre de jours entre le début et le jour courant */
+			long differenceTwo = currentDate - dateDebuteInDays;
+			String differenceTwoStr = Long.toString(differenceTwo);
 			s.setDateDebuteInDays(differenceTwoStr);
-			System.out.println("la difference entre debut et current day"+differenceTwo);
-		
+			System.out.println("la difference entre debut et current day"
+					+ differenceTwo);
+
 		}
+	}
+
+	/* Methode pour obtenir les Evenements d'une session */
+	public void getEvenementEnCours() {
+
+		evenementsSession = serviceEvenement
+				.getAllEvenementsBySession(idSession);
+
+		for (Evenement e : evenementsSession) {
+			typeEvenement = e.getClass().getSimpleName();
+			e.setTypeEvenement(typeEvenement);
+		}
+
 	}
 
 	public List<Evenement> getRetards() {
@@ -406,8 +434,6 @@ public class DashboardBean implements Serializable{
 		this.limitationRetards = limitationRetards;
 	}
 
-	
-
 	public Date getDateOfEvenement() {
 		return dateOfEvenement;
 	}
@@ -496,8 +522,36 @@ public class DashboardBean implements Serializable{
 		this.dureeInHours = dureeInHours;
 	}
 
-	
+	public String getTypeEvenement() {
+		return typeEvenement;
+	}
 
-	
-	
+	public void setTypeEvenement(String typeEvenement) {
+		this.typeEvenement = typeEvenement;
+	}
+
+	public String[] getTypesEvenement() {
+		return typesEvenement;
+	}
+
+	public void setTypesEvenement(String[] typesEvenement) {
+		this.typesEvenement = typesEvenement;
+	}
+
+	public Long getIdSession() {
+		return idSession;
+	}
+
+	public void setIdSession(Long idSession) {
+		this.idSession = idSession;
+	}
+
+	public List<Evenement> getEvenementsSession() {
+		return evenementsSession;
+	}
+
+	public void setEvenementsSession(List<Evenement> evenementsSession) {
+		this.evenementsSession = evenementsSession;
+	}
+
 }
