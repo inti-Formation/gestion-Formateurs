@@ -13,22 +13,8 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-			<!-- exception add new Module -->
-			<c:if test="#{not empty moduleBean.success}">
-				<div class="alert alert-warning">
-					<h:outputText value="#{moduleBean.success}"
-							styleClass="errorExeption"/>
-				</div>
-			</c:if>
-			<!-- message success -->
-			<c:if test="#{not empty moduleBean.addModuleException}">
-				<div class="alert alert-info">
-					<h:outputText value="#{moduleBean.addModuleException}"
-							styleClass="messageSuccess" />
-				</div>
-			</c:if>
-	     <!-- errors de validation -->
-	     <h:messages style="color:red;"></h:messages>
+         <!-- messages errors + exception -->
+	     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -66,7 +52,7 @@
                                       </div>
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
-                                              <h:commandButton action="#{moduleBean.addModule}" update="@form" value="Ajouter" styleClass="btn btn-primary"/>
+                                              <h:commandButton action="#{moduleBean.addModule}" update=":form10:studentTable" value="Ajouter" styleClass="btn btn-primary"/>
                                           </div>
                                       </div>
                                   </h:form>
@@ -93,9 +79,8 @@
                                       <div class="form-group ">
                                           <label for="session" class="control-label col-lg-2">Sessions <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:selectOneMenu style="cursor:pointer; height:35px;width:75%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-												requiredMessage="1 - Veuillez Sélectionnez Une Formation *"
-												value="#{moduleBean.idSpecialite}" >
+                                              <h:selectOneMenu style="cursor:pointer; height:35px;width:75%;color:#797979;font-size:16px;" styleClass="selectpicker" 
+												value="#{moduleBean.idSpecialite}" required="true" requiredMessage="Veuillez selectionnez une formation">
 												<f:selectItem itemLabel="Sélectionnez Une Specialitée"
 													itemValue="#{null}" noSelectionOption="true" />
 												<f:selectItems value="#{specialiteBean.specialites}" var="s"
@@ -105,124 +90,111 @@
 											</h:selectOneMenu>
                                           </div>
                                       </div>
-									<h:messages styleClass="errorValidation" ></h:messages>
 								<br />
 								<br />
 								<c:if test="#{fn:length(moduleBean.modulesBySpecialites) >0 }">
-				<div align="center">
-					<p:dataTable var="newModule"
-						value="#{moduleBean.modulesBySpecialites}" id="studentTable"
-						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-						paginator="true" rows="10" style="width:50%;margin-bottom:20px;">
-
-						<f:facet name="{Exporters}">
-							<p:commandLink ajax="false" style="float:right;"
-								title="Fichier XML">
-								<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
-								<p:dataExporter type="xml" target=":form10:studentTable"
-									fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
-							</p:commandLink>
-
-							<p:commandLink ajax="false" style="float:right;"
-								title="Fichier CSV">
-								<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
-								<p:dataExporter type="csv" target=":form10:studentTable"
-									fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
-							</p:commandLink>
-
-							<p:commandLink ajax="false" style="float:right;"
-								title="Fichier PDF">
-								<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
-								<p:dataExporter type="pdf" target=":form10:studentTable"
-									fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
-							</p:commandLink>
-
-							<p:commandLink ajax="false" style="float:right;"
-								title="Fichier EXCEL">
-								<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
-								<p:dataExporter type="xls" target=":form10:studentTable"
-									fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
-							</p:commandLink>
-						</f:facet>
-						<f:facet name="header">
-							<h:outputText value="Liste Des Modules de la Spécialitée N ° " />
-							<h:outputText style="color:red;font-weight:bold;"
-								value="#{moduleBean.idSpecialite}" />
-						</f:facet>
-
-						<p:column style="width:30px;">
-							<f:facet name="header">
-								<h:outputText value="N°" />
-							</f:facet>
-							<div align="center">
-								<h:outputText value="#{newModule.idModule}" />
-							</div>
-						</p:column>
-						<p:column style="width:150px;">
-							<f:facet name="header">
-								<h:outputText value="Module" />
-							</f:facet>
-							<div align="center">
-								<h:outputText value="#{newModule.nomModule}" />
-							</div>
-						</p:column>
-						<p:column style="width:50px;text-align:center;">
-							<f:facet name="header">
-								<h:outputText value="Actions" />
-							</f:facet>
-							<p:commandLink oncomplete="PF('carDialog').show()"
-								update=":form10:moduleDetail" title="Modifier">
-								 <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
-								<f:param value="#{newModule.idModule}" name="idModule" />
-								<p:ajax update=":form10:moduleDetail" event="click"
-									listener="#{moduleBean.getCurrentModule(newModule.idModule)}" />
-							</p:commandLink>
-						</p:column>
-					</p:dataTable>
-				</div>
-			</c:if>
-			<br />
-			<br />
-			<p:dialog header="Module Info" widgetVar="carDialog" modal="true"
-				showEffect="blind" hideEffect="explode" resizable="false">
-				<p:outputPanel id="moduleDetail" style="text-align:center;">
-					<h:inputHidden value="#{moduleBean.m.idModule}" />
-					<br />
-					<h:inputHidden value="#{moduleBean.m.specialite.idSpecialite}" />
-					<br />
-					<h:outputText value="designation" />
-					<br />
-					<h:inputText value="#{moduleBean.m.nomModule}" />
-					<br/><br/>
-					<h:outputText value="Activation Du Module" />
-					<br />
-				    <p:selectOneMenu  value="#{moduleBean.m.actif}">
-
-					<f:selectItem itemLabel="Autorisé"
-						itemValue="true"/>
-					<f:selectItem itemLabel="No Autorisé"
-						itemValue="false"  />
+									<div align="center">
+										<p:dataTable var="newModule"
+											value="#{moduleBean.modulesBySpecialites}" id="studentTable"
+											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+											paginator="true" rows="10" style="width:50%;margin-bottom:20px;">
 					
-				</p:selectOneMenu>
-				</p:outputPanel>
-				<br />
-				<br />
-				<p:commandButton value="Modifier" action="#{moduleBean.edit}" />
-			</p:dialog>
-
-		</h:form>
+											<f:facet name="{Exporters}">
+												<p:commandLink ajax="false" style="float:right;"
+													title="Fichier XML">
+													<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
+													<p:dataExporter type="xml" target=":form10:studentTable"
+														fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
+												</p:commandLink>
+					
+												<p:commandLink ajax="false" style="float:right;"
+													title="Fichier CSV">
+													<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
+													<p:dataExporter type="csv" target=":form10:studentTable"
+														fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
+												</p:commandLink>
+					
+												<p:commandLink ajax="false" style="float:right;"
+													title="Fichier PDF">
+													<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
+													<p:dataExporter type="pdf" target=":form10:studentTable"
+														fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
+												</p:commandLink>
+					
+												<p:commandLink ajax="false" style="float:right;"
+													title="Fichier EXCEL">
+													<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
+													<p:dataExporter type="xls" target=":form10:studentTable"
+														fileName="modules_By_Specialites_N°_#{moduleBean.idSpecialite}" />
+												</p:commandLink>
+											</f:facet>
+											<f:facet name="header">
+												<h:outputText value="Liste Des Modules de la Spécialitée N ° " />
+												<h:outputText style="color:red;font-weight:bold;"
+													value="#{moduleBean.idSpecialite}" />
+											</f:facet>
+					
+											<p:column style="width:30px;">
+												<f:facet name="header">
+													<h:outputText value="N° Module" />
+												</f:facet>
+													<h:outputText value="#{newModule.idModule}" />
+											</p:column>
+											<p:column style="width:150px;">
+												<f:facet name="header">
+													<h:outputText value="Module" />
+												</f:facet>
+													<h:outputText value="#{newModule.nomModule}" />
+											</p:column>
+											<p:column style="width:50px;text-align:center;">
+												<f:facet name="header">
+													<h:outputText value="Actions" />
+												</f:facet>
+												<p:commandLink oncomplete="PF('actionDialog').show()"
+													update=":form10:moduleDetail" title="Modifier">
+													 <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
+													<f:param value="#{newModule.idModule}" name="idModule" />
+													<p:ajax update=":form10:moduleDetail" event="click"
+														listener="#{moduleBean.getCurrentModule(newModule.idModule)}" />
+												</p:commandLink>
+											</p:column>
+										</p:dataTable>
+									</div>
+							</c:if>
+							<br />
+							<br />
+							<p:dialog header="Module Info" widgetVar="actionDialog" modal="true"
+								showEffect="blind" hideEffect="explode" resizable="false">
+								<p:outputPanel id="moduleDetail" style="text-align:center;">
+									<h:inputHidden value="#{moduleBean.m.idModule}" />
+									<br />
+									<h:inputHidden value="#{moduleBean.m.specialite.idSpecialite}" />
+									<br />
+									<h:outputText value="designation" />
+									<br />
+									<h:inputText value="#{moduleBean.m.nomModule}" />
+									<br/><br/>
+									<h:outputText value="Activation Du Module" />
+									<br />
+								    <p:selectOneMenu  value="#{moduleBean.m.actif}">
+				
+									<f:selectItem itemLabel="Autorisé"
+										itemValue="true"/>
+									<f:selectItem itemLabel="No Autorisé"
+										itemValue="false"  />
+									
+								</p:selectOneMenu>
+								</p:outputPanel>
+								<br />
+								<br />
+								<p:commandButton value="Modifier" action="#{moduleBean.edit}" />
+							</p:dialog>
+						</h:form>
                               </div>
                           </div>
                       </section>
                </div>
           </div> 
-		
-		
-		
-		
-		
-		
-		
 		<br/><br/>
 		<!-- form add Questions for every module -->
 		 <div class="row">
@@ -232,8 +204,7 @@
                               Ajouter Des Questions
                           </header>
                           <div class="panel-body">
-                              
-       <h:form id="form4" class="form-validate form-horizontal">
+        <h:form id="form4" class="form-validate form-horizontal">
 		    <br/><br/>
 		         <div align="center">
 					<p:toolbar style="width:98%">
@@ -257,18 +228,14 @@
 			     <!-- data table  -->
 			     <div align="center">
 					<p:dataTable id="tblFields" value="#{bean.fields}" var="field" style="width:98%;margin-bottom:40px;">
-						<f:facet name="header">
-							<h:outputText styleClass="messageSuccess" value="#{bean.success}"/>
-							<h:outputText styleClass="errorExeption"
-								value="#{bean.addQuestionException}"/>
-						</f:facet>
+						
 						<p:column headerText="Choisir Un Module * ">
 							<!-- Show  Nombre For Questions -->
 							<p:outputLabel style="color:red;text-align:center;display:block;"
 								id="NombreQuestions"
 								value="#{bean.nombreQuestionsByModule} Questions " />
 							<!-- Show Window Modal -->
-							<p:commandLink oncomplete="PF('carDialog').show()"
+							<p:commandLink oncomplete="PF('questionDialog').show()"
 								update=":form4:carDetail" title="View Détaile">
 								<f:param value="#{bean.idModule}" name="idModule">
 								</f:param>
@@ -289,7 +256,6 @@
 								<p:ajax event="valueChange" update="NombreQuestions,numeroQ"
 									listener="#{bean.getQuestionByModule}" render="NombreQuestions,numeroQ" />
 							</p:selectOneMenu>
-							<h:message styleClass="errorValidation" for="nomModule"></h:message>
 						</p:column>
 						
 						<p:column headerText="Numero" style="width:70px">
@@ -373,7 +339,7 @@
 					</p:dataTable>
                 </div>
 					<!-- fenetre Modal -->
-					<p:dialog header="Toutes Les Questions" widgetVar="carDialog"
+					<p:dialog header="Toutes Les Questions" widgetVar="questionDialog"
 						modal="true" showEffect="blind" hideEffect="explode"
 						resizable="false">
 						<p:outputPanel id="carDetail" style="text-align-last: left;">

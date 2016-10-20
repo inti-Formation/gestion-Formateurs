@@ -38,8 +38,6 @@ public class ExamenBean implements Serializable {
 	 */
 
 	@Inject
-	private IExamenService serviceExamen;
-	@Inject
 	private ISessionService serviceSession;
 	@Inject
 	private IEtudiantService serviceEtudiant;
@@ -70,13 +68,6 @@ public class ExamenBean implements Serializable {
 	private List<Question> reponses;
 	private Etudiant etudiant;
 
-	/* @method load Pagee */
-	public void init() {
-		sessionEnCours = serviceSession.getAllSessionsInProgress();
-		confirm = new String();// ok on click in button we show message
-
-	}
-
 	/* @method redirection à la fin de l'examen et afficher la note final */
 	public String redirect() {
 
@@ -99,7 +90,7 @@ public class ExamenBean implements Serializable {
 		return "examen_success?redirect=true";
 	}
 
-	/* @method copie de redirect() avec redirection a fin de Timeout */
+	/* @method copie de redirect() avec redirection a la fin de Timeout */
 	public void onTimeout() {
 
 		Note noteF = new Note(note);
@@ -160,19 +151,11 @@ public class ExamenBean implements Serializable {
 
 	/* @method for to passe un examens */
 	public String goStartExamen() {
-		setEtudiantsBySession(null);
 		setModuleBySessions(null);
 		scoreFinal = 0.0;
 		reponseSelectionnee = null;
 		reponses = new ArrayList<Question>();
 		return "start_examen?redirect=true";
-	}
-
-	/* @method get All Students By Session */
-	public void getAllStudentsBySession() {
-		etudiantsBySession = new ArrayList<Etudiant>();
-		etudiantsBySession = serviceEtudiant.getEtudiantBySession(idSession);
-
 	}
 
 	public String initExamen() {

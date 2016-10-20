@@ -23,12 +23,16 @@ public class EtudiantDaoImpl implements IEtudiantDao {
 			throws AddEtudiantException {
 		List<Etudiant> tabEtudiant = null;// verifications
 		tabEtudiant = getEtudiantBySession(idSession);
-		for (Etudiant etudiant : tabEtudiant) {
-			if (etudiant.getDateDeNaissance().compareTo(e.getDateDeNaissance()) == 0
-					&& etudiant.getNomEtudiant().equals(e.getNomEtudiant())) {
-				throw new AddEtudiantException("L'étudiant "
-						+ e.getNomEtudiant()
-						+ " Existe déja dans la Session Numéro" + idSession);
+		if(tabEtudiant.size()>0){
+			for (Etudiant etudiant : tabEtudiant) {
+				if (etudiant.getDateDeNaissance().compareTo(e.getDateDeNaissance()) == 0
+						&& etudiant.getNomEtudiant().equals(e.getNomEtudiant())) {
+					throw new AddEtudiantException("L'étudiant "
+							+ e.getNomEtudiant()
+							+ " Existe déja dans la Session N°" + idSession);
+				}else if(etudiant.getMail().equals(e.getMail())){
+					throw new AddEtudiantException("l'adresse mail "+etudiant.getMail()+" existe déjà dans la sesion N° "+idSession+" Veuillez renseigner une autre adresse mail");
+				}
 			}
 		}
 		SessionEtudiant s = em.find(SessionEtudiant.class, idSession);

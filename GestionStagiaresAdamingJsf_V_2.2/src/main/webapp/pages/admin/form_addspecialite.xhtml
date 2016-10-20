@@ -11,116 +11,66 @@
 	<br> </br>
 	<br> </br>
 	<br> </br>
-	
-		    <br/>
-			 <!-- Form validations -->              
-              <div class="row" style="width:90%;display: block;margin:auto">
+	<br/> 
+	<div class="well container">
+	  <!-- messages errors + exception -->
+	   <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />   
+	   <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Cursus</h3>
+					</ol>
+				</div>
+			</div>
+			 <!-- Form validations -->    
+              <div class="row">
+                
                   <div class="col-lg-12">
                       <section class="panel">
                           <header class="panel-heading">
-                              Spécialitées
+                              Cursus
                           </header>
                           <div class="panel-body">
                               <div class="form">
                                   <h:form class="form-validate form-horizontal" id="form5">
-                                      <!-- exception add new Specialite -->
-				                      <h:outputText value="#{specialiteBean.addSpecialiteException}"
-					                  styleClass="errorExeption"></h:outputText>
                                       <!-- input specialites -->
                                       <div class="form-group ">
-                                          <label for="cname" class="control-label col-lg-2">Spécialitée <span class="required">*</span></label>
+                                          <label for="cname" class="control-label col-lg-2">Cursus <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                            <h:inputText id="name" required="true" style="margin-bottom: 10px"  value="#{specialiteBean.designation}" class="form-control"/>
+                                            <h:inputText id="name" requiredMessage="Veuillez indiquer le cursus Svp !!" required="true" style="margin-bottom: 10px"  value="#{specialiteBean.designation}" class="form-control"/>
                                           </div>
                                       </div>
-                                      <h:message for="name" />
-                                      <!-- message success -->
-				                      <h:outputText value="#{specialiteBean.succes}"
-					                  styleClass="messageSuccess" />
 					                  <!-- button save and cancel -->
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
                                              <h:commandButton styleClass="btn btn-info btn-lm" action="#{specialiteBean.addSpecialite}"
-					                         update="@form" value="Ajouter"  ajax="true" style="margin-right:20px;margin-top:10px;"/>
+					                         update=":form10:studentTable" value="Ajouter"  ajax="true" style="margin-right:20px;margin-top:10px;"/>
 				                             <h:commandButton styleClass="btn btn-default btn-lm" style="margin-top:10px;" value="Cancel" type="reset"/>
                                           </div>
                                       </div>
                                       <br/><br/>
-                                      <div align="center" class="backgroundGray">
-									  <br/><br/>
-											<p:dataTable var="newSpecialite"
-												value="#{specialiteBean.specialites}" id="studentTable"
-												paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-												paginator="true" rows="10" style="width:50%;margin-bottom:20px;">
-												<f:facet name="header">
-												<h:outputText value="----------------"></h:outputText>
-												</f:facet>
-												<f:facet name="header">
-													<p:outputPanel>
-														<h:graphicImage name="NiceAdmin/img/java.png" width="24" style="margin-right:10px;"/>
-														<h:graphicImage name="NiceAdmin/img/cobol.png" width="24" style="margin-right:10px;" />
-														<h:graphicImage name="NiceAdmin/img/php.png" width="24" style="margin-right:10px;"/>
-														<h:graphicImage name="NiceAdmin/img/c++.png" width="24" style="margin-right:10px;"/>
-														<h:graphicImage name="NiceAdmin/img/mainframe.png" width="24" style="margin-right:10px;" />
-							                            <h:graphicImage name="NiceAdmin/img/net.png" width="24" style="margin-right:10px;"/>
-							                            <h:graphicImage name="NiceAdmin/img/oracle.png" width="24" style="margin-right:10px;"/>
-							                            <h:graphicImage name="NiceAdmin/img/MySQL.png" width="24" style="margin-right:10px;"/>
-							                            <h:graphicImage name="NiceAdmin/img/Cobol.jpg" width="24" />
-													</p:outputPanel>
-												</f:facet>
-												<f:facet name="header">
-												<h:outputText value="----------------"></h:outputText>
-												</f:facet>
-												<f:facet name="{Exporters}">
-													<p:commandLink ajax="false" style="float:right;"
-														title="Fichier XML">
-														<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
-														<p:dataExporter type="xml" target=":form5:studentTable"
-															fileName="Spécialitées" />
-													</p:commandLink>
-							
-													<p:commandLink ajax="false" style="float:right;"
-														title="Fichier CSV">
-														<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
-														<p:dataExporter type="csv" target=":form5:studentTable"
-															fileName="Spécialitées" />
-													</p:commandLink>
-							
-													<p:commandLink ajax="false" style="float:right;"
-														title="Fichier PDF">
-														<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
-														<p:dataExporter type="pdf" target=":form5:studentTable"
-															fileName="Spécialitées" />
-													</p:commandLink>
-							
-													<p:commandLink ajax="false" style="float:right;"
-														title="Fichier EXCEL">
-														<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
-														<p:dataExporter type="xls" target=":form5:studentTable"
-															fileName="Spécialitées" />
-													</p:commandLink>
-												</f:facet>
-							
-												<p:column style="width:50px;">
-													<f:facet name="header">
-														<h:outputText value="IdSpecialite" />
-													</f:facet>
-													<h:outputText value="#{newSpecialite.idSpecialite}" />
-												</p:column>
-												<p:column style="width:150px;">
-													<f:facet name="header">
-														<h:outputText value="Designation" />
-													</f:facet>
-													<h:outputText value="#{newSpecialite.designation}" />
-												</p:column>
-											</p:dataTable>
-								          </div>
-                                  </h:form>
-                                  <!-- data table -->
-                              </div>
-                          </div>
+                                      </h:form>
+                                </div> 
+		                        <h:form id="form10">
+		                                  <p:dataTable id="studentTable" var="newSpecialite" value="#{specialiteBean.specialites}"  rows="10"
+					                         paginator="true"
+					                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					                         rowsPerPageTemplate="5,10,15">
+										        <p:column headerText="N° Cursus">
+										            <h:outputText value="#{newSpecialite.idSpecialite}"  />
+										        </p:column>
+										 
+										        <p:column headerText="Cursus">
+										            <h:outputText value="#{newSpecialite.designation}" />
+										        </p:column>
+										    </p:dataTable>
+                                   </h:form>  
+		                       </div>
                       </section>
                   </div>
               </div>
+           </section>
+        </div>
 </ui:composition>
 </html>

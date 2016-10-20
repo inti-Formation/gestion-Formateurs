@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -21,7 +22,7 @@ import com.adaming.myapp.exception.AddSpecialiteException;
 import com.adaming.myapp.specialite.service.ISpecialiteService;
 
 @Component("specialiteBean")
-@Scope(value="session")
+@Scope(value="request")
 public class SpecialiteBean implements Serializable{
 	
 	/**
@@ -36,11 +37,8 @@ public class SpecialiteBean implements Serializable{
 	
 	private Specialite specialite;
 	
-	private String addSpecialiteException;
-	
 	private List<Specialite> specialites;
 	
-	private String succes ;
 	
 	private Long idSpe;
 	
@@ -66,19 +64,16 @@ public class SpecialiteBean implements Serializable{
 		try {
 			serviceSpec.addSpecialite(specialite);
 			getAllSpec();
-			setAddSpecialiteException("");
-			setSucces("la spécialitée "+designation+" à bien été ajoutée avec Success");
-			//FacesContext.getCurrentInstance().getExternalContext().dispatch("specialite.xhtml");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","la spécialitée " + designation + " à bien été ajoutée"));
+			designation = "";
 		} catch (AddSpecialiteException e) {
-			setAddSpecialiteException(e.getMessage());
-			setSucces("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
 		}
 		
 	}
 	@PostConstruct
 	public void getAllSpec(){
 		specialites=serviceSpec.getAllSpec();
-		
 	}
 
 	public void setIdSpecialite(Long idSpecialite) {
@@ -103,22 +98,6 @@ public class SpecialiteBean implements Serializable{
 
 	public void setSpecialites(List<Specialite> specialites) {
 		this.specialites = specialites;
-	}
-
-	public String getAddSpecialiteException() {
-		return addSpecialiteException;
-	}
-
-	public void setAddSpecialiteException(String addSpecialiteException) {
-		this.addSpecialiteException = addSpecialiteException;
-	}
-
-	public String getSucces() {
-		return succes;
-	}
-
-	public void setSucces(String succes) {
-		this.succes = succes;
 	}
 
 	public Specialite getSpecialite() {

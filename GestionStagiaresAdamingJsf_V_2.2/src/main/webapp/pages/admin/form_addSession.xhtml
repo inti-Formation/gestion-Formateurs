@@ -12,23 +12,7 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-	       <br/>
-			<!-- exception add new Session -->
-			<c:if test="#{not empty sessionBean.addSessionException}">
-				<div class="alert alert-warning">
-					<h:outputText value="#{sessionBean.addSessionException}"
-							styleClass="errorExeption"/>
-				</div>
-			</c:if>
-			<!-- message success -->
-			<c:if test="#{not empty sessionBean.succes}">
-				<div class="alert alert-info">
-					<h:outputText value="#{sessionBean.succes}"
-							styleClass="messageSuccess" />
-				</div>
-			</c:if>
-	     <!-- errors de validation -->
-	     <h:messages style="color:red;"></h:messages>
+	      
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -47,6 +31,7 @@
                           <div class="panel-body">
                               <div class="form">
                                   <h:form class="form-validate form-horizontal">
+                                      <p:growl id="growl" showDetail="true" life="5000" /> 
                                       <div class="form-group ">
                                           <label for="formation" class="control-label col-lg-2">Formation <span class="required">*</span></label>
                                           <div class="col-lg-10">
@@ -68,7 +53,7 @@
                                       <div class="form-group ">
                                           <label for="effect" class="control-label col-lg-2">Début<span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <p:calendar styleClass="calendar" id="effect"
+                                              <p:calendar styleClass="calendar" id="effect" navigator="true"
 												value="#{sessionBean.dateDebute}"  effect="fold" required="true"
 												required-message="3 - début * " />
                                           </div>
@@ -76,7 +61,7 @@
                                       <div class="form-group ">
                                           <label for="effect2" class="control-label col-lg-2">Fin<span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <p:calendar styleClass="calendar" id="effect2"
+                                              <p:calendar styleClass="calendar" id="effect2" navigator="true"
 												value="#{sessionBean.dateFin}"  effect="fold" required="true"
 												required-message="4 - Fin * " />
                                           </div>
@@ -86,9 +71,11 @@
                                               <h:commandButton action="#{sessionBean.addSession}" update="@form" value="Save" class="btn btn-primary"/>
                                           </div>
                                       </div>
+                                      </h:form>
                                       <!-- data table -->
                                         <br />
 										<br />
+										<h:form id="form10">
 										<div align="center">
 											<p:dataTable var="newSession" value="#{sessionBean.sessions}"
 												id="studentTable"
@@ -100,28 +87,28 @@
 													<p:commandLink ajax="false" style="float:right;"
 														title="Fichier XML">
 														<p:graphicImage name="NiceAdmin/img/xml.png" width="24" />
-														<p:dataExporter type="xml" target=":form:studentTable"
+														<p:dataExporter type="xml" target=":form10:studentTable"
 															fileName="Sessions" />
 													</p:commandLink>
 							
 													<p:commandLink ajax="false" style="float:right;"
 														title="Fichier CSV">
 														<p:graphicImage name="NiceAdmin/img/csv.png" width="24" />
-														<p:dataExporter type="csv" target=":form:studentTable"
+														<p:dataExporter type="csv" target=":form10:studentTable"
 															fileName="Sessions" />
 													</p:commandLink>
 							
 													<p:commandLink ajax="false" style="float:right;"
 														title="Fichier PDF">
 														<p:graphicImage name="NiceAdmin/img/pdf.png" width="24" />
-														<p:dataExporter type="pdf" target=":form:studentTable"
+														<p:dataExporter type="pdf" target=":form10:studentTable"
 															fileName="Sessions" />
 													</p:commandLink>
 							
 													<p:commandLink ajax="false" style="float:right;"
 														title="Fichier EXCEL">
 														<p:graphicImage name="NiceAdmin/img/excel.png" width="24" />
-														<p:dataExporter type="xls" target=":form:studentTable"
+														<p:dataExporter type="xls" target=":form10:studentTable"
 															fileName="Sessions" />
 													</p:commandLink>
 												</f:facet>

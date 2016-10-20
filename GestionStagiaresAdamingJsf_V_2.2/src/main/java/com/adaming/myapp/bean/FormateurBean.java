@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.springframework.context.annotation.Scope;
@@ -47,8 +49,6 @@ public class FormateurBean implements Serializable{
 	private Date dateDeNaissance;
 	private String lieuDeNaissance;
 	private String specialite;
-	private String addFormateurException;
-	private String success;
 	
 	
 	/*methodes*/
@@ -68,11 +68,20 @@ public class FormateurBean implements Serializable{
 			serviceFormateur.addFormateur(formateur);
 			serviceUser.saveUser(u);
 			serviceRole.saveRole(r, u.getIdUser());
-			setSuccess("le Formateur "+nom+", "+prenom+" à bien été ajoutée avec Success"+" Voici les informations du compte Formateur : "+"Pseudo : "+mail+", Password : "+passwordRandom);
-			setAddFormateurException("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "le Formateur "+nom+", "+prenom+" à bien été ajoutée avec Success"+" Voici les informations du compte Formateur : "+"Pseudo : "+mail+", Password : "+passwordRandom));
+			civilite="";
+			nom="";
+			prenom="";
+			adresse="";
+			codePostal="";
+			telMobile="";
+			mail="";
+			nationalite="";
+			dateDeNaissance=null;
+			lieuDeNaissance="";
+			specialite="";
 		} catch (VerificationInDataBaseException e1) {
-			setAddFormateurException(e1.getMessage());
-			setSuccess("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e1.getMessage()));
 		}
 	}
 	
@@ -150,27 +159,5 @@ public class FormateurBean implements Serializable{
 		this.civilite = civilite;
 	}
 
-
-
-	public String getAddFormateurException() {
-		return addFormateurException;
-	}
-
-	public void setAddFormateurException(String addFormateurException) {
-		this.addFormateurException = addFormateurException;
-	}
-
-
-
-	public String getSuccess() {
-		return success;
-	}
-
-
-	public void setSuccess(String success) {
-		this.success = success;
-	}
-
-	
 
 }

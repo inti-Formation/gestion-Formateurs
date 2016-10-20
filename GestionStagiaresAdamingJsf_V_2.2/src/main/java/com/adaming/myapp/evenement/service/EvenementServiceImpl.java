@@ -28,27 +28,6 @@ public class EvenementServiceImpl implements IEvenementService {
 	}
 
 	@Override
-	public Retard addRetard(Retard r, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
-		return (Retard) dao.addEvenement(r, idSession, idEtudiant);
-	}
-
-	@Override
-	public Absence addAbsence(Absence a, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
-		return (Absence) dao.addEvenement(a, idSession, idEtudiant);
-	}
-
-	@Override
-	public Entretien addEntretien(Entretien e, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
-		return (Entretien) dao.addEvenement(e, idSession, idEtudiant);
-	}
-
-	@Override
 	public List<Evenement> getEvenementsRetards()
 			throws EvenementNotFoundException {
 		// TODO Auto-generated method stub
@@ -117,23 +96,24 @@ public class EvenementServiceImpl implements IEvenementService {
 		return dao.getAllEvenements();
 	}
 
-	@Override
-	public TopEtudiant addTop(TopEtudiant t, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
-		return (TopEtudiant) dao.AddWarningAndTop(t, idSession, idEtudiant);
-	}
-
-	@Override
-	public WarningEtudiant addWarning(WarningEtudiant w, Long idSession,
-			Long idEtudiant) throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
-		return (WarningEtudiant) dao.AddWarningAndTop(w, idSession, idEtudiant);
-	}
+	
 
 	@Override
 	public List<Evenement> getAllEvenementsBySession(Long idSession) {
 		return dao.getAllEvenementsBySession(idSession);
+	}
+
+	@Override
+	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
+		// TODO Auto-generated method stub
+		return dao.addEvenement(e, idSession, idEtudiant);
+	}
+
+	@Override
+	public Evenement AddWarningAndTop(Evenement e, Long idSession,
+			Long idEtudiant) throws VerificationInDataBaseException {
+		// TODO Auto-generated method stub
+		return dao.AddWarningAndTop(e, idSession, idEtudiant);
 	}
 
 }

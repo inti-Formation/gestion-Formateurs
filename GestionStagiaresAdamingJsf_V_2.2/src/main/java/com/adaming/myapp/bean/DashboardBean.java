@@ -10,10 +10,12 @@ import javax.inject.Inject;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.entities.SessionEtudiant;
+import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.evenement.service.IEvenementService;
 import com.adaming.myapp.exception.EvenementNotFoundException;
 import com.adaming.myapp.module.service.IModuleService;
@@ -37,7 +39,10 @@ public class DashboardBean implements Serializable {
 	private IModuleService serviceModule;
 	@Inject
 	private INotesService serviceNote;
-
+	@Inject
+    private IEtudiantService serviceEtudiant;
+	
+	private Etudiant etudiant;
 	private List<Evenement> retards;
 	private List<Evenement> absences;
 	private List<Evenement> entretiens;
@@ -64,12 +69,12 @@ public class DashboardBean implements Serializable {
 	private List<Module> modules;
 	private List<Note> notes;
 	private String etatModule;
+	
 	private int minuteOfEvenement;
 	private int hoursOfEvenement;
 	private int dureeInMinute;
 	private int dureeInHours;
 	private Date dateOfEvenement;
-
 	private String typeEvenement;
 	private String[] typesEvenement = { "Retard", "Absence", "Entretien" };
 	private Long idSession;
@@ -122,6 +127,13 @@ public class DashboardBean implements Serializable {
 	/*@methode remplir la session en cours */
 	public void sessionEnCours(){
 		sessionsInProgress = serviceSession.getAllSessionsInProgress();
+	}
+	
+	/*get etudiant by id*/
+	public String getStudentById(Long idStudent){
+		etudiant= new Etudiant();
+		etudiant=serviceEtudiant.getStudentById(idStudent);
+		return "informtaionEtudiant?redirect=true";
 	}
 
 	/* get current time of evenement Retards */
@@ -608,6 +620,14 @@ public class DashboardBean implements Serializable {
 
 	public void setEtatModule(String etatModule) {
 		this.etatModule = etatModule;
+	}
+
+	public Etudiant getEtudiant() {
+		return etudiant;
+	}
+
+	public void setEtudiant(Etudiant etudiant) {
+		this.etudiant = etudiant;
 	}
 
 

@@ -26,16 +26,38 @@
                          <li><h:link outcome="custom_password">Changer Le Mot-Passe</h:link></li>                            
                       </ul>
                   </li> 
-				  <li class="sub-menu">
+				   <li class="sub-menu">
                       <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/exam.png" style="wdth:24px;height:24px;"/></i>
-                          <span>Examens</span>
+                          <i><h:graphicImage name="NiceAdmin/img/specialite.png"/></i>
+                          <span>Cursus</span>
                          <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
                       </a>
                       <ul class="sub">
-                         <li><h:link outcome="examen">Passer Un Examen</h:link></li>                            
+                          <li><h:link outcome="specialite">Ajouter Un Cursus</h:link></li>     
                       </ul>
                   </li> 
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/session.png"/></i>
+                          <span>Session</span>
+                           <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
+                      </a>
+                      <ul class="sub">
+                          <li><h:link outcome="session_etudiant">Ajouter Une Session</h:link></li>                      
+                         
+                      </ul>
+                  </li>
+                   <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/book.png"/></i>
+                          <span>Modules</span>
+                         <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
+                      </a>
+                      <ul class="sub">
+                          <li><h:link outcome="module">Ajouter Un Module</h:link></li>                             
+                          
+                      </ul>
+                  </li>      
                   <li class="sub-menu">
                       <a href="javascript:;" class="">
                           <i><h:graphicImage name="NiceAdmin/img/student.png"/></i>
@@ -44,9 +66,6 @@
                       </a>
                       <ul class="sub">
                           <li><h:link outcome="etudiant">Ajouter Un Etudiant</h:link></li>
-                           <li><h:link outcome="absence">Gérer les Absences</h:link></li>
-                           <li><h:link outcome="prospection">Suivi Prospection</h:link></li>
-                           <li><h:link outcome="evaluation">Évaluation</h:link></li>                                                                             
                       </ul>
                   </li> 
                   <li class="sub-menu">
@@ -81,38 +100,6 @@
                           <li><a class="" href="form_validation.html">Form Validation</a></li>
                       </ul>
                   </li>       
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/book.png"/></i>
-                          <span>Modules</span>
-                         <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                      <ul class="sub">
-                          <li><h:link outcome="module">Ajouter Un Module</h:link></li>                             
-                          
-                      </ul>
-                  </li> 
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/session.png"/></i>
-                          <span>Session</span>
-                           <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                      <ul class="sub">
-                          <li><h:link outcome="session_etudiant">Ajouter Une Session</h:link></li>                      
-                         
-                      </ul>
-                  </li>      
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/specialite.png"/></i>
-                          <span>Spécialitée</span>
-                         <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                      <ul class="sub">
-                          <li><h:link outcome="specialite">Ajouter Une Specialité</h:link></li>     
-                      </ul>
-                  </li> 
                    <h:graphicImage name="NiceAdmin/img/logoiniti.png" style=" width: 100px; margin: auto;display: block;padding-top: 20px;"/>                 
               </ul>
               <!-- sidebar menu end-->

@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,12 +47,19 @@ public class SessionBean implements Serializable{
 		try {
 			serviceSession.addSessionStudent(se, idSpecialite);
 			getAllSessions();
-			setSucces("La Prochaine Session aura lieu à " + lieu
-					+ " à bien été enregistrer avec succes ");
-			setAddSessionException("");
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Success",
+					"La Prochaine Session aura lieu à " + lieu
+					+ " à bien été enregistrer avec succes "));
+			dateDebute=null;
+			dateFin=null;
+			lieu="";
+			idSpecialite=null;
 		} catch (AddSessionException e) {
-			setAddSessionException(e.getMessage());
-			setSucces("");
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Warning",e.getMessage()));
+			dateDebute=null;
+			dateFin=null;		
 		}
 
 	}

@@ -35,8 +35,14 @@
 <div class="well container">
 		<div class="alert alert-info" style="text-align:center;margin-bottom:5px!important">
 		   <h:outputText style="color:black" value="Le Formateur N°#{affectationFormateurBean.idFormateur} à bien été affecter à la session N°#{affectationFormateurBean.idSession} "/><br/>
-		   <h:link style="color:red;font-weight:bold" outcome="affectationFormateur.xhtml" value="Retoure à la Page Affectation"></h:link>
 		</div> 
+		<h:form>
+			   <div class="form-group">
+	                  <div class="col-lg-offset-2 col-lg-10">
+	                     <h:commandButton action="#{affectationFormateurBean.redirect}"  value="Retour à la Page Affectation" class="btn btn-primary"/>
+	                  </div>
+	            </div>
+        </h:form>
 </div>
 
 </h:body>

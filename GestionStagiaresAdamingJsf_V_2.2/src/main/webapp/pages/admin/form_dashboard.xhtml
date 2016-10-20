@@ -37,16 +37,18 @@
 									<table class="table bootstrap-datatable countries">
 										<thead>
 											<tr>
-												<th>Formation</th>
-												<th>Date Début</th>
-												<th>Date Fin</th>
-												<th>Lieu</th>
-												<th>Progressions</th>
+											    <th style="text-align: center!important">N°Session</th>
+												<th style="text-align: center!important">Cursus</th>
+												<th style="text-align: center!important">Date Début</th>
+												<th style="text-align: center!important">Date Fin</th>
+												<th style="text-align: center!important">Lieu</th>
+												<th style="text-align: center!important">Progressions</th>
 											</tr>
 										</thead>  
 										 <ui:repeat value="#{dashboardBean.sessionsInProgress}" var="x"> 
 										<tbody>
 											<tr>
+											    <td>#{x.idSession}</td>
 											    <td>#{x.specialite.designation}</td>
 												<td>#{x.dateDebute}</td>
 												<td>#{x.dateFin}</td>
@@ -97,19 +99,13 @@
 															</f:facet>
 															<h:outputText value="#{r.sessionEtudiant.idSession}" />
 														</p:column>
-														<p:column style="width:100px;">
+														<p:column style="width:130px;">
 															<f:facet name="header">
-																<h:outputText value="Nom" />
+																<h:outputText value="Etudiant" />
 															</f:facet>
-															<h:outputText value="#{r.etudiant.nomEtudiant}" />
+															<h:commandButton action="#{dashboardBean.getStudentById(r.etudiant.idEtudiant)}" value="#{r.etudiant.nomEtudiant},#{r.etudiant.prenomEtudiant}"/>
 														</p:column>
-														<p:column style="width:100px;">
-															<f:facet name="header">
-																<h:outputText value="prénom" />
-															</f:facet>
-															<h:outputText value="#{r.etudiant.prenomEtudiant}" />
-														</p:column>
-														<p:column style="width:100px;">
+														<p:column style="width:80px;">
 															<f:facet name="header">
 																<h:outputText value="Durée" />
 															</f:facet>
@@ -121,7 +117,8 @@
 															</f:facet>
 															<h:outputText value="#{r.startDate}" />
 														</p:column>
-							                          </p:dataTable> 
+							                          </p:dataTable>
+							                          
 						                          </h:form>
 							                    </c:if>
 							                    <!-- exception retard not found -->
@@ -153,17 +150,11 @@
 															</f:facet>
 															<h:outputText value="#{r.sessionEtudiant.idSession}" />
 														</p:column>
-														<p:column style="width:100px;">
+														<p:column style="width:130px;">
 															<f:facet name="header">
-																<h:outputText value="Nom" />
+																<h:outputText value="Etudiant" />
 															</f:facet>
-															<h:outputText value="#{r.etudiant.nomEtudiant}" />
-														</p:column>
-														<p:column style="width:100px;">
-															<f:facet name="header">
-																<h:outputText value="prénom" />
-															</f:facet>
-															<h:outputText value="#{r.etudiant.prenomEtudiant}" />
+															<h:commandButton action="#{dashboardBean.getStudentById(r.etudiant.idEtudiant)}" value="#{r.etudiant.nomEtudiant},#{r.etudiant.prenomEtudiant}"/>
 														</p:column>
 														<p:column style="width:100px;">
 															<f:facet name="header">
@@ -208,17 +199,11 @@
 															</f:facet>
 															<h:outputText value="#{r.sessionEtudiant.idSession}" />
 														</p:column>
-														<p:column style="width:100px;">
+														<p:column style="width:130px;">
 															<f:facet name="header">
-																<h:outputText value="Nom" />
+																<h:outputText value="Etudiant" />
 															</f:facet>
-															<h:outputText value="#{r.etudiant.nomEtudiant}" />
-														</p:column>
-														<p:column style="width:100px;">
-															<f:facet name="header">
-																<h:outputText value="prénom" />
-															</f:facet>
-															<h:outputText value="#{r.etudiant.prenomEtudiant}" />
+															<h:commandButton action="#{dashboardBean.getStudentById(r.etudiant.idEtudiant)}" value="#{r.etudiant.nomEtudiant},#{r.etudiant.prenomEtudiant}"/>
 														</p:column>
 														<p:column style="width:100px;">
 															<f:facet name="header">
@@ -252,91 +237,79 @@
           </div>
        </section>
        <!-- Evenements par Session -->
+       
+       		
+       
        <div class="row">
-			<div class="col-lg-12">
-				<section class="panel">
-					<div class="panel-body">
-						<header class="panel-heading">
-							<h4>Evenements par session</h4>
-						</header>
-						<h:form >
-							<div class="form-group ">
-								<label for="session" class="control-label col-lg-2">Session
-									En Cours <span class="required">*</span>
-								</label>
-								<div class="col-lg-10">
-									<h:selectOneMenu
-										style="height:35px;width:50%;color:#797979;font-size:16px;"
-										styleClass="selectpicker" required="true"
-										required-message="1 - Session *"
-										value="#{dashboardBean.idSession}">
-										<f:selectItem itemLabel="Sélectionnez Votre Session "
-											itemValue="#{null}" />
-										<f:selectItems value="#{dashboardBean.sessionsInProgress}" var="s"
-											itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
-											itemValue="#{s.idSession}" />
-									<p:ajax event="valueChange" update="tabEvent,:form10:tabModule" 
-										listener="#{dashboardBean.getEvenementEnCours}"/>
-									</h:selectOneMenu>
-								</div>
-							</div>
-							
-							<!-- Datatable Evenement avec Selections -->
-							<p:dataTable var="event" value="#{dashboardBean.evenementsSession}" widgetVar="carsTable"
-                 				emptyMessage="Aucuns events avec ces paramètres" id="tabEvent">
- 
-						        <f:facet name="header">
-						            <p:outputPanel>
-						                <h:outputText value="Search all fields:" />
-						                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-						            </p:outputPanel>
-						        </f:facet>
-						 
-						        <p:column filterBy="#{event.etudiant.nomEtudiant}" headerText="Etudiant" filterMatchMode="contains">
-						            <h:outputText value="#{event.etudiant.nomEtudiant}" />
-						        </p:column>
-						        
-						       <p:column filterBy="#{event.typeEvenement}" headerText="Evenement" filterMatchMode="in">
-						            <f:facet name="filter">
-						                <p:selectCheckboxMenu label="Type" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">
-						                    <f:selectItems value="#{dashboardBean.typesEvenement}" />
-						                </p:selectCheckboxMenu>
-						            </f:facet>
-						            <h:outputText value="#{event.typeEvenement}" />
-						        </p:column>
-						 		 				 
-						        <p:column headerText="Date D" sortBy="#{event.startDate}">
-						            <h:outputText value="#{event.startDate}" />
-						        </p:column>
-						        
-						        <p:column headerText="Date F" sortBy="#{event.endDate}">
-						            <h:outputText value="#{event.endDate}" />
-						        </p:column>
-						    </p:dataTable>
-					</h:form>							
-					</div>
-				</section>
-			</div>
-		</div>
-       <br/><br/>
-       <!-- les modules validée par session -->
-       <div class="row">
-              <!-- chart morris start -->
-              <div class="col-lg-12">
-                  <section class="panel">
-                      <header class="panel-heading">
-                          <h4>Suivi Examens</h4>
-                      </header>
-
-                      <div class="panel-body">
-                            <div class="tab-pane" id="chartjs">
-                                  <div class="row">
-                                      <!-- Line -->
-                                       <h:form id="form10">
-                                        <div class="col-lg-12">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              <h4>Evenements par session</h4>
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                  <h:form class="form-validate form-horizontal">
+                                      <div class="form-group ">
+                                             <label for="session" class="control-label col-lg-2">Session
+													En Cours <span class="required">*</span>
+												</label>
+												<div class="col-lg-10">
+	                                             <h:selectOneMenu
+														style="height:35px;width:50%;color:#797979;font-size:16px;"
+														styleClass="selectpicker" required="true"
+														required-message="1 - Session *"
+														value="#{dashboardBean.idSession}">
+														<f:selectItem itemLabel="Sélectionnez Votre Session "
+															itemValue="#{null}" />
+														<f:selectItems value="#{dashboardBean.sessionsInProgress}" var="s"
+															itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
+															itemValue="#{s.idSession}" />
+													    <p:ajax event="valueChange" update="tabEvent,tabModule" 
+														    listener="#{dashboardBean.getEvenementEnCours}"/>
+										           </h:selectOneMenu>
+                                          </div>
+                                       </div>
+                                       
+                                       <!-- Datatable Evenement avec Selections -->
+										<p:dataTable paginator="true" rows="5" var="event" value="#{dashboardBean.evenementsSession}" widgetVar="carsTable"
+			                 				emptyMessage="Aucuns events avec ces paramètres" id="tabEvent" rowsPerPageTemplate="5,10,15">
+			 
+									        <f:facet name="header">
+									            <p:outputPanel>
+									                <h:outputText value="Recherche :" />
+									                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter un Mot Cle"/>
+									            </p:outputPanel>
+									        </f:facet>
+									 
+									        <p:column filterBy="#{event.etudiant.nomEtudiant}" headerText="Etudiant" filterMatchMode="contains">
+									            <h:outputText value="#{event.etudiant.nomEtudiant}" />
+									            <p:spacer width="7"></p:spacer>
+									            <h:outputText value="#{event.etudiant.prenomEtudiant}" />
+									        </p:column>
+									        
+									       <p:column filterBy="#{event.typeEvenement}" headerText="Evenement" filterMatchMode="in">
+									            <f:facet name="filter">
+									                <p:selectCheckboxMenu label="Type" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">
+									                    <f:selectItems value="#{dashboardBean.typesEvenement}" />
+									                </p:selectCheckboxMenu>
+									            </f:facet>
+									            <h:outputText value="#{event.typeEvenement}" />
+									        </p:column>
+									 		 				 
+									        <p:column headerText="Date D" sortBy="#{event.startDate}">
+									            <h:outputText value="#{event.startDate}" />
+									        </p:column>
+									        
+									        <p:column headerText="Date F" sortBy="#{event.endDate}">
+									            <h:outputText value="#{event.endDate}" />
+									        </p:column>
+									    </p:dataTable>
+									     <!-- les modules validée par session -->
+									     <p:separator></p:separator>
+									    <div class="col-lg-12">
                                           <section class="panel">
                                               <header class="panel-heading">
-                                                  sessions 
+                                                  Suivi Examens
                                               </header>
                                                <div class="panel-body text-center">
 	                                                <p:dataTable id="tabModule" value="#{dashboardBean.modules}" var="m">
@@ -350,14 +323,13 @@
                                                </div>
                                           </section>
                                       </div>             
-                                  </h:form>                    
-                                  </div>
-                            </div>
-                      </div>
-                  </section>
+                                  </h:form>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
               </div>
-          </div>
-       
+       <br/><br/>
     </div>
 </ui:composition>
 </html>

@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+		<br />
+		<!-- exception add new evenement -->
+		<c:if test="#{not empty scheduleView.evenementFoundException}">
+			<div class="alert alert-warning">
+				<h:outputText value="#{scheduleView.evenementFoundException}"
+					styleClass="errorExeption" />
+			</div>
+		</c:if>
+		<!-- message success -->
+		<c:if test="#{not empty scheduleView.evenementSuccess}">
+			<div class="alert alert-info">
+				<h:outputText value="#{scheduleView.evenementSuccess}"
+					styleClass="messageSuccess" />
+			</div>
+		</c:if>
+		<!-- errors de validation -->
+		<h:messages style="color:red;"></h:messages>
+		<section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Activation Module</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Activation Module
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                  <div class="form-validate form-horizontal">
+			                        <div class="form-group ">
+                                          <label for="session" class="control-label col-lg-2">Session en Cours :</label>
+                                          <div class="col-lg-10">
+											<h:outputText value="Formation: #{scheduleView.sessionFormateur.specialite.designation}"/><br />
+											<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}"/><br />
+                                          </div>
+                                     </div>
+                                    
+	                                  <div class="form-group alert alert-danger">
+	                                          <div class="col-lg-offset-2 col-lg-10">
+	                                               <p>avant de commencer un examen vous devez activer un module, à la fin de chaque examen (Désactivé) le module</p>
+	                                          </div>
+	                                   </div>
+	                                   <br/><br/>
+	                                   <div class="form-group" align="center">
+	                                            <h:form id="form10">
+		                                             <p:dataTable style="width:90%" value="#{scheduleView.modules}" var="m">
+		                                                
+		                                               <p:column headerText="Module">
+													        <h:outputText value="#{m.nomModule}" />
+													    </p:column>
+													 
+													    <p:column  headerText="Authorisation">
+													            <h:outputText value="#{m.actif}"/>  
+													    </p:column>
+													    <p:column style="width:100px;text-align:center;">
+													        <f:facet name="header">
+														         <h:outputText value="Activer" />
+													       </f:facet>
+													       <p:commandLink oncomplete="PF('actionDialog').show()"
+															update=":form10:moduleDetail" title="Modifier">
+															 <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
+															<f:param value="#{m.idModule}" name="idModule" />
+															<p:ajax update=":form10:moduleDetail" event="click"
+																listener="#{scheduleView.getCurrentModule(m.idModule)}" />
+												           </p:commandLink>
+													    </p:column>
+		                                             </p:dataTable> 
+		                                             
+		                                             <p:dialog header="Module Info" widgetVar="actionDialog" modal="true"
+														showEffect="blind" hideEffect="explode" resizable="false">
+														<p:outputPanel id="moduleDetail" style="text-align:center;">
+															<h:inputHidden value="#{scheduleView.module.idModule}" />
+														
+															<h:inputHidden value="#{scheduleView.module.specialite.idSpecialite}" />
+											
+															<h:outputText value="designation" />
+															<br />
+															<h:inputText value="#{scheduleView.module.nomModule}" disabled="true"/>
+															<br/><br/>
+															<h:outputText value="Activation Du Module" />
+															<br />
+														    <p:selectOneMenu  value="#{scheduleView.module.actif}">
+										
+															<f:selectItem itemLabel="Autorisé"
+																itemValue="true"/>
+															<f:selectItem itemLabel="No Autorisé"
+																itemValue="false"  />
+															
+														</p:selectOneMenu>
+														</p:outputPanel>
+														<br />
+														<br />
+														<p:commandButton value="Appliquer" action="#{scheduleView.edit(scheduleView.module.specialite.idSpecialite)}" />
+													</p:dialog>       
+	                                             </h:form>
+	                                   </div>
+									</div>
+									</div>
+		                       </div>
+		                  </section>
+		              </div>
+				</div>
+		    </section>
+		</div>
+</ui:composition>
+</html>

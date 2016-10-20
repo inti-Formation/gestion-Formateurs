@@ -42,12 +42,8 @@
 				
 					<ul class="dropdown-menu extended logout">
 						<div class="log-arrow-up"></div>
-						<li class="eborder-top"><a href="#"><i
-								class="icon_profile"></i> My Profile</a></li>
-						<li><a href="#"><i class="icon_chat_alt"></i> Chats</a></li>
-						<li>
-							<h:outputLink value="${pageContext.request.contextPath}/myapp/j_spring_security_logout">Déconnextion</h:outputLink><i class="icon_key_alt"></i>
-							</li>
+						<li class="eborder-top">
+						<h:outputLink value="${pageContext.request.contextPath}/myapp/j_spring_security_logout"><i><h:graphicImage style="width: 20px" name="NiceAdmin/img/shutdown.png"/></i> Déconnection</h:outputLink></li>
 					</ul>
 				</li>
 				<!-- user login dropdown end -->

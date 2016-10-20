@@ -14,23 +14,7 @@
 	<br> </br>
 
 	<div class="well container">
-		    <br/>
-			<!-- exception add new Formateur -->
-			<c:if test="#{not empty formateurBean.addFormateurException}">
-				<div class="alert alert-warning">
-					<h:outputText value="#{formateurBean.addFormateurException}"
-							styleClass="errorExeption"/>
-				</div>
-			</c:if>
-			<!-- message success -->
-			<c:if test="#{not empty formateurBean.success}">
-				<div class="alert alert-info">
-					<h:outputText value="#{formateurBean.success}"
-							styleClass="messageSuccess" />
-				</div>
-			</c:if>
-	     <!-- errors de validation -->
-	     <h:messages style="color:red;"></h:messages>
+		  <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -109,7 +93,7 @@
                                       <div class="form-group ">
                                           <label for="dateDeNaissance" class="control-label col-lg-2">Date De Naissance <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <p:calendar styleClass="calendar" id="effect"
+                                              <p:calendar styleClass="calendar" yearRange="c-70:c+10" id="effect" navigator="true"
 												value="#{formateurBean.dateDeNaissance}" effect="fold" required="true"
 												required-message="9 - Date De Naissance * " />
                                           </div>

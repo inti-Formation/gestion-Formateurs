@@ -39,19 +39,19 @@ public class EvenementTest {
 	@Test
 	public void addEntretien() throws VerificationInDataBaseException{
 		Entretien e =  new Entretien(new Date(), new Date(), null, new Date());
-		serviceEvenement.addEntretien(e, 1L,1L);
+		serviceEvenement.addEvenement(e, 1L,1L);
 	}
 	@Ignore
 	@Test
 	public void addAbsence() throws VerificationInDataBaseException{
 		Absence a =  new Absence(new Date(), new Date(), null, new Date());
-		serviceEvenement.addAbsence(a,1L, 1L);
+		serviceEvenement.addEvenement(a,1L, 1L);
 	}
 	@Ignore
 	@Test
 	public void addRetard() throws VerificationInDataBaseException{
 		Retard r =  new Retard(new Date(), new Date(), null, new Date());;
-		serviceEvenement.addRetard(r, 1L, 1L);
+		serviceEvenement.addEvenement(r, 1L, 1L);
 	}
 	@Test
 	public void getEntretien(){

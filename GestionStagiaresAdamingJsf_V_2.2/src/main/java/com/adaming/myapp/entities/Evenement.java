@@ -26,10 +26,10 @@ public class Evenement implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idEvenement;
-	private Date startDate;
-	private Date endDate;
-	private String signaleur;
-	private Date curentDate;
+	protected Date startDate;
+	protected Date endDate;
+	protected String signaleur;
+	protected Date curentDate;
 	@Transient
 	private int minuteOfEvenement;
 	@Transient

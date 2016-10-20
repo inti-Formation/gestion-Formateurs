@@ -17,6 +17,8 @@
 	<br> </br>
 	<div class="well container">
        <br/>
+	       <!-- messages errors + exception -->
+		   <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />   
 			<!-- exception add new evenement -->
 			<c:if test="#{not empty scheduleView.evenementFoundException}">
 				<div class="alert alert-warning">
@@ -31,8 +33,6 @@
 							styleClass="messageSuccess" />
 				</div>
 			</c:if>
-	     <!-- errors de validation -->
-	     <h:messages style="color:red;"></h:messages>
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">

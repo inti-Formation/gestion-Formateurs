@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.SessionEtudiant;
+import com.adaming.myapp.exception.AddEtudiantException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public class FormateurDaoImpl implements IFormateurDao {
@@ -23,8 +24,8 @@ public class FormateurDaoImpl implements IFormateurDao {
 			throws VerificationInDataBaseException {
 		List<Formateur> formateurs = null;// verifications
 		formateurs = getAllFormateurs();
-		for (Formateur formateur : formateurs) {
-			if (formateur != null) {
+		if(formateurs.size() >0){
+			for (Formateur formateur : formateurs) {
 				if (formateur.getDateDeNaissance().compareTo(
 						f.getDateDeNaissance()) == 0
 						&& formateur.getNom().equals(f.getNom())) {
@@ -32,8 +33,10 @@ public class FormateurDaoImpl implements IFormateurDao {
 							+ f.getNom()
 							+ " Existe déja dans la base de données");
 				}
-			}
-
+				else if(formateur.getMail().equals(f.getMail())){
+					throw new VerificationInDataBaseException("l'adresse mail "+formateur.getMail()+" existe déjà dans la base de donnée, Veuillez renseigner une autre adresse mail");
+				}
+		    }
 		}
 		em.persist(f);
 		logger.info("le formateur " + f.getNom()

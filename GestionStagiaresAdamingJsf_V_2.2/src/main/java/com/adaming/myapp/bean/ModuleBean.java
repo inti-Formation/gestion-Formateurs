@@ -3,9 +3,14 @@ package com.adaming.myapp.bean;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.exception.AddModuleException;
 import com.adaming.myapp.module.service.IModuleService;
@@ -18,14 +23,12 @@ public class ModuleBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
     
-	@Autowired
+	@Inject
 	private IModuleService serviceModule;
 	
 	private Long idModule;
 	private String nomModule;
 	private Long idSpecialite;
-	private String addModuleException;
-	private String success;
 	private List<Module> modulesBySpecialites;
 	private Module m;
 	
@@ -34,11 +37,12 @@ public class ModuleBean implements Serializable {
 		m = new Module(nomModule);
 		try {
 			serviceModule.addModule(m, idSpecialite);
-			setSuccess("Le Module "+m.getNomModule()+" à bien été ajouter avec success");
-			setAddModuleException("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","Le Module "+m.getNomModule()+" à bien été ajouter avec success"));
+			nomModule = "";
+			idSpecialite=null;
 		} catch (AddModuleException e) {
-			setAddModuleException(e.getMessage());
-			setSuccess("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+			
 		}
 	}
 	/*@method update*/
@@ -50,7 +54,7 @@ public class ModuleBean implements Serializable {
 	public void getModulesBySpecialite(){
 		modulesBySpecialites=serviceModule.getModulesBySpecialite(idSpecialite);
 	}
-	
+	/* get current module*/
 	public void getCurrentModule(Long idModule){
 		m=serviceModule.getModuleById(idModule);
 	}
@@ -73,18 +77,7 @@ public class ModuleBean implements Serializable {
 	public void setIdSpecialite(Long idSpecialite) {
 		this.idSpecialite = idSpecialite;
 	}
-	public String getAddModuleException() {
-		return addModuleException;
-	}
-	public void setAddModuleException(String addModuleException) {
-		this.addModuleException = addModuleException;
-	}
-	public String getSuccess() {
-		return success;
-	}
-	public void setSuccess(String success) {
-		this.success = success;
-	}
+	
 	public List<Module> getModulesBySpecialites() {
 		return modulesBySpecialites;
 	}

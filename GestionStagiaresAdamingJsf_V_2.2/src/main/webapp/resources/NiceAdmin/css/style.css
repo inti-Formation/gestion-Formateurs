@@ -31,6 +31,10 @@ Website: http://geekslabs.com/
     /*border: 3px solid #22bacf !important;*/
     
 }
+/*messages errors*/
+.ui-growl-item {
+	padding-top: 50px!important;
+}
 .progress{
 	width:300px;
 }
@@ -117,7 +121,8 @@ Website: http://geekslabs.com/
     font-weight: bold!important;
 }
 .calendar{
-border-radius:4px!important;	
+border-radius:4px!important;
+	
 }
 .form-group {
     margin-bottom: 5px!important;
@@ -4285,6 +4290,7 @@ table.sliders tr td {
 
 .ui-slider-horizontal {
     height: 8px !important;
+    background: gray!important;
 }
 
 .ui-slider-horizontal .ui-slider-handle {

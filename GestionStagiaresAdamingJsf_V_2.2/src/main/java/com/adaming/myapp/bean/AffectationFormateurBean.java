@@ -21,7 +21,6 @@ public class AffectationFormateurBean {
 	private IFormateurService serviceFormateur;
 	@Inject
 	private ISessionService serviceSession;
-	
 	private Long idSession;
 	private Long idFormateur;
 	private List<SessionEtudiant> sessionsInProgress;
@@ -32,12 +31,16 @@ public class AffectationFormateurBean {
 		formateurs=serviceFormateur.getAllFormateurs();
 		sessionsInProgress=serviceSession.getAllSessionsInProgress();
 	}
-	
+	/* method affectation formateur*/
 	public String affectationFormateur(){
 		serviceFormateur.addFormateurToSession(idSession, idFormateur);
-		setFormateurs(null);
-		setSessionsInProgress(null);
 		return "affectationFormateurSuccess?redirect=true";
+	}
+	/*method redirect*/
+	public String redirect(){
+		idFormateur=null;
+		idSession=null;
+		return "affectationFormateur?redirect=true";
 	}
 
 	public Long getIdSession() {

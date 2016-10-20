@@ -12,26 +12,9 @@
 	<br> </br>
 	<br> </br>
 	<br> </br>
-
-	
 	<div class="well container">
-		    <br/>
-			<!-- exception add new Etudiant -->
-				<c:if test="#{not empty etudiantBean.addEtudiantException}">
-					<div class="alert alert-warning">
-						<h:outputText value="#{etudiantBean.addEtudiantException}"
-							styleClass="errorExeption"/>
-					</div>
-				</c:if>
-			<!-- message success -->
-				<c:if test="#{not empty etudiantBean.success}">
-					<div class="alert alert-info">
-						<h:outputText value="#{etudiantBean.success}"
-							styleClass="messageSuccess" />
-					</div>
-				</c:if>
-	     <!-- errors de validation -->
-	     <h:messages style="color:red;"></h:messages>
+		 <!-- exception add new Etudiant + message success+ error validation-->
+	     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />	
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -103,8 +86,8 @@
                                       <div class="form-group ">
                                           <label for="dateDeNaissance" class="control-label col-lg-2">Date De Naissance <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <p:calendar styleClass="calendar" id="dateDeNaissance"
-												value="#{etudiantBean.dateDeNaissance}" effect="fold" required="true"
+                                              <p:calendar styleClass="calendar" id="dateDeNaissance" yearRange="c-70:c+10"
+												value="#{etudiantBean.dateDeNaissance}" effect="fold" required="true" navigator="true"
 												required-message="9 - Date De Naissance * " />
                                           </div>
                                       </div>
@@ -123,8 +106,8 @@
                                       <div class="form-group ">
                                           <label for="dateObtention" class="control-label col-lg-2">Année d'obtention du diplôme<span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <p:calendar styleClass="calendar" id="dateObtention"
-												value="#{etudiantBean.dateObtention}" effect="fold" required="true"
+                                              <p:calendar yearRange="c-70:c+10" styleClass="calendar" id="dateObtention" 
+												value="#{etudiantBean.dateObtention}" effect="fold" required="true" navigator="true"
 												required-message="12 - Date Obtention * " />
                                           </div>
                                       </div>
@@ -171,7 +154,6 @@
                                           </div>
                                       </div>
 									
-									<h:messages styleClass="errorValidation" ></h:messages>
 								<br />
 								<br />
 								<c:if test="#{fn:length(etudiantBean.etudiants) >0 }">
@@ -179,7 +161,7 @@
 										<p:dataTable var="newStudents" value="#{etudiantBean.etudiants}"
 											id="studentTable"
 											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-											paginator="true" rows="10" style="width:910px;margin-bottom:20px;">
+											paginator="true" rows="10"  style="width:90%;margin-bottom:20px;">
 					
 											<f:facet name="{Exporters}">
 												<p:commandLink ajax="false" style="float:right;"
@@ -272,10 +254,10 @@
 								<br />
 								<p:dialog header="Etudiant Info" widgetVar="carDialog"
 										modal="true" showEffect="blind" hideEffect="explode"
-										resizable="false">
+										resizable="false" width="500px">
 										<p:outputPanel id="moduleDetail" style="text-align:center;">
-													<h:inputHidden value="#{etudiantBean.etudiant.idEtudiant}" /><br/>
-													<h:inputHidden value="#{etudiantBean.etudiant.sessionEtudiant.idSession}" /><br/>
+													<h:inputHidden value="#{etudiantBean.etudiant.idEtudiant}" />
+													<h:inputHidden value="#{etudiantBean.etudiant.sessionEtudiant.idSession}" />
 													<h:outputText value="Nom Etudiant:" /><br/>
 													<h:inputText value="#{etudiantBean.etudiant.nomEtudiant}" /><br/>
 													<h:outputText value="Prénom Etdudiant" /><br/>

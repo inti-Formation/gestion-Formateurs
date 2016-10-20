@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -64,8 +65,6 @@ public class EtudiantBean implements Serializable {
 	private String codePostal;
 	private String numTel;
 	private String mail;
-	private String success;
-	private String addEtudiantException;
 	private List<SessionEtudiant> sessionsEncours;
 	private List<SessionEtudiant> allSessions;
 	private List<Etudiant> etudiants;
@@ -86,11 +85,20 @@ public class EtudiantBean implements Serializable {
 			serviceEtudiant.addStudent(e, idSession);
 			serviceUser.saveUser(u);
 			serviceRole.saveRole(r, u.getIdUser());
-			setSuccess("l'Etudiant "+nomEtudiant+", "+prenomEtudiant+" à bien été ajoutée avec Success"+" Voici les informations du compte etudiant : "+"Pseudo : "+mail+", Password : "+passwordRandom);
-			setAddEtudiantException("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","l'Etudiant "+nomEtudiant+", "+prenomEtudiant+" à bien été ajoutée avec Success"+" Voici les informations du compte etudiant : "+"Pseudo : "+mail+", Password : "+passwordRandom));
+			idSession=null;
+			nomEtudiant="";
+			prenomEtudiant="";
+			dateDeNaissance=null;
+			formationInitial="";
+			ecole="";
+			dateObtention=null;
+			adressePostal="";
+			codePostal="";
+			numTel="";
+			mail="";
 		} catch (AddEtudiantException e1) {
-			setAddEtudiantException(e1.getMessage());
-			setSuccess("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e1.getMessage()));
 		}
 		
 	}
@@ -119,7 +127,7 @@ public class EtudiantBean implements Serializable {
 		serviceEtudiant.updateStudent(etudiant, idSession);
 		return "etudiant_update_success?redirect=true";
 	}
-	
+	/*get all students by session*/
 	public void getAllStudentsBySession(){
 		etudiants = serviceEtudiant.getEtudiantBySession(idSession);
 	}
@@ -196,18 +204,7 @@ public class EtudiantBean implements Serializable {
 	public void setIdSession(Long idSession) {
 		this.idSession = idSession;
 	}
-	public String getSuccess() {
-		return success;
-	}
-	public void setSuccess(String success) {
-		this.success = success;
-	}
-	public String getAddEtudiantException() {
-		return addEtudiantException;
-	}
-	public void setAddEtudiantException(String addEtudiantException) {
-		this.addEtudiantException = addEtudiantException;
-	}
+	
 	public List<SessionEtudiant> getSessionsEncours() {
 		return sessionsEncours;
 	}

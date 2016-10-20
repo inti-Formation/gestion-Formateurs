@@ -13,22 +13,13 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IEvenementService {
 
-	public Retard addRetard(Retard r, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException;
-
-	public Absence addAbsence(Absence a, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException;
-
-	public Entretien addEntretien(Entretien e, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException;
-
-	public TopEtudiant addTop(TopEtudiant t, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException;
-
-	public WarningEtudiant addWarning(WarningEtudiant w, Long idSession,
+    /*Add warning and Top */
+	public Evenement AddWarningAndTop(Evenement e, Long idSession,
 			Long idEtudiant) throws VerificationInDataBaseException;
-
-	/* toutes les evenements par semaine */
+	/*add evenement*/
+		public Evenement addEvenement(Evenement e,Long idSession,Long idEtudiant) throws VerificationInDataBaseException;
+	
+	 /* toutes les evenements par semaine */
 
 	public List<Evenement> getEvenementsRetards()
 			throws EvenementNotFoundException;
@@ -60,5 +51,5 @@ public interface IEvenementService {
 	public List<Evenement> getAllEvenements();
 
 	public List<Evenement> getAllEvenementsBySession(Long idSession);
-
+   
 }

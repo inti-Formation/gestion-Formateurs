@@ -5,15 +5,20 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.adaming.myapp.abstractfactory.EvenementFactoryProducer;
+import com.adaming.myapp.abstractfactory.IEvenementFactory;
 import com.adaming.myapp.entities.Absence;
 import com.adaming.myapp.entities.Entretien;
 import com.adaming.myapp.entities.Etudiant;
+import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Retard;
@@ -32,9 +37,6 @@ import com.adaming.myapp.session.service.ISessionService;
 public class ScheduleView {
 
 	@Inject
-	private ISessionService serviceSession;
-
-	@Inject
 	private IEtudiantService serviceEtudiant;
 	@Inject
 	private IModuleService serviceModule;
@@ -47,10 +49,12 @@ public class ScheduleView {
 	/* get the name of user (formateur) for evenement */
 	@Inject
 	private UserAuthentificationBean userAuthentificationBean;
-
+    /*abstract factry*/
+	private IEvenementFactory factory = EvenementFactoryProducer.getEvenementFactory("EvenementFactoryImpl");
+	
 	private Long idSession;
 	private Long idModule;
-	private List<SessionEtudiant> sessionEnCours;
+	private Long idSpecialite;
 	private List<Etudiant> etudiantsBySession;
 	private List<Module> modules;
 	private Module module;
@@ -75,11 +79,7 @@ public class ScheduleView {
 	private List<SessionEtudiant> sessionsFormateur;
 	private SessionEtudiant sessionFormateur;
 
-	@PostConstruct
-	public void init() {
-		sessionEnCours = serviceSession.getAllSessionsInProgress();
-
-	}
+	
 
 	public void initReporting() {
 		evenementFoundException = "";
@@ -144,6 +144,12 @@ public class ScheduleView {
 		return "evaluation?redirect=true";
 
 	}
+	
+	public String initActivationModule(){
+		initReporting();
+		getAllModulesBySession();
+		return "activation_module?redirect=true";
+	}
 
 	/* @method get All Students By Session */
 	public void getAllStudentsBySession() {
@@ -170,10 +176,8 @@ public class ScheduleView {
 
 	/* @method generate Absences */
 	public void genererSchedule() {
-
 		genererDates();
 		getAllStudentsBySession();
-
 	}
 
 	/* @method get all modules by sessions */
@@ -191,6 +195,16 @@ public class ScheduleView {
 	public void getModuleById() {
 		module = new Module();
 		module = serviceModule.getModuleById(idModule);
+	}
+	/* @method get module by id for activation Formateur*/
+	public void getCurrentModule(Long idModule){
+		module= new Module();
+		module=serviceModule.getModuleById(idModule);
+	}
+	/*@method update*/
+	public String edit(Long idSpecialite){
+			serviceModule.updateModule(module, idSpecialite);
+			return "module_update_success?redirect=true";
 	}
 
 	/* @methode generate Evaluations */
@@ -227,76 +241,112 @@ public class ScheduleView {
 		}
 
 	}
-
+	/*reset*/
+	public void resetEvenement(){
+		dateStart=null;
+		dateEnd=null;
+		idEtudiant=null;
+		typeEvenement="";
+	}
+	
+	/*@methode signaler un retard*/
+	public void signalerUnRetad(){
+		Evenement retard = null;
+		retard=factory.createEvent("Retard");
+		retard.setStartDate(dateStart);
+		retard.setEndDate(dateEnd);
+		retard.setCurentDate(new Date());
+		retard.setSignaleur(userAuthentificationBean.getName());
+		try {
+			serviceEvenement.addEvenement(retard, idSession, idEtudiant);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","le Retard de " + dateStart + " A "
+					+ dateEnd + " à bien été signalé"));
+			resetEvenement();
+		} catch (VerificationInDataBaseException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+		}
+	}
+	/*@methode signaler une absence*/
+	public void signalerUnAbsence(){
+		 Evenement absence = null;
+		 absence=factory.createEvent("Absence");
+		    absence.setStartDate(dateStart);
+		    absence.setEndDate(dateEnd);
+		    absence.setCurentDate(new Date());
+		    absence.setSignaleur(userAuthentificationBean.getName());
+		try {
+			serviceEvenement.addEvenement(absence, idSession, idEtudiant);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","l'absence de " + dateStart + " A "
+					+ dateEnd + " à bien été signalé"));
+			resetEvenement();
+		} catch (VerificationInDataBaseException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+		}
+	}
+	/*@methode signaler un entretien*/
+	public void signalerUnEntretien(){
+		Evenement entretien = null;
+		entretien=factory.createEvent("Entretien");
+		entretien.setStartDate(dateStart);
+		entretien.setEndDate(dateEnd);
+		entretien.setCurentDate(new Date());
+		entretien.setSignaleur(userAuthentificationBean.getName());
+	try {
+		serviceEvenement.addEvenement(entretien, idSession,
+				idEtudiant);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","l'entretien de " + dateStart + " A "
+				+ dateEnd + " à bien été signalé"));
+		resetEvenement();
+		} catch (VerificationInDataBaseException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+		}
+	}
+	/*@methode signaler un etudiantTop*/
+	public void signalerUnEtudiantTop(){
+		Evenement topEtudiant = null;
+		topEtudiant=factory.createEvent("TopEtudiant");
+		topEtudiant.setStartDate(dateStart);
+		topEtudiant.setEndDate(dateEnd);
+		topEtudiant.setCurentDate(new Date());
+		topEtudiant.setSignaleur(userAuthentificationBean.getName());
+	try {
+		serviceEvenement.AddWarningAndTop(topEtudiant, idSession, idEtudiant);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","l'evènement à bien été signalée"));
+		resetEvenement();
+		} catch (VerificationInDataBaseException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+		}
+	}
+	/*@methode signaler un etudiantTop*/
+	public void signalerUnEtudiantWarning(){
+		Evenement warningEtudiant = null;
+		warningEtudiant=factory.createEvent("WarningEtudiant");
+		warningEtudiant.setStartDate(dateStart);
+		warningEtudiant.setEndDate(dateEnd);
+		warningEtudiant.setCurentDate(new Date());
+		warningEtudiant.setSignaleur(userAuthentificationBean.getName());
+		try {
+			serviceEvenement.AddWarningAndTop(warningEtudiant, idSession,
+					idEtudiant);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","l'evènement à bien été signalée"));
+			resetEvenement();
+		} catch (VerificationInDataBaseException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+		}
+	}
 	/* @method signaler un evenement */
 	public void signalerEvenement() {
-		Retard retard = null;
-		Absence absence = null;
-		Entretien entretien = null;
-		TopEtudiant topEtudiant = null;
-		WarningEtudiant warningEtudiant = null;
-
 		if (!typeEvenement.equals(null)) {
 			if (typeEvenement.equals("retard")) {
-				retard = new Retard(dateStart, dateEnd,
-						userAuthentificationBean.getName(), new Date());
-				try {
-					serviceEvenement.addRetard(retard, idSession, idEtudiant);
-					setEvenementSuccess("le Retard de " + dateStart + " A "
-							+ dateEnd + " à bien été signalé");
-					setEvenementFoundException("");
-				} catch (VerificationInDataBaseException e) {
-					setEvenementFoundException(e.getMessage());
-					setEvenementSuccess("");
-				}
+				signalerUnRetad();
 			} else if (typeEvenement.equals("absence")) {
-				absence = new Absence(dateStart, dateEnd,
-						userAuthentificationBean.getName(), new Date());
-				try {
-					serviceEvenement.addAbsence(absence, idSession, idEtudiant);
-					setEvenementSuccess("l'absence" + " de " + dateStart
-							+ " A " + dateEnd + " à bien été signalée");
-					setEvenementFoundException("");
-				} catch (VerificationInDataBaseException e) {
-					setEvenementFoundException(e.getMessage());
-					setEvenementSuccess("");
-				}
+				signalerUnAbsence();
 			} else if (typeEvenement.equals("entretient")) {
-				entretien = new Entretien(dateStart, dateEnd,
-						userAuthentificationBean.getName(), new Date());
-				try {
-					serviceEvenement.addEntretien(entretien, idSession,
-							idEtudiant);
-					setEvenementSuccess("l'entretien de " + dateStart + " A "
-							+ dateEnd + " à bien été signalée");
-					setEvenementFoundException("");
-				} catch (VerificationInDataBaseException e) {
-					setEvenementFoundException(e.getMessage());
-					setEvenementSuccess("");
-				}
+				signalerUnEntretien();
 			} else if (typeEvenement.equals("top")) {
-				topEtudiant = new TopEtudiant(new Date(), new Date(),
-						userAuthentificationBean.getName(), new Date());
-				try {
-					serviceEvenement.addTop(topEtudiant, idSession, idEtudiant);
-					setEvenementSuccess("l'evènement à bien été signalée");
-					setEvenementFoundException("");
-				} catch (VerificationInDataBaseException e) {
-					setEvenementFoundException(e.getMessage());
-					setEvenementSuccess("");
-				}
+				signalerUnEtudiantTop();	
 			} else if (typeEvenement.equals("warning")) {
-				warningEtudiant = new WarningEtudiant(new Date(), new Date(),
-						userAuthentificationBean.getName(), new Date());
-				try {
-					serviceEvenement.addWarning(warningEtudiant, idSession,
-							idEtudiant);
-					setEvenementSuccess("l'evènement à bien été signalée");
-					setEvenementFoundException("");
-				} catch (VerificationInDataBaseException e) {
-					setEvenementFoundException(e.getMessage());
-					setEvenementSuccess("");
-				}
+				signalerUnEtudiantWarning();	
 			}
 		}
 
@@ -310,14 +360,6 @@ public class ScheduleView {
 
 	public void setIdSession(Long idSession) {
 		this.idSession = idSession;
-	}
-
-	public List<SessionEtudiant> getSessionEnCours() {
-		return sessionEnCours;
-	}
-
-	public void setSessionEnCours(List<SessionEtudiant> sessionEnCours) {
-		this.sessionEnCours = sessionEnCours;
 	}
 
 	public List<Etudiant> getEtudiantsBySession() {
@@ -432,10 +474,7 @@ public class ScheduleView {
 		this.typeEvenement = typeEvenement;
 	}
 
-	public void setServiceSession(ISessionService serviceSession) {
-		this.serviceSession = serviceSession;
-	}
-
+	
 	public void setServiceEtudiant(IEtudiantService serviceEtudiant) {
 		this.serviceEtudiant = serviceEtudiant;
 	}
@@ -495,6 +534,14 @@ public class ScheduleView {
 
 	public void setSessionFormateur(SessionEtudiant sessionFormateur) {
 		this.sessionFormateur = sessionFormateur;
+	}
+
+	public Long getIdSpecialite() {
+		return idSpecialite;
+	}
+
+	public void setIdSpecialite(Long idSpecialite) {
+		this.idSpecialite = idSpecialite;
 	}
 
 }
