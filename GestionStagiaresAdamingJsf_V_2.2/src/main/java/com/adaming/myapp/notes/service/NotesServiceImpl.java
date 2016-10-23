@@ -46,4 +46,16 @@ public class NotesServiceImpl implements INotesService {
 		return dao.testNoteByEtuAndByModule(idSession, idModule, idEtudiant);
 	}
 
+	@Override
+	public List<Note> getAllNotesByStudent(Long idEtudiant) {
+		// TODO Auto-generated method stub
+		return dao.getAllNotesByStudent(idEtudiant);
+	}
+
+	@Override
+	public List<Note> getAllNotesBySession(Long idSession) {
+		// TODO Auto-generated method stub
+		return dao.getAllNotesBySession(idSession);
+	}
+
 }

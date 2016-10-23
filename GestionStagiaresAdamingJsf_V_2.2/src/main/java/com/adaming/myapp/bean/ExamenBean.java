@@ -157,7 +157,7 @@ public class ExamenBean implements Serializable {
 		reponses = new ArrayList<Question>();
 		return "start_examen?redirect=true";
 	}
-
+    /*init examen*/
 	public String initExamen() {
 		etudiant = new Etudiant();
 		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
@@ -167,11 +167,20 @@ public class ExamenBean implements Serializable {
 		return "examen?redirect=true";
 
 	}
+	/*get all notes by student*/
+	public String getAllNotesByStudent(){
+		etudiant = new Etudiant();
+		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
+		idEtudiant = etudiant.getIdEtudiant();
+		notes=new ArrayList<Note>();
+		notes=serviceNotes.getAllNotesByStudent(idEtudiant);
+		return "resultats?redirect=true";
+	}
 
 	/* @@method get All Modules By Session */
 	public void getAllModulesBySession() {
 		moduleBySessions = new ArrayList<Module>();
-
+        notes=new ArrayList<Note>();
 		moduleBySessions = serviceModule.getModulesBySession(idSession);
 		notes = serviceNotes.getAllNotes();
 		boolean hasNotes = false;

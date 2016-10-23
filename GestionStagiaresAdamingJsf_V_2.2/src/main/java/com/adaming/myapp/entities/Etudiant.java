@@ -44,10 +44,10 @@ public class Etudiant implements Serializable {
 	private String [] comportement = {"Veuillez Choisir l'un des Commentaires..........","Niveau technique moyen. Tres bonne progression depuis le debut. Beaucoup de volonté et de serieux malgré quelques difficultés,bonne communication.","Niveau technique satisfaisant.  Sérieux et appliqué.bonne communication.","Niveau technique moyen.  Sérieux et motivé mais doit travailler d'avantage.","Niveau technique satisfaisant.  Personne sérieuse, autonome, motivée  et appliquée,bonne communication,  Parmis  les meilleurs elements.","Niveau technique moyen, motivée, ralleur .","Niveau technique satisfaisant. autonome et motivé mais distrait quelques fois, bonne capacité à comprendre, Parmi les meilleurs de la session.","Niveau technique satisfaisant. Tres bonne progression. Sérieux et bonne communication.","Niveau technique satisfaisant.  Autonome, Parmis  les meilleurs elements de la session,Communique peut.","Niveau technique moyen,  Assez discret,  Sérieux et motivé mais doit travailler d'avantage.","Niveau technique moyen. Tres bonne progression depuis le debut. Beaucoup de volonté et de serieux malgré quelques difficultés,bonne communication.","Niveau technique moyen,Communique peut.","Niveau technique satisfaisant, autonome,  Parmis  les meilleurs elements,bonne communication.","Niveau technique moyen.  Sérieux et motivé mais doit travailler d'avantage."};
 	
 	@Transient
-	private String [] risque = {"Moyen","Faible","Élévé"};
+	private String [] risque = {"Veuillez Choisir un Niveau","Moyen","Faible","Élévé"};
 	
 	@Transient
-	private String [] evaluation = {"Excellent","Très Bien","Moyen","Passable","Trop Juste"};
+	private String [][] evaluation ={{"Veuillez Choisir un Niveau","Excellent","Très Bien","Moyen","Passable","Trop Juste"},{"Veuillez Choisir un Niveau","Excellent","Très Bien","Moyen","Passable","Trop Juste"},{"Veuillez Choisir un Niveau","Excellent","Très Bien","Moyen","Passable","Trop Juste"}} ;
 	
 	/*assoc*/
 	@ManyToOne
@@ -55,6 +55,8 @@ public class Etudiant implements Serializable {
     private SessionEtudiant sessionEtudiant;
 	@OneToMany(mappedBy="etudiant",fetch=FetchType.EAGER)
     private List<Examen> examens;
+	@OneToMany(mappedBy="etudiant")
+	private List<Note> notes;
 
 	/*construct*/
 	public Etudiant() {
@@ -220,14 +222,26 @@ public class Etudiant implements Serializable {
 
 
 
-	public String[] getEvaluation() {
+	public String[][] getEvaluation() {
 		return evaluation;
 	}
 
 
 
-	public void setEvaluation(String[] evaluation) {
+	public void setEvaluation(String[][] evaluation) {
 		this.evaluation = evaluation;
+	}
+
+
+
+	public List<Note> getNotes() {
+		return notes;
+	}
+
+
+
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
 	}
 
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+	    <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Classement</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Sélectionnez un Module
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                 <h:form class="form-validate form-horizontal">
+	                               <div class="form-group ">
+	                                   <label for="session" class="control-label col-lg-2">Module <span class="required">*</span></label>
+	                                   <div class="col-lg-10">
+	                                        <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
+												required-message="1 - le Module *"
+											    value="#{classementBean.idModule}">
+											    <f:selectItem itemLabel="Sélectionnez un Module"
+														itemValue="#{null}" />
+												<f:selectItems value="#{classementBean.modules}" var="m"
+														itemLabel="#{m.nomModule}"
+														itemValue="#{m.idModule}" />
+											</h:selectOneMenu>
+	                                    </div>
+	                                 </div>
+	                                 <div class="form-group">
+	                                       <div class="col-lg-offset-2 col-lg-10">
+	                                           <p:commandButton update=":form10:list" action="#{classementBean.getAllNotesBySessionAndModule}" value="Voir les Résultats" styleClass="btn btn-primary"/>
+	                                       </div>
+	                                 </div>
+								  </h:form>
+							  </div>
+						</div>
+					</section>
+				</div>
+			</div>
+			<div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Classement
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+                                 <h:form id="form10" class="form-validate form-horizontal">
+	                               <div class="form-group ">
+	                                   
+	                                   <p:dataList id="list" var="n" varStatus="iteration" value="#{classementBean.notes}">
+				                           
+								            <div class="row">
+												<div style="width:100%" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+													<div class="info-box dark-bg">
+													    
+														<h:outputText value="#{iteration.index+1}"></h:outputText>
+														<p:progressBar  value="#{n.score * 5}" labelTemplate="{value}%" displayOnly="true"/>					
+														<div class="count">#{n.etudiant.nomEtudiant} #{n.etudiant.prenomEtudiant}</div>
+														<div class="title">#{n.score}</div>	
+														<br/>
+														<h:graphicImage rendered="#{n.score eq 20}"     name="NiceAdmin/img/medal_1.png"/>
+														<h:graphicImage rendered="#{n.score ge 15}"     name="NiceAdmin/img/medal_2.png"/> 
+														<h:graphicImage rendered="#{n.score eq 14}"     name="NiceAdmin/img/medal_3.png"/> 
+														<h:graphicImage rendered="#{n.score eq 13}"     name="NiceAdmin/img/medal.png"/> 
+														<h:graphicImage rendered="#{n.score lt 10}"     name="NiceAdmin/img/dislike.png"/> 
+													</div><!--/.info-box-->			
+												</div><!--/.col-->
+										</div><!--/.row-->
+	                                   </p:dataList>
+	                               </div>
+								  </h:form>
+							  </div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</section>
+	</div>
+</ui:composition>
+</html>

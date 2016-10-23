@@ -1,5 +1,6 @@
 package com.adaming.myapp.notes.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -53,7 +54,7 @@ public class NotesDaoImpl implements INotesDao {
 	@SuppressWarnings("unchecked")
 	public List<Note> getNotesBySessionAndModule(Long idSession, Long idMoule) {
 		Query query = em
-				.createQuery("from Note n where n.sessionEtudiant.idSession=:x and n.module.idModule=:y");
+				.createQuery("from Note n where n.sessionEtudiant.idSession=:x and n.module.idModule=:y ORDER BY n.score DESC");
 		query.setParameter("x", idSession);
 		query.setParameter("y", idMoule);
 		log.info("la liste des notes de la session Numero  " + idSession
@@ -76,6 +77,26 @@ public class NotesDaoImpl implements INotesDao {
 
 		return false;
 
+	}
+
+	@Override
+	public List<Note> getAllNotesByStudent(Long idEtudiant) {
+		List<Note> notes=null;
+		Etudiant etudiant = em.find(Etudiant.class,idEtudiant);
+		notes=new ArrayList<Note>();
+		notes=etudiant.getNotes();
+		log.info("la liste des notes de l'etudiant "+idEtudiant+"sont "+notes.size());
+		return notes;
+	}
+
+	@Override
+	public List<Note> getAllNotesBySession(Long idSession) {
+		List<Note> notes=null;
+		SessionEtudiant se = em.find(SessionEtudiant.class,idSession);
+		notes=new ArrayList<Note>();
+		notes=se.getNotes();
+		log.info("la liste des notes par session est "+notes.size());
+		return notes;
 	}
 
 }

@@ -264,6 +264,7 @@ public class ScheduleView {
 			resetEvenement();
 		} catch (VerificationInDataBaseException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+			resetEvenement();
 		}
 	}
 	/*@methode signaler une absence*/
@@ -281,6 +282,7 @@ public class ScheduleView {
 			resetEvenement();
 		} catch (VerificationInDataBaseException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+			resetEvenement();
 		}
 	}
 	/*@methode signaler un entretien*/
@@ -299,14 +301,15 @@ public class ScheduleView {
 		resetEvenement();
 		} catch (VerificationInDataBaseException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+			resetEvenement();
 		}
 	}
 	/*@methode signaler un etudiantTop*/
 	public void signalerUnEtudiantTop(){
 		Evenement topEtudiant = null;
 		topEtudiant=factory.createEvent("TopEtudiant");
-		topEtudiant.setStartDate(dateStart);
-		topEtudiant.setEndDate(dateEnd);
+		topEtudiant.setStartDate(new Date());
+		topEtudiant.setEndDate(new Date());
 		topEtudiant.setCurentDate(new Date());
 		topEtudiant.setSignaleur(userAuthentificationBean.getName());
 	try {
@@ -315,14 +318,15 @@ public class ScheduleView {
 		resetEvenement();
 		} catch (VerificationInDataBaseException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+			resetEvenement();
 		}
 	}
 	/*@methode signaler un etudiantTop*/
 	public void signalerUnEtudiantWarning(){
 		Evenement warningEtudiant = null;
 		warningEtudiant=factory.createEvent("WarningEtudiant");
-		warningEtudiant.setStartDate(dateStart);
-		warningEtudiant.setEndDate(dateEnd);
+		warningEtudiant.setStartDate(new Date());
+		warningEtudiant.setEndDate(new Date());
 		warningEtudiant.setCurentDate(new Date());
 		warningEtudiant.setSignaleur(userAuthentificationBean.getName());
 		try {
@@ -332,6 +336,7 @@ public class ScheduleView {
 			resetEvenement();
 		} catch (VerificationInDataBaseException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+			resetEvenement();
 		}
 	}
 	/* @method signaler un evenement */

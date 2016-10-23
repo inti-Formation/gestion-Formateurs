@@ -34,9 +34,22 @@
                       </a>
                       <ul class="sub">
                          <li><h:form><h:commandLink action="#{examenBean.initExamen}" value="Passer Un Examen"/> </h:form>  </li>                          
+                         <li><h:form><h:commandLink action="#{examenBean.getAllNotesByStudent}" value="Résultat"/> </h:form>  </li>                    
+                      </ul>
+                     
+                  </li> 
+                   
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/rank.png"/></i>
+                          <span>Classement</span>
+                       <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
+                      </a>
+                       <ul class="sub">
+                         <li><h:form><h:commandLink action="#{classementBean.getAllModuleBySession}" value="Voir le Classement"/> </h:form>  </li>                                 
                       </ul>
                   </li> 
-                  <li class="sub-menu">
+                   <li class="sub-menu">
                       <a href="javascript:;" class="">
                           <i><h:graphicImage name="NiceAdmin/img/mail.png" style="wdth:24px;height:24px;"/></i>
                           <span>Contact</span>
@@ -45,49 +58,7 @@
                       <ul class="sub">
                          <li><h:link outcome="send_mail">Contacter le R-P</h:link></li>                            
                       </ul>
-                  </li> 
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/student.png"/></i>
-                          <span>Etudiant</span>
-                          <i><h:graphicImage name="NiceAdmin/img/lock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                  </li>       
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/notes.png"/></i>
-                          <span>Notes</span>
-                        <i><h:graphicImage name="NiceAdmin/img/lock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                  </li>       
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/rank.png"/></i>
-                          <span>Classement</span>
-                         <i><h:graphicImage name="NiceAdmin/img/lock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                  </li>       
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/book.png"/></i>
-                          <span>Modules</span>
-                          <i><h:graphicImage name="NiceAdmin/img/lock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                  </li> 
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/session.png"/></i>
-                          <span>Session</span>
-                        <i><h:graphicImage name="NiceAdmin/img/lock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                  </li>      
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i><h:graphicImage name="NiceAdmin/img/specialite.png"/></i>
-                          <span>Spécialitée</span>
-                         <i><h:graphicImage name="NiceAdmin/img/lock-button.png" style="float: right;padding-right: 6px"/></i>
-                      </a>
-                  </li> 
+                  </li>        
                    <h:graphicImage name="NiceAdmin/img/logoiniti.png" style=" width: 100px; margin: auto;display: block;padding-top: 20px;"/>                 
               </ul>
               <!-- sidebar menu end-->

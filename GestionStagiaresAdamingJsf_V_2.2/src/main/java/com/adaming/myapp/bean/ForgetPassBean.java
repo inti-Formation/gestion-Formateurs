@@ -20,7 +20,7 @@ import com.adaming.myapp.exception.GetUserException;
 import com.adaming.myapp.user.service.IUserService;
 
 @Component("passBean")
-@Scope(value="request")
+@Scope(value="session")
 public class ForgetPassBean {
 
 	@Inject

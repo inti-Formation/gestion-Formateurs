@@ -15,4 +15,10 @@ public interface INotesDao {
 
 	public boolean testNoteByEtuAndByModule(Long idSession, Long idModule,
 			Long idEtudiant);
+	
+	public List<Note> getAllNotesByStudent(Long idEtudiant);
+	
+	public List<Note> getAllNotesBySession(Long idSession);
+	
+	
 }

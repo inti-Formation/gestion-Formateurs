@@ -50,6 +50,8 @@ public class SessionEtudiant implements Serializable {
 	
 	@ManyToMany(mappedBy="sessionsEtudiant")
 	private List<Formateur> formateurs;
+	@OneToMany(mappedBy="sessionEtudiant")
+	private List<Note> notes;
 	
 	/*construct*/
     public SessionEtudiant() {
@@ -149,6 +151,14 @@ public class SessionEtudiant implements Serializable {
 
 	public void setFormateurs(List<Formateur> formateurs) {
 		this.formateurs = formateurs;
+	}
+
+	public List<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
 	}
 
 	

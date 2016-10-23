@@ -19,8 +19,8 @@
 			<div class="container">
 			    
 				<h:selectOneRadio required="true" requiredMessage="1- Veuillez Sélectionner  Un Destinataire" value="#{mailBean.to}" style="margin:auto;text-align: center;color:black!important">
-				   <f:selectItem itemLabel="Responsable Pédagogique" itemValue="ad.boumaza@yahoo.fr" />
-				   <f:selectItem itemLabel="Administrateur" itemValue="ad.boumaza@yahoo.fr"/>	   			
+				   <f:selectItem itemLabel="Responsable Pédagogique" itemValue="#{mailBean.destinataire}" />
+				   <f:selectItem itemLabel="Administrateur" itemValue="#{mailBean.destinataire}"/>	   			
 				</h:selectOneRadio>
 				
                 <div class="form-group">

@@ -2,6 +2,8 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.springframework.context.annotation.Scope;
@@ -43,11 +45,9 @@ public class UserBean implements Serializable {
 		
 		try {
 			serviceUser.updatePassword(mail, password, newPassword);
-			setUserException("");
-			setUserSuccess("Votre nouveau mot de passe a bien été enregistré");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","Votre nouveau mot de passe a bien été enregistré"));
 		} catch (GetUserException e) {
-			setUserException(e.getMessage());
-			setUserSuccess("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
 		}
 	}
 	

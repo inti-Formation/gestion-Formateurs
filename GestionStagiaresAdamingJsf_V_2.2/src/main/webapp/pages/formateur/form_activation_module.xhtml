@@ -58,7 +58,8 @@
                                     
 	                                  <div class="form-group alert alert-danger">
 	                                          <div class="col-lg-offset-2 col-lg-10">
-	                                               <p>avant de commencer un examen vous devez activer un module, à la fin de chaque examen (Désactivé) le module</p>
+	                                               <p> * Avant de commencer un examen vous devez activer un module</p>
+	                                               <p> * à la fin de chaque examen (Désactivé) le module</p>
 	                                          </div>
 	                                   </div>
 	                                   <br/><br/>
@@ -71,7 +72,11 @@
 													    </p:column>
 													 
 													    <p:column  headerText="Authorisation">
-													            <h:outputText value="#{m.actif}"/>  
+													            <h:outputText value="Désactivé" rendered="#{not m.actif}"></h:outputText>
+													            <h:outputText value="Activé" rendered="#{m.actif}" /> 
+													            <p:spacer width="10"></p:spacer>
+													            <h:graphicImage rendered="#{m.actif}"     name="NiceAdmin/img/checkbox.png"/> 
+														        <h:graphicImage rendered="#{not m.actif}" name="NiceAdmin/img/disabled.png"/> 
 													    </p:column>
 													    <p:column style="width:100px;text-align:center;">
 													        <f:facet name="header">

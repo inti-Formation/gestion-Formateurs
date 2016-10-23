@@ -5,9 +5,9 @@
 	xmlns:h = "http://java.sun.com/jsf/html"
 	xmlns:p = "http://primefaces.org/ui"
     xmlns:ui= "http://java.sun.com/jsf/facelets">
-  
+
 <h:head>
-	<title>Module Modification Success</title>
+	<title>Classement</title>
 	   <f:facet name="middle">
             <h:outputStylesheet name="NiceAdmin/css/bootstrap.min.css"/>
             <h:outputStylesheet name="NiceAdmin/css/bootstrap-theme.css"/>
@@ -21,22 +21,13 @@
             <h:outputScript  name="NiceAdmin/js/jquery.nicescroll.js" />
             <h:outputScript  name="NiceAdmin/js/jquery.customSelect.min.js" />
             <h:outputScript  name="NiceAdmin/js/scripts.js" />
+            <h:outputScript  name="NiceAdmin/js/charts.js" />
      </f:facet>
 </h:head>
 <h:body>
 <ui:include src="header.xhtml"></ui:include>
 <!--ui:include src="aside.xhtml" ></ui:include-->
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<div class="well container">
-		<div class="alert alert-info" style="text-align:center;margin-bottom: 0px!important;">
-		   <h:outputText style="color:black" value="le Module #{moduleBean.m.nomModule} à bien été Modifié"/><br/>
-		   <h:link style="color:red;font-weight:bold" outcome="module.xhtml" value="retour à la page Module "></h:link>
-		</div> 
-</div>
+<ui:include src="form_classement.xhtml"></ui:include>
+
 </h:body>
 </html>

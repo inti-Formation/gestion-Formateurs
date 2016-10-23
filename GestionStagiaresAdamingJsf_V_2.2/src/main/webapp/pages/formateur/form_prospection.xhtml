@@ -93,14 +93,14 @@
 													    <h:outputText value="#{e.prenomEtudiant}" />
 												</p:column>
 												
-												<p:column style="width:100px;">
+												<p:column style="width:190px;">
 												    <f:facet name="header">
 														<h:outputText value="Risque" />
 													</f:facet>
 										           <p:cellEditor>
 										               <f:facet name="output"><h:outputText value="#{e.risque[0]}" style="cursor:pointer"/></f:facet>
 										               <f:facet name="input">
-										                <p:selectOneMenu value="#{e.risque[0]}" style="width:100%">
+										                <p:selectOneMenu value="#{e.risque[0]}" style="width:200px">
 						                                  <f:selectItems value="#{e.risque}" var="r" itemLabel="#{r}" itemValue="#{r}"  />
 						                                </p:selectOneMenu>
 										               </f:facet>

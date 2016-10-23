@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+	    <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Résultats</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Résultats
+                          </header>
+                          <div class="panel-body">
+                              <div class="form">
+							    <h:form>
+							       <ui:repeat var="n" value="#{examenBean.notes}">
+						                <div class="row" style="float:left">
+											<div style="width:100%" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+												<div style="margin-right:25px" class="info-box dark-bg">
+													<p:progressBar value="#{n.score * 5}" labelTemplate="{value}%" displayOnly="true"/>					
+													<div class="count">#{n.module.nomModule}</div>
+													<div class="title">#{n.score}</div>	
+												</div><!--/.info-box-->			
+											</div><!--/.col-->
+										</div><!--/.row-->
+							       </ui:repeat>
+							    </h:form>
+							   </div>
+							</div>
+						</section>
+					</div>
+				</div>	
+			</section>
+	</div>
+</ui:composition>
+</html>

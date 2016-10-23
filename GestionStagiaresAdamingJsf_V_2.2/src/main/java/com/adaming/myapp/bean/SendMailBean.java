@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("mailBean")
-@Scope(value="request")
+@Scope(value="session")
 
 public class SendMailBean {
 	
@@ -31,12 +31,22 @@ public class SendMailBean {
 	//
 	
 	private String msgSuccess;
-	private String to;
-	private String from="nymraif.stark8623@gmail.com";
 	
+	private String from="nymraif.stark8623@gmail.com";
+	private String to;
 	private String objet;
 	private String msg;
+	private String destinataire="ad.boumaza@yahoo.fr";
 	
+	/*reset mail*/
+	public String resetMail(){
+		to    ="";
+		objet ="";
+		msg   ="";
+		return "index";
+	}
+	
+	/*method send mail */
 	public String sendMail() {
 		
 		
@@ -134,6 +144,14 @@ public class SendMailBean {
 	}
 
 	
+
+	public String getDestinataire() {
+		return destinataire;
+	}
+
+	public void setDestinataire(String destinataire) {
+		this.destinataire = destinataire;
+	}
 
 	public SendMailBean() {
 		super();

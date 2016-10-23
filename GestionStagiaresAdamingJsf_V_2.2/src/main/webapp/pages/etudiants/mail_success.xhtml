@@ -35,8 +35,14 @@
 <div class="well container">
 		<div class="alert alert-info" style="text-align:center; margin-bottom:0px!important;">
 		   <h:outputText style="color:black" value="le mail a bien été envoyé"/><br/>
-		   <h:link style=" color:red;font-weight:bold" outcome="send_mail.xhtml" value="Retoure à la Page Mail"></h:link>
 		</div> 
+		<h:form>
+			   <div class="form-group">
+	                  <div class="col-lg-offset-2 col-lg-10">
+	                     <h:commandButton action="#{mailBean.resetMail}"  value="Retour à la Page d'acceuil" class="btn btn-primary"/>
+	                  </div>
+	            </div>
+        </h:form>
 		  
 </div>
 
