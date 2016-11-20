@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+       <p:growl id="maj" widgetVar="vnsj" showDetail="true"></p:growl>
+	   <p:socket onMessage="handleMessage" channel="/notify">
+	       <p:ajax event="message" update=":frm:comments"></p:ajax>
+	   </p:socket>
+	   
+	    <script type="text/javascript">
+	    
+	    function handleMessage (facesmessage){
+	    	facesmessage.severity ="info"
+	    	PF("vnsj").show([facesmessage]);
+	    }
+
+	    </script>
+	    <h:form id="frm">
+	    <p:dataTable id="comments" value="#{commentBean.newComments}" var="c">
+	       <p:column headerText="Id">
+        <h:outputLabel value="#{c.pseudo}" />
+    </p:column>
+ 
+    <p:column headerText="Year">
+        <h:outputText value="#{c.comment}" />
+    </p:column>
+    <p:column headerText="Year">
+        <h:outputText value="#{c.dateComment}" />
+    </p:column>
+	    </p:dataTable>
+	    </h:form>
+	</div>
+</ui:composition>
+</html>

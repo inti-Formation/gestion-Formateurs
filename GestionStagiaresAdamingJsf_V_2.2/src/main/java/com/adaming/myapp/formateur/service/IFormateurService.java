@@ -15,4 +15,6 @@ public interface IFormateurService {
 	public List<Formateur> getAllFormateurs();
 
 	public Formateur getFormateur(String mail);
+	
+	public Formateur getFormateurById(Long idFormateur);
 }

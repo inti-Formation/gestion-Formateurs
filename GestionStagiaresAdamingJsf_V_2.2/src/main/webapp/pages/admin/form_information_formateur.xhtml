@@ -12,14 +12,14 @@
 	<br> </br>
 	<br> </br>
 	<br> </br>
+	
 	<div class="well container">
 		
-		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
 				<div class="col-lg-12">
 					<ol class="breadcrumb">
-						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Information</h3>
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Information Formateurs</h3>
 					</ol>
 				</div>
 			</div>            
@@ -27,83 +27,77 @@
                   <div class="col-lg-12">
                       <section class="panel">
                           <header class="panel-heading">
-                              Information étudiant
+                              Information Formateurs
                           </header>
                           <div class="panel-body">
                               <div class="form">
                                   <h:form class="form-validate form-horizontal">
-                                      <div class="form-group ">                                         
-                                              <label for="session" class="control-label col-lg-2">Session N°</label>
-	                                          <div class="col-lg-10">
-	                                              <h:outputText  value="#{dashboardBean.etudiant.sessionEtudiant.idSession}" class="form-control" />
-	                                          </div>
-                                      </div>
+                                      
                                       <div class="form-group ">
                                           <label for="nom" class="control-label col-lg-2">Nom </label>
                                           <div class="col-lg-10">
-                                              <h:outputText  value="#{dashboardBean.etudiant.nomEtudiant}" class="form-control" />
+                                              <h:outputText  value="#{affectationFormateurBean.formateur.nom}" class="form-control" />
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="prenom" class="control-label col-lg-2">Prénom </label>
                                           <div class="col-lg-10">
-                                              <h:outputText  value="#{dashboardBean.etudiant.prenomEtudiant}" class="form-control"  />
+                                              <h:outputText  value="#{affectationFormateurBean.formateur.prenom}" class="form-control"  />
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="adresse" class="control-label col-lg-2">Adresse </label>
                                           <div class="col-lg-10">
-                                              <h:outputText value="#{dashboardBean.etudiant.adressePostal}" class="form-control"/>
+                                              <h:outputText value="#{affectationFormateurBean.formateur.adresse}" class="form-control"/>
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="codePostal" class="control-label col-lg-2">Code Postal </label>
                                           <div class="col-lg-10">
-                                              <h:outputText  value="#{dashboardBean.etudiant.codePostal}" class="form-control" />
+                                              <h:outputText  value="#{affectationFormateurBean.formateur.codePostal}" class="form-control" />
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="telMobile" class="control-label col-lg-2">Tél </label>
                                           <div class="col-lg-10">
-                                              <h:outputText   value="#{dashboardBean.etudiant.numTel}" class="form-control" />
+                                              <h:outputText   value="#{affectationFormateurBean.formateur.telMobile}" class="form-control" />
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="mail" class="control-label col-lg-2">Mail</label>
                                           <div class="col-lg-10">
-                                              <h:outputText  value="#{dashboardBean.etudiant.mail}" class="form-control" />
+                                              <h:outputText  value="#{affectationFormateurBean.formateur.mail}" class="form-control" />
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="dateDeNaissance" class="control-label col-lg-2">Date De Naissance </label>
                                           <div class="col-lg-10">
                                               <p:calendar disabled="true" 
-												value="#{dashboardBean.etudiant.dateDeNaissance}" />
+												value="#{affectationFormateurBean.formateur.dateDeNaissance}" />
                                           </div>
                                       </div>
                                       <div class="form-group ">
-                                          <label for="FormationInitial" class="control-label col-lg-2">Formation Initial </label>
+                                          <label for="lieuDeNaissance" class="control-label col-lg-2">Lieu De Naissance </label>
                                           <div class="col-lg-10">
-                                              <h:outputText  value="#{dashboardBean.etudiant.formationInitial}"  class="form-control" />
+                                              <h:outputText   value="#{affectationFormateurBean.formateur.lieuDeNaissance}" class="form-control" />
                                           </div>
                                       </div>
                                       <div class="form-group ">
-                                          <label for="ecole" class="control-label col-lg-2">Ecole </label>
+                                          <label for="nationnalite" class="control-label col-lg-2">Nationalité </label>
                                           <div class="col-lg-10">
-                                              <h:outputText   value="#{dashboardBean.etudiant.ecole}" class="form-control" />
+                                              <h:outputText   value="#{affectationFormateurBean.formateur.nationalite}" class="form-control" />
                                           </div>
                                       </div>
                                       <div class="form-group ">
-                                          <label for="dateObtention" class="control-label col-lg-2">Année d'obtention du diplôme</label>
+                                          <label for="specialite" class="control-label col-lg-2">Spécialité</label>
                                           <div class="col-lg-10">
-                                              <p:calendar disabled="true"
-												value="#{dashboardBean.etudiant.dateObtention}" 
-												 />
+                                              <h:outputText  value="#{affectationFormateurBean.formateur.specialite}" class="form-control" />
                                           </div>
                                       </div>
+                                     
                                       <div class="form-group ">
                                             <div class="col-lg-offset-2 col-lg-10">
-                                              <h:commandButton action="dashboard?faces-redirect=true" value="Retour" styleClass="btn btn-info"/>
+                                              <h:commandButton action="liste_formateurs?faces-redirect=true" value="Retour" styleClass="btn btn-info"/>
                                             </div>
                                       </div>
                                   </h:form>

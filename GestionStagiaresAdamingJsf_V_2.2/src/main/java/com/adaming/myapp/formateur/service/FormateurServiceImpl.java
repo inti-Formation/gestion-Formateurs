@@ -24,7 +24,22 @@ public class FormateurServiceImpl implements IFormateurService {
 	@Override
 	public Formateur addFormateur(Formateur f)
 			throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
+		List<Formateur> formateurs = null;// verifications
+		formateurs = getAllFormateurs();
+		if(formateurs.size() >0){
+			for (Formateur formateur : formateurs) {
+				if (formateur.getDateDeNaissance().compareTo(
+						f.getDateDeNaissance()) == 0
+						&& formateur.getNom().equals(f.getNom())) {
+					throw new VerificationInDataBaseException("Le Formateur "
+							+ f.getNom()
+							+ " Existe déja dans la base de données");
+				}
+				else if(formateur.getMail().equals(f.getMail())){
+					throw new VerificationInDataBaseException("l'adresse mail "+formateur.getMail()+" existe déjà dans la base de donnée, Veuillez renseigner une autre adresse mail");
+				}
+		    }
+		}
 		return dao.addFormateur(f);
 	}
 
@@ -43,6 +58,12 @@ public class FormateurServiceImpl implements IFormateurService {
 	public Formateur getFormateur(String mail) {
 		// TODO Auto-generated method stub
 		return dao.getFormateur(mail);
+	}
+
+	@Override
+	public Formateur getFormateurById(Long idFormateur) {
+		// TODO Auto-generated method stub
+		return dao.getFormateurById(idFormateur);
 	}
 
 }

@@ -40,6 +40,11 @@ public class Evenement implements Serializable {
 	private int dureeInHours;
 	@Transient
 	private String typeEvenement;
+	
+	@Transient
+	private String monthOfEvenement;
+	@Transient
+	private String dayOfEvenement;
 
 	/* assoc */
 	@ManyToOne
@@ -163,5 +168,22 @@ public class Evenement implements Serializable {
 	public void setTypeEvenement(String typeEvenement) {
 		this.typeEvenement = typeEvenement;
 	}
+
+	public String getMonthOfEvenement() {
+		return monthOfEvenement;
+	}
+
+	public void setMonthOfEvenement(String monthOfEvenement) {
+		this.monthOfEvenement = monthOfEvenement;
+	}
+
+	public String getDayOfEvenement() {
+		return dayOfEvenement;
+	}
+
+	public void setDayOfEvenement(String dayOfEvenement) {
+		this.dayOfEvenement = dayOfEvenement;
+	}
+	
 
 }

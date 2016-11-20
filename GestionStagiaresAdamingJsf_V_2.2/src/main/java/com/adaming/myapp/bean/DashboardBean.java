@@ -2,10 +2,13 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.persistence.Transient;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -69,16 +72,19 @@ public class DashboardBean implements Serializable {
 	private List<Module> modules;
 	private List<Note> notes;
 	private String etatModule;
-	
+	/**/
+	private String monthOfEvenement;
+	private String dayOfEvenement;
 	private int minuteOfEvenement;
 	private int hoursOfEvenement;
 	private int dureeInMinute;
 	private int dureeInHours;
 	private Date dateOfEvenement;
 	private String typeEvenement;
-	private String[] typesEvenement = { "Retard", "Absence", "Entretien" };
+	private String[] typesEvenement = { "Retard", "Absence", "Entretien","WarningEtudiant","TopEtudiant"};
 	private Long idSession;
 	private List<Evenement> evenementsSession;
+   
 
 	public void init() {
 		retardNotFoundException = new String();
@@ -140,6 +146,17 @@ public class DashboardBean implements Serializable {
 	public void getRetardForToDay() {
 		if (currentRetards.size() > 0) {
 			for (Evenement e : currentRetards) {
+				/*date de l'evenement en mois et jours*/
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(e.getCurentDate());
+				System.out.println("calendar "+calendar);
+				monthOfEvenement= calendar.getDisplayName(calendar.MONTH,Calendar.LONG,Locale.FRANCE);
+				int dayOfMonth  = calendar.get(Calendar.DAY_OF_MONTH);
+				dayOfEvenement  = String.valueOf(dayOfMonth); 
+				e.setDayOfEvenement(dayOfEvenement);
+				e.setMonthOfEvenement(monthOfEvenement);
+				System.out.println("day "+e.getDayOfEvenement());
+				System.out.println("month  "+e.getMonthOfEvenement());
 				/* get duree d'envois de l'evenement */
 				Date today = new Date();
 				long differenceInMilis = today.getTime()
@@ -630,5 +647,22 @@ public class DashboardBean implements Serializable {
 		this.etudiant = etudiant;
 	}
 
+	public String getMonthOfEvenement() {
+		return monthOfEvenement;
+	}
+
+	public void setMonthOfEvenement(String monthOfEvenement) {
+		this.monthOfEvenement = monthOfEvenement;
+	}
+
+	public String getDayOfEvenement() {
+		return dayOfEvenement;
+	}
+
+	public void setDayOfEvenement(String dayOfEvenement) {
+		this.dayOfEvenement = dayOfEvenement;
+	}
+
+	
 
 }

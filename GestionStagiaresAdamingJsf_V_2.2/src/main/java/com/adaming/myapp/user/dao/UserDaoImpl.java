@@ -37,8 +37,6 @@ public class UserDaoImpl implements IUserDao{
 		
 		if(u.get(0).isActived()== false)
 			throw new GetUserException("Cet utilisateur n'est pas activé !");
-		
-
 
 		return u.get(0);
 	}

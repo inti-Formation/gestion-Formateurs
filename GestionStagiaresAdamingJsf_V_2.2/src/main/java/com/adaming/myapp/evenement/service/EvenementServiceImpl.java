@@ -105,14 +105,44 @@ public class EvenementServiceImpl implements IEvenementService {
 
 	@Override
 	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
+		List<Evenement> evenements = null;
+		evenements = getAllEvenements();
+		for (Evenement evenement : evenements) {
+			if (evenement != null) {
+				if (evenement.getSessionEtudiant().getIdSession() == idSession
+						&& evenement.getEtudiant().getIdEtudiant() == idEtudiant
+						&& evenement.getStartDate().compareTo(e.getStartDate()) == 0
+						&& evenement.getEndDate().compareTo(e.getEndDate()) == 0) {
+					throw new VerificationInDataBaseException(
+							" cette evènement est déja signalé");
+				}
+			}
+		}
 		return dao.addEvenement(e, idSession, idEtudiant);
 	}
 
 	@Override
 	public Evenement AddWarningAndTop(Evenement e, Long idSession,
 			Long idEtudiant) throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
+		List<Evenement> evenements = null;
+		evenements = getAllEvenements();
+		for (Evenement evenement : evenements) {
+			if (evenement != null) {
+				if (evenement.getSessionEtudiant().getIdSession() == idSession
+						&& evenement.getEtudiant().getIdEtudiant() == idEtudiant
+						&& !evenement.getClass().getSimpleName()
+								.equals("Absence")
+						&& !evenement.getClass().getSimpleName()
+								.equals("Entretien")
+						&& !evenement.getClass().getSimpleName()
+								.equals("Retard")) {
+					throw new VerificationInDataBaseException("l' etudiant "
+							+ evenement.getEtudiant().getNomEtudiant() + " , "
+							+ evenement.getEtudiant().getPrenomEtudiant()
+							+ " est déja signalé");
+				}
+			}
+		}
 		return dao.AddWarningAndTop(e, idSession, idEtudiant);
 	}
 

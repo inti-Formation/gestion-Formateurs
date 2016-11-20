@@ -22,22 +22,7 @@ public class FormateurDaoImpl implements IFormateurDao {
 	@Override
 	public Formateur addFormateur(Formateur f)
 			throws VerificationInDataBaseException {
-		List<Formateur> formateurs = null;// verifications
-		formateurs = getAllFormateurs();
-		if(formateurs.size() >0){
-			for (Formateur formateur : formateurs) {
-				if (formateur.getDateDeNaissance().compareTo(
-						f.getDateDeNaissance()) == 0
-						&& formateur.getNom().equals(f.getNom())) {
-					throw new VerificationInDataBaseException("Le Formateur "
-							+ f.getNom()
-							+ " Existe déja dans la base de données");
-				}
-				else if(formateur.getMail().equals(f.getMail())){
-					throw new VerificationInDataBaseException("l'adresse mail "+formateur.getMail()+" existe déjà dans la base de donnée, Veuillez renseigner une autre adresse mail");
-				}
-		    }
-		}
+		
 		em.persist(f);
 		logger.info("le formateur " + f.getNom()
 				+ "à bien été criée avec success");
@@ -71,6 +56,12 @@ public class FormateurDaoImpl implements IFormateurDao {
 		List<Formateur> u = query.getResultList();
 
 		return u.get(0);
+	}
+
+	@Override
+	public Formateur getFormateurById(Long idFormateur) {
+		Formateur f = em.find(Formateur.class,idFormateur);
+		return f;
 	}
 
 }

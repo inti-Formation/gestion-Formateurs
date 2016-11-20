@@ -103,7 +103,7 @@
 															<f:facet name="header">
 																<h:outputText value="Etudiant" />
 															</f:facet>
-															<h:commandButton action="#{dashboardBean.getStudentById(r.etudiant.idEtudiant)}" value="#{r.etudiant.nomEtudiant},#{r.etudiant.prenomEtudiant}"/>
+															<h:commandLink styleClass="css_btn_class" action="#{dashboardBean.getStudentById(r.etudiant.idEtudiant)}" value="#{r.etudiant.nomEtudiant},#{r.etudiant.prenomEtudiant}"/>
 														</p:column>
 														<p:column style="width:80px;">
 															<f:facet name="header">
@@ -282,9 +282,10 @@
 									        </f:facet>
 									 
 									        <p:column filterBy="#{event.etudiant.nomEtudiant}" headerText="Etudiant" filterMatchMode="contains">
-									            <h:outputText value="#{event.etudiant.nomEtudiant}" />
-									            <p:spacer width="7"></p:spacer>
-									            <h:outputText value="#{event.etudiant.prenomEtudiant}" />
+									           <f:facet name="header">
+													<h:outputText value="Etudiant" />
+												</f:facet>
+									            <h:commandLink action="#{dashboardBean.getStudentById(event.etudiant.idEtudiant)}" value="#{event.etudiant.nomEtudiant},#{event.etudiant.prenomEtudiant}"/>
 									        </p:column>
 									        
 									       <p:column filterBy="#{event.typeEvenement}" headerText="Evenement" filterMatchMode="in">
@@ -318,6 +319,20 @@
 												      </p:column>
 												      <p:column headerText="Statut">
 												            <h:outputText value="#{m.etatModule}" />
+												             <p:spacer width="10"></p:spacer>
+													            <h:graphicImage rendered="#{m.etatModule eq 'Validé'}"     name="NiceAdmin/img/checkbox.png"/> 
+														        <h:graphicImage  rendered="#{m.etatModule eq 'En Cours'}"> 
+														           <div id="fountainG" style="display: inline-block!important">
+																		<div id="fountainG_1" class="fountainG"></div>
+																		<div id="fountainG_2" class="fountainG"></div>
+																		<div id="fountainG_3" class="fountainG"></div>
+																		<div id="fountainG_4" class="fountainG"></div>
+																		<div id="fountainG_5" class="fountainG"></div>
+																		<div id="fountainG_6" class="fountainG"></div>
+																		<div id="fountainG_7" class="fountainG"></div>
+																		<div id="fountainG_8" class="fountainG"></div>
+															       </div>
+														        </h:graphicImage>
 												      </p:column>
 	                                                </p:dataTable>
                                                </div>

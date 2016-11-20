@@ -13,7 +13,6 @@
 	<br> </br>
 	<br> </br>
 	<br> </br>
-
 	<div class="well container">
 
 		<div class="alert alert-warning"
@@ -62,72 +61,49 @@
 			  
 			</h:form>    		
          </div>
-		    
-		<p:dataList value="#{examenBean.questionsByModule}" var="q"
-			varStatus="iteration">
-			<div class="alert alert-info">
+         <!-- data list question  -->
+			<p:dataList value="#{examenBean.questionsByModule}" var="q"
+					varStatus="iteration">
 				<h:form>
 					<h:inputHidden value="#{examenBean.idSession}" />
 					<h:inputHidden value="#{examenBean.idEtudiant}" />
 					<h:inputHidden value="#{examenBean.idModule}" />
-				    <!-- Questions -->
-					<div class="padd sscroll">
-	                    <ul class="chats">
-	                      <!-- Chat by us. Use the class "by-me". -->
-	                      <li class="by-me">
-	                        <!-- Use the class "pull-left" in avatar -->
-	                        <div class="avatar pull-left">
-	                          <h:graphicImage name="NiceAdmin/img/student_examen.png" alt=""/>
-	                        </div>
-	                        <div class="chat-content">
-	                          <!-- Questions -->
-	                          <div class="chat-meta">
-	                          #{iteration.index+1} -
-	                          <h:outputText value="#{q.propositionquestion} ?"></h:outputText>
-	                          <span class="pull-right">#{iteration.index+1}</span></div>
-	                          <div class="separator"></div>
-	                          <br/>
-	                          <!-- Responses -->
-	                          <h:outputText style="margin-left:12px;color:black;"
-									value="A- #{q.premeiereReponse}" />
-								<br />
-								<h:outputText style="margin-left:12px;color:black;"
-									value="B- #{q.douxiemeReponse}" />
-								<br />
-								<h:outputText style="margin-left:12px;color:black;"
-									value="C- #{q.troisiemeReponse}" />
-								<br />
-								<h:outputText style="margin-left:12px;color:black;"
-									value="D- #{q.quatriemeReponse}" />
-	                          <br/>
-	                          <!-- select responses  -->
-	                          <p:selectOneRadio id="grid"
-						value="#{examenBean.reponseSelectionnee}" layout="grid"
-						columns="4">
-						<f:selectItem itemLabel="A" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +1},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-						<f:selectItem itemLabel="B" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +2},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-						<f:selectItem itemLabel="C" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +3},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-						<f:selectItem itemLabel="D" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +4},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-					</p:selectOneRadio>
-					<br />
-					<!-- button click -->
-					<p:commandButton action="#{examenBean.registerV3}"
-						onclick="this.disabled=true" value="Répondre" update="display"
-						ajax="true">
+					<!-- Questions -->
+			    <div class="container-fluid bg-info">
+			    <div class="modal-dialog" style="width:70%!important">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <h3 style="font-size: 20px"><span class="label label-warning" id="qid">#{iteration.index+1}</span><p:spacer width="10"></p:spacer> <h:outputText value="#{q.propositionquestion} ?"/></h3>
+		         </div>
+			        <div class="modal-body">
+			           
+		               <!-- select responses  -->
+			        <p:selectOneRadio id="grid" 
+								value="#{examenBean.reponseSelectionnee}" layout="grid"
+								columns="1" required="true" requiredMessage="vous devez selectionné une réponse">
+				             <div class="quiz" id="quiz">
+					            <f:selectItem itemLabel="A- #{q.premeiereReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +1},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+					            <f:selectItem  itemLabel="B- #{q.douxiemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +2},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+					            <f:selectItem  itemLabel="C- #{q.troisiemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +3},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+					            <f:selectItem  itemLabel="D- #{q.quatriemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +4},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+				            </div>
+				    </p:selectOneRadio>
+		          </div>
+		          <!-- button click -->
+					<div style="text-align:center!important;padding-bottom:10px">	
+					<p:commandButton action="#{examenBean.registerV3}" value="Répondre"  ajax="true">
+						
+						<p:effect type="clip" event="click" ></p:effect>
+					    
 					</p:commandButton>
-                     <!-- message button click confirm -->
-					<h:outputText style="margin-top:10px;display:block;color:green"
-						id="display" value="#{examenBean.confirm}" />
-	                          <div class="clearfix"></div>
-	                        </div>
-	                      </li> 
-	                    </ul>
-                   </div>
-				</h:form>
-			</div>
+					</div>
+			      </div>
+		        </div>
+		     </div>
+			</h:form>
 		</p:dataList>
-		
-		
+
+        <!-- modal confirmation -->
 		<h:form>
 
 			<b:commandButton look="danger" value="Terminer"
@@ -145,7 +121,8 @@
 				</b:commandButton>
 			</p:dialog>
 		</h:form>
-	</div>
+</div>
+	           
 </ui:composition>
 
 </html>

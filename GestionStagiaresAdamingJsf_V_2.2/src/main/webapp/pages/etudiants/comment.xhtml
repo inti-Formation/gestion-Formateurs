@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+	xmlns:b = "http://bootsfaces.net/ui"
+	xmlns:f = "http://java.sun.com/jsf/core"
+	xmlns:h = "http://java.sun.com/jsf/html"
+	xmlns:p = "http://primefaces.org/ui"
+    xmlns:ui= "http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Forum</title>
+	   <f:facet name="middle">
+            <h:outputStylesheet name="NiceAdmin/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="NiceAdmin/css/bootstrap-theme.css"/>
+            <h:outputStylesheet name="NiceAdmin/css/style.css"/>
+            <h:outputStylesheet name="NiceAdmin/css/style-responsive.css"/>
+            <h:outputStylesheet name="NiceAdmin/css/elegant-icons-style.css"/>
+            <h:outputStylesheet name="NiceAdmin/css/font-awesome.min.css"/>
+            <h:outputScript  name="NiceAdmin/js/jquery.js" />
+            <h:outputScript  name="NiceAdmin/js/bootstrap.js" />
+            <h:outputScript  name="NiceAdmin/js/jquery.scrollTo.min.js" />
+            <h:outputScript  name="NiceAdmin/js/jquery.nicescroll.js" />
+            <h:outputScript  name="NiceAdmin/js/jquery.customSelect.min.js" />
+            <h:outputScript  name="NiceAdmin/js/scripts.js" />
+            <h:outputScript  name="NiceAdmin/js/charts.js" />
+     </f:facet>
+</h:head>
+<h:body>
+<ui:include src="header.xhtml"></ui:include>
+<!--<ui:include src="aside.xhtml" ></ui:include>
+<ui:include src="form_comment.xhtml"></ui:include>-->
+<br></br>
+      <br></br>
+       <br></br>
+        <br></br>
+<div class="well container">
+       <p:growl id="maj" widgetVar="vnsj" showDetail="true"></p:growl>
+	   <p:socket onMessage="handleMessage" channel="/notify">
+	       <p:ajax event="message" update=":frm:comments,ff"></p:ajax>
+	   </p:socket>
+	   
+	    <script type="text/javascript">
+	    
+	    function handleMessage (facesmessage){
+	    	facesmessage.severity ="info"
+	    	PF("vnsj").show([facesmessage]);
+	    }
+
+	    </script>
+	    <h:outputLabel value="#{commentBean.newComments}" id="ff"/>
+	    <h:form id="frm">
+	    <p:dataTable id="comments" value="#{commentBean.newComments}" var="c">
+	       <p:column headerText="Id">
+        <h:outputText value="#{c.pseudo}" />
+    </p:column>
+ 
+    <p:column headerText="Year">
+        <h:outputText value="#{c.comment}" />
+    </p:column>
+    <p:column headerText="Year">
+        <h:outputText value="#{c.dateComment}" />
+    </p:column>
+	    </p:dataTable>
+	    </h:form>
+	</div>
+</h:body>
+</html>

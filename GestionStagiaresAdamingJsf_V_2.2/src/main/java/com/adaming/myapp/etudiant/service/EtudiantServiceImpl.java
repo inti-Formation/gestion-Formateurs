@@ -24,7 +24,20 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	@Override
 	public Etudiant addStudent(Etudiant e, Long idSession)
 			throws AddEtudiantException {
-		// TODO Auto-generated method stub
+		List<Etudiant> tabEtudiant = null;// verifications
+		tabEtudiant = getEtudiantBySession(idSession);
+		if(tabEtudiant.size()>0){
+			for (Etudiant etudiant : tabEtudiant) {
+				if (etudiant.getDateDeNaissance().compareTo(e.getDateDeNaissance()) == 0
+						&& etudiant.getNomEtudiant().equals(e.getNomEtudiant())) {
+					throw new AddEtudiantException("L'étudiant "
+							+ e.getNomEtudiant()
+							+ " Existe déja dans la Session N°" + idSession);
+				}else if(etudiant.getMail().equals(e.getMail())){
+					throw new AddEtudiantException("l'adresse mail "+etudiant.getMail()+" existe déjà dans la sesion N° "+idSession+" Veuillez renseigner une autre adresse mail");
+				}
+			}
+		}
 		return dao.addStudent(e, idSession);
 	}
 

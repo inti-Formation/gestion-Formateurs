@@ -31,19 +31,6 @@ public class EvenementDaoImpl implements IEvenementDao {
 		Etudiant e1 = em.find(Etudiant.class, idEtudiant);
 		e.setEtudiant(e1);
 		e.setSessionEtudiant(se);
-		List<Evenement> evenements = null;
-		evenements = getAllEvenements();
-		for (Evenement evenement : evenements) {
-			if (evenement != null) {
-				if (evenement.getSessionEtudiant().getIdSession() == idSession
-						&& evenement.getEtudiant().getIdEtudiant() == idEtudiant
-						&& evenement.getStartDate().compareTo(e.getStartDate()) == 0
-						&& evenement.getEndDate().compareTo(e.getEndDate()) == 0) {
-					throw new VerificationInDataBaseException(
-							" cette evènement est déja signalé");
-				}
-			}
-		}
 		em.persist(e);
 		logger.info("l'evenement a bien été enregistrer " + "Session id : "
 				+ idSession + "etudiant :" + idEtudiant);
@@ -57,25 +44,6 @@ public class EvenementDaoImpl implements IEvenementDao {
 		Etudiant e1 = em.find(Etudiant.class, idEtudiant);
 		e.setEtudiant(e1);
 		e.setSessionEtudiant(se);
-		List<Evenement> evenements = null;
-		evenements = getAllEvenements();
-		for (Evenement evenement : evenements) {
-			if (evenement != null) {
-				if (evenement.getSessionEtudiant().getIdSession() == idSession
-						&& evenement.getEtudiant().getIdEtudiant() == idEtudiant
-						&& !evenement.getClass().getSimpleName()
-								.equals("Absence")
-						&& !evenement.getClass().getSimpleName()
-								.equals("Entretien")
-						&& !evenement.getClass().getSimpleName()
-								.equals("Retard")) {
-					throw new VerificationInDataBaseException("l' etudiant "
-							+ evenement.getEtudiant().getNomEtudiant() + " , "
-							+ evenement.getEtudiant().getPrenomEtudiant()
-							+ " est déja signalé");
-				}
-			}
-		}
 		em.persist(e);
 		logger.info("l'evenement a bien été enregistrer " + "Session id : "
 				+ idSession + "etudiant :" + idEtudiant);

@@ -14,8 +14,8 @@
 		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
 		<param-value>/WEB-INF/springsecurity.taglib.xml</param-value>
 	</context-param>
-	
-	<!-- Primefaces Theme  -->
+
+	<!-- Primefaces Theme -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>bootstrap</param-value>
@@ -48,19 +48,29 @@
 	<welcome-file-list>
 		<welcome-file>home.xhtml</welcome-file>
 	</welcome-file-list>
-	
+
+	<!-- socket push -->
+	<servlet>
+		<servlet-name>Push Servlet</servlet-name>
+		<servlet-class>org.primefaces.push.PushServlet</servlet-class>
+		<async-supported>true</async-supported>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Push Servlet</servlet-name>
+		<url-pattern>/primepush/*</url-pattern>
+	</servlet-mapping>
 	
 	<!-- Error Pages -->
 	<error-page>
-    	<error-code>404</error-code>
-    	<location>/pages/errorpages/404.xhtml</location>
+		<error-code>404</error-code>
+		<location>/pages/errorpages/404.xhtml</location>
 	</error-page>
-	
+
 	<error-page>
-    	<error-code>403</error-code>
-    	<location>/pages/errorpages/403.xhtml</location>
+		<error-code>403</error-code>
+		<location>/pages/errorpages/403.xhtml</location>
 	</error-page>
-    
-    
-	
+
+
+
 </web-app>

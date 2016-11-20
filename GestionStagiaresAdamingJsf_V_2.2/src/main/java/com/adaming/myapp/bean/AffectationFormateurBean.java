@@ -1,5 +1,7 @@
 package com.adaming.myapp.bean;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
@@ -23,6 +25,7 @@ public class AffectationFormateurBean {
 	private ISessionService serviceSession;
 	private Long idSession;
 	private Long idFormateur;
+	private Formateur formateur;
 	private List<SessionEtudiant> sessionsInProgress;
 	private List<Formateur> formateurs;
 	
@@ -36,13 +39,38 @@ public class AffectationFormateurBean {
 		serviceFormateur.addFormateurToSession(idSession, idFormateur);
 		return "affectationFormateurSuccess?redirect=true";
 	}
+	/*method get formateur by id*/
+	public String getFormateurById(Long idFormateur){
+		formateur= new Formateur();
+		formateur=serviceFormateur.getFormateurById(idFormateur);
+		return "informationFormateur?redirect=true";
+	}
 	/*method redirect*/
 	public String redirect(){
 		idFormateur=null;
 		idSession=null;
 		return "affectationFormateur?redirect=true";
 	}
-
+	
+	/*methode get all formateurs*/
+	public String getAllFormateurs(){
+		sessionsInProgress=null;
+		formateurs=serviceFormateur.getAllFormateurs();
+		Date curentDate= new Date();
+		for(Formateur r:formateurs){
+			sessionsInProgress=new ArrayList<SessionEtudiant>();
+			sessionsInProgress=r.getSessionsEtudiant();
+			for(SessionEtudiant s:sessionsInProgress){
+				if(s.getDateFin().getTime()<=curentDate.getTime()){
+					s.setEtatSession("TERMINE");
+				}else{
+					s.setEtatSession("EN COURS");
+				}
+			}
+		}
+		return "liste_formateurs?redirect=true";
+	}
+	
 	public Long getIdSession() {
 		return idSession;
 	}
@@ -73,6 +101,12 @@ public class AffectationFormateurBean {
 
 	public void setFormateurs(List<Formateur> formateurs) {
 		this.formateurs = formateurs;
+	}
+	public Formateur getFormateur() {
+		return formateur;
+	}
+	public void setFormateur(Formateur formateur) {
+		this.formateur = formateur;
 	}
 	
 	

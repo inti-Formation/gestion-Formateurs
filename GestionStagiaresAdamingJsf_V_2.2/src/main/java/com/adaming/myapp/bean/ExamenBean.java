@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -67,6 +68,7 @@ public class ExamenBean implements Serializable {
 	private Object scoreFinal;
 	private List<Question> reponses;
 	private Etudiant etudiant;
+	private String[] str;
 
 	/* @method redirection à la fin de l'examen et afficher la note final */
 	public String redirect() {
@@ -116,7 +118,7 @@ public class ExamenBean implements Serializable {
 		setConfirm("Clicked");
 
 		// on decoupe les différentes vars separees par ','
-		String[] str = reponseSelectionnee.split(",");
+		str = reponseSelectionnee.split(",");
 
 		// on cree notre objet Reponse basee que Question
 		Question reponse = new Question(Integer.parseInt(str[0]), str[1],
@@ -157,8 +159,10 @@ public class ExamenBean implements Serializable {
 		reponses = new ArrayList<Question>();
 		return "start_examen?redirect=true";
 	}
+	
     /*init examen*/
 	public String initExamen() {
+		
 		etudiant = new Etudiant();
 		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
 		idSession = etudiant.getSessionEtudiant().getIdSession();
@@ -394,6 +398,14 @@ public class ExamenBean implements Serializable {
 	public void setUserAuthentification(
 			UserAuthentificationBean userAuthentification) {
 		this.userAuthentification = userAuthentification;
+	}
+
+	public String[] getStr() {
+		return str;
+	}
+
+	public void setStr(String[] str) {
+		this.str = str;
 	}
 
 }

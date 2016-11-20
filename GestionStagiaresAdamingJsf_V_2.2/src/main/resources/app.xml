@@ -14,6 +14,12 @@
     <mvc:resources mapping="/resources/**" location="/resources/" />
 	<context:component-scan base-package="com.adaming.myapp" />
    
+    <!-- injection de dépendances Comment-->
+	<bean id="CommentDao" class="com.adaming.myapp.comment.dao.CommentDaoImpl"></bean>
+	<bean id="CommentService" class="com.adaming.myapp.comment.service.CommentServiceImpl">
+		<property name="dao" ref="CommentDao"></property>
+	</bean>
+	
     <!-- injection de dépendances Formateur-->
 	<bean id="FormateurDao" class="com.adaming.myapp.formateur.dao.FormateurDaoImpl"></bean>
 	<bean id="FormateurService" class="com.adaming.myapp.formateur.service.FormateurServiceImpl">
