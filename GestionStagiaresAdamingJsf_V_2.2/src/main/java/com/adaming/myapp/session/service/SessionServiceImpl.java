@@ -23,15 +23,17 @@ public class SessionServiceImpl implements ISessionService{
 	@Override
 	public SessionEtudiant addSessionStudent(SessionEtudiant se,
 			Long idSpecialite) throws AddSessionException {
-		// TODO Auto-generated method stub
+		if(se.getDateDebute().after(se.getDateFin())){
+			throw new AddSessionException("Veuillez vous assurer que la date de Fin est postérieure à la date de départ.");
+		}
 		return dao.addSessionStudent(se, idSpecialite);
 	}
 
 	@Override
-	public SessionEtudiant updateSessionEtudian(SessionEtudiant se,
+	public SessionEtudiant updateSessionEtudiant(SessionEtudiant se,
 			Long idSpecialite) {
 		// TODO Auto-generated method stub
-		return dao.updateSessionEtudian(se, idSpecialite);
+		return dao.updateSessionEtudiant(se, idSpecialite);
 	}
 
 	@Override

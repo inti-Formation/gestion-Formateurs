@@ -7,15 +7,15 @@ import com.adaming.myapp.exception.AddModuleException;
 
 public interface IModuleService {
 	
-	public List<Module> getAllModules();
+	 List<Module> getAllModules();
 
-	public Module addModule(Module m, Long idSpecialite) throws AddModuleException;
+	 Module addModule(Module m, Long idSpecialite) throws AddModuleException;
 
-	public Module getModuleById(Long idModule);
+	 Module getModuleById(Long idModule);
 
-	public Module updateModule(Module m, Long idSpecialite);
+	 Module updateModule(Module m, Long idSpecialite);
 
-	public List<Module> getModulesBySpecialite(Long idSpecialite);
+	 List<Module> getModulesBySpecialite(Long idSpecialite);
 	
-	public List<Module> getModulesBySession(Long idSession);
+	 List<Module> getModulesBySession(Long idSession);
 }

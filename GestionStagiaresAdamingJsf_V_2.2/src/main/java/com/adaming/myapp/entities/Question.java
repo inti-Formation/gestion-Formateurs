@@ -166,14 +166,7 @@ public class Question implements Serializable {
 		this.module = module;
 	}
 
-	@Override
-	public String toString() {
-		return "Question [idQuestion=" + idQuestion + ", propositionquestion="
-				+ propositionquestion + ", premeiereReponse="
-				+ premeiereReponse + ", douxiemeReponse=" + douxiemeReponse
-				+ ", troisiemeReponse=" + troisiemeReponse
-				+ ", quatriemeReponse=" + quatriemeReponse + "]";
-	}
+	
 
 	public String getPremeiereBonneReponse() {
 		return premeiereBonneReponse;
@@ -237,6 +230,14 @@ public class Question implements Serializable {
 
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	@Override
+	public String toString() {
+		return "Question [idQuestion=" + idQuestion + ", propositionquestion="
+				+ propositionquestion + ", premeiereReponse="
+				+ premeiereReponse + ", douxiemeReponse=" + douxiemeReponse
+				+ ", troisiemeReponse=" + troisiemeReponse
+				+ ", quatriemeReponse=" + quatriemeReponse + "]";
 	}
 
 }

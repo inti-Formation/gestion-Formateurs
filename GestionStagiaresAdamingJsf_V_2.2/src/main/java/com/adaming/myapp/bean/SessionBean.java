@@ -71,7 +71,7 @@ public class SessionBean implements Serializable{
 	
 	/*@method update SessionEtudiant*/
 	public String edit(SessionEtudiant sessionEtudiant,Long idSpecialite){
-		serviceSession.updateSessionEtudian(sessionEtudiant,idSpecialite);
+		serviceSession.updateSessionEtudiant(sessionEtudiant,idSpecialite);
 	    return "session_update_success?redirect=true";
 	}
 	
@@ -102,18 +102,18 @@ public class SessionBean implements Serializable{
 			System.out.println("date fIN :"+dayFin);*/
 			
 			/*la date du jour */
-			Date currentDay = new Date();
-			long currentDate= currentDay.getTime()/(24*60*60*1000);
+			final Date currentDay = new Date();
+			final long currentDate= currentDay.getTime()/(24*60*60*1000);
 			
 			/*nombre de jours de la formation*/
-			long differenceDate = dateFinInDays-dateDebuteInDays;
-			String dayFin=Long.toString(differenceDate);
+			final long differenceDate = dateFinInDays-dateDebuteInDays;
+			final String dayFin=Long.toString(differenceDate);
 			s.setDateFinInDays(dayFin);
 			System.out.println("difference "+differenceDate);
 			
 			/*nombre de jours entre le début et le jour courant */
-			long differenceTwo =currentDate-dateDebuteInDays;
-			String differenceTwoStr=Long.toString(differenceTwo);
+			final long differenceTwo =currentDate-dateDebuteInDays;
+			final String differenceTwoStr=Long.toString(differenceTwo);
 			s.setDateDebuteInDays(differenceTwoStr);
 			
 			System.out.println("la difference entre debut et current day"+differenceTwo);

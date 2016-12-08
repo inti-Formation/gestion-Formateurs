@@ -4,23 +4,45 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.transaction.annotation.Transactional;
-
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.etudiant.dao.IEtudiantDao;
 import com.adaming.myapp.exception.AddEtudiantException;
-
+/*
+ *  @author Adel 
+ *  @version 1.0.0
+ *  @date 11/10/2016
+ *  @Interface dao injection de dépendance dans l'interface IEtudiantService @see app.xml
+ *  @param e l'entité etudiant 
+ *  @param idSession le type de la relation à associée
+ *  @param idStudent l'identifiant de l'entité etudiant
+ *  @param mail le mail de l'etudiant
+ *  @throws AddEtudiantException vérification dans la base de donnée
+ * */
 @Transactional
 public class EtudiantServiceImpl implements IEtudiantService {
-
-	Logger log = Logger.getLogger("EtudiantServiceImpl");
-
+    
+	
+	/*
+     * Logger @see java.util.logging.Logger
+     */
+	final Logger LOGGER = Logger.getLogger("EtudiantServiceImpl");
+    
+	
+   /*
+    * @Interface IEtudiantDao @see com.adaming.myapp.etudiant.dao.IEtudiantDao
+    **/
 	private IEtudiantDao dao;
 
 	public void setDao(IEtudiantDao dao) {
 		this.dao = dao;
-		log.info("<-----------Dao Student Injected---------->");
+		LOGGER.info("<-----------Dao Student Injected---------->");
 	}
-
+    
+	
+   /*
+	* {@inheritDoc} 
+	* @see com.adaming.myapp.etudiant.service.IEtudiantService.addStudent
+	**/
 	@Override
 	public Etudiant addStudent(Etudiant e, Long idSession)
 			throws AddEtudiantException {
@@ -40,31 +62,60 @@ public class EtudiantServiceImpl implements IEtudiantService {
 		}
 		return dao.addStudent(e, idSession);
 	}
-
+   
+	
+	/*
+	 * {@inheritDoc} 
+	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.updateStudent
+	 **/
 	@Override
 	public Etudiant updateStudent(Etudiant e, Long idSession) {
 		// TODO Auto-generated method stub
 		return dao.updateStudent(e, idSession);
 	}
-
+   
+	
+	
+	/*
+	 * {@inheritDoc} 
+	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.removeStudent
+	 **/
 	@Override
 	public Etudiant removeStudent(Long idStudent) {
 		// TODO Auto-generated method stub
 		return dao.removeStudent(idStudent);
 	}
-
+    
+	
+	
+	/*
+	 * {@inheritDoc} 
+	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getStudentById
+	 **/
 	@Override
 	public Etudiant getStudentById(Long idStudent) {
 		// TODO Auto-generated method stub
 		return dao.getStudentById(idStudent);
 	}
-
+    
+	
+	
+	/*
+	 * {@inheritDoc} 
+	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getEtudiantBySession
+	 **/
 	@Override
 	public List<Etudiant> getEtudiantBySession(Long idSession) {
 		// TODO Auto-generated method stub
 		return dao.getEtudiantBySession(idSession);
 	}
-
+    
+	
+	
+	/*
+	 * {@inheritDoc} 
+	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getEtudiant
+	 **/
 	@Override
 	public Etudiant getEtudiant(String mail) {
 		// TODO Auto-generated method stub

@@ -1,5 +1,6 @@
 package com.adaming.myapp.user.service;
 
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -45,6 +46,7 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public User getUser(String mail) throws GetUserException {
+		
 		return dao.getUser(mail);
 	}
     @Transactional
@@ -53,6 +55,18 @@ public class UserServiceImpl implements IUserService{
 			throws GetUserException {
 		// TODO Auto-generated method stub
 		return dao.updatePassword(mail, password, newPassword);
+	}
+
+	@Override
+	public List<User> getUsersByMail(String mail) {
+		// TODO Auto-generated method stub
+		return dao.getUsersByMail(mail);
+	}
+
+	@Override
+	public List<User> getUserByPasswordAndMail(String mail, String password) {
+		// TODO Auto-generated method stub
+		return dao.getUserByPasswordAndMail(mail, password);
 	}
 
 	

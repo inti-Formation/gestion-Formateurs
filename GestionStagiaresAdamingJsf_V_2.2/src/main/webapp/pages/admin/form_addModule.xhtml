@@ -271,7 +271,7 @@
 						</p:column>
 						<p:column headerText="Réponse 1 *">
 							<p:selectOneMenu value="#{bean.premeiereBonneReponse}"
-								required="true"
+								required="true" id="bRep1"
 								requiredMessage="Veuillez Selectionnez un Module SVP!!">
 		
 								<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
@@ -286,7 +286,7 @@
 						</p:column>
 						<p:column headerText="Réponse 2 *">
 						    <p:selectOneMenu value="#{bean.douxiemeBonneReponse}"
-								required="true"
+								required="true" id="bRep2"
 								requiredMessage="Veuillez Selectionnez un Module SVP!!">
 		
 								<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
@@ -301,7 +301,7 @@
 						</p:column>
 						<p:column headerText="Réponse 3 *">
 						    <p:selectOneMenu value="#{bean.troisiemeBonneReponse}"
-								required="true"
+								required="true" id="bRep3"
 								requiredMessage="Veuillez Selectionnez un Module SVP!!">
 		
 								<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
@@ -316,7 +316,7 @@
 						</p:column>
 						<p:column headerText="Réponse 4 *">
 						    <p:selectOneMenu value="#{bean.quatriemeBonneReponse}"
-								required="true"
+								required="true" id="bRep4"
 								requiredMessage="Veuillez Selectionnez un Module SVP!!">
 		
 								<f:selectItem itemLabel="Choisir Un Choix" itemValue="#{null}"
@@ -334,6 +334,10 @@
 							
 							<p:column>
 								<h:commandButton styleClass="btn btn-primary" value="Save"  ajax="true" action="#{bean.addQuestionV2}"/>	
+							</p:column>
+							<br/><br/>
+							<p:column>
+								<p:commandButton update="bRep1,bRep2,bRep3,bRep4,rep4,rep3,rep2,rep1,question" styleClass="btn btn-danger" value="reset"  ajax="true" action="#{bean.reset}" />	
 							</p:column>
 						</p:column>
 					</p:dataTable>

@@ -6,17 +6,17 @@ import com.adaming.myapp.entities.Note;
 
 public interface INotesService {
 
-	public List<Note> getAllNotes();
+	 List<Note> getAllNotes();
 
-	public Note addNoteFinal(Note note, Long idSession, Long idEtudiant,
+	 Note addNoteFinal(Note note, Long idSession, Long idEtudiant,
 			Long idModule);
 
-	public List<Note> getNotesBySessionAndModule(Long idSession, Long idMoule);
+	 List<Note> getNotesBySessionAndModule(Long idSession, Long idMoule);
 
-	public boolean testNoteByEtuAndByModule(Long idSession, Long idModule,
+	 boolean testNoteByEtuAndByModule(Long idSession, Long idModule,
 			Long idEtudiant);
 	
-	public List<Note> getAllNotesByStudent(Long idEtudiant);
+	 List<Note> getAllNotesByStudent(Long idEtudiant);
 	
-	public List<Note> getAllNotesBySession(Long idSession);
+	 List<Note> getAllNotesBySession(Long idSession);
 }

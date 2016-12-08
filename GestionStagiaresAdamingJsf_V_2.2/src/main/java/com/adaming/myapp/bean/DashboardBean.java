@@ -6,13 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import javax.inject.Inject;
-import javax.persistence.Transient;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Module;
@@ -99,7 +95,7 @@ public class DashboardBean implements Serializable {
 			retards = serviceEvenement.getEvenementsRetards();
 			for (Evenement evenement : retards) {
 				/* get durrée de retard */
-				long difference = evenement.getEndDate().getTime()
+				final long difference = evenement.getEndDate().getTime()
 						- evenement.getStartDate().getTime();
 				dureeInMinute = (int) ((difference / (1000 * 60)) % 60);
 				dureeInHours = (int) ((difference / (1000 * 60 * 60)) % 24);
@@ -145,28 +141,29 @@ public class DashboardBean implements Serializable {
 	/* get current time of evenement Retards */
 	public void getRetardForToDay() {
 		if (currentRetards.size() > 0) {
+			Date today = new Date();
+			Calendar calendar = Calendar.getInstance();
 			for (Evenement e : currentRetards) {
 				/*date de l'evenement en mois et jours*/
-				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(e.getCurentDate());
 				System.out.println("calendar "+calendar);
 				monthOfEvenement= calendar.getDisplayName(calendar.MONTH,Calendar.LONG,Locale.FRANCE);
-				int dayOfMonth  = calendar.get(Calendar.DAY_OF_MONTH);
+				final int dayOfMonth  = calendar.get(Calendar.DAY_OF_MONTH);
 				dayOfEvenement  = String.valueOf(dayOfMonth); 
 				e.setDayOfEvenement(dayOfEvenement);
 				e.setMonthOfEvenement(monthOfEvenement);
 				System.out.println("day "+e.getDayOfEvenement());
 				System.out.println("month  "+e.getMonthOfEvenement());
 				/* get duree d'envois de l'evenement */
-				Date today = new Date();
-				long differenceInMilis = today.getTime()
+				
+				final long differenceInMilis = today.getTime()
 						- e.getCurentDate().getTime();
 				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
 				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
 				e.setMinuteOfEvenement(minuteOfEvenement);
 				e.setHoursOfEvenement(hoursOfEvenement);
 				/* get durrée de retard */
-				long difference = e.getEndDate().getTime()
+				final long difference = e.getEndDate().getTime()
 						- e.getStartDate().getTime();
 				dureeInMinute = (int) ((difference / (1000 * 60)) % 60);
 				dureeInHours = (int) ((difference / (1000 * 60 * 60)) % 24);
@@ -181,9 +178,9 @@ public class DashboardBean implements Serializable {
 	/* get current time of evenement absences */
 	public void getAbsenceForToDay() {
 		if (currentAbsences.size() > 0) {
+			Date today = new Date();
 			for (Evenement e : currentAbsences) {
 				/* get duree d'envois de l'evenement */
-				Date today = new Date();
 				long differenceInMilis = today.getTime()
 						- e.getCurentDate().getTime();
 				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
@@ -197,10 +194,10 @@ public class DashboardBean implements Serializable {
 
 	/* get current time of evenement Warning */
 	public void getWarningForToDay() {
+		Date today = new Date();
 		if (currentWarning.size() > 0) {
 			for (Evenement e : currentWarning) {
 				/* get duree d'envois de l'evenement */
-				Date today = new Date();
 				long differenceInMilis = today.getTime()
 						- e.getCurentDate().getTime();
 				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
@@ -215,9 +212,9 @@ public class DashboardBean implements Serializable {
 	/* get current time of evenement Top */
 	public void getTopForToDay() {
 		if (currentTop.size() > 0) {
+			Date today = new Date();
 			for (Evenement e : currentTop) {
 				/* get duree d'envois de l'evenement */
-				Date today = new Date();
 				long differenceInMilis = today.getTime()
 						- e.getCurentDate().getTime();
 				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
@@ -306,6 +303,7 @@ public class DashboardBean implements Serializable {
 	public void getSessionEnCours() {
 		/*remplire la session en cours */
 		sessionEnCours();
+		Date currentDay = new Date();
 		/*parcourir chaque session en cours */
 		for (SessionEtudiant s : sessionsInProgress) {
 			dateDebuteInDays = s.getDateDebute().getTime()
@@ -313,17 +311,16 @@ public class DashboardBean implements Serializable {
 			dateFinInDays = s.getDateFin().getTime() / (24 * 60 * 60 * 1000);
 
 			/* la date du jour */
-			Date currentDay = new Date();
-			long currentDate = currentDay.getTime() / (24 * 60 * 60 * 1000);
+			final long currentDate = currentDay.getTime() / (24 * 60 * 60 * 1000);
 
 			/* nombre de jours de la formation */
-			long differenceDate = dateFinInDays - dateDebuteInDays;
+			final long differenceDate = dateFinInDays - dateDebuteInDays;
 			String dayFin = Long.toString(differenceDate);
 			s.setDateFinInDays(dayFin);
 			
 
 			/* nombre de jours entre le début et le jour courant */
-			long differenceTwo = currentDate - dateDebuteInDays;
+			final long differenceTwo = currentDate - dateDebuteInDays;
 			String differenceTwoStr = Long.toString(differenceTwo);
 			s.setDateDebuteInDays(differenceTwoStr);
 		}

@@ -79,8 +79,10 @@
 										<br />
 										<br />
 										<br />
+									  <c:if test="#{scheduleView.active}">
 										<c:if
 											test="#{fn:length(scheduleView.etudiantsBySession) >0 and fn:length(scheduleView.modules)>0}">
+										 
 											<div align="center">
 												<!-- Message obligation-->
 												<div class="champsObligatoire">
@@ -211,6 +213,7 @@
 							
 												</p:commandButton>
 											</div>
+										   </c:if>
 										</c:if>
 										<br />
 									</h:form>

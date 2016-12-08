@@ -1,21 +1,18 @@
 package com.adaming.myapp.formateur.dao;
 
-import java.util.List;
 
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.persistence.IGenericDao;
 
-public interface IFormateurDao {
+public interface IFormateurDao extends IGenericDao<Formateur> {
 
-	public Formateur addFormateur(Formateur f)
+	 Formateur addFormateur(Formateur f)
 			throws VerificationInDataBaseException;
 
-	public void addFormateurToSession(Long idSession, Long idFormateur);
+	 void addFormateurToSession(Long idSession, Long idFormateur);
 
-	public List<Formateur> getAllFormateurs();
-
-	public Formateur getFormateur(String mail);
+	 Formateur getFormateur(String mail);
 	
-	public Formateur getFormateurById(Long idFormateur);
 
 }

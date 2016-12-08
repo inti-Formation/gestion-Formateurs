@@ -161,6 +161,14 @@ public class SessionEtudiant implements Serializable {
 		this.notes = notes;
 	}
 
+	@Override
+	public String toString() {
+		return "SessionEtudiant [idSession=" + idSession + ", dateDebute="
+				+ dateDebute + ", dateFin=" + dateFin + ", lieu=" + lieu
+				+ ", etatSession=" + etatSession + ", dateDebuteInDays="
+				+ dateDebuteInDays + ", dateFinInDays=" + dateFinInDays + "]";
+	}
+
 	
 	
 }

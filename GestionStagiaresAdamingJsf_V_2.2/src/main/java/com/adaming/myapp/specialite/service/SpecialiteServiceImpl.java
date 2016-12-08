@@ -25,7 +25,14 @@ public class SpecialiteServiceImpl implements ISpecialiteService{
 
 	@Override
 	public Specialite addSpecialite(Specialite sp) throws AddSpecialiteException {
-		// TODO Auto-generated method stub
+		List<Specialite> tabSpecialite = null;
+		tabSpecialite = getAllSpec();// get All Spécialitée disponibles
+		for (Specialite s : tabSpecialite) {
+			if (s.getDesignation().equals(sp.getDesignation())) {
+				throw new AddSpecialiteException(
+						"La Spécialitée "+s.getDesignation()+" Existe Déja !!");
+			}
+		}
 		return dao.addSpecialite(sp);
 	}
 

@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.adaming.myapp.dto.EtudiantDto;
+import com.adaming.myapp.dto.EtudiantMapper;
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Role;
 import com.adaming.myapp.entities.SessionEtudiant;
@@ -38,7 +40,6 @@ public class EtudiantBean implements Serializable {
 	/**
 	 * 
 	 */
-
 
 	@Inject
 	private IEtudiantService serviceEtudiant;
@@ -101,6 +102,10 @@ public class EtudiantBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e1.getMessage()));
 		}
 		
+	}
+	/*exmple via dto*/
+	public EtudiantDto rechercherEtudiant(){
+		return EtudiantMapper.INSTANCE.etudiantToEtudiantDto(serviceEtudiant.getStudentById(1l));
 	}
 	
 	/*get all sessions in progress and getAllSessions

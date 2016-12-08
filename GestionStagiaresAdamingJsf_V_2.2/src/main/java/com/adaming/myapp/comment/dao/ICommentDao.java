@@ -6,7 +6,7 @@ import com.adaming.myapp.entities.Comment;
 
 public interface ICommentDao {
 
-	public Comment addComment(Comment c);
+	 Comment addComment(Comment c);
 	
-	public List<Comment> getAllComments();
+	 List<Comment> getAllComments();
 }

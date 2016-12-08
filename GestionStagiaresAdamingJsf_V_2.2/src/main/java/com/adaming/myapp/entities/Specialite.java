@@ -59,6 +59,11 @@ public class Specialite implements Serializable {
 	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
+	@Override
+	public String toString() {
+		return "Specialite [idSpecialite=" + idSpecialite + ", designation="
+				+ designation + "]";
+	}
 	
 	
 }

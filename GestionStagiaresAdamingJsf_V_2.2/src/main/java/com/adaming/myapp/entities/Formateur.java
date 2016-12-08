@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -163,6 +162,17 @@ public class Formateur implements Serializable {
 
 	public void setSessionsEtudiant(List<SessionEtudiant> sessionsEtudiant) {
 		this.sessionsEtudiant = sessionsEtudiant;
+	}
+
+	@Override
+	public String toString() {
+		return "Formateur [idFormateur=" + idFormateur + ", civilite="
+				+ civilite + ", nom=" + nom + ", prenom=" + prenom
+				+ ", adresse=" + adresse + ", codePostal=" + codePostal
+				+ ", telMobile=" + telMobile + ", mail=" + mail
+				+ ", nationalite=" + nationalite + ", dateDeNaissance="
+				+ dateDeNaissance + ", lieuDeNaissance=" + lieuDeNaissance
+				+ ", specialite=" + specialite + "]";
 	}
 
 }

@@ -7,11 +7,11 @@ import com.adaming.myapp.exception.AddSpecialiteException;
 
 public interface ISpecialiteService {
 
-	public Specialite addSpecialite(Specialite sp) throws AddSpecialiteException;
+	 Specialite addSpecialite(Specialite sp) throws AddSpecialiteException;
 	
-	public Specialite updateSpecialite(Specialite sp);
+	 Specialite updateSpecialite(Specialite sp);
 	
-	public Specialite getSpecialiteById(Long idSpecialite);
+	 Specialite getSpecialiteById(Long idSpecialite);
 	
-	public List<Specialite> getAllSpec();
+	 List<Specialite> getAllSpec();
 }

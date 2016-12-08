@@ -95,4 +95,9 @@ public class Note implements Serializable {
 		this.module = module;
 	}
 
+	@Override
+	public String toString() {
+		return "Note [idNote=" + idNote + ", score=" + score + "]";
+	}
+
 }

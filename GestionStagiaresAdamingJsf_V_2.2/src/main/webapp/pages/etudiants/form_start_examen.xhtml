@@ -14,7 +14,6 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-
 		<div class="alert alert-warning"
 			style="text-align: center; color: black">
 			<h:graphicImage
@@ -50,21 +49,19 @@
 		<!-- timer -->
 		<div class="timer">
 			<h:form>
-			
-			<p:growl autoUpdate="true"/>  
-			<pe:timer  
-			    timeout="1500"  
-			    format="HH:mm:ss"
-			    singleRun="true"  
-			    listener="#{examenBean.onTimeout}"
-			  /> 
-			  
+				<p:growl autoUpdate="true"/>  
+				<pe:timer  
+				    timeout="1500"  
+				    format="HH:mm:ss"
+				    singleRun="true"  
+				    listener="#{examenBean.onTimeout}"/>   
 			</h:form>    		
          </div>
          <!-- data list question  -->
+
 			<p:dataList value="#{examenBean.questionsByModule}" var="q"
 					varStatus="iteration">
-				<h:form>
+		<h:form id="formSelect">
 					<h:inputHidden value="#{examenBean.idSession}" />
 					<h:inputHidden value="#{examenBean.idEtudiant}" />
 					<h:inputHidden value="#{examenBean.idModule}" />
@@ -75,20 +72,22 @@
 		         <div class="modal-header">
 		            <h3 style="font-size: 20px"><span class="label label-warning" id="qid">#{iteration.index+1}</span><p:spacer width="10"></p:spacer> <h:outputText value="#{q.propositionquestion} ?"/></h3>
 		         </div>
+		           
 			        <div class="modal-body">
 			           
 		               <!-- select responses  -->
-			        <p:selectOneRadio id="grid" 
+			        <p:selectOneRadio  
 								value="#{examenBean.reponseSelectionnee}" layout="grid"
 								columns="1" required="true" requiredMessage="vous devez selectionné une réponse">
 				             <div class="quiz" id="quiz">
-					            <f:selectItem itemLabel="A- #{q.premeiereReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +1},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-					            <f:selectItem  itemLabel="B- #{q.douxiemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +2},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-					            <f:selectItem  itemLabel="C- #{q.troisiemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +3},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
-					            <f:selectItem  itemLabel="D- #{q.quatriemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +4},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+					            <f:selectItem  itemLabel="A- #{q.premeiereReponse}"  itemValue="#{q.premeiereReponse}" />
+					            <f:selectItem  itemLabel="B- #{q.douxiemeReponse}" itemValue="#{q.douxiemeReponse}"/>
+					            <f:selectItem  itemLabel="C- #{q.troisiemeReponse}" itemValue="#{q.troisiemeReponse}" />
+					            <f:selectItem  itemLabel="D- #{q.quatriemeReponse}" itemValue="#{q.quatriemeReponse}" />
 				            </div>
 				    </p:selectOneRadio>
 		          </div>
+		          
 		          <!-- button click -->
 					<div style="text-align:center!important;padding-bottom:10px">	
 					<p:commandButton action="#{examenBean.registerV3}" value="Répondre"  ajax="true">
@@ -100,12 +99,11 @@
 			      </div>
 		        </div>
 		     </div>
-			</h:form>
+		</h:form>
 		</p:dataList>
 
         <!-- modal confirmation -->
 		<h:form>
-
 			<b:commandButton look="danger" value="Terminer"
 				style="margin:auto;display:block;" update="display"
 				oncomplete="PF('dlg').show()" icon="ui-icon-check" />
@@ -121,9 +119,7 @@
 				</b:commandButton>
 			</p:dialog>
 		</h:form>
-</div>
-	           
+</div>           
 </ui:composition>
-
 </html>
 

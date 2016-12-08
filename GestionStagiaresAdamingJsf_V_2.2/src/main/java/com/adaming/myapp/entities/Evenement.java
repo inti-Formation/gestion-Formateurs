@@ -184,6 +184,18 @@ public class Evenement implements Serializable {
 	public void setDayOfEvenement(String dayOfEvenement) {
 		this.dayOfEvenement = dayOfEvenement;
 	}
+
+	@Override
+	public String toString() {
+		return "Evenement [idEvenement=" + idEvenement + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", signaleur="
+				+ signaleur + ", curentDate=" + curentDate
+				+ ", minuteOfEvenement=" + minuteOfEvenement
+				+ ", hoursOfEvenement=" + hoursOfEvenement + ", dureeInMinute="
+				+ dureeInMinute + ", dureeInHours=" + dureeInHours
+				+ ", typeEvenement=" + typeEvenement + ", monthOfEvenement="
+				+ monthOfEvenement + ", dayOfEvenement=" + dayOfEvenement + "]";
+	}
 	
 
 }

@@ -2,29 +2,36 @@ package com.adaming.myapp.formateur.dao;
 
 import java.util.List;
 import java.util.logging.Logger;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.SessionEtudiant;
-import com.adaming.myapp.exception.AddEtudiantException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.persistence.AbstractJpaDao;
 
-public class FormateurDaoImpl implements IFormateurDao {
+public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IFormateurDao {
 
-	@PersistenceContext
-	private EntityManager em;
+	private final Logger LOGGER = Logger.getLogger("FormateurDaoImpl");
+    
+	@Override
+	public List<Formateur> getAll() {
+		// TODO Auto-generated method stub
+		return getAllAbstractJpa();
+	}
 
-	private Logger logger = Logger.getLogger("FormateurDaoImpl");
+	@Override
+	public Formateur getOne(Long id) {
+		// TODO Auto-generated method stub
+		return getOneAbstractJpa(id);
+	}
 
+	
+	
 	@Override
 	public Formateur addFormateur(Formateur f)
 			throws VerificationInDataBaseException {
 		
 		em.persist(f);
-		logger.info("le formateur " + f.getNom()
+		LOGGER.info("le formateur " + f.getNom()
 				+ "à bien été criée avec success");
 		return f;
 	}
@@ -35,17 +42,10 @@ public class FormateurDaoImpl implements IFormateurDao {
 		Formateur f = em.find(Formateur.class, idFormateur);
 		session.getFormateurs().add(f);
 		f.getSessionsEtudiant().add(session);
-		logger.info("le formateur " + f.getNom()
+		LOGGER.info("le formateur " + f.getNom()
 				+ " a bien été attribué à la session " + session.getIdSession());
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Formateur> getAllFormateurs() {
-		Query query = em.createQuery("from Formateur");
-		logger.info("il existe " + query.getResultList().size() + " Formateurs");
-		return query.getResultList();
-	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -56,12 +56,6 @@ public class FormateurDaoImpl implements IFormateurDao {
 		List<Formateur> u = query.getResultList();
 
 		return u.get(0);
-	}
-
-	@Override
-	public Formateur getFormateurById(Long idFormateur) {
-		Formateur f = em.find(Formateur.class,idFormateur);
-		return f;
 	}
 
 }

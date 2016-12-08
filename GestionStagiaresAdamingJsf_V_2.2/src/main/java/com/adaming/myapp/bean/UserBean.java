@@ -46,6 +46,7 @@ public class UserBean implements Serializable {
 		try {
 			serviceUser.updatePassword(mail, password, newPassword);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","Votre nouveau mot de passe a bien été enregistré"));
+			mail="";
 		} catch (GetUserException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
 		}

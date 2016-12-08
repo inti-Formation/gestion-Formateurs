@@ -21,7 +21,13 @@ public class QuestionServiceImpl implements IQuestionService{
 
 	@Override
 	public Question addQuestion(Question q, Long idModule) throws AddQuestionException {
-		// TODO Auto-generated method stub
+		List<Question> questions = null;
+		questions = getAllQuestions();
+		for(Question question:questions){
+			if(q.getPropositionquestion().equals(question.getPropositionquestion())){
+				throw new AddQuestionException("La Question "+q.getPropositionquestion()+" Existe Déja dans le Module "+question.getModule().getNomModule());
+			}
+		}
 		return dao.addQuestion(q, idModule);
 	}
 

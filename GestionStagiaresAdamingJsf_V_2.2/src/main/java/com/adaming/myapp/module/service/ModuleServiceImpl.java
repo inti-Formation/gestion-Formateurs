@@ -22,14 +22,20 @@ public class ModuleServiceImpl implements IModuleService{
 
 	@Override
 	public Module addModule(Module m, Long idSpecialite) throws AddModuleException {
-		// TODO Auto-generated method stub
+		List<Module> modules = null;
+		modules = getAllModules();
+		for(Module module:modules){
+			if(m.getNomModule().equals(module.getNomModule())){
+				throw new AddModuleException("le Module "+m.getNomModule()+" existe Déja dans la spécialitée "+module.getSpecialite().getDesignation()+" Merçi de bien vouloir changer la description du Module,  Ex:"+m.getNomModule()+" 2");
+			}
+		}
 		return dao.addModule(m, idSpecialite);
 	}
 
 	@Override
 	public Module getModuleById(Long idModule) {
 		// TODO Auto-generated method stub
-		return dao.getModuleById(idModule);
+		return dao.getOne(idModule);
 	}
 
 	@Override
@@ -47,7 +53,7 @@ public class ModuleServiceImpl implements IModuleService{
 	@Override
 	public List<Module> getAllModules() {
 		// TODO Auto-generated method stub
-		return dao.getAllModules();
+		return dao.getAll();
 	}
 
 	@Override

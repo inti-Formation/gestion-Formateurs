@@ -91,6 +91,12 @@ public class Module implements Serializable {
 	public void setEtatModule(String etatModule) {
 		this.etatModule = etatModule;
 	}
+
+	@Override
+	public String toString() {
+		return "Module [idModule=" + idModule + ", nomModule=" + nomModule
+				+ ", actif=" + actif + ", etatModule=" + etatModule + "]";
+	}
 	
 
 }

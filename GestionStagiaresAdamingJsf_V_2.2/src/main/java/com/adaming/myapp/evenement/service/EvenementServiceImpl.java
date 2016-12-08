@@ -1,8 +1,14 @@
 package com.adaming.myapp.evenement.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.entities.Absence;
@@ -30,22 +36,34 @@ public class EvenementServiceImpl implements IEvenementService {
 	@Override
 	public List<Evenement> getEvenementsRetards()
 			throws EvenementNotFoundException {
-		// TODO Auto-generated method stub
-		return dao.getEvenementsRetards();
+		List<Evenement> retards = null;
+		retards = dao.getEvenementsRetards();
+		if (retards.size() == 0) {
+			throw new EvenementNotFoundException("Aucun retard mentionné !");
+		}
+		return retards;
 	}
 
 	@Override
 	public List<Evenement> getEvenementsAbsences()
 			throws EvenementNotFoundException {
-		// TODO Auto-generated method stub
-		return dao.getEvenementsAbsences();
+		List<Evenement> absences = null;
+		absences = dao.getEvenementsAbsences();
+		if (absences.size() == 0) {
+			throw new EvenementNotFoundException("Aucune absence mentionnée !");
+		}
+		return absences;
 	}
 
 	@Override
 	public List<Evenement> getEvenementsEntretien()
 			throws EvenementNotFoundException {
-		// TODO Auto-generated method stub
-		return dao.getEvenementsEntretien();
+		List<Evenement> entretien = null;
+		entretien = dao.getEvenementsAbsences();
+		if (entretien.size() == 0) {
+			throw new EvenementNotFoundException("Aucun entretien mentionné !");
+		}
+		return entretien;
 	}
 
 	@Override
@@ -144,6 +162,29 @@ public class EvenementServiceImpl implements IEvenementService {
 			}
 		}
 		return dao.AddWarningAndTop(e, idSession, idEtudiant);
+	}
+
+	@Override
+	public List<Evenement> getAllEvenementsBetweenTwoDate(Long idSession,
+			Date date) throws EvenementNotFoundException {
+		List<Evenement> events = getAllEvenementsBySession(idSession);
+		List<Evenement> newEvents = null;
+		if(events.size() >0){
+			newEvents = new ArrayList<Evenement>();
+			for(Evenement e:events){
+				if(e.getCurentDate().after(date) || e.getCurentDate().equals(date) ){
+					newEvents.add(e);
+				}
+			}
+			if(newEvents.size() == 0){
+				throw new EvenementNotFoundException("Aucun evènement trouvé à partir de cette date");
+		    }
+		}
+		else{
+			throw new EvenementNotFoundException("Aucun evènement trouvé dans la base de donnée");
+		}
+		
+		return newEvents;
 	}
 
 }

@@ -14,11 +14,11 @@ public class FormateurServiceImpl implements IFormateurService {
 
 	private IFormateurDao dao;
 
-	private Logger logger = Logger.getLogger("FormateurServiceImpl");
+	private final Logger LOGGER = Logger.getLogger("FormateurServiceImpl");
 
 	public void setDao(IFormateurDao dao) {
 		this.dao = dao;
-		logger.info("<----------Dao Formateur Injected-------->");
+		LOGGER.info("<----------Dao Formateur Injected-------->");
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class FormateurServiceImpl implements IFormateurService {
 	@Override
 	public List<Formateur> getAllFormateurs() {
 		// TODO Auto-generated method stub
-		return dao.getAllFormateurs();
+		return dao.getAll();
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class FormateurServiceImpl implements IFormateurService {
 	@Override
 	public Formateur getFormateurById(Long idFormateur) {
 		// TODO Auto-generated method stub
-		return dao.getFormateurById(idFormateur);
+		return dao.getOne(idFormateur);
 	}
 
 }

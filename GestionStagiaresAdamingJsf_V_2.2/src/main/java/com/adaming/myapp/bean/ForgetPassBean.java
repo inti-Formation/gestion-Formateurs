@@ -39,15 +39,12 @@ public String sendPass() {
 		User u = new User();
 		
 		try {
-			System.out.println("1");
 			u = serviceUser.getUser(mail);
 		} catch (GetUserException e) {
-			System.out.println("2");
 			setError(e.getMessage());
 			System.out.println(error);
 			return null;
 		}
-		System.out.println("3");
 
 		 Properties properties = System.getProperties();
 		 properties.put("mail.smtp.auth", "true");

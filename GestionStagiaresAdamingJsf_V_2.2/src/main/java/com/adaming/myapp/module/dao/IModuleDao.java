@@ -4,20 +4,18 @@ import java.util.List;
 
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.exception.AddModuleException;
+import com.adaming.myapp.persistence.IGenericDao;
 
-public interface IModuleDao {
+public interface IModuleDao extends IGenericDao<Module> {
 	
-	public List<Module> getAllModules();
 
-	public Module addModule(Module m,Long idSpecialite) throws AddModuleException;
+	 Module addModule(Module m,Long idSpecialite) throws AddModuleException;
 	
-	public Module getModuleById(Long idModule);
+	 Module updateModule(Module m,Long idSpecialite);
 	
-	public Module updateModule(Module m,Long idSpecialite);
+	 List<Module> getModulesBySpecialite(Long idSpecialite);
 	
-	public List<Module> getModulesBySpecialite(Long idSpecialite);
-	
-	public List<Module> getModulesBySession(Long idSession);
+	 List<Module> getModulesBySession(Long idSession);
 	
 	
 }

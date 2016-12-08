@@ -1,77 +1,101 @@
 package com.adaming.myapp.etudiant.dao;
-
 import java.util.List;
-import java.util.logging.Logger;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import com.adaming.myapp.entities.Etudiant;
-import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.AddEtudiantException;
+/*
+ *  @author Adel 
+ *  @version 1.0.0
+ *  @date 11/10/2016
+ *  @param e l'entité etudiant 
+ *  @param idSession le type de la relation à associée
+ *  @param idStudent l'identifiant de l'entité etudiant
+ *  @param mail le mail de l'etudiant
+ *  @throws AddEtudiantException vérification dans la base de donnée
+ *  <p>cette class hérite de la class EtudiantAbstractJpa
+	 *  @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa 
+	 *  et implémente l'interface IEtudiantDao
+ *  </p>
+ * */
 
-public class EtudiantDaoImpl implements IEtudiantDao {
+public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao {
 
-	@PersistenceContext
-	private EntityManager em;
-
-	Logger log = Logger.getLogger("EtudiantDaoImpl");
-
+   /*
+	* {@inheritDoc} 
+	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.addStudent
+	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.addStudentAbstractJpa
+    **/
 	@Override
 	public Etudiant addStudent(Etudiant e, Long idSession)
 			throws AddEtudiantException {
-		
-		SessionEtudiant s = em.find(SessionEtudiant.class, idSession);
-		e.setSessionEtudiant(s);
-		s.getEtudiants().add(e);
-		em.persist(e);
-		log.info("l'etudiant " + e.getIdEtudiant() + " a bien été ajouter");
-		return e;
+		return addStudentAbstractJpa(e, idSession);
 	}
-
+	
+	
+	
+	
+	/*
+	* {@inheritDoc} 
+	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.updateStudent
+	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.updateStudentAbstractJpa
+    **/
 	@Override
 	public Etudiant updateStudent(Etudiant e, Long idSession) {
-		SessionEtudiant s = em.find(SessionEtudiant.class, idSession);
-		e.setSessionEtudiant(s);
-		em.merge(e);
-		log.info("l'etudiant " + e.getIdEtudiant() + " a bien été modifie");
-		return e;
+		return updateStudentAbstractJpa(e, idSession);
 	}
-
+	
+	
+	
+	
+	
+	/*
+	* {@inheritDoc} 
+	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.removeStudent
+	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.removeStudentAbstractJpa
+    **/
 	@Override
 	public Etudiant removeStudent(Long idStudent) {
-		Etudiant e = em.find(Etudiant.class, idStudent);
-		em.remove(e);
-		log.info("l'etudiant " + e.getIdEtudiant() + " a bien été supprime");
-		return e;
+		return removeStudentAbstractJpa(idStudent);
 	}
-
+    
+	
+	
+	
+	/*
+	* {@inheritDoc} 
+	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getStudentById
+	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getStudentByIdAbstractJpa
+    **/
 	@Override
 	public Etudiant getStudentById(Long idStudent) {
-		Etudiant e = em.find(Etudiant.class, idStudent);
-		log.info("l'etudiant " + e.getIdEtudiant() + " a bien été recuperer");
-		return e;
+		return getStudentByIdAbstractJpa(idStudent);
 	}
-
+    
+	
+	
+	
+	
+	/*
+	* {@inheritDoc} 
+	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiantBySession
+	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getEtudiantBySessionAbstractJpa
+    **/
 	@Override
 	public List<Etudiant> getEtudiantBySession(Long idSession) {
-		List<Etudiant> etudiants = null;
-		SessionEtudiant s = em.find(SessionEtudiant.class, idSession);
-		etudiants = s.getEtudiants();
-		log.info("le nombre des etudiants dans la session N "
-				+ s.getIdSession() + "est " + etudiants.size());
-		return etudiants;
+		return getEtudiantBySessionAbstractJpa(idSession);
 	}
-
+    
+	
+	
+	
+	
+	/*
+	* {@inheritDoc} 
+	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiant
+	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getEtudiantAbstractJpa
+    **/
 	@Override
 	public Etudiant getEtudiant(String mail) {
-
-		Query query = em.createQuery("From Etudiant e where e.mail=:x");
-		query.setParameter("x", mail);
-		List<Etudiant> u = query.getResultList();
-
-		return u.get(0);
+		return getEtudiantAbstractJpa(mail);
 	}
 
 }

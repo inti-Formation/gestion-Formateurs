@@ -36,10 +36,18 @@ public class FormateurServiceTestU {
 			System.out.println(e.getMessage());
 		}
 	}
-	@Ignore
 	@Test
 	public void addFormateurToSession(){
 		
 		serviceFormateur.addFormateurToSession(1L, 1L);
+	}
+	@Test
+	public void getAll(){
+		serviceFormateur.getAllFormateurs();
+	}
+	
+	@Test
+	public void getOne(){
+		serviceFormateur.getFormateurById(4L);
 	}
 }

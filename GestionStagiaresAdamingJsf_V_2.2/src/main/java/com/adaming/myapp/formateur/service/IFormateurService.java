@@ -7,14 +7,14 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IFormateurService {
 
-	public Formateur addFormateur(Formateur f)
+	 Formateur addFormateur(Formateur f)
 			throws VerificationInDataBaseException;
 
-	public void addFormateurToSession(Long idSession, Long idFormateur);
+	 void addFormateurToSession(Long idSession, Long idFormateur);
 
-	public List<Formateur> getAllFormateurs();
+	 List<Formateur> getAllFormateurs();
 
-	public Formateur getFormateur(String mail);
+	 Formateur getFormateur(String mail);
 	
-	public Formateur getFormateurById(Long idFormateur);
+	 Formateur getFormateurById(Long idFormateur);
 }

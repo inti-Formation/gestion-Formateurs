@@ -7,13 +7,13 @@ import com.adaming.myapp.exception.AddSessionException;
 
 public interface ISessionService {
 
-	public SessionEtudiant addSessionStudent(SessionEtudiant se,Long idSpecialite) throws AddSessionException;
+	 SessionEtudiant addSessionStudent(SessionEtudiant se,Long idSpecialite) throws AddSessionException;
 	
-	public SessionEtudiant updateSessionEtudian(SessionEtudiant se,Long idSpecialite);
+	 SessionEtudiant updateSessionEtudiant(SessionEtudiant se,Long idSpecialite);
 	
-	public SessionEtudiant getSessionEtudiantById(Long idSessionEtudiant);
+	 SessionEtudiant getSessionEtudiantById(Long idSessionEtudiant);
 	
-	public List<SessionEtudiant> getAllSessions();
+	 List<SessionEtudiant> getAllSessions();
 	
-	public List<SessionEtudiant> getAllSessionsInProgress();
+	 List<SessionEtudiant> getAllSessionsInProgress();
 }

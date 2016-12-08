@@ -12,13 +12,13 @@ import com.adaming.myapp.exception.AddExamenException;
 public interface IExamenDao {
 
 	
-	public Object  getScoreExamen(Long idSession,Long idEtudiant,Long idModule);
+	 Object  getScoreExamen(Long idSession,Long idEtudiant,Long idModule);
 	
-	public List<Examen> getAllExamensBySession(Long idSession);
+	 List<Examen> getAllExamensBySession(Long idSession);
 	
-	public List<Examen> getAllExamenByEtudiant(Long idEtudiant);
+	 List<Examen> getAllExamenByEtudiant(Long idEtudiant);
 	
-	public Examen addExamenV2(Examen ex, Long idEtudiant, Long idSession,
+	 Examen addExamenV2(Examen ex, Long idEtudiant, Long idSession,
 			Long idModule);
 	
 	

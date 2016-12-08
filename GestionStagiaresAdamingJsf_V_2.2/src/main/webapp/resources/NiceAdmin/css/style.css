@@ -14,7 +14,11 @@ Website: http://geekslabs.com/
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-
+ui-timer {
+    padding: 20px 132px!important;
+    background: #00a0df!important;
+    color: white!important;
+}
 .ui-selectoneradio label{
 	 width:660px;
 	 padding: 18px 60px;

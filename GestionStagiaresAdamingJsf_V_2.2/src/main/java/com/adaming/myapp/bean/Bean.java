@@ -54,7 +54,7 @@ public class Bean implements Serializable {
 			serviceQuestion.addQuestion(q, idModule);
 			getQuestionByModule();
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Success",
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Success",
 					"La Question :" + q.getPropositionquestion()
 					+ " Ajouter Avec Success dans le Module N °" + idModule));
 			propositionquestion="";
@@ -62,11 +62,26 @@ public class Bean implements Serializable {
 			troisiemeReponse="";
 			quatriemeReponse="";
 			douxiemeReponse="";
+			premeiereBonneReponse="";
+			douxiemeBonneReponse="";
+			troisiemeBonneReponse="";
+			quatriemeBonneReponse="";
 		} catch (AddQuestionException e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Warning",e.getMessage()));
-			propositionquestion="";		
+			FacesContext context2 = FacesContext.getCurrentInstance();
+			context2.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Warning",e.getMessage()));		
 		}
+	}
+	/*reset*/
+	public void reset(){
+		propositionquestion="";
+		premeiereReponse="";
+		troisiemeReponse="";
+		quatriemeReponse="";
+		douxiemeReponse="";
+		premeiereBonneReponse="";
+		douxiemeBonneReponse="";
+		troisiemeBonneReponse="";
+		quatriemeBonneReponse="";
 	}
     /* get question by module*/
 	public void getQuestionByModule() {

@@ -50,7 +50,7 @@ public class SessionServiceTestU {
 	public void testUpdateSessionEtudian() {
 		SessionEtudiant se = serviceSession.getSessionEtudiantById(1L);
 		se.setLieu("Nantes");
-		serviceSession.updateSessionEtudian(se, 1L);
+		serviceSession.updateSessionEtudiant(se, 1L);
 		SessionEtudiant se2 = serviceSession.getSessionEtudiantById(1L);
 		assertThat("Nantes", IsEqual.equalTo(se2.getLieu()));
 	}

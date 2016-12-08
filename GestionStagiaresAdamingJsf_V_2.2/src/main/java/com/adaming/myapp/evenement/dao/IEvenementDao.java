@@ -1,5 +1,6 @@
 package com.adaming.myapp.evenement.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.adaming.myapp.entities.Evenement;
@@ -10,43 +11,45 @@ public interface IEvenementDao {
 
 	/* add evenement */
 
-	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant)
+	 Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant)
 			throws VerificationInDataBaseException;
 
-	public Evenement AddWarningAndTop(Evenement e, Long idSession,
+	 Evenement AddWarningAndTop(Evenement e, Long idSession,
 			Long idEtudiant) throws VerificationInDataBaseException;
 
 	/* toutes les evenements par semaine */
 
-	public List<Evenement> getEvenementsRetards()
+	 List<Evenement> getEvenementsRetards()
 			throws EvenementNotFoundException;
 
-	public List<Evenement> getEvenementsAbsences()
+	 List<Evenement> getEvenementsAbsences()
 			throws EvenementNotFoundException;
 
-	public List<Evenement> getEvenementsEntretien()
+	 List<Evenement> getEvenementsEntretien()
 			throws EvenementNotFoundException;
 
 	/* evenement du jour */
 
-	public List<Evenement> getNumberOfCurrentsRetards();
+	 List<Evenement> getNumberOfCurrentsRetards();
 
-	public List<Evenement> getNumberOfCurrentsAbsence();
+	 List<Evenement> getNumberOfCurrentsAbsence();
 
-	public List<Evenement> getNumberOfCurrentsWarning();
+	 List<Evenement> getNumberOfCurrentsWarning();
 
-	public List<Evenement> getNumberOfCurrentsTop();
+	 List<Evenement> getNumberOfCurrentsTop();
 
 	/* toutes les evenements */
 
-	public List<Evenement> getAllEvenementsRetards();
+	 List<Evenement> getAllEvenementsRetards();
 
-	public List<Evenement> getAllEvenementsEntretient();
+	 List<Evenement> getAllEvenementsEntretient();
 
-	public List<Evenement> getAllEvenementsAbsences();
+	 List<Evenement> getAllEvenementsAbsences();
 
-	public List<Evenement> getAllEvenements();
+	 List<Evenement> getAllEvenements();
 
-	public List<Evenement> getAllEvenementsBySession(Long idSession);
+	 List<Evenement> getAllEvenementsBySession(Long idSession);
+	 
+	
 
 }

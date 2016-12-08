@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	<div class="well container">
+		<div class="alert alert-warning"
+			style="text-align: center; color: black">
+			<h:graphicImage
+				style=" width:400px;margin: auto;display: block;margin-top: 50px;margin-bottom: 50px"
+				name="NiceAdmin/img/logoiniti.png" />
+			<h3 style="margin-top: 0px">La Liste Des Questions Disponibles</h3>
+			<h:graphicImage name="NiceAdmin/img/warning.png"></h:graphicImage>
+			<h4 style="display: inline; padding-left: 5px;">Veuillez lire
+				attentivement les questions suivantes et répondre à chacune d'entre
+				elles</h4>
+
+			<div style="margin-top: 50px;">
+				<h3 style="border: 1px solid">Guide d'utilisation</h3>
+				<p>Notez qu'en fonction de la question, il est possible de
+					cocher une seul réponses.</p>
+				<h3 style="border: 1px solid">Quelques conseils de mise en
+					œuvre</h3>
+				<ul>
+					<li>(1) Ne restez pas bloqué sur une question pour laquelle
+						vous n'avez pas de réponse. Passez à la question suivante. Vous
+						reviendrez par la suite sur les questions sans réponse.</li>
+					<li>(2) Identifiez les questions auxquelles vous avez répondu
+						sans certitude. Que ces réponses soient justes ou non, cela vous
+						permettra de mémoriser les questions sur lesquelles vous devrez
+						revenir dans la correction du TEST.</li>
+					<li>(3) Ne cherchez pas à aller le plus vite possible. Le
+						temps imparti doit être utilisé au maximum pour vous permettre
+						d'effectuer une synthèse des points abordés dans le module.</li>
+				</ul>
+			</div>
+		</div>
+		<br /> <br />
+		<!-- timer -->
+		<div class="timer">
+			<h:form>
+				<p:growl autoUpdate="true"/>  
+				<pe:timer  
+				    timeout="1500"  
+				    format="HH:mm:ss"
+				    singleRun="true"  
+				    listener="#{examenBean.onTimeout}"/>   
+			</h:form>    		
+         </div>
+         <!-- data list question  -->
+
+			<p:dataList value="#{examenBean.questionsByModule}" var="q"
+					varStatus="iteration">
+		<h:form id="formSelect">
+					<h:inputHidden value="#{examenBean.idSession}" />
+					<h:inputHidden value="#{examenBean.idEtudiant}" />
+					<h:inputHidden value="#{examenBean.idModule}" />
+					<!-- Questions -->
+			    <div class="container-fluid bg-info">
+			    <div class="modal-dialog" style="width:70%!important">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <h3 style="font-size: 20px"><span class="label label-warning" id="qid">#{iteration.index+1}</span><p:spacer width="10"></p:spacer> <h:outputText value="#{q.propositionquestion} ?"/></h3>
+		         </div>
+		           
+			        <div class="modal-body">
+			           
+		               <!-- select responses  -->
+			        <p:selectOneRadio  
+								value="#{examenBean.reponseSelectionnee}" layout="grid"
+								columns="1" required="true" requiredMessage="vous devez selectionné une réponse">
+				             <div class="quiz" id="quiz">
+					            <f:selectItem  itemLabel="A- #{q.premeiereReponse}"  itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +1},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+					            <f:selectItem  itemLabel="B- #{q.douxiemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +2},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+					            <f:selectItem  itemLabel="C- #{q.troisiemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +3},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+					            <f:selectItem  itemLabel="D- #{q.quatriemeReponse}" itemValue="#{q.numQuestion},#{q.propositionquestion},#{q.choixReponse +4},#{q.premeiereBonneReponse},#{q.douxiemeBonneReponse},#{q.troisiemeBonneReponse},#{q.quatriemeBonneReponse},#{q.premeiereReponse},#{q.douxiemeReponse},#{q.troisiemeReponse},#{q.quatriemeReponse}" />
+				            </div>
+				    </p:selectOneRadio>
+		          </div>
+		          
+		          <!-- button click -->
+					<div style="text-align:center!important;padding-bottom:10px">	
+					<p:commandButton action="#{examenBean.registerV3}" value="Répondre"  ajax="true">
+						
+						<p:effect type="clip" event="click" ></p:effect>
+					    
+					</p:commandButton>
+					</div>
+			      </div>
+		        </div>
+		     </div>
+		</h:form>
+		</p:dataList>
+
+        <!-- modal confirmation -->
+		<h:form>
+			<b:commandButton look="danger" value="Terminer"
+				style="margin:auto;display:block;" update="display"
+				oncomplete="PF('dlg').show()" icon="ui-icon-check" />
+
+			<p:dialog
+				header="Confirmation d'envois, de l'Examen du Module Numéro : #{examenBean.idModule}"
+				modal="true" showEffect="clip" widgetVar="dlg" resizable="false">
+				<p:outputPanel id="display">
+					<h:outputText value=""></h:outputText>
+				</p:outputPanel>
+				<b:commandButton action="#{examenBean.redirect}" look="info"
+					style="margin:auto;display:block;" value="Envoyer">
+				</b:commandButton>
+			</p:dialog>
+		</h:form>
+</div>           
+</ui:composition>
+</html>
+

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -69,6 +67,7 @@ public class ExamenBean implements Serializable {
 	private List<Question> reponses;
 	private Etudiant etudiant;
 	private String[] str;
+	
 
 	/* @method redirection à la fin de l'examen et afficher la note final */
 	public String redirect() {
@@ -88,6 +87,7 @@ public class ExamenBean implements Serializable {
 		resetVarsExam();
 		// on ordonne la listes des reponses par num
 		Collections.sort(reponses, new MyComparator());
+		System.out.println("trier le tableau"+reponses);
 
 		return "examen_success?redirect=true";
 	}
@@ -103,6 +103,7 @@ public class ExamenBean implements Serializable {
 		resetVarsExam();
 		// on ordonne la listes des reponses par num
 		Collections.sort(reponses, new MyComparator());
+		System.out.println("trier le tableau"+reponses);
 
 		FacesContext
 				.getCurrentInstance()
@@ -114,30 +115,63 @@ public class ExamenBean implements Serializable {
 
 	/* @method add ExamenV3 */
 	public void registerV3() {
-		confirm = new String();
-		setConfirm("Clicked");
-
-		// on decoupe les différentes vars separees par ','
-		str = reponseSelectionnee.split(",");
-
-		// on cree notre objet Reponse basee que Question
-		Question reponse = new Question(Integer.parseInt(str[0]), str[1],
-				Integer.parseInt(str[2]), str[7], str[8], str[9], str[10],
-				str[3], str[4], str[5], str[6]);
-
-		// on set le string de la reponse choisie
-		reponse.setStrReponse(str[reponse.getChoixReponse() + 6]);
-
-		// on incremente la note si reponse bonne
-		if (str[2 + reponse.getChoixReponse()].equals("bonne")) {
-			note++;
-			reponse.setPoint(1);
-		} else {
-			reponse.setPoint(0);
+        Question question=null;
+		List<Question> questions = serviceQuestion.getAllQuestionsByModule(idModule);
+        if(!reponseSelectionnee.equals(null)){
+             for(Question q:questions){
+				if (reponseSelectionnee.equals(q.getPremeiereReponse()) && 
+						q.getPremeiereBonneReponse().equals("bonne")) {
+						note++;
+					    q.setPoint(1);
+					    q.setStrReponse(reponseSelectionnee);
+					    question=q;
+					    break;
+					} 
+					else if (reponseSelectionnee.equals(q.getDouxiemeReponse()) && 
+							q.getDouxiemeBonneReponse().equals("bonne")) {
+							note++;
+							 q.setPoint(1);
+							 q.setStrReponse(reponseSelectionnee);
+							 question=q;
+							 break;
+					} 
+					else if (reponseSelectionnee.equals(q.getTroisiemeReponse()) && 
+							q.getTroisiemeBonneReponse().equals("bonne")) {
+							note++;
+							 q.setPoint(1);
+							 q.setStrReponse(reponseSelectionnee);
+							question=q;
+							break;
+					} 
+					else if (reponseSelectionnee.equals(q.getQuatriemeReponse()) && 
+							q.getQuatriemeBonneReponse().equals("bonne")) {
+							note++;
+							 q.setPoint(1);
+							 q.setStrReponse(reponseSelectionnee);
+						    question=q;
+						    break;
+					}
+					else if (reponseSelectionnee.equals(q.getPremeiereReponse()) && 
+							!q.getPremeiereBonneReponse().equals("bonne")
+							|| reponseSelectionnee.equals(q.getDouxiemeReponse()) && 
+							!q.getDouxiemeBonneReponse().equals("bonne")
+							|| reponseSelectionnee.equals(q.getTroisiemeReponse()) && 
+							!q.getTroisiemeBonneReponse().equals("bonne")
+							|| reponseSelectionnee.equals(q.getQuatriemeReponse()) && 
+							!q.getQuatriemeBonneReponse().equals("bonne")
+							){
+						 q.setStrReponse(reponseSelectionnee);
+						 q.setPoint(0);
+						 question=q;
+						 break;
+					}
+			}
+            reponses.add(question);
+            System.out.println("tab"+reponses);
+            System.out.println("note "+note);
+            System.out.println("tab size"+reponses.size());
 		}
-		// on ajoute l'objet Reponse à une liste
-		reponses.add(reponse);
-
+       
 	}
 
 	public void resetVarsExam() {
@@ -146,7 +180,6 @@ public class ExamenBean implements Serializable {
 		scoreFinal = note;
 		note = 0.0;
 		reponseSelectionnee = null;
-		setConfirm("");
 		questionsByModule = new ArrayList<Question>();
 
 	}
@@ -162,7 +195,6 @@ public class ExamenBean implements Serializable {
 	
     /*init examen*/
 	public String initExamen() {
-		
 		etudiant = new Etudiant();
 		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
 		idSession = etudiant.getSessionEtudiant().getIdSession();
@@ -188,7 +220,6 @@ public class ExamenBean implements Serializable {
 		moduleBySessions = serviceModule.getModulesBySession(idSession);
 		notes = serviceNotes.getAllNotes();
 		boolean hasNotes = false;
-
 		List<Module> modulesBySessionsActif = new ArrayList<Module>();
 		List<Module> modulesInter = new ArrayList<Module>();
 		List<Module> modulesNotDisplay = new ArrayList<Module>();
@@ -407,5 +438,6 @@ public class ExamenBean implements Serializable {
 	public void setStr(String[] str) {
 		this.str = str;
 	}
+
 
 }
