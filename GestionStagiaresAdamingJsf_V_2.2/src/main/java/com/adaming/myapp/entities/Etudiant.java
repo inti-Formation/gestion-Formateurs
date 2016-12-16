@@ -51,8 +51,6 @@ public class Etudiant implements Serializable {
 	@JoinColumn(name="ID_SESS_ETUDIANT")
     private SessionEtudiant sessionEtudiant;
 	@OneToMany(mappedBy="etudiant",fetch=FetchType.EAGER)
-    private List<Examen> examens;
-	@OneToMany(mappedBy="etudiant")
 	private List<Note> notes;
 	@OneToMany(mappedBy="etudiant",fetch=FetchType.EAGER)
 	private List<Evenement> evenements;
@@ -224,18 +222,6 @@ public class Etudiant implements Serializable {
 
 	public void setSessionEtudiant(SessionEtudiant sessionEtudiant) {
 		this.sessionEtudiant = sessionEtudiant;
-	}
-
-
-
-	public List<Examen> getExamens() {
-		return examens;
-	}
-
-
-
-	public void setExamens(List<Examen> examens) {
-		this.examens = examens;
 	}
 
 

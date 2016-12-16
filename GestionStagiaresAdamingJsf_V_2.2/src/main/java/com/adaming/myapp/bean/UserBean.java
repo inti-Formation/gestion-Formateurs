@@ -5,30 +5,15 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.GetUserException;
 import com.adaming.myapp.user.service.IUserService;
-import com.fasterxml.jackson.databind.Module.SetupContext;
 
+@SuppressWarnings("serial")
 @Component("userBean")
 @Scope(value = "session")
 public class UserBean implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 
-	 */
-	
 
 	@Inject
 	private IUserService serviceUser;

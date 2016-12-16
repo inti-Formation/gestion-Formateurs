@@ -8,20 +8,24 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.exception.AddModuleException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
+@SuppressWarnings("serial")
 @Component("moduleBean")
 @ViewScoped
 public class ModuleBean implements Serializable {
 
 	/**
-	 * 
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
 	 */
-	private static final long serialVersionUID = 1L;
+    private final Logger LOGGER  = Logger.getLogger("ExamenBean");
     
 	@Inject
 	private IModuleService serviceModule;
@@ -38,25 +42,42 @@ public class ModuleBean implements Serializable {
 		try {
 			serviceModule.addModule(m, idSpecialite);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","Le Module "+m.getNomModule()+" à bien été ajouter avec success"));
-			nomModule = "";
-			idSpecialite=null;
+			reset();
 		} catch (AddModuleException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
 			
 		}
 	}
+	
+	public void reset(){
+		nomModule = "";
+		idSpecialite=null;
+	}
+	/*vider les champs on clickant sur l'aside ajouter un module*/
+	public String resetAndRedirect(){
+		reset();
+		setModulesBySpecialites(null);
+		return "module";
+	}
 	/*@method update*/
 	public String edit(){
-			Module module=serviceModule.updateModule(m, idSpecialite);
+			serviceModule.updateModule(m, idSpecialite);
 			return "module_update_success?redirect=true";
 	}
     /*get Module By Specialities*/
 	public void getModulesBySpecialite(){
-		modulesBySpecialites=serviceModule.getModulesBySpecialite(idSpecialite);
+			try {
+				modulesBySpecialites=serviceModule.getModulesBySpecialite(idSpecialite);
+				LOGGER.info("Modules By Specialites : "+modulesBySpecialites);
+			} catch (VerificationInDataBaseException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+				setModulesBySpecialites(null);
+			}
 	}
 	/* get current module*/
 	public void getCurrentModule(Long idModule){
 		m=serviceModule.getModuleById(idModule);
+		LOGGER.info("Module : "+m);
 	}
 	
 	public Long getIdModule() {

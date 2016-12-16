@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,10 +21,17 @@ import com.adaming.myapp.session.service.ISessionService;
 import com.adaming.myapp.user.service.IUserService;
 
 
+@SuppressWarnings("serial")
 @Component("sessionBean")
 @ViewScoped
 public class SessionBean implements Serializable{
-
+	
+	/**
+	 * LOGGER log4J
+	 * @see org.apache.log4j.Logger
+	 * */
+    private final Logger LOGGER  = Logger.getLogger("SessionBean");
+    
 	@Inject
 	private ISessionService serviceSession;
 
@@ -51,10 +59,7 @@ public class SessionBean implements Serializable{
 			context.addMessage(null, new FacesMessage("Success",
 					"La Prochaine Session aura lieu à " + lieu
 					+ " à bien été enregistrer avec succes "));
-			dateDebute=null;
-			dateFin=null;
-			lieu="";
-			idSpecialite=null;
+			reset();
 		} catch (AddSessionException e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Warning",e.getMessage()));
@@ -62,6 +67,14 @@ public class SessionBean implements Serializable{
 			dateFin=null;		
 		}
 
+	}
+	
+	/*vider les champs aprés l'insertion de chaque session*/
+	public void reset(){
+		dateDebute=null;
+		dateFin=null;
+		lieu="";
+		idSpecialite=null;
 	}
 	
 	/*@method get CurrentSession*/
@@ -77,7 +90,7 @@ public class SessionBean implements Serializable{
 	
     /*init in load Page*/
 	public void getAllSessions() throws ParseException {
-		getSessionEnCours();
+		//getSessionEnCours();
 		sessions = serviceSession.getAllSessions();
 		Date curentDate= new Date();
 		for(SessionEtudiant s:sessions){
@@ -94,12 +107,6 @@ public class SessionBean implements Serializable{
 		for(SessionEtudiant s:sessionsInProgress){
 			dateDebuteInDays=s.getDateDebute().getTime()/ (24 * 60 * 60 * 1000);
 			dateFinInDays=s.getDateFin().getTime()/ (24 * 60 * 60 * 1000);
-			/*String dayDebut=Long.toString(dateDebuteInDays);
-			String dayFin=Long.toString(dateFinInDays);
-			s.setDateDebuteInDays(dayDebut);
-			s.setDateFinInDays(dayFin);
-			System.out.println("date debut : "+dayDebut);
-			System.out.println("date fIN :"+dayFin);*/
 			
 			/*la date du jour */
 			final Date currentDay = new Date();
@@ -109,17 +116,14 @@ public class SessionBean implements Serializable{
 			final long differenceDate = dateFinInDays-dateDebuteInDays;
 			final String dayFin=Long.toString(differenceDate);
 			s.setDateFinInDays(dayFin);
-			System.out.println("difference "+differenceDate);
+			LOGGER.debug("difference "+differenceDate);
 			
 			/*nombre de jours entre le début et le jour courant */
 			final long differenceTwo =currentDate-dateDebuteInDays;
 			final String differenceTwoStr=Long.toString(differenceTwo);
 			s.setDateDebuteInDays(differenceTwoStr);
+			LOGGER.debug("la difference entre debut et current day"+differenceTwo);
 			
-			System.out.println("la difference entre debut et current day"+differenceTwo);
-			
-			/**/
-			//System.out.println("date de jour "+curentDayString);
 		}
 	}
 	

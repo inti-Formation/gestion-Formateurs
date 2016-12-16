@@ -41,10 +41,7 @@ public class SessionEtudiant implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="ID_SPEC_SESSION")
 	private Specialite specialite;
-	
-	@OneToMany(mappedBy="sessionEtudaint")
-	private List<Examen> examens;
-	
+
 	@OneToMany(mappedBy="sessionEtudiant")
 	private List<Etudiant> etudiants;
 	
@@ -105,13 +102,7 @@ public class SessionEtudiant implements Serializable {
 		this.specialite = specialite;
 	}
 
-	public List<Examen> getExamens() {
-		return examens;
-	}
-
-	public void setExamens(List<Examen> examens) {
-		this.examens = examens;
-	}
+	
 
 	public List<Etudiant> getEtudiants() {
 		return etudiants;

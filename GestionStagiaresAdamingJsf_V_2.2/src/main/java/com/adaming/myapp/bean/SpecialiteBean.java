@@ -3,17 +3,14 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -21,49 +18,46 @@ import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.exception.AddSpecialiteException;
 import com.adaming.myapp.specialite.service.ISpecialiteService;
 
+@SuppressWarnings("serial")
 @Component("specialiteBean")
-@Scope(value="request")
+@ViewScoped
 public class SpecialiteBean implements Serializable{
 	
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-    Logger log = Logger.getLogger("SpecialiteBean");
+	 * LOGGER log4J
+	 * @see org.apache.log4j.Logger
+	 * */
+    private final Logger LOGGER = Logger.getLogger("SpecialiteBean");
     
-	@Autowired
+	@Inject
     private ISpecialiteService serviceSpec;
 	
 	private Specialite specialite;
 	
 	private List<Specialite> specialites;
-	
-	
-	private Long idSpe;
-	
+
 	private Long idSpecialite;
 	
 	private String designation;
-
-	public Long getIdSpecialite() {
-		return idSpecialite;
+    
+	
+	/*@method getSpecialite By Id*/
+	public void getSpecialiteById(Long idSpecialite){
+		specialite=serviceSpec.getSpecialiteById(idSpecialite);
 	}
-	/*get Specialite by id*/
-	public Specialite getSpecialiteById(){
-		idSpe = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idSpe"));
-		System.out.println("idSpe"+idSpe);
-		specialite=serviceSpec.getSpecialiteById(idSpe);
-		System.out.println("object : "+specialite);
-		return specialite;
-		
+	/*method modifier*/
+	public String edit(){
+		serviceSpec.updateSpecialite(specialite);
+		getAllSpecialite();
+		return "specialite?faces-redirect=true";
 	}
+	
 	/*add Specialite*/
 	public void addSpecialite(){
 		Specialite specialite = new Specialite(designation);
 		try {
 			serviceSpec.addSpecialite(specialite);
-			getAllSpec();
+			getAllSpecialite();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","la spécialitée " + designation + " à bien été ajoutée"));
 			designation = "";
 		} catch (AddSpecialiteException e) {
@@ -73,14 +67,18 @@ public class SpecialiteBean implements Serializable{
 	}
 	@PostConstruct
 	public void getAllSpec(){
-		specialites=serviceSpec.getAllSpec();
+		getAllSpecialite();
+		LOGGER.info("Specialitées"+specialites);
+	}
+	/*@method getAllSpecialite*/
+	public void getAllSpecialite(){
+		specialites=serviceSpec.getAllSpecV2();
 	}
 
 	public void setIdSpecialite(Long idSpecialite) {
 		this.idSpecialite = idSpecialite;
 	}
-	
-	/*togel*/
+
 
 	public String getDesignation() {
 		return designation;
@@ -108,12 +106,8 @@ public class SpecialiteBean implements Serializable{
 		this.specialite = specialite;
 	}
 
-	public Long getIdSpe() {
-		return idSpe;
-	}
-
-	public void setIdSpe(Long idSpe) {
-		this.idSpe = idSpe;
+	public Long getIdSpecialite() {
+		return idSpecialite;
 	}
 
 	

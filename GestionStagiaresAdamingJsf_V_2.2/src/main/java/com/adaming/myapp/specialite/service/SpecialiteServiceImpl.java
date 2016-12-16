@@ -26,7 +26,7 @@ public class SpecialiteServiceImpl implements ISpecialiteService{
 	@Override
 	public Specialite addSpecialite(Specialite sp) throws AddSpecialiteException {
 		List<Specialite> tabSpecialite = null;
-		tabSpecialite = getAllSpec();// get All Spécialitée disponibles
+		tabSpecialite = getAllSpecV2();// get All Spécialitée disponibles
 		for (Specialite s : tabSpecialite) {
 			if (s.getDesignation().equals(sp.getDesignation())) {
 				throw new AddSpecialiteException(
@@ -48,10 +48,16 @@ public class SpecialiteServiceImpl implements ISpecialiteService{
 		return dao.getSpecialiteById(idSpecialite);
 	}
 
-	@Override
+	/*@Override
 	public List<Specialite> getAllSpec() {
 		// TODO Auto-generated method stub
 		return dao.getAllSpec();
+	}*/
+
+	@Override
+	public List<Specialite> getAllSpecV2() {
+		// TODO Auto-generated method stub
+		return dao.getAllSpecV2();
 	}
 	
 	

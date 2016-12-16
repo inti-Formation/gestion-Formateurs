@@ -9,6 +9,7 @@ import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.exception.AddModuleException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.persistence.AbstractJpaDao;
 
 public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
@@ -49,10 +50,16 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 	}
 
 	@Override
-	public List<Module> getModulesBySpecialite(Long idSpecialite) {
+	public List<Module> getModulesBySpecialite(Long idSpecialite) throws VerificationInDataBaseException {
 		Specialite s  = em.find(Specialite.class,idSpecialite);
-		List<Module> modules = s.getModules();
-		LOGGER.info("il existes"+modules.size()+" dans la specialite"+s.getDesignation());
+		List<Module> modules=null;
+		if(s != null){
+			modules = s.getModules();
+			if(modules.size() ==0){
+				throw new VerificationInDataBaseException("Il n'existe aucun module dans le cursus "+s.getDesignation());
+			}
+			LOGGER.info("il existes"+modules.size()+" dans la specialite"+s.getDesignation());
+		}
 		return modules;
 	}
 

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import org.springframework.context.annotation.Scope;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Formateur;
@@ -18,11 +18,18 @@ import com.adaming.myapp.session.service.ISessionService;
 @Component("affectationFormateurBean")
 @ViewScoped
 public class AffectationFormateurBean {
-
+    
+	/**
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
+	 */
+    private final Logger LOGGER  = Logger.getLogger("AffectationFormateurBean");
+	
 	@Inject
 	private IFormateurService serviceFormateur;
 	@Inject
 	private ISessionService serviceSession;
+	
 	private Long idSession;
 	private Long idFormateur;
 	private Formateur formateur;
@@ -31,8 +38,10 @@ public class AffectationFormateurBean {
 	
 	/*@method init chargement de session inprogress and allFormateurs*/
 	public void init(){
-		formateurs=serviceFormateur.getAllFormateurs();
-		sessionsInProgress=serviceSession.getAllSessionsInProgress();
+		getAllformateurs();
+		getAllSessionsInProgress();
+		LOGGER.info("formateurs : "+formateurs);
+		LOGGER.info("Session en Cours : "+sessionsInProgress);
 	}
 	/* method affectation formateur*/
 	public String affectationFormateur(){
@@ -43,6 +52,7 @@ public class AffectationFormateurBean {
 	public String getFormateurById(Long idFormateur){
 		formateur= new Formateur();
 		formateur=serviceFormateur.getFormateurById(idFormateur);
+		LOGGER.info("Formateur : "+formateur);
 		return "informationFormateur?redirect=true";
 	}
 	/*method redirect*/
@@ -55,20 +65,34 @@ public class AffectationFormateurBean {
 	/*methode get all formateurs*/
 	public String getAllFormateurs(){
 		sessionsInProgress=null;
-		formateurs=serviceFormateur.getAllFormateurs();
-		Date curentDate= new Date();
-		for(Formateur r:formateurs){
+		getAllformateurs();
+		final Date CURRENT_DATE= new Date();
+		if(formateurs.size()>0){
 			sessionsInProgress=new ArrayList<SessionEtudiant>();
-			sessionsInProgress=r.getSessionsEtudiant();
-			for(SessionEtudiant s:sessionsInProgress){
-				if(s.getDateFin().getTime()<=curentDate.getTime()){
-					s.setEtatSession("TERMINE");
-				}else{
-					s.setEtatSession("EN COURS");
+			for(Formateur f:formateurs){
+				sessionsInProgress=f.getSessionsEtudiant();
+				for(SessionEtudiant s:sessionsInProgress){
+					if(s.getDateFin().getTime()<=CURRENT_DATE.getTime()){
+						s.setEtatSession("TERMINE");
+						LOGGER.info("Etat session : "+s.getEtatSession());
+					}else{
+						s.setEtatSession("EN COURS");
+						LOGGER.info("Etat session : "+s.getEtatSession());
+					}
 				}
 			}
 		}
 		return "liste_formateurs?redirect=true";
+	}
+	
+	/*@method get all formateurs*/
+	public void getAllformateurs(){
+		formateurs=serviceFormateur.getAllFormateurs();
+	}
+	
+	/*@method get all Sessions In Progress*/
+	public void getAllSessionsInProgress(){
+		sessionsInProgress=serviceSession.getAllSessionsInProgress();
 	}
 	
 	public Long getIdSession() {

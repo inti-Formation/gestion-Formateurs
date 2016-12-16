@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -29,14 +30,18 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.formateur.service.IFormateurService;
 import com.adaming.myapp.module.service.IModuleService;
 
+@SuppressWarnings("serial")
 @Component("scheduleView")
 @Scope("session")
 public class ScheduleView implements Serializable {
 
 	/**
-	 * 
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
 	 */
-	private static final long serialVersionUID = 1L;
+     private final Logger LOGGER  = Logger.getLogger("ScheduleView");
+    
+    
 	@Inject
 	private IEtudiantService serviceEtudiant;
 	@Inject
@@ -88,7 +93,7 @@ public class ScheduleView implements Serializable {
 		formateur = new Formateur();
 		formateur = serviceFormateur.getFormateur(userAuthentificationBean
 				.getName());
-		System.out.println(":::::::idFormateur" + formateur.getIdFormateur());
+		LOGGER.debug(":::::::idFormateur" + formateur.getIdFormateur());
 		sessionsFormateur = formateur.getSessionsEtudiant();
 
 		if (sessionsFormateur.size() > 0) {
@@ -97,10 +102,9 @@ public class ScheduleView implements Serializable {
 
 				dateFinS = new DateTime(session.getDateFin());
 				if (dateFinS.isAfterNow()) {
-					System.out
-							.println("::::::::    on rentre dans if compare date");
+					LOGGER.debug("::::::::    on rentre dans if compare date");
 					idSession = session.getIdSession();
-					System.out.println(":::::::: idSession: " + idSession);
+					LOGGER.debug(":::::::: idSession: " + idSession);
 					sessionFormateur = session;
 				}
 
@@ -254,7 +258,7 @@ public class ScheduleView implements Serializable {
 		}
 	}
 
-	/* reset */
+	/* reset evenement */
 	public void resetEvenement() {
 		dateStart = null;
 		dateEnd = null;

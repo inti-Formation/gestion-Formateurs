@@ -16,7 +16,7 @@ public abstract class SessionAbstractJpa {
 	@PersistenceContext
 	private EntityManager em;
 	
-    Logger log = Logger.getLogger("SessionAbstractJpa");
+   final Logger LOGGER = Logger.getLogger("SessionAbstractJpa");
     
 
 	public SessionEtudiant addSessionStudentAbstractJpa(SessionEtudiant se,
@@ -25,7 +25,7 @@ public abstract class SessionAbstractJpa {
 		se.setSpecialite(sp);
 		sp.getSessionEtudiant().add(se);
 		em.persist(se);
-		log.info(" la session+"+se.getIdSession()+ "a bien été enregistrer");
+		LOGGER.info(" la session+"+se.getIdSession()+ "a bien été enregistrer");
 		return se;
 	}
 
@@ -35,14 +35,14 @@ public abstract class SessionAbstractJpa {
 		Specialite sp = em.find(Specialite.class,idSpecialite);
 		se.setSpecialite(sp);
 		em.merge(se);
-		log.info(" la session+"+se.getIdSession()+ "a bien été Modifié");
+		LOGGER.info(" la session+"+se.getIdSession()+ "a bien été Modifié");
 		return se;
 	}
 
 
 	public SessionEtudiant getSessionEtudiantByIdAbstractJpa(Long idSessionEtudiant) {
 		SessionEtudiant se = em.find(SessionEtudiant.class,idSessionEtudiant);
-		log.info("la session"+se.getIdSession()+" a bien été recupérer");
+		LOGGER.info("la session"+se.getIdSession()+" a bien été recupérer");
 		return se;
 	}
 
@@ -50,7 +50,7 @@ public abstract class SessionAbstractJpa {
 	@SuppressWarnings("unchecked")
 	public List<SessionEtudiant> getAllSessionsAbstractJpa() {
 		Query query = em.createQuery("from SessionEtudiant s Order By s.dateFin DESC");
-		log.info("il existe"+query.getResultList().size());
+		LOGGER.info("il existe"+query.getResultList().size());
 		return query.getResultList();
 	}
 
@@ -58,7 +58,7 @@ public abstract class SessionAbstractJpa {
 	@SuppressWarnings("unchecked")
 	public List<SessionEtudiant> getAllSessionsInProgressAbstractJpa() {
 		Query query = em.createQuery("from SessionEtudiant s where s.dateFin > CURRENT_DATE");
-		log.info("il existe"+query.getResultList().size()+" sessions en cours");
+		LOGGER.info("il existe"+query.getResultList().size()+" sessions en cours");
 		return query.getResultList();
 	}
 

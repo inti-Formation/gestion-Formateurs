@@ -29,9 +29,17 @@ public class SpecialiteDaoImpl extends SpecialiteAbstractJpa implements ISpecial
 		return getSpecialiteByIdAbstractJpa(idSpecialite);
 	}
 
-	@Override
+	/*@Override
 	public List<Specialite> getAllSpec() {
 		return getAllSpecAbstractJpa();
 	}
+*/
+	@Override
+	public List<Specialite> getAllSpecV2() {
+		// TODO Auto-generated method stub
+		return getAllSpecV2AbstractJpa();
+	}
+
+	
 
 }

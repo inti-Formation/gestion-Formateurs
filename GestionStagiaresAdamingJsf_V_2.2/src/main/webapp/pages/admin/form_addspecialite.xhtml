@@ -57,14 +57,43 @@
 					                         paginator="true"
 					                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					                         rowsPerPageTemplate="5,10,15">
-										        <p:column headerText="N° Cursus">
+										        <p:column style="width:100px;text-align:center;" headerText="N° Cursus">
 										            <h:outputText value="#{newSpecialite.idSpecialite}"  />
 										        </p:column>
 										 
-										        <p:column headerText="Cursus">
+										        <p:column style="text-align:center" headerText="Cursus">
 										            <h:outputText value="#{newSpecialite.designation}" />
 										        </p:column>
+										        <p:column style="width:100px;text-align:center;">
+													<f:facet name="header">
+														<h:outputText value="Actions" />
+													</f:facet>
+													<p:commandLink oncomplete="PF('actionDialog').show()"
+														update=":form10:specialiteDetail" title="Modifier">
+														 <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
+														<f:param value="#{newSpecialite.idSpecialite}" name="idSpecialite" />
+														<p:ajax update=":form10:specialiteDetail" event="click"
+															listener="#{specialiteBean.getSpecialiteById(newSpecialite.idSpecialite)}" />
+													</p:commandLink>
+											    </p:column>
 										    </p:dataTable>
+										    <p:dialog header="Cursus Info" widgetVar="actionDialog" modal="true"
+												showEffect="blind" hideEffect="explode" resizable="false">
+												<p:outputPanel id="specialiteDetail" style="text-align:center;">
+													
+												<h:inputText value="#{specialiteBean.specialite.idSpecialite}" disabled="true" />
+												<br />
+												<h:outputText value="designation" />
+												<br />
+												<h:inputText value="#{specialiteBean.specialite.designation}" />
+												
+												<br />
+											    
+											</p:outputPanel>
+											<br />
+										<br />
+										<p:commandButton value="Modifier" action="#{specialiteBean.edit}" />
+									</p:dialog>
                                    </h:form>  
 		                       </div>
                       </section>

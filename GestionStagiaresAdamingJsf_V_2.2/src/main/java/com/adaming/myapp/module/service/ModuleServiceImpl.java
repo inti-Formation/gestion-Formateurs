@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.exception.AddModuleException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.dao.IModuleDao;
 @Transactional
 public class ModuleServiceImpl implements IModuleService{
@@ -45,7 +46,7 @@ public class ModuleServiceImpl implements IModuleService{
 	}
 
 	@Override
-	public List<Module> getModulesBySpecialite(Long idSpecialite) {
+	public List<Module> getModulesBySpecialite(Long idSpecialite) throws VerificationInDataBaseException {
 		// TODO Auto-generated method stub
 		return dao.getModulesBySpecialite(idSpecialite);
 	}

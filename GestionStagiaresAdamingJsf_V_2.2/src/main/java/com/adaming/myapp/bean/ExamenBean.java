@@ -3,11 +3,12 @@ package com.adaming.myapp.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -17,28 +18,23 @@ import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.entities.Question;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
-import com.adaming.myapp.examen.service.IExamenService;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.question.service.IQuestionService;
-import com.adaming.myapp.session.service.ISessionService;
 import com.adaming.myapp.tools.MyComparator;
 
+@SuppressWarnings("serial")
 @Component("examenBean")
 @Scope(value = "session")
 public class ExamenBean implements Serializable {
 
 	/**
-	 * 
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
 	 */
-	private static final long serialVersionUID = -1907479773940246301L;
-	/**
-	 * 
-	 */
-
-	@Inject
-	private ISessionService serviceSession;
-	@Inject
+    private final Logger LOGGER  = Logger.getLogger("ExamenBean");
+	
+    @Inject
 	private IEtudiantService serviceEtudiant;
 	@Inject
 	private IModuleService serviceModule;
@@ -51,22 +47,18 @@ public class ExamenBean implements Serializable {
 
 	private Long idSession;
 	private Long idModule;
-	private Long idExamen;
 	private Long idEtudiant;
-	private Date dateExamen = new Date();
 	private List<Question> questionsByModule;
 	private List<SessionEtudiant> sessionEnCours;
 	private List<Etudiant> etudiantsBySession;
 	private List<Module> moduleBySessions;
 	private List<Note> notes;
 	private String addExamException;
-	private String confirm = null;
 	private Double note = 0.0;
 	private String reponseSelectionnee;
 	private Object scoreFinal;
 	private List<Question> reponses;
 	private Etudiant etudiant;
-	private String[] str;
 	
 
 	/* @method redirection à la fin de l'examen et afficher la note final */
@@ -87,8 +79,7 @@ public class ExamenBean implements Serializable {
 		resetVarsExam();
 		// on ordonne la listes des reponses par num
 		Collections.sort(reponses, new MyComparator());
-		System.out.println("trier le tableau"+reponses);
-
+		LOGGER.info("trier le tableau"+reponses);
 		return "examen_success?redirect=true";
 	}
 
@@ -103,7 +94,7 @@ public class ExamenBean implements Serializable {
 		resetVarsExam();
 		// on ordonne la listes des reponses par num
 		Collections.sort(reponses, new MyComparator());
-		System.out.println("trier le tableau"+reponses);
+		LOGGER.info("trier le tableau"+reponses);
 
 		FacesContext
 				.getCurrentInstance()
@@ -167,9 +158,9 @@ public class ExamenBean implements Serializable {
 					}
 			}
             reponses.add(question);
-            System.out.println("tab"+reponses);
-            System.out.println("note "+note);
-            System.out.println("tab size"+reponses.size());
+            LOGGER.info("tab"+reponses);
+            LOGGER.debug("note "+note);
+            LOGGER.debug("tab size"+reponses.size());
 		}
        
 	}
@@ -230,13 +221,13 @@ public class ExamenBean implements Serializable {
 
 				if (note.getEtudiant().getIdEtudiant() == idEtudiant) {
 
-					System.out.println("Boucle Note "
+					   LOGGER.info("Boucle Note "
 							+ note.getEtudiant().getNomEtudiant());
 
 					if (note.getScore() != null) {
 						// modules passés par l'étudiant
 						modulesNotDisplay.add(note.getModule());
-						System.out.println(note.getModule().getNomModule());
+						LOGGER.info(note.getModule().getNomModule());
 					}
 				}
 			}
@@ -245,17 +236,17 @@ public class ExamenBean implements Serializable {
 
 				if (mod.isActif()) {
 
-					System.out.println("Boucle Module " + mod.getNomModule());
+					LOGGER.debug("Boucle Module " + mod.getNomModule());
 					modulesBySessionsActif.add(mod);
 
 					for (Module modN : modulesNotDisplay) {
 
-						System.out.println("Test Boucle For n2");
-						System.out.println("Id mod " + mod.getIdModule());
-						System.out.println("Id modN " + mod.getIdModule());
+						LOGGER.debug("Test Boucle For n2");
+						LOGGER.debug("Id mod " + mod.getIdModule());
+						LOGGER.debug("Id modN " + mod.getIdModule());
 						modulesInter = modulesBySessionsActif;
 						if (mod.getIdModule().equals(modN.getIdModule())) {
-							System.out.println("Test Add moduleList");
+							LOGGER.debug("Test Add moduleList");
 							modulesInter.remove(mod);
 							hasNotes = true;
 
@@ -306,13 +297,7 @@ public class ExamenBean implements Serializable {
 		this.idModule = idModule;
 	}
 
-	public Long getIdExamen() {
-		return idExamen;
-	}
-
-	public void setIdExamen(Long idExamen) {
-		this.idExamen = idExamen;
-	}
+	
 
 	public Long getIdEtudiant() {
 		return idEtudiant;
@@ -322,13 +307,7 @@ public class ExamenBean implements Serializable {
 		this.idEtudiant = idEtudiant;
 	}
 
-	public Date getDateExamen() {
-		return dateExamen;
-	}
-
-	public void setDateExamen(Date dateExamen) {
-		this.dateExamen = dateExamen;
-	}
+	
 
 	public List<Question> getQuestionsByModule() {
 		return questionsByModule;
@@ -370,13 +349,7 @@ public class ExamenBean implements Serializable {
 		this.addExamException = addExamException;
 	}
 
-	public String getConfirm() {
-		return confirm;
-	}
-
-	public void setConfirm(String confirm) {
-		this.confirm = confirm;
-	}
+	
 
 	public Double getNote() {
 		return note;
@@ -431,13 +404,7 @@ public class ExamenBean implements Serializable {
 		this.userAuthentification = userAuthentification;
 	}
 
-	public String[] getStr() {
-		return str;
-	}
-
-	public void setStr(String[] str) {
-		this.str = str;
-	}
+	
 
 
 }

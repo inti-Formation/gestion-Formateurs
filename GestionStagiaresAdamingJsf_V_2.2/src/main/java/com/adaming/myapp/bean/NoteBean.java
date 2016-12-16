@@ -10,30 +10,31 @@ import java.util.Set;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Etudiant;
-import com.adaming.myapp.entities.Examen;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
-import com.adaming.myapp.examen.service.IExamenService;
-import com.adaming.myapp.exception.AddNoteException;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.session.service.ISessionService;
 
+@SuppressWarnings("serial")
 @Component("noteBean")
 @ViewScoped
 public class NoteBean implements Serializable{
-
+    
 	/**
-	 * 
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
 	 */
-	private static final long serialVersionUID = -7472770450954788623L;
+    private final Logger LOGGER  = Logger.getLogger("NoteBean");
+    
 	
 	@Inject
 	private ISessionService serviceSession;
@@ -59,21 +60,25 @@ public class NoteBean implements Serializable{
 	/*@method load page notes*/
 	public void init(){
 		sessions=serviceSession.getAllSessions();
+		LOGGER.info("Session : "+sessions);
 	}
 	
 	/* @method get All Students By Session */
 	public void getAllStudentsBySession() {
 		etudiants = serviceEtudiant.getEtudiantBySession(idSession);
+		LOGGER.info("Etudiants :"+etudiants);
 	}
 	
 	/* @@method get All Modules By Session */
 	public void getAllModulesBySession() {
 		modules= new ArrayList<Module>();
 		modules= serviceModule.getModulesBySession(idSession);
+		LOGGER.info("Modules By Sessions :"+modules);
 	}
 	/*@ methode get all Notes by sessions and Module*/
 	public void getAllNotesByModule(){
 	  notes=serviceNotes.getNotesBySessionAndModule(idSession,idModule);
+	  LOGGER.info("Notes :"+notes);
 	}
 	
 	public Long getIdSession() {

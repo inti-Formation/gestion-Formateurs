@@ -68,11 +68,6 @@
 		<property name="dao" ref="ModuleDao"></property>
 	</bean>
 	
-	<!-- injection de dépendances Examen -->
-	<bean id="ExamenDao" class="com.adaming.myapp.examen.dao.ExamenDaoImpl"></bean>
-	<bean id="ExamenService" class="com.adaming.myapp.examen.service.ExamenServiceImpl">
-		<property name="dao" ref="ExamenDao"></property>
-	</bean>
 	
 	<!-- injection de dépendances Question -->
 	<bean id="QuestionDao" class="com.adaming.myapp.question.dao.QuestionDaoImpl"></bean>

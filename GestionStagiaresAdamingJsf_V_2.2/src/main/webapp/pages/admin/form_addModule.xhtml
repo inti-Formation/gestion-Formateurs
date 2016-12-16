@@ -80,7 +80,7 @@
                                           <label for="session" class="control-label col-lg-2">Sessions <span class="required">*</span></label>
                                           <div class="col-lg-10">
                                               <h:selectOneMenu style="cursor:pointer; height:35px;width:75%;color:#797979;font-size:16px;" styleClass="selectpicker" 
-												value="#{moduleBean.idSpecialite}" required="true" requiredMessage="Veuillez selectionnez une formation">
+												value="#{moduleBean.idSpecialite}">
 												<f:selectItem itemLabel="Sélectionnez Une Specialitée"
 													itemValue="#{null}" noSelectionOption="true" />
 												<f:selectItems value="#{specialiteBean.specialites}" var="s"

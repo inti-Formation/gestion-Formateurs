@@ -42,9 +42,17 @@ public abstract class SpecialiteAbstractJpa {
 		return sp;
 	}
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	public List<Specialite> getAllSpecAbstractJpa() {
 		Query query = em.createQuery("from Specialite");
+		log.info("il existe " + query.getResultList().size()
+				+ " specialites dans l'applications");
+		return query.getResultList();
+	}*/
+	
+	@SuppressWarnings("unchecked")
+	public List<Specialite> getAllSpecV2AbstractJpa() {
+		Query query = em.createNativeQuery("SELECT s.idSpecialite,s.designation FROM Specialite s",Specialite.class);
 		log.info("il existe " + query.getResultList().size()
 				+ " specialites dans l'applications");
 		return query.getResultList();

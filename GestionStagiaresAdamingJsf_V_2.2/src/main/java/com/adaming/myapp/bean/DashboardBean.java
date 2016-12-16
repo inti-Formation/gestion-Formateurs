@@ -6,9 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import javax.inject.Inject;
+
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Module;
@@ -21,15 +25,17 @@ import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.session.service.ISessionService;
 
+@SuppressWarnings("serial")
 @Component("dashboardBean")
 @Scope("session")
 public class DashboardBean implements Serializable {
-
+    
 	/**
-	 * 
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
 	 */
-	private static final long serialVersionUID = 1L;
-
+    private final Logger LOGGER  = Logger.getLogger("DashboardBean");
+    
 	@Inject
 	private IEvenementService serviceEvenement;
 	@Inject
@@ -95,12 +101,12 @@ public class DashboardBean implements Serializable {
 			retards = serviceEvenement.getEvenementsRetards();
 			for (Evenement evenement : retards) {
 				/* get durrée de retard */
-				final long difference = evenement.getEndDate().getTime()
+				final long DIFFERENCE = evenement.getEndDate().getTime()
 						- evenement.getStartDate().getTime();
-				dureeInMinute = (int) ((difference / (1000 * 60)) % 60);
-				dureeInHours = (int) ((difference / (1000 * 60 * 60)) % 24);
-				System.out.println("duree Minute" + dureeInMinute);
-				System.out.println("duree hours" + dureeInHours);
+				dureeInMinute = (int) ((DIFFERENCE / (1000 * 60)) % 60);
+				dureeInHours = (int) ((DIFFERENCE / (1000 * 60 * 60)) % 24);
+				LOGGER.info("duree Minute" + dureeInMinute);
+				LOGGER.info("duree hours" + dureeInHours);
 				evenement.setDureeInMinute(dureeInMinute);
 				evenement.setDureeInHours(dureeInHours);
 			}
@@ -146,29 +152,29 @@ public class DashboardBean implements Serializable {
 			for (Evenement e : currentRetards) {
 				/*date de l'evenement en mois et jours*/
 				calendar.setTime(e.getCurentDate());
-				System.out.println("calendar "+calendar);
+				LOGGER.info("calendar "+calendar);
 				monthOfEvenement= calendar.getDisplayName(calendar.MONTH,Calendar.LONG,Locale.FRANCE);
 				final int dayOfMonth  = calendar.get(Calendar.DAY_OF_MONTH);
 				dayOfEvenement  = String.valueOf(dayOfMonth); 
 				e.setDayOfEvenement(dayOfEvenement);
 				e.setMonthOfEvenement(monthOfEvenement);
-				System.out.println("day "+e.getDayOfEvenement());
-				System.out.println("month  "+e.getMonthOfEvenement());
+				LOGGER.info("day "+e.getDayOfEvenement());
+				LOGGER.info("month  "+e.getMonthOfEvenement());
 				/* get duree d'envois de l'evenement */
 				
-				final long differenceInMilis = today.getTime()
+				final long DIFFERENCE_IN_MILIS = today.getTime()
 						- e.getCurentDate().getTime();
-				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
-				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
+				minuteOfEvenement = (int) ((DIFFERENCE_IN_MILIS / (1000 * 60)) % 60);
+				hoursOfEvenement = (int) ((DIFFERENCE_IN_MILIS / (1000 * 60 * 60)) % 24);
 				e.setMinuteOfEvenement(minuteOfEvenement);
 				e.setHoursOfEvenement(hoursOfEvenement);
 				/* get durrée de retard */
-				final long difference = e.getEndDate().getTime()
+				final long DIFFERENCE = e.getEndDate().getTime()
 						- e.getStartDate().getTime();
-				dureeInMinute = (int) ((difference / (1000 * 60)) % 60);
-				dureeInHours = (int) ((difference / (1000 * 60 * 60)) % 24);
-				System.out.println("duree Minute" + dureeInMinute);
-				System.out.println("duree hours" + dureeInHours);
+				dureeInMinute = (int) ((DIFFERENCE / (1000 * 60)) % 60);
+				dureeInHours = (int) ((DIFFERENCE / (1000 * 60 * 60)) % 24);
+				LOGGER.debug("duree Minute" + dureeInMinute);
+				LOGGER.debug("duree hours" + dureeInHours);
 				e.setDureeInMinute(dureeInMinute);
 				e.setDureeInHours(dureeInHours);
 			}
@@ -181,10 +187,10 @@ public class DashboardBean implements Serializable {
 			Date today = new Date();
 			for (Evenement e : currentAbsences) {
 				/* get duree d'envois de l'evenement */
-				long differenceInMilis = today.getTime()
+				final long DIFFERENCE_IN_MILIS = today.getTime()
 						- e.getCurentDate().getTime();
-				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
-				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
+				minuteOfEvenement = (int) ((DIFFERENCE_IN_MILIS / (1000 * 60)) % 60);
+				hoursOfEvenement = (int) ((DIFFERENCE_IN_MILIS / (1000 * 60 * 60)) % 24);
 				e.setMinuteOfEvenement(minuteOfEvenement);
 				e.setHoursOfEvenement(hoursOfEvenement);
 
@@ -198,10 +204,10 @@ public class DashboardBean implements Serializable {
 		if (currentWarning.size() > 0) {
 			for (Evenement e : currentWarning) {
 				/* get duree d'envois de l'evenement */
-				long differenceInMilis = today.getTime()
+				final long DIFFERENCE_IN_MILIS = today.getTime()
 						- e.getCurentDate().getTime();
-				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
-				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
+				minuteOfEvenement = (int) ((DIFFERENCE_IN_MILIS / (1000 * 60)) % 60);
+				hoursOfEvenement = (int) ((DIFFERENCE_IN_MILIS / (1000 * 60 * 60)) % 24);
 				e.setMinuteOfEvenement(minuteOfEvenement);
 				e.setHoursOfEvenement(hoursOfEvenement);
 
@@ -212,13 +218,13 @@ public class DashboardBean implements Serializable {
 	/* get current time of evenement Top */
 	public void getTopForToDay() {
 		if (currentTop.size() > 0) {
-			Date today = new Date();
+			final Date CURRENT_DATE = new Date();
 			for (Evenement e : currentTop) {
 				/* get duree d'envois de l'evenement */
-				long differenceInMilis = today.getTime()
+				final long DIFFERENCE_IN_MILIS = CURRENT_DATE.getTime()
 						- e.getCurentDate().getTime();
-				minuteOfEvenement = (int) ((differenceInMilis / (1000 * 60)) % 60);
-				hoursOfEvenement = (int) ((differenceInMilis / (1000 * 60 * 60)) % 24);
+				minuteOfEvenement = (int) ((DIFFERENCE_IN_MILIS / (1000 * 60)) % 60);
+				hoursOfEvenement = (int) ((DIFFERENCE_IN_MILIS / (1000 * 60 * 60)) % 24);
 				e.setMinuteOfEvenement(minuteOfEvenement);
 				e.setHoursOfEvenement(hoursOfEvenement);
 
@@ -231,8 +237,7 @@ public class DashboardBean implements Serializable {
 		limitationRetards = new ArrayList<Evenement>();
 		if (currentRetards.size() > 5) {
 			limitationRetards = currentRetards.subList(0, 4);
-			System.out
-					.println("limitation retards " + limitationRetards.size());
+			LOGGER.debug("limitation retards " + limitationRetards.size());
 		} else {
 			limitationRetards.addAll(currentRetards);
 		}
@@ -243,8 +248,7 @@ public class DashboardBean implements Serializable {
 		limitationAbsences = new ArrayList<Evenement>();
 		if (currentAbsences.size() > 5) {
 			limitationAbsences = currentAbsences.subList(0, 4);
-			System.out.println("limitation absences "
-					+ limitationAbsences.size());
+			LOGGER.debug("limitation absences "+ limitationAbsences.size());
 		} else {
 			limitationAbsences.addAll(currentAbsences);
 		}
@@ -255,7 +259,7 @@ public class DashboardBean implements Serializable {
 		limitationTop = new ArrayList<Evenement>();
 		if (currentTop.size() > 5) {
 			limitationTop = currentTop.subList(0, 4);
-			System.out.println("limitation Top " + limitationTop.size());
+			LOGGER.debug("limitation Top " + limitationTop.size());
 		} else {
 			limitationTop.addAll(currentTop);
 		}
@@ -266,8 +270,7 @@ public class DashboardBean implements Serializable {
 		limitationWarning = new ArrayList<Evenement>();
 		if (currentWarning.size() > 5) {
 			limitationWarning = currentWarning.subList(0, 4);
-			System.out
-					.println("limitation Warning " + limitationWarning.size());
+			LOGGER.debug("limitation Warning " + limitationWarning.size());
 		} else {
 			limitationWarning.addAll(currentWarning);
 		}
@@ -350,7 +353,7 @@ public class DashboardBean implements Serializable {
 				   && n.getModule().getIdModule() == m.getIdModule()
 				   && n.getScore() != null){
 				    m.setEtatModule("Validé");
-				    System.out.println("validé"+etatModule);
+				    LOGGER.debug("validé"+etatModule);
 				}
 			}
 		}

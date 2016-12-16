@@ -1,10 +1,12 @@
 package com.adaming.myapp.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +17,17 @@ import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 
+@SuppressWarnings("serial")
 @Component("classementBean")
 @Scope(value="session")
-public class ClassementBean {
+public class ClassementBean implements Serializable {
     
+	/**
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
+	 */
+    private final Logger LOGGER  = Logger.getLogger("ClassementBean");
+	
 	@Inject
 	private INotesService serviceNotes;
 	@Inject
@@ -38,21 +47,27 @@ public class ClassementBean {
 	
 	/*get all notes by session*/
 	public String getAllModuleBySession(){
-		etudiant = new Etudiant();
-		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
-		idSession = etudiant.getSessionEtudiant().getIdSession();
+		getEtudiantByName();
 		modules= new ArrayList<Module>();
 		modules=serviceModule.getModulesBySession(idSession);
+		LOGGER.info("Modules : "+modules);
 		return "classement?redirect=true";
 	}
 	
 	/*get All Notes By Session And Module*/
     public void getAllNotesBySessionAndModule(){
-    	etudiant = new Etudiant();
-		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
-		idSession = etudiant.getSessionEtudiant().getIdSession();
+        getEtudiantByName();
 		notes=new ArrayList<Note>();
 		notes=serviceNotes.getNotesBySessionAndModule(idSession, idModule);
+		LOGGER.info("Notes : "+notes);
+    }
+    
+    /*@method get Etudiant By Name */
+    public void getEtudiantByName(){
+    	etudiant = new Etudiant();
+		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
+		LOGGER.info("Etudiant : "+etudiant);
+		idSession = etudiant.getSessionEtudiant().getIdSession();
     }
 
 	public Long getIdSession() {

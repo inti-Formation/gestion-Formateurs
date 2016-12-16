@@ -2,33 +2,27 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.Role;
-import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.formateur.service.IFormateurService;
 import com.adaming.myapp.role.service.IRoleService;
-import com.adaming.myapp.session.service.ISessionService;
 import com.adaming.myapp.user.service.IUserService;
+@SuppressWarnings("serial")
 @Component("formateurBean")
 @Scope(value="request")
 public class FormateurBean implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    
 	
 	@Inject
 	private IFormateurService serviceFormateur;
@@ -69,23 +63,25 @@ public class FormateurBean implements Serializable{
 			serviceUser.saveUser(u);
 			serviceRole.saveRole(r, u.getIdUser());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "le Formateur "+nom+", "+prenom+" à bien été ajoutée avec Success"+" Voici les informations du compte Formateur : "+"Pseudo : "+mail+", Password : "+passwordRandom));
-			civilite="";
-			nom="";
-			prenom="";
-			adresse="";
-			codePostal="";
-			telMobile="";
-			mail="";
-			nationalite="";
-			dateDeNaissance=null;
-			lieuDeNaissance="";
-			specialite="";
+			reset();
 		} catch (VerificationInDataBaseException e1) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e1.getMessage()));
 		}
 	}
-	
-	
+	/*vider les champs aprés l'inscription de chaque formateur*/
+	public void reset(){
+		civilite="";
+		nom="";
+		prenom="";
+		adresse="";
+		codePostal="";
+		telMobile="";
+		mail="";
+		nationalite="";
+		dateDeNaissance=null;
+		lieuDeNaissance="";
+		specialite="";
+	}
 
 	public String getNom() {
 		return nom;

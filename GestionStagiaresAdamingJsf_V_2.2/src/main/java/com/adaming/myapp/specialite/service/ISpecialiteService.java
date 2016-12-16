@@ -13,5 +13,7 @@ public interface ISpecialiteService {
 	
 	 Specialite getSpecialiteById(Long idSpecialite);
 	
-	 List<Specialite> getAllSpec();
+	 //List<Specialite> getAllSpec();
+	 
+	 List<Specialite> getAllSpecV2();
 }

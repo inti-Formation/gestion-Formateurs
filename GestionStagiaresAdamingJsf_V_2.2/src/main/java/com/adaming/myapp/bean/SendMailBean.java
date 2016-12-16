@@ -1,5 +1,6 @@
 package com.adaming.myapp.bean;
 
+import java.io.Serializable;
 import java.util.Properties;
 
 import javax.faces.application.FacesMessage;
@@ -14,15 +15,21 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+@SuppressWarnings("serial")
 @Component("mailBean")
 @Scope(value="session")
-
-public class SendMailBean {
+public class SendMailBean implements Serializable {
 	
-	
+	/**
+	 * LOGGER log4J
+	 * @see org.apache.log4j.Logger
+	 * */
+    private final Logger LOGGER  = Logger.getLogger("SendMailBean");
+    
 	//attribut pour tester l'envoi
 	final String username = "nymraif.stark8623@gmail.com";
 	final String password = "krzmngkeebnkudvh";
@@ -50,7 +57,7 @@ public class SendMailBean {
 	public String sendMail() {
 		
 		
-		System.out.println("destinataire : "+to +" from :"+from +" le message :"+msg +" obj : "+objet);
+		 LOGGER.debug("destinataire : "+to +" from :"+from +" le message :"+msg +" obj : "+objet);
 		 String host = "localhost";
 		 Properties properties = System.getProperties();
 		 properties.put("mail.smtp.auth", "true");
@@ -92,7 +99,7 @@ public class SendMailBean {
 	         FacesContext context = FacesContext.getCurrentInstance();
 	         context.addMessage(mybutton.getClientId(context), msgVal);*/
 	         setMsgSuccess("Sent message successfully");
-	         System.out.println(msgSuccess);
+	         LOGGER.info(msgSuccess);
 	         
 	      }catch (MessagingException mex) {
 	         mex.printStackTrace();

@@ -4,6 +4,6 @@ import com.adaming.myapp.entities.Evenement;
 
 public interface IEvenementFactory {
 
-	public Evenement createEvent(String typeEvent);
+	Evenement createEvent(String typeEvent);
 
 }

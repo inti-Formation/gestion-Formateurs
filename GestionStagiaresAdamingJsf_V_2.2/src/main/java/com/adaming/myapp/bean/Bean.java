@@ -7,25 +7,27 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Question;
 import com.adaming.myapp.exception.AddQuestionException;
 import com.adaming.myapp.question.service.IQuestionService;
 
+@SuppressWarnings("serial")
 @Component("bean")
 @ViewScoped
 public class Bean implements Serializable {
 
 	/**
-	 * 
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
 	 */
-	private static final long serialVersionUID = 1L;
+	 private Logger LOGGER = Logger.getLogger("Bean");
 
-	@Autowired
+	@Inject
 	private IQuestionService serviceQuestion;
 
 	private List<Question> m_lFields;
@@ -57,15 +59,8 @@ public class Bean implements Serializable {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Success",
 					"La Question :" + q.getPropositionquestion()
 					+ " Ajouter Avec Success dans le Module N °" + idModule));
-			propositionquestion="";
-			premeiereReponse="";
-			troisiemeReponse="";
-			quatriemeReponse="";
-			douxiemeReponse="";
-			premeiereBonneReponse="";
-			douxiemeBonneReponse="";
-			troisiemeBonneReponse="";
-			quatriemeBonneReponse="";
+			/*reset filds*/
+			reset();
 		} catch (AddQuestionException e) {
 			FacesContext context2 = FacesContext.getCurrentInstance();
 			context2.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Warning",e.getMessage()));		

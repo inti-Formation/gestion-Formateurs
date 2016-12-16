@@ -23,6 +23,17 @@ public class Test {
 		return result;
 	}
 	public static void main(String[] args) {
-		System.out.println(generateSessionKey(8));
+		//System.out.println(generateSessionKey(8));
+		Integer x = 5;
+		Integer y = 5;
+		Integer z = new Integer(5);
+		System.out.println("x : "+x);
+		System.out.println("y : "+y);
+		System.out.println("z : "+z);
+		System.out.println( "x @"+x.TYPE);
+		System.out.println( "y @"+y.TYPE);
+		System.out.println( "z @"+z.TYPE);
 	}
+	
+	
 }

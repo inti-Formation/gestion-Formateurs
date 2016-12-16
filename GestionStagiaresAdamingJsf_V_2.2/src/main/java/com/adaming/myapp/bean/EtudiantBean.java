@@ -3,18 +3,12 @@ package com.adaming.myapp.bean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-
 import com.adaming.myapp.dto.EtudiantDto;
 import com.adaming.myapp.dto.EtudiantMapper;
 import com.adaming.myapp.entities.Etudiant;
@@ -28,19 +22,17 @@ import com.adaming.myapp.role.service.IRoleService;
 import com.adaming.myapp.session.service.ISessionService;
 import com.adaming.myapp.user.service.IUserService;
 
+@SuppressWarnings("serial")
 @Component("etudiantBean")
 @ViewScoped
 public class EtudiantBean implements Serializable {
+	
+	/**
+	 * LOGGER LOG4j 
+	 * @see org.apache.log4j.Logger
+	 */
+    private final Logger LOGGER  = Logger.getLogger("EtudiantBean");
     
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6057529050023345627L;
-
-	/**
-	 * 
-	 */
-
 	@Inject
 	private IEtudiantService serviceEtudiant;
 	
@@ -87,21 +79,25 @@ public class EtudiantBean implements Serializable {
 			serviceUser.saveUser(u);
 			serviceRole.saveRole(r, u.getIdUser());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","l'Etudiant "+nomEtudiant+", "+prenomEtudiant+" à bien été ajoutée avec Success"+" Voici les informations du compte etudiant : "+"Pseudo : "+mail+", Password : "+passwordRandom));
-			idSession=null;
-			nomEtudiant="";
-			prenomEtudiant="";
-			dateDeNaissance=null;
-			formationInitial="";
-			ecole="";
-			dateObtention=null;
-			adressePostal="";
-			codePostal="";
-			numTel="";
-			mail="";
+			reset();
 		} catch (AddEtudiantException e1) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e1.getMessage()));
 		}
 		
+	}
+	/*vider les champs aprés l'inscription*/
+	public void reset(){
+		idSession=null;
+		nomEtudiant="";
+		prenomEtudiant="";
+		dateDeNaissance=null;
+		formationInitial="";
+		ecole="";
+		dateObtention=null;
+		adressePostal="";
+		codePostal="";
+		numTel="";
+		mail="";
 	}
 	/*exmple via dto*/
 	public EtudiantDto rechercherEtudiant(){
@@ -113,6 +109,8 @@ public class EtudiantBean implements Serializable {
 	public void init(){
 		sessionsEncours  = serviceSession.getAllSessionsInProgress();
         allSessions      = serviceSession.getAllSessions();
+        LOGGER.info("Sessions en Cours : "+sessionsEncours);
+        LOGGER.info("Toutes Les Sessions : "+sessionsEncours);
         // show statut of session finish or in progress
         Date curentDate= new Date();
 		for(SessionEtudiant s:allSessions){
@@ -126,6 +124,7 @@ public class EtudiantBean implements Serializable {
 	/*@method get etudiant */
 	public void getCurrentEtudiant(Long idEtudiant){
 		etudiant=serviceEtudiant.getStudentById(idEtudiant);
+		LOGGER.info("Etudiant : "+etudiant);
 	}
 	/*@methode update etudiant*/
 	public String edit(){
