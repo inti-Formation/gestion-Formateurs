@@ -13,7 +13,28 @@
    
     <mvc:resources mapping="/resources/**" location="/resources/" />
 	<context:component-scan base-package="com.adaming.myapp" />
-   
+   <!-- web service -->
+   <!--  <bean class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter">
+       <property name="baseAddress" value="http://localhost:8093/etudiant"></property>
+    </bean> -->
+    <!-- injection de dépendances Salle-->
+	<bean id="SalleDao" class="com.adaming.myapp.salle.dao.SalleDaoImpl"></bean>
+	<bean id="SalleService" class="com.adaming.myapp.salle.service.SalleServiceImpl">
+		<property name="dao" ref="SalleDao"></property>
+	</bean>
+    
+     <!-- injection de dépendances Site-->
+	<bean id="SiteDao" class="com.adaming.myapp.site.dao.SiteDaoImpl"></bean>
+	<bean id="SiteService" class="com.adaming.myapp.site.service.SiteServiceImpl">
+		<property name="dao" ref="SiteDao"></property>
+	</bean>
+    
+     <!-- injection de dépendances Contrat-->
+	<bean id="ContratDao" class="com.adaming.myapp.contrat.dao.ContratDaoImpl"></bean>
+	<bean id="ContratService" class="com.adaming.myapp.contrat.service.ContratServiceImpl">
+		<property name="dao" ref="ContratDao"></property>
+	</bean>
+    
     <!-- injection de dépendances Comment-->
 	<bean id="CommentDao" class="com.adaming.myapp.comment.dao.CommentDaoImpl"></bean>
 	<bean id="CommentService" class="com.adaming.myapp.comment.service.CommentServiceImpl">
@@ -101,6 +122,10 @@
 			</list>
 		</property>
 	</bean>
+	<!--  injection de jdbc template -->
+	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	     <property name="dataSource" ref="datasource"></property>
+	</bean>
 	<bean id="EntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitManager" ref="PersistenceUnitManager"></property>
@@ -140,6 +165,11 @@
 		  <security:jdbc-user-service data-source-ref="datasource" 
 			  users-by-username-query="select name,password,actived from user where name=?" 
 			  authorities-by-username-query="select u.name,r.roleName from user u, role r where u.idUser = r.id_users and u.name =? "/>
+		</security:authentication-provider>
+		<security:authentication-provider>
+		  <security:user-service>
+		     <security:user name="admin2" password="admin2" authorities="ROLE_ADMIN"/>
+		  </security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager> 
 	

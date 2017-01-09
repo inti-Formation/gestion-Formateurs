@@ -25,7 +25,17 @@
                       <ul class="sub">
                          <li><h:link outcome="custom_password">Changer Le Mot-Passe</h:link></li>                            
                       </ul>
-                  </li> 
+                  </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/signature.png"/></i>
+                          <span>Signature</span>
+                         <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
+                      </a>
+                      <ul class="sub">
+                         <li><h:form><h:commandLink action="#{contratBean.redirect}" value="Singature Etudiant"/> </h:form>  </li> 
+                      </ul>
+                  </li>  
 				  <li class="sub-menu">
                       <a href="javascript:;" class="">
                           <i><h:graphicImage name="NiceAdmin/img/exam.png" style="wdth:24px;height:24px;"/></i>

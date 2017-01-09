@@ -1,5 +1,6 @@
 package com.adaming.myapp.formateur.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.adaming.myapp.entities.Formateur;
@@ -17,4 +18,6 @@ public interface IFormateurService {
 	 Formateur getFormateur(String mail);
 	
 	 Formateur getFormateurById(Long idFormateur);
+	 
+	 List<Object[]> getFormateuByName(final String nom,final Date dateDeNaissance,final String mail);
 }

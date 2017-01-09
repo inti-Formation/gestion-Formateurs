@@ -54,9 +54,24 @@
                          <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
                       </a>
                       <ul class="sub">
-                         <li><h:form><h:commandLink action="#{moduleBean.resetAndRedirect}" value="Ajouter Un Module"/> </h:form></li>                              
+                         <li><h:form><h:commandLink action="#{moduleBean.resetAndRedirect}" value="Ajouter Un Module"/> </h:form></li> 
+                         <li><h:form><h:commandLink action="#{moduleBean.resetQuestionAndRedirect}" value="Ajouter Un QCM"/> </h:form></li>                                         
                       </ul>
-                  </li>      
+                  </li>  
+                  
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i><h:graphicImage name="NiceAdmin/img/earth-globe-site.png"/></i>
+                          <span>Gestion Sites</span>
+                         <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
+                      </a>
+                      <ul class="sub">
+                         <li><h:form><h:commandLink action="#{siteBean.resetAndRedirect}" value="Ajouter Un Site"/> </h:form></li>
+                         <li><h:form><h:commandLink action="#{siteBean.getAll}" value="Liste des Sites"/> </h:form></li> 
+                         <li><h:form><h:commandLink action="#{salleBean.resetAndRedirect}" value="Ajouter Une Salle"/> </h:form></li> 
+                         <li><h:form><h:commandLink action="#{salleBean.getAllSalle}" value="Liste des Salles"/> </h:form></li>                                                                
+                      </ul>
+                  </li>       
                   <li class="sub-menu">
                       <a href="javascript:;" class="">
                           <i><h:graphicImage name="NiceAdmin/img/student.png"/></i>
@@ -64,7 +79,7 @@
                           <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
                       </a>
                       <ul class="sub">
-                          <li><h:link outcome="etudiant">Ajouter Un Etudiant</h:link></li>
+                          <li><h:form><h:commandLink action="#{etudiantBean.resetAndRedirect}" value="Ajouter Un Etudiant"/> </h:form></li>  
                       </ul>
                   </li> 
                   <li class="sub-menu">

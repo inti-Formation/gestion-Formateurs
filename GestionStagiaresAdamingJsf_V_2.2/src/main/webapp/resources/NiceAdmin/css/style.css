@@ -9,6 +9,7 @@ Website: http://geekslabs.com/
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(line-icons.css);
 
+
 #qid {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -452,6 +453,10 @@ ui-radiobutton-icon
     background: #fed189 !important;
     /*border: 3px solid #22bacf !important;*/
     
+}
+.ui-widget-header{
+	    border: 1px solid #c7c7cc!important;
+	    background: #e8edff!important;
 }
 /*messages errors*/
 .ui-growl-item {
@@ -4707,7 +4712,11 @@ table.sliders tr td {
     background: #f0f2f7 !important;
     border: none !important;
     border-radius: 15px !important;
+    font-weight : 200!important;
     -webkit-border-radius: 15px !important;
+}
+.ui-datatable tbody td{
+	border: 1px solid #c7c7cc!important;
 }
 
 .ui-slider-horizontal {

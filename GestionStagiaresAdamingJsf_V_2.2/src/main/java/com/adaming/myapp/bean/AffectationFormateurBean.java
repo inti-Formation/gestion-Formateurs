@@ -50,8 +50,8 @@ public class AffectationFormateurBean {
 	}
 	/*method get formateur by id*/
 	public String getFormateurById(Long idFormateur){
-		formateur= new Formateur();
-		formateur=serviceFormateur.getFormateurById(idFormateur);
+		formateur = FactoryBean.getFormateurFactory().create("Formateur");
+		formateur = serviceFormateur.getFormateurById(idFormateur);
 		LOGGER.info("Formateur : "+formateur);
 		return "informationFormateur?redirect=true";
 	}
@@ -59,7 +59,7 @@ public class AffectationFormateurBean {
 	public String redirect(){
 		idFormateur=null;
 		idSession=null;
-		return "affectationFormateur?redirect=true";
+		return "affectationFormateur?faces-redirect=true";
 	}
 	
 	/*methode get all formateurs*/

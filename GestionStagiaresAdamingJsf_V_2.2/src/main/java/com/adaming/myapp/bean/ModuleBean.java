@@ -29,6 +29,8 @@ public class ModuleBean implements Serializable {
     
 	@Inject
 	private IModuleService serviceModule;
+	@Inject
+	private Bean bean;
 	
 	private Long idModule;
 	private String nomModule;
@@ -36,9 +38,9 @@ public class ModuleBean implements Serializable {
 	private List<Module> modulesBySpecialites;
 	private Module m;
 	
-	/*add new Module*/
+	/**@method add new Module*/
 	public void addModule(){
-		m = new Module(nomModule);
+		m = createModule();
 		try {
 			serviceModule.addModule(m, idSpecialite);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","Le Module "+m.getNomModule()+" à bien été ajouter avec success"));
@@ -47,6 +49,17 @@ public class ModuleBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
 			
 		}
+	}
+
+	/**
+	 * @create New Object Module
+	 **@return Object Module 
+	 **@factory.create.method
+	 */
+	private Module createModule() {
+		m = FactoryBean.getModuleFactory().create("Module");
+		m.setNomModule(nomModule);
+		return m;
 	}
 	
 	public void reset(){
@@ -57,7 +70,15 @@ public class ModuleBean implements Serializable {
 	public String resetAndRedirect(){
 		reset();
 		setModulesBySpecialites(null);
-		return "module";
+		return "module?faces-redirect=true";
+	}
+	/*vider les champs on clickant sur l'aside ajouter un module*/
+	public String resetQuestionAndRedirect(){
+		reset();
+		/** meleanger les reponses @bean c'est cette methode est déclarer dans le bean @bean*/
+		bean.mixChoiseOfReponses();
+		setModulesBySpecialites(null);
+		return "question?faces-redirect=true";
 	}
 	/*@method update*/
 	public String edit(){
@@ -74,7 +95,7 @@ public class ModuleBean implements Serializable {
 				setModulesBySpecialites(null);
 			}
 	}
-	/* get current module*/
+	/** get current module*/
 	public void getCurrentModule(Long idModule){
 		m=serviceModule.getModuleById(idModule);
 		LOGGER.info("Module : "+m);

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.notes.dao.INotesDao;
 
-@Transactional
+@Transactional(readOnly=true)
 public class NotesServiceImpl implements INotesService {
 
 	private INotesDao dao;
@@ -27,6 +27,7 @@ public class NotesServiceImpl implements INotesService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Note addNoteFinal(Note note, Long idSession, Long idEtudiant,
 			Long idModule) {
 		// TODO Auto-generated method stub

@@ -13,8 +13,6 @@ public interface IUserService {
 
 	 User saveUser(User u);
 
-	 String generateSessionKey(int length);
-
 	 User getUser(String mail) throws GetUserException;
 
 	 User updatePassword(String mail, String password, String newPassword)

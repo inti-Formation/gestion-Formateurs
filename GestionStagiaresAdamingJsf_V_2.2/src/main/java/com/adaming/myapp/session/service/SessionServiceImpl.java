@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.AddSessionException;
 import com.adaming.myapp.session.dao.ISessionDao;
-@Transactional
+@Transactional(readOnly=true)
 public class SessionServiceImpl implements ISessionService{
     
 	Logger log = Logger.getLogger("SessionServiceImpl");
@@ -21,6 +21,7 @@ public class SessionServiceImpl implements ISessionService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public SessionEtudiant addSessionStudent(SessionEtudiant se,
 			Long idSpecialite) throws AddSessionException {
 		if(se.getDateDebute().after(se.getDateFin())){
@@ -30,6 +31,7 @@ public class SessionServiceImpl implements ISessionService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public SessionEtudiant updateSessionEtudiant(SessionEtudiant se,
 			Long idSpecialite) {
 		// TODO Auto-generated method stub

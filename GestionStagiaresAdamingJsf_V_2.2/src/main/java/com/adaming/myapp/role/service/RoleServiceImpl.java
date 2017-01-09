@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.adaming.myapp.entities.Role;
 import com.adaming.myapp.role.dao.IRoleDao;
 
-@Transactional
+@Transactional(readOnly=true)
 public class RoleServiceImpl implements IRoleService {
     
 	Logger log = Logger.getLogger("RoleServiceImpl");
@@ -23,6 +23,7 @@ public class RoleServiceImpl implements IRoleService {
 
 
 	@Override
+	@Transactional(readOnly=false)
 	public Role saveRole(Role r, Long idUser) {
 		// TODO Auto-generated method stub
 		return dao.saveRole(r, idUser);

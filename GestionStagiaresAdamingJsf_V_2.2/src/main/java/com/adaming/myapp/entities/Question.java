@@ -240,4 +240,129 @@ public class Question implements Serializable {
 				+ ", quatriemeReponse=" + quatriemeReponse + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + choixReponse;
+		result = prime
+				* result
+				+ ((douxiemeBonneReponse == null) ? 0 : douxiemeBonneReponse
+						.hashCode());
+		result = prime * result
+				+ ((douxiemeReponse == null) ? 0 : douxiemeReponse.hashCode());
+		result = prime * result
+				+ ((idQuestion == null) ? 0 : idQuestion.hashCode());
+		result = prime * result + numQuestion;
+		result = prime * result + point;
+		result = prime
+				* result
+				+ ((premeiereBonneReponse == null) ? 0 : premeiereBonneReponse
+						.hashCode());
+		result = prime
+				* result
+				+ ((premeiereReponse == null) ? 0 : premeiereReponse.hashCode());
+		result = prime
+				* result
+				+ ((propositionquestion == null) ? 0 : propositionquestion
+						.hashCode());
+		result = prime
+				* result
+				+ ((quatriemeBonneReponse == null) ? 0 : quatriemeBonneReponse
+						.hashCode());
+		result = prime
+				* result
+				+ ((quatriemeReponse == null) ? 0 : quatriemeReponse.hashCode());
+		result = prime * result
+				+ ((strReponse == null) ? 0 : strReponse.hashCode());
+		result = prime
+				* result
+				+ ((troisiemeBonneReponse == null) ? 0 : troisiemeBonneReponse
+						.hashCode());
+		result = prime
+				* result
+				+ ((troisiemeReponse == null) ? 0 : troisiemeReponse.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Question other = (Question) obj;
+		if (choixReponse != other.choixReponse)
+			return false;
+		if (douxiemeBonneReponse == null) {
+			if (other.douxiemeBonneReponse != null)
+				return false;
+		} else if (!douxiemeBonneReponse.equals(other.douxiemeBonneReponse))
+			return false;
+		if (douxiemeReponse == null) {
+			if (other.douxiemeReponse != null)
+				return false;
+		} else if (!douxiemeReponse.equals(other.douxiemeReponse))
+			return false;
+		if (idQuestion == null) {
+			if (other.idQuestion != null)
+				return false;
+		} else if (!idQuestion.equals(other.idQuestion))
+			return false;
+		if (numQuestion != other.numQuestion)
+			return false;
+		if (point != other.point)
+			return false;
+		if (premeiereBonneReponse == null) {
+			if (other.premeiereBonneReponse != null)
+				return false;
+		} else if (!premeiereBonneReponse.equals(other.premeiereBonneReponse))
+			return false;
+		if (premeiereReponse == null) {
+			if (other.premeiereReponse != null)
+				return false;
+		} else if (!premeiereReponse.equals(other.premeiereReponse))
+			return false;
+		if (propositionquestion == null) {
+			if (other.propositionquestion != null)
+				return false;
+		} else if (!propositionquestion.equals(other.propositionquestion))
+			return false;
+		if (quatriemeBonneReponse == null) {
+			if (other.quatriemeBonneReponse != null)
+				return false;
+		} else if (!quatriemeBonneReponse.equals(other.quatriemeBonneReponse))
+			return false;
+		if (quatriemeReponse == null) {
+			if (other.quatriemeReponse != null)
+				return false;
+		} else if (!quatriemeReponse.equals(other.quatriemeReponse))
+			return false;
+		if (strReponse == null) {
+			if (other.strReponse != null)
+				return false;
+		} else if (!strReponse.equals(other.strReponse))
+			return false;
+		if (troisiemeBonneReponse == null) {
+			if (other.troisiemeBonneReponse != null)
+				return false;
+		} else if (!troisiemeBonneReponse.equals(other.troisiemeBonneReponse))
+			return false;
+		if (troisiemeReponse == null) {
+			if (other.troisiemeReponse != null)
+				return false;
+		} else if (!troisiemeReponse.equals(other.troisiemeReponse))
+			return false;
+		return true;
+	}
+
+	
 }

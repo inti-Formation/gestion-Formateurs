@@ -31,7 +31,6 @@
 				</div>
 			</c:if>
 	     <!-- errors de validation -->
-	     <h:messages style="color:red;"></h:messages>
 	     <section class="wrapper">
 		  <div class="row">
 				<div class="col-lg-12">
@@ -170,7 +169,7 @@
 													<p:column>
 														<p:cellEditor>
 															<f:facet name="output">
-																<h:outputText value="#{e.presence[0]}" style="cursor:pointer" />
+																<h:outputText value="#{e.presence[0]}" style="cursor:pointer"/>
 															</f:facet>
 															<f:facet name="input">
 																<p:inputText value="#{e.presence[0]}" style="width:96%" />

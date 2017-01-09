@@ -22,35 +22,23 @@ public class UserServiceImpl implements IUserService{
 		logger.info("<------User Dao Injected------->");
 	}
 	
-	@Transactional
+
 	@Override
+	@Transactional(readOnly=false)
 	public User saveUser(User u) {
 		return dao.saveUser(u);
 	}
 
+	
 	@Override
-	public String generateSessionKey(int length) {
-		
-		String alphabet = 
-		        new String("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"); //9
-		int n = alphabet.length(); //10
-
-		String result = new String(); 
-		Random r = new Random(); //11
-
-		for (int i=0; i<length; i++) //12
-		    result = result + alphabet.charAt(r.nextInt(n)); //13
-
-		return result;
-	}
-
-	@Override
+	@Transactional(readOnly=true)
 	public User getUser(String mail) throws GetUserException {
 		
 		return dao.getUser(mail);
 	}
-    @Transactional
+
 	@Override
+	@Transactional(readOnly=false)
 	public User updatePassword(String mail, String password, String newPassword)
 			throws GetUserException {
 		// TODO Auto-generated method stub
@@ -58,12 +46,14 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<User> getUsersByMail(String mail) {
 		// TODO Auto-generated method stub
 		return dao.getUsersByMail(mail);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<User> getUserByPasswordAndMail(String mail, String password) {
 		// TODO Auto-generated method stub
 		return dao.getUserByPasswordAndMail(mail, password);

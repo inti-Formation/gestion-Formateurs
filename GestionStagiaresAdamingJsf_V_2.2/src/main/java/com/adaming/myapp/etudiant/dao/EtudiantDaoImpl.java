@@ -1,8 +1,10 @@
 package com.adaming.myapp.etudiant.dao;
 import java.util.List;
+
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.exception.AddEtudiantException;
-/*
+import com.adaming.myapp.exception.VerificationInDataBaseException;
+/**
  *  @author Adel 
  *  @version 1.0.0
  *  @date 11/10/2016
@@ -19,21 +21,20 @@ import com.adaming.myapp.exception.AddEtudiantException;
 
 public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao {
 
-   /*
+   /**
 	* {@inheritDoc} 
 	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.addStudent
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.addStudentAbstractJpa
     **/
 	@Override
-	public Etudiant addStudent(Etudiant e, Long idSession)
-			throws AddEtudiantException {
+	public Etudiant addStudent(Etudiant e, Long idSession) {
 		return addStudentAbstractJpa(e, idSession);
 	}
 	
 	
 	
 	
-	/*
+    /**
 	* {@inheritDoc} 
 	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.updateStudent
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.updateStudentAbstractJpa
@@ -47,7 +48,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	
 	
 	
-	/*
+    /**
 	* {@inheritDoc} 
 	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.removeStudent
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.removeStudentAbstractJpa
@@ -60,7 +61,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	
 	
 	
-	/*
+   /**
 	* {@inheritDoc} 
 	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getStudentById
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getStudentByIdAbstractJpa
@@ -74,13 +75,14 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	
 	
 	
-	/*
+	/**
 	* {@inheritDoc} 
+	 * @throws VerificationInDataBaseException 
 	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiantBySession
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getEtudiantBySessionAbstractJpa
     **/
 	@Override
-	public List<Etudiant> getEtudiantBySession(Long idSession) {
+	public List<Etudiant> getEtudiantBySession(Long idSession) throws VerificationInDataBaseException {
 		return getEtudiantBySessionAbstractJpa(idSession);
 	}
     
@@ -88,7 +90,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	
 	
 	
-	/*
+	/**
 	* {@inheritDoc} 
 	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiant
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getEtudiantAbstractJpa
@@ -96,6 +98,19 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	@Override
 	public Etudiant getEtudiant(String mail) {
 		return getEtudiantAbstractJpa(mail);
+	}
+
+
+	/**
+	* {@inheritDoc} 
+	* @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getStudentsBySession
+	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getStudentsBySessionAbstractJpa
+    **/
+
+	@Override
+	public List<Etudiant> getStudentsBySession(Long idSession) {
+		// TODO Auto-generated method stub
+		return getStudentsBySessionAbstractJpa(idSession);
 	}
 
 }

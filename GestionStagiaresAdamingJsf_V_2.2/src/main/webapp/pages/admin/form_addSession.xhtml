@@ -35,8 +35,7 @@
                                       <div class="form-group ">
                                           <label for="formation" class="control-label col-lg-2">Formation <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:selectOneMenu style="height:35px;width:25%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-												requiredMessage="1 - formation *"
+                                              <h:selectOneMenu style="height:35px;width:30%;color:#797979;font-size:16px;" styleClass="selectpicker"
 												value="#{sessionBean.idSpecialite}">
 												<f:selectItem itemLabel="Sélectionnez Une Formation" itemValue="#{null}" noSelectionOption="true" />
 												<f:selectItems value="#{specialiteBean.specialites}" var="spec"
@@ -47,23 +46,23 @@
                                       <div class="form-group ">
                                           <label for="lieu" class="control-label col-lg-2">Lieu <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="2 - Lieu *" required="true" value="#{sessionBean.lieu}" class="form-control" id="lieu"  type="text" />
+                                               <p:autoComplete  value="#{sessionBean.lieu}" completeMethod="#{sessionBean.getAllVilles}" scrollHeight="250" id="lieu"/>
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="effect" class="control-label col-lg-2">Début<span class="required">*</span></label>
                                           <div class="col-lg-10">
                                               <p:calendar styleClass="calendar" id="effect" navigator="true"
-												value="#{sessionBean.dateDebute}"  effect="fold" required="true"
-												required-message="3 - début * " />
+												value="#{sessionBean.dateDebute}"  effect="fold"
+												 />
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="effect2" class="control-label col-lg-2">Fin<span class="required">*</span></label>
                                           <div class="col-lg-10">
                                               <p:calendar styleClass="calendar" id="effect2" navigator="true"
-												value="#{sessionBean.dateFin}"  effect="fold" required="true"
-												required-message="4 - Fin * " />
+												value="#{sessionBean.dateFin}"  effect="fold" 
+												 />
                                           </div>
                                       </div>
                                       <div class="form-group">
@@ -169,6 +168,7 @@
 									<p:dialog header="Session Info" widgetVar="carDialog" modal="true"
 										showEffect="blind" hideEffect="explode" resizable="false">
 										<p:outputPanel id="sessionDetail" style="text-align:center;">
+										  <c:if test="#{not empty sessionBean.sessionEtudiant}">
 											<h:inputHidden value="#{sessionBean.sessionEtudiant.idSession}" />
 											<br />
 											<h:inputHidden
@@ -186,6 +186,7 @@
 											<br />
 											<h:inputText value="#{sessionBean.sessionEtudiant.lieu}" />
 											<br />
+										   </c:if>
 										</p:outputPanel>
 										<br />
 										<br />

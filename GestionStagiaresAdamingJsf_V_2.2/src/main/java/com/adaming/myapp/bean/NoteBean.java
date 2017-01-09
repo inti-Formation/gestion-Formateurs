@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -20,6 +22,7 @@ import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.session.service.ISessionService;
@@ -65,7 +68,11 @@ public class NoteBean implements Serializable{
 	
 	/* @method get All Students By Session */
 	public void getAllStudentsBySession() {
-		etudiants = serviceEtudiant.getEtudiantBySession(idSession);
+		try {
+			etudiants = serviceEtudiant.getEtudiantBySession(idSession);
+		} catch (VerificationInDataBaseException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+		}
 		LOGGER.info("Etudiants :"+etudiants);
 	}
 	

@@ -21,7 +21,7 @@ import com.adaming.myapp.evenement.dao.IEvenementDao;
 import com.adaming.myapp.exception.EvenementNotFoundException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 
-@Transactional
+@Transactional(readOnly=true)
 public class EvenementServiceImpl implements IEvenementService {
 
 	Logger logger = Logger.getLogger("EvenementServiceImpl");
@@ -59,7 +59,7 @@ public class EvenementServiceImpl implements IEvenementService {
 	public List<Evenement> getEvenementsEntretien()
 			throws EvenementNotFoundException {
 		List<Evenement> entretien = null;
-		entretien = dao.getEvenementsAbsences();
+		entretien = dao.getEvenementsEntretien();
 		if (entretien.size() == 0) {
 			throw new EvenementNotFoundException("Aucun entretien mentionné !");
 		}
@@ -122,15 +122,18 @@ public class EvenementServiceImpl implements IEvenementService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
-		List<Evenement> evenements = null;
-		evenements = getAllEvenements();
-		for (Evenement evenement : evenements) {
-			if (evenement != null) {
-				if (evenement.getSessionEtudiant().getIdSession() == idSession
-						&& evenement.getEtudiant().getIdEtudiant() == idEtudiant
-						&& evenement.getStartDate().compareTo(e.getStartDate()) == 0
-						&& evenement.getEndDate().compareTo(e.getEndDate()) == 0) {
+
+		List<Object[]> evenements = getEventsExiste(idEtudiant);
+		if(!evenements.isEmpty()){
+			for (Object[] evenement : evenements) {
+				Date dStart = (Date) evenement[0];
+				Date dEnd = (Date) evenement[1];
+				Long idEt= (Long) evenement[2];
+				if (    idEt == idEtudiant
+						&& dStart.compareTo(e.getStartDate()) == 0
+						&& dEnd.compareTo(e.getEndDate()) == 0) {
 					throw new VerificationInDataBaseException(
 							" cette evènement est déja signalé");
 				}
@@ -140,6 +143,7 @@ public class EvenementServiceImpl implements IEvenementService {
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Evenement AddWarningAndTop(Evenement e, Long idSession,
 			Long idEtudiant) throws VerificationInDataBaseException {
 		List<Evenement> evenements = null;
@@ -185,6 +189,12 @@ public class EvenementServiceImpl implements IEvenementService {
 		}
 		
 		return newEvents;
+	}
+
+	@Override
+	public List<Object[]> getEventsExiste(Long idEtudiant) {
+		// TODO Auto-generated method stub
+		return dao.getEventsExiste(idEtudiant);
 	}
 
 }

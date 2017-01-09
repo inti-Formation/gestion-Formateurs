@@ -28,13 +28,13 @@ public class UserServiceTestU {
 		public static void tearDownAfterClass() throws Exception {
 			context.close();
 		}
-		@Ignore
+		/*@Ignore
 		@Test
 		public void addUser() {
 			String motDePass = serviceUser.generateSessionKey(8);
 			User u = new User("adel",motDePass,true);
 			serviceUser.saveUser(u);
-		}
+		}*/
 		@Ignore
 		@Test
 		public void UpdateUser() {

@@ -9,7 +9,7 @@ import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.exception.AddModuleException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.dao.IModuleDao;
-@Transactional
+@Transactional(readOnly=true)
 public class ModuleServiceImpl implements IModuleService{
     
 	private IModuleDao dao;
@@ -22,6 +22,7 @@ public class ModuleServiceImpl implements IModuleService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Module addModule(Module m, Long idSpecialite) throws AddModuleException {
 		List<Module> modules = null;
 		modules = getAllModules();
@@ -40,6 +41,7 @@ public class ModuleServiceImpl implements IModuleService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Module updateModule(Module m, Long idSpecialite) {
 		// TODO Auto-generated method stub
 		return dao.updateModule(m, idSpecialite);

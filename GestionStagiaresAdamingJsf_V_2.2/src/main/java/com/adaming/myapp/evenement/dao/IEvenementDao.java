@@ -11,22 +11,23 @@ public interface IEvenementDao {
 
 	/* add evenement */
 
-	 Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException;
+	 Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant);
 
 	 Evenement AddWarningAndTop(Evenement e, Long idSession,
-			Long idEtudiant) throws VerificationInDataBaseException;
+			Long idEtudiant);
+	 
+	 List<Object[]> getEventsExiste(final Long idEtudiant);
+	 
+	 //List<Object[]> getEventsTopExiste(final Long idEtudiant);
 
 	/* toutes les evenements par semaine */
 
-	 List<Evenement> getEvenementsRetards()
-			throws EvenementNotFoundException;
+	 List<Evenement> getEvenementsRetards();
+			
 
-	 List<Evenement> getEvenementsAbsences()
-			throws EvenementNotFoundException;
+	 List<Evenement> getEvenementsAbsences();
 
-	 List<Evenement> getEvenementsEntretien()
-			throws EvenementNotFoundException;
+	 List<Evenement> getEvenementsEntretien();
 
 	/* evenement du jour */
 

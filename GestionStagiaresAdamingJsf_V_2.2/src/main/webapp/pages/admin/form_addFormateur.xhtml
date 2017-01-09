@@ -14,7 +14,7 @@
 	<br> </br>
 
 	<div class="well container">
-		  <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		  <p:messages  id="messages" showDetail="true" autoUpdate="true" closable="true" />
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -36,8 +36,8 @@
                                       <div class="form-group ">
                                           <label for="civilite" class="control-label col-lg-2">Civilité <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:selectOneMenu style="height:35px;width:25%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-												requiredMessage="1 - Civilité *"
+                                              <h:selectOneMenu id="civilite" style="height:35px;width:25%;color:#797979;font-size:16px;" styleClass="selectpicker" 
+												
 												value="#{formateurBean.civilite}">
 												<f:selectItem itemLabel="Sélectionnez Une civilitée"
 													itemValue="#{null}" />
@@ -47,68 +47,82 @@
 													itemValue="Mme" />
 											</h:selectOneMenu>
                                           </div>
+                                          <h:message for="civilite" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="cname" class="control-label col-lg-2">Nom <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="2 - Nom *" required="true" value="#{formateurBean.nom}" class="form-control" id="cname"  type="text" />
+                                              <h:inputText  value="#{formateurBean.nom}" class="form-control" id="cname"  type="text" />
                                           </div>
+                                          <h:message for="cname" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="prenom" class="control-label col-lg-2">Prénom <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="3 - Prénom *" required="true" value="#{formateurBean.prenom}" class="form-control" id="prenom"  type="text" />
+                                              <h:inputText  value="#{formateurBean.prenom}" class="form-control" id="prenom"  type="text" />
                                           </div>
+                                          <h:message for="prenom" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="adresse" class="control-label col-lg-2">Adresse <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="4 - Adresse *" required="true" value="#{formateurBean.adresse}" class="form-control" id="adresse"  type="text" />
+                                              <h:inputText value="#{formateurBean.adresse}" class="form-control" id="adresse"  type="text" />
                                           </div>
+                                          <h:message for="adresse" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="codePostal" class="control-label col-lg-2">Code Postal <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="5 - Code Postal *" required="true" value="#{formateurBean.codePostal}" class="form-control" id="codePostal"  type="text" />
+                                               <p:inputMask styleClass="form-control"  id="codePostal" value="#{formateurBean.codePostal}"  mask="99999"/>
                                           </div>
+                                           <h:message for="codePostal" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="telMobile" class="control-label col-lg-2">Tél <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="6 - Tél *" required="true" value="#{formateurBean.telMobile}" class="form-control" id="telMobile"  type="text" />
+                                               <p:inputMask styleClass="form-control" id="telMobile" value="#{formateurBean.telMobile}" mask="(99) 99-99-99-99"/>
                                           </div>
+                                         
+                                          <h:message for="telMobile" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="mail" class="control-label col-lg-2">Mail <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="7 - Mail *" required="true" value="#{formateurBean.mail}"  class="form-control" id="mail"  type="text" />
+                                              <h:inputText value="#{formateurBean.mail}"  class="form-control" id="mail"  type="text">
+                                                 <f:validator binding="#{emailValidator}" />
+                                              </h:inputText>
+                                               <h:message for="mail" style="color:red;text-align:center;display:block"></h:message>
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="nationalite" class="control-label col-lg-2">Nationalité <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="8 - Nationalité *" required="true" value="#{formateurBean.nationalite}"  class="form-control" id="nationalite"  type="text" />
+                                              <p:autoComplete   value="#{formateurBean.nationalite}" completeMethod="#{formateurBean.getNations}"  id="nationalite" scrollHeight="250"/>
                                           </div>
+                                          <h:message for="nationalite" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="dateDeNaissance" class="control-label col-lg-2">Date De Naissance <span class="required">*</span></label>
                                           <div class="col-lg-10">
                                               <p:calendar styleClass="calendar" yearRange="c-70:c+10" id="effect" navigator="true"
-												value="#{formateurBean.dateDeNaissance}" effect="fold" required="true"
+												value="#{formateurBean.dateDeNaissance}" effect="fold" 
 												required-message="9 - Date De Naissance * " />
                                           </div>
+                                          <h:message for="effect" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="lieuDeNaissance" class="control-label col-lg-2">Lieu De Naissance <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="10 - Lieu De Naissance *" required="true" value="#{formateurBean.lieuDeNaissance}"  class="form-control" id="lieuDeNaissance"  type="text" />
+                                              <h:inputText  value="#{formateurBean.lieuDeNaissance}"  class="form-control" id="lieuDeNaissance"  type="text" />
                                           </div>
+                                          <h:message for="lieuDeNaissance" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="specialite" class="control-label col-lg-2">Specialité <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="11 - Spécialité *" required="true" value="#{formateurBean.specialite}" class="form-control" id="specialite"  type="text" />
+                                              <p:autoComplete  id="specialite" scrollHeight="250" value="#{formateurBean.specialite}" completeMethod="#{formateurBean.specialitesInfo}"/>
                                           </div>
+                                           <h:message for="specialite" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       
                                       <div class="form-group">

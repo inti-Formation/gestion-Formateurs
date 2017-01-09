@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.exception.AddEtudiantException;
-/*
+import com.adaming.myapp.exception.VerificationInDataBaseException;
+/**
  *  @author Adel 
  *  @version 1.0.0
  *  @date 11/10/2016
@@ -17,8 +18,9 @@ import com.adaming.myapp.exception.AddEtudiantException;
 public interface IEtudiantService {
      
 	 
-	 /*
+	 /**
 	  * {@inheritDoc} 
+	 * @throws VerificationInDataBaseException 
 	  * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.addStudent
 	  **/
 	 Etudiant addStudent(Etudiant e, Long idSession)
@@ -26,7 +28,7 @@ public interface IEtudiantService {
      
 	 
 	 
-	 /*
+	 /**
 	  * {@inheritDoc} 
 	  * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.updateStudent
 	  **/
@@ -34,7 +36,7 @@ public interface IEtudiantService {
 	 
 	 
 	 
-	 /*
+	 /**
 	  * {@inheritDoc} 
 	  * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.removeStudent
 	  **/
@@ -42,7 +44,7 @@ public interface IEtudiantService {
 	 
 	 
 	 
-	 /*
+	 /**
 	  * {@inheritDoc} 
 	  * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getStudentById
 	  **/
@@ -50,18 +52,24 @@ public interface IEtudiantService {
 
 	 
 	 
-	 /*
+	 /**
 	  * {@inheritDoc} 
+	 * @throws VerificationInDataBaseException 
 	  * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiantBySession
 	  **/
-	 List<Etudiant> getEtudiantBySession(Long idSession);
+	 List<Etudiant> getEtudiantBySession(Long idSession) throws VerificationInDataBaseException;
      
 	 
 	 
-	 /*
+	 /**
 	  * {@inheritDoc} 
 	  * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiant
 	  **/
 	 Etudiant getEtudiant(String mail);
-
+     
+	 /**
+	  * {@inheritDoc} 
+	  * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getStudentsBySession
+	  **/
+	 List<Etudiant> getStudentsBySession(Long idSession);
 }

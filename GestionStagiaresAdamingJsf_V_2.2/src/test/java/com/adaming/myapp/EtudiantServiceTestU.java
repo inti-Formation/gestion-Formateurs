@@ -16,6 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.exception.AddEtudiantException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
 
 public class EtudiantServiceTestU {
@@ -36,7 +37,7 @@ public class EtudiantServiceTestU {
 	}
 	@Test
 	@Ignore
-	public void testAddStudent() {
+	public void testAddStudent() throws VerificationInDataBaseException {
 		Etudiant e = new Etudiant("nomEtudiant2", "prenomEtudiant2", new Date(), "formationInitial", "ecole", new Date(), "adressePostal", "codePostal", "numTel", "mail2");
 		try {
 			serviceEtudiant.addStudent(e,1L);
@@ -70,7 +71,7 @@ public class EtudiantServiceTestU {
 	}
 
 	@Test
-	public void testGetEtudiantBySession() {
+	public void testGetEtudiantBySession() throws VerificationInDataBaseException {
 		List<Etudiant> tabE = serviceEtudiant.getEtudiantBySession(1L);
 		assertTrue(tabE.size()>=0);
 	}

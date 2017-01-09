@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+<ui:composition>
+	<br> </br>
+	<br> </br>
+	<br> </br>
+	
+	<div class="well container">
+	    <section class="wrapper">
+		  <div class="row">
+				<div class="col-lg-12">
+					<ol class="breadcrumb">
+						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Attestation de prêt de Matériel</h3>
+					</ol>
+				</div>
+			</div>            
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Attestation de prêt de Matériel
+                          </header>
+                          <div class="panel-body">
+                              	<div class="well container">
+									<div class="alert alert-info"
+										style="color: black">
+										<h:graphicImage
+											style=" width:400px;margin: auto;display: block;margin-top: 50px;margin-bottom: 50px"
+											name="NiceAdmin/img/logoiniti.png" />
+										
+										
+							
+										<div style="margin-top: 50px;">
+											<h3 style="border: 1px solid;text-align:center">Attestation de prêt de Matériel</h3>
+											<br></br>
+											<p>je sousigné(e), Monsieur / Madame : #{contratBean.etudiant.nomEtudiant} #{contratBean.etudiant.prenomEtudiant} </p>
+											<p>Demeurant : #{contratBean.etudiant.adressePostal} #{contratBean.etudiant.codePostal}</p>
+											<p>Reconnais avoir reçu en mains propres : [Ordinateur avec chargeur][Souris][Sacoche]</p>
+											<p>N° INTI -------------------------------- de la part de la société INTIFORMATION</p>
+											<div style="color:black">
+											  <p> - Le matériel est, pendant toute la durée de la formation, sous la résponsabilité du stagiaire.</p>
+											   <p> - La société INTIFORMATION pourra vous rendre responsable en cas de retour de matériel endommagé, perdu, modifié ou dans un état ne permettant plus son bon fonctionnement ! </p>
+											   <p>Des mesures pourront être prises sous forme de réclamations, de plaintes ou de pénalités financières, à votre égard, si vous ne respectez pas les clasues ci-dessous : </p>
+											   <br></br>
+											   <p>1- Vous étes responsable du matériel qui vous est prêté.</p>
+											   <p>2- Vous n'avez pas l'autorisation de modifier la configuration initiale des PC, sauf demande du formateur.</p>
+											   <p>3- Vous n'avez pas l'autorisation de démonter les PC ou tout autre matériel.</p>
+											   <p>4- Vous n'avez pas l'autorisation de modifier les mots de passe sessions des PC.</p>
+											   <p>5- Vous devez vous assurer de prendre soin du matériel.</p>
+											   <p>Tout incident ou problème devra être signalé au responsable technique ou au formateur</p>
+											   <br></br>
+											   <p>Pour faire valoir ce que de droit,</p> 
+											   <p>Faite à #{contratBean.sessionEtudiant.lieu} Le #{contratBean.formattedDate}</p>
+											   <br></br>
+											   <br></br>
+											   <p>
+											    
+											     <h:form style="background:white;padding-top:20px;padding-bottom:20px;font-weight:bold;text-align:center">
+												     <p:growl id="msgs" life="2000" showDetail="true" />
+												     <h:outputText style="color:red;padding:10px" value="J'ai lu et j'accepte les conditions générales d'utilisation ainsi que la decharge de reponsabilité " />
+												     <p:selectBooleanButton  value="#{contratBean.active}" onLabel="Oui" offLabel="Non" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+											            <p:ajax update="msgs" listener="#{contratBean.addMessage}" />
+											         </p:selectBooleanButton>
+											         <h:inputHidden value="#{contratBean.etudiant.idEtudiant}"/>
+											         <br></br>
+											         <br></br>
+											         <br></br>
+
+											         <h:commandButton style="padding:15px;width:200px;font-size:20px" styleClass="btn btn-info" value="Signé" action="#{contratBean.addContrat}"/>
+											         
+												</h:form>  
+											   </p>
+											   
+											</div>
+										</div>
+									</div>
+								<br /> <br />
+								</div>
+						   </div>
+					</section>
+				</div>
+			</div>
+		</section>
+	</div>
+</ui:composition>
+</html>

@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.transaction.annotation.Transactional;
+
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.etudiant.dao.IEtudiantDao;
 import com.adaming.myapp.exception.AddEtudiantException;
-/*
+import com.adaming.myapp.exception.VerificationInDataBaseException;
+/**
  *  @author Adel 
  *  @version 1.0.0
  *  @date 11/10/2016
@@ -18,17 +20,17 @@ import com.adaming.myapp.exception.AddEtudiantException;
  *  @param mail le mail de l'etudiant
  *  @throws AddEtudiantException vérification dans la base de donnée
  * */
-@Transactional
+@Transactional(readOnly=true)
 public class EtudiantServiceImpl implements IEtudiantService {
     
 	
-	/*
+	/**
      * Logger @see java.util.logging.Logger
      */
 	final Logger LOGGER = Logger.getLogger("EtudiantServiceImpl");
     
 	
-   /*
+   /**
     * @Interface IEtudiantDao @see com.adaming.myapp.etudiant.dao.IEtudiantDao
     **/
 	private IEtudiantDao dao;
@@ -39,15 +41,17 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	}
     
 	
-   /*
+   /**
 	* {@inheritDoc} 
+    * @throws VerificationInDataBaseException 
 	* @see com.adaming.myapp.etudiant.service.IEtudiantService.addStudent
 	**/
 	@Override
+	@Transactional(readOnly=false)
 	public Etudiant addStudent(Etudiant e, Long idSession)
 			throws AddEtudiantException {
 		List<Etudiant> tabEtudiant = null;// verifications
-		tabEtudiant = getEtudiantBySession(idSession);
+		tabEtudiant = getStudentsBySession(idSession);
 		if(tabEtudiant.size()>0){
 			for (Etudiant etudiant : tabEtudiant) {
 				if (etudiant.getDateDeNaissance().compareTo(e.getDateDeNaissance()) == 0
@@ -64,11 +68,12 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	}
    
 	
-	/*
+	/**
 	 * {@inheritDoc} 
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.updateStudent
 	 **/
 	@Override
+	@Transactional(readOnly=false)
 	public Etudiant updateStudent(Etudiant e, Long idSession) {
 		// TODO Auto-generated method stub
 		return dao.updateStudent(e, idSession);
@@ -76,11 +81,12 @@ public class EtudiantServiceImpl implements IEtudiantService {
    
 	
 	
-	/*
+	/**
 	 * {@inheritDoc} 
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.removeStudent
 	 **/
 	@Override
+	@Transactional(readOnly=false)
 	public Etudiant removeStudent(Long idStudent) {
 		// TODO Auto-generated method stub
 		return dao.removeStudent(idStudent);
@@ -88,7 +94,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
     
 	
 	
-	/*
+	/**
 	 * {@inheritDoc} 
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getStudentById
 	 **/
@@ -100,19 +106,20 @@ public class EtudiantServiceImpl implements IEtudiantService {
     
 	
 	
-	/*
+	/**
 	 * {@inheritDoc} 
+	 * @throws VerificationInDataBaseException 
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getEtudiantBySession
 	 **/
 	@Override
-	public List<Etudiant> getEtudiantBySession(Long idSession) {
+	public List<Etudiant> getEtudiantBySession(Long idSession) throws VerificationInDataBaseException {
 		// TODO Auto-generated method stub
 		return dao.getEtudiantBySession(idSession);
 	}
     
 	
 	
-	/*
+	/**
 	 * {@inheritDoc} 
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getEtudiant
 	 **/
@@ -120,6 +127,13 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	public Etudiant getEtudiant(String mail) {
 		// TODO Auto-generated method stub
 		return dao.getEtudiant(mail);
+	}
+
+
+	@Override
+	public List<Etudiant> getStudentsBySession(Long idSession) {
+		// TODO Auto-generated method stub
+		return dao.getStudentsBySession(idSession);
 	}
 
 }

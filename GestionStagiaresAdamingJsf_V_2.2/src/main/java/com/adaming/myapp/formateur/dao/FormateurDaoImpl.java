@@ -1,8 +1,11 @@
 package com.adaming.myapp.formateur.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+
 import javax.persistence.Query;
+
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
@@ -57,5 +60,19 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 
 		return u.get(0);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getFormateuByName(String nom, Date dateDeNaissance,
+			String mail) {
+		Query query = em.createQuery("Select f.nom,f.dateDeNaissance,f.mail from Formateur f where f.nom =:x and f.dateDeNaissance =:y or f.mail =:z");
+		query.setParameter("x",nom);
+		query.setParameter("y",dateDeNaissance);
+		query.setParameter("z",mail);
+		query.setMaxResults(1);
+		return query.getResultList();
+	}
+
+	
 
 }

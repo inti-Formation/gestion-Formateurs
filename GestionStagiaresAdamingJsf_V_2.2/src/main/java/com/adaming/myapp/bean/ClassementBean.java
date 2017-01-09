@@ -64,7 +64,7 @@ public class ClassementBean implements Serializable {
     
     /*@method get Etudiant By Name */
     public void getEtudiantByName(){
-    	etudiant = new Etudiant();
+    	etudiant = FactoryBean.getEtudiantFactory().create("Etudiant");
 		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
 		LOGGER.info("Etudiant : "+etudiant);
 		idSession = etudiant.getSessionEtudiant().getIdSession();

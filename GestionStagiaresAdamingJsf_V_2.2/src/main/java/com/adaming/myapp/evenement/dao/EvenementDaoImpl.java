@@ -1,47 +1,38 @@
 package com.adaming.myapp.evenement.dao;
 
-import java.util.Date;
+
 import java.util.List;
 
 import com.adaming.myapp.entities.Evenement;
-import com.adaming.myapp.exception.EvenementNotFoundException;
-import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public class EvenementDaoImpl extends EvenementAbstractJpa implements
 		IEvenementDao {
 
 	@Override
-	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException {
+	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant) {
 
 		return addEvenementAbstractJpa(e, idSession, idEtudiant);
 	}
 
 	@Override
 	public Evenement AddWarningAndTop(Evenement e, Long idSession,
-			Long idEtudiant) throws VerificationInDataBaseException {
+			Long idEtudiant) {
 
 		return addWarningAndTopAbstractJpa(e, idSession, idEtudiant);
 	}
 
 	@Override
-	public List<Evenement> getEvenementsRetards()
-			throws EvenementNotFoundException {
-
+	public List<Evenement> getEvenementsRetards() {
 		return getEvenementsRetardsAbstractJpa();
 	}
 
 	@Override
-	public List<Evenement> getEvenementsAbsences()
-			throws EvenementNotFoundException {
-
+	public List<Evenement> getEvenementsAbsences() {
 		return getEvenementsAbsencesAbstractJpa();
 	}
 
 	@Override
-	public List<Evenement> getEvenementsEntretien()
-			throws EvenementNotFoundException {
-
+	public List<Evenement> getEvenementsEntretien() {
 		return getEvenementsEntretienAbstractJpa();
 	}
 
@@ -99,6 +90,16 @@ public class EvenementDaoImpl extends EvenementAbstractJpa implements
 		return getAllEvenementsBySessionAbstractJpa(idSession);
 	}
 
-	
+	@Override
+	public List<Object[]> getEventsExiste(Long idEtudiant) {
+
+		return getEventsExisteAbstractJpa(idEtudiant);
+	}
+
+/*	@Override
+	public List<Object[]> getEventsTopExiste(Long idEtudiant) {
+		// TODO Auto-generated method stub
+		return getEventsTopExiste(idEtudiant);
+	}*/
 
 }

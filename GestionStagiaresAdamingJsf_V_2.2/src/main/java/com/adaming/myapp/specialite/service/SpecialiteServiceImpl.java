@@ -11,7 +11,7 @@ import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.exception.AddSpecialiteException;
 import com.adaming.myapp.specialite.dao.ISpecialiteDao;
 
-@Transactional
+@Transactional(readOnly=true)
 public class SpecialiteServiceImpl implements ISpecialiteService{
     
 	Logger log = Logger.getLogger("SpecialiteServiceImpl");
@@ -24,6 +24,7 @@ public class SpecialiteServiceImpl implements ISpecialiteService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Specialite addSpecialite(Specialite sp) throws AddSpecialiteException {
 		List<Specialite> tabSpecialite = null;
 		tabSpecialite = getAllSpecV2();// get All Spécialitée disponibles
@@ -37,6 +38,7 @@ public class SpecialiteServiceImpl implements ISpecialiteService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Specialite updateSpecialite(Specialite sp) {
 		// TODO Auto-generated method stub
 		return dao.updateSpecialite(sp);

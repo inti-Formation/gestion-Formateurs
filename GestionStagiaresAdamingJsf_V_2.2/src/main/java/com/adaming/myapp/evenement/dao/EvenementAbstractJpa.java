@@ -25,7 +25,7 @@ public abstract class EvenementAbstractJpa {
 	
 
 	public Evenement addEvenementAbstractJpa(Evenement e, Long idSession, Long idEtudiant)
-			throws VerificationInDataBaseException {
+			{
 		SessionEtudiant se = em.find(SessionEtudiant.class, idSession);
 		Etudiant e1 = em.find(Etudiant.class, idEtudiant);
 		e.setEtudiant(e1);
@@ -38,7 +38,7 @@ public abstract class EvenementAbstractJpa {
 
 	
 	public Evenement addWarningAndTopAbstractJpa(Evenement e, Long idSession,
-			Long idEtudiant) throws VerificationInDataBaseException {
+			Long idEtudiant) {
 		SessionEtudiant se = em.find(SessionEtudiant.class, idSession);
 		Etudiant e1 = em.find(Etudiant.class, idEtudiant);
 		e.setEtudiant(e1);
@@ -50,24 +50,12 @@ public abstract class EvenementAbstractJpa {
 	}
 
 	
-	@SuppressWarnings("unchecked")
-	public List<Evenement> getEvenementsRetardsAbstractJpa()
-			throws EvenementNotFoundException {
-		Date weeckAgo = DateUtils.addDays(new Date(), -6);
-		Query query = em
-				.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y ORDER BY e.idEvenement DESC");
-		query.setParameter("y", weeckAgo);
-		logger.info("weeck" + weeckAgo);
-		query.setParameter("x", "RETARD");
-		logger.info("le size de retarad est" + query.getResultList().size());
-		
-		return query.getResultList();
-	}
+	
 
 	
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getEvenementsAbsencesAbstractJpa()
-			throws EvenementNotFoundException {
+			 {
 		Date weeckAgo = DateUtils.addDays(new Date(), -6);
 		Query query = em
 				.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y ORDER BY e.idEvenement DESC");
@@ -82,7 +70,7 @@ public abstract class EvenementAbstractJpa {
 
 	@SuppressWarnings("unchecked")
 	public List<Evenement> getEvenementsEntretienAbstractJpa()
-			throws EvenementNotFoundException {
+			 {
 		Date weeckAgo = DateUtils.addDays(new Date(), -6);
 		Query query = em
 				.createQuery("from Evenement e where TYPE_EVENEMENT=:x and e.curentDate >= :y ORDER BY e.idEvenement DESC");
@@ -163,6 +151,20 @@ public abstract class EvenementAbstractJpa {
 		logger.info("les retards  sont :" + query.getResultList().size());
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Evenement> getEvenementsRetardsAbstractJpa()
+			 {
+		Date weeckAgo = DateUtils.addDays(new Date(), -6);
+		Query query = em
+				.createQuery("from Evenement e where TYPE_EVENEMENT =:x and e.curentDate >= :y ORDER BY e.idEvenement DESC");
+		query.setParameter("y", weeckAgo);
+		logger.info("weeck" + weeckAgo);
+		query.setParameter("x", "RETARD");
+		logger.info("le size de retarad est" + query.getResultList().size());
+		
+		return query.getResultList();
+	}
 
 	
 	@SuppressWarnings("unchecked")
@@ -205,6 +207,27 @@ public abstract class EvenementAbstractJpa {
 				+ "evenements dans la session");
 		return query.getResultList();
 	}
+	
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getEventsExisteAbstractJpa(Long idEtudiant) {
+		Query query = em.createQuery("Select e.startDate,e.endDate,e.etudiant.idEtudiant"
+				+ " from Evenement e join e.etudiant et "
+				+ " where et.idEtudiant =:x order by e.idEvenement desc");
+		query.setParameter("x",idEtudiant);
+		//query.setMaxResults(1);
+		return query.getResultList();
+	}
+	
+	/*@SuppressWarnings("unchecked")
+	public List<Object[]> getEventsExisteTopAbstractJpa(Long idEtudiant) {
+		Query query = em.createQuery("Select e.etudiant.idEtudiant"
+				+ " from Evenement e join e.etudiant et "
+				+ " where et.idEtudiant =:x order by e.idEvenement desc");
+		query.setParameter("x",idEtudiant);
+		//query.setMaxResults(1);
+		return query.getResultList();
+	}*/
 
 	
 }

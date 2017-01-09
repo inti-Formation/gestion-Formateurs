@@ -50,7 +50,7 @@ public class Etudiant implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="ID_SESS_ETUDIANT")
     private SessionEtudiant sessionEtudiant;
-	@OneToMany(mappedBy="etudiant",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="etudiant",fetch=FetchType.LAZY)
 	private List<Note> notes;
 	@OneToMany(mappedBy="etudiant",fetch=FetchType.EAGER)
 	private List<Evenement> evenements;

@@ -13,11 +13,10 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.springframework.binding.message.Severity;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.adaming.myapp.abstractfactory.EvenementFactoryProducer;
-import com.adaming.myapp.abstractfactory.IEvenementFactory;
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Formateur;
@@ -33,7 +32,7 @@ import com.adaming.myapp.module.service.IModuleService;
 @SuppressWarnings("serial")
 @Component("scheduleView")
 @Scope("session")
-public class ScheduleView implements Serializable {
+public class ScheduleView  implements Serializable {
 
 	/**
 	 * LOGGER LOG4j 
@@ -41,6 +40,7 @@ public class ScheduleView implements Serializable {
 	 */
      private final Logger LOGGER  = Logger.getLogger("ScheduleView");
     
+     
     
 	@Inject
 	private IEtudiantService serviceEtudiant;
@@ -55,9 +55,7 @@ public class ScheduleView implements Serializable {
 	/* get the name of user (formateur) for evenement */
 	@Inject
 	private UserAuthentificationBean userAuthentificationBean;
-	/* abstract factry */
-	private IEvenementFactory factory = EvenementFactoryProducer
-			.getEvenementFactory("EvenementFactoryImpl");
+
 
 	private Long idSession;
 	private Long idModule;
@@ -73,7 +71,7 @@ public class ScheduleView implements Serializable {
 	private int semaine;
 	private SessionEtudiant sessionEtudiant;
 	private boolean dispo;
-	/* evenement */
+	/**@evenement */
 
 	private Long idEtudiant;
 	private Date dateStart;
@@ -88,9 +86,9 @@ public class ScheduleView implements Serializable {
 	private SessionEtudiant sessionFormateur;
 	private List<Evenement> events;
 
-	public void initReporting() {
+	public void initReporting() throws VerificationInDataBaseException{
 		evenementFoundException = "";
-		formateur = new Formateur();
+		formateur = FactoryBean.getFormateurFactory().create("Formateur");
 		formateur = serviceFormateur.getFormateur(userAuthentificationBean
 				.getName());
 		LOGGER.debug(":::::::idFormateur" + formateur.getIdFormateur());
@@ -118,30 +116,64 @@ public class ScheduleView implements Serializable {
 		idFormateur = formateur.getIdFormateur();
 	}
 
-	public String initEvenement() {
+	public String initEvenement() throws VerificationInDataBaseException {
 		initReporting();
 		return "evenement?redirect=true";
 	}
 
-	public String initWarning() {
+	public String initWarning() throws VerificationInDataBaseException {
 		initReporting();
 		return "warning?redirect=true";
 	}
 
-	public String initAbsences() {
+	public String initAbsences() throws VerificationInDataBaseException {
 		initReporting();
 		dateIn = new Date();
 		active = false;
 		//genererSchedule();
 		return "absence?redirect=true";
 	}
+	
+	/*public String colorMoy(String m) {
+		if (m != null && !m.equals("--")) {
 
-	public String initProspection() {
+			if (Float.parseFloat(m) >= (Float.parseFloat("10"))) {
+				return "color: blue;";
+			} else {
+				return "color: red;";
+			}
+		}
+		return null;
+
+	}
+
+	public String colorTd(String s) {
+		System.out.println(s);
+		if (s != null) {
+			if(s.equalsIgnoreCase("R")){
+				System.out.println("color");
+				return "background-color:red";
+			}
+			else if(s.equalsIgnoreCase("A")){
+				return "background-color:green;";
+			}
+			else if(s.equalsIgnoreCase("E")){
+				return "background-color: rgba(251, 13, 13, 0.32);";
+			}
+			return "background-color: rgba(251, 13, 13, 0.32);";
+		} else {
+			return null;
+		}
+
+	}*/
+
+
+	public String initProspection() throws VerificationInDataBaseException {
 		initReporting();
 		return "prospection?redirect=true";
 	}
 
-	public String initEvaluation() {
+	public String initEvaluation() throws VerificationInDataBaseException {
 		initReporting();
 		getAllModulesBySession();
 		active = false;
@@ -149,21 +181,25 @@ public class ScheduleView implements Serializable {
 		return "evaluation?redirect=true";
 	}
 
-	public String initActivationModule() {
+	public String initActivationModule() throws VerificationInDataBaseException {
 		initReporting();
 		getAllModulesBySession();
 		return "activation_module?redirect=true";
 	}
 
-	/* @method get All Students By Session */
-	public void getAllStudentsBySession() {
+	/** @method get All Students By Session */
+	public void getAllStudentsBySession(){
 		etudiantsBySession = new ArrayList<Etudiant>();
 		if (idSession != null) {
-			etudiantsBySession = serviceEtudiant
-					.getEtudiantBySession(idSession);
+			try {
+				etudiantsBySession = serviceEtudiant
+						.getEtudiantBySession(idSession);
+			} catch (VerificationInDataBaseException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning !","Aucun étudiant dans cette session !"));
+			}
 
 			if (etudiantsBySession.size() > 0) {
-				sessionEtudiant = new SessionEtudiant();
+				sessionEtudiant =FactoryBean.getSessionFactory().create("SessionEtudiant");
 				for (Etudiant se : etudiantsBySession) {
 					sessionEtudiant = se.getSessionEtudiant();
 				}
@@ -178,7 +214,7 @@ public class ScheduleView implements Serializable {
 	}
 
 	/* @method generate Absences */
-	public void genererSchedule() {
+	public void genererSchedule(){
 		genererDates();
 		getAllStudentsBySession();
 	}
@@ -193,13 +229,13 @@ public class ScheduleView implements Serializable {
 	}
 
 	public void getModuleById() {
-		module = new Module();
+		module = FactoryBean.getModuleFactory().create("Module");
 		module = serviceModule.getModuleById(idModule);
 	}
 
 	/* @method get module by id for activation Formateur */
 	public void getCurrentModule(Long idModule) {
-		module = new Module();
+		module = FactoryBean.getModuleFactory().create("Module");
 		module = serviceModule.getModuleById(idModule);
 	}
 
@@ -210,14 +246,14 @@ public class ScheduleView implements Serializable {
 	}
 
 	/* @methode generate Evaluations */
-	public void genererScheduleEvaluations() {
+	public void genererScheduleEvaluations() throws VerificationInDataBaseException {
 		getAllStudentsBySession();
 		getModuleById();
 		active=true;
 	}
 	
 	/*@methode generate date and events*/
-	public void generateEvents(){
+	public void generateEvents() throws VerificationInDataBaseException{
 		try {
 			events = serviceEvenement
 					.getAllEvenementsBetweenTwoDate(idSession, dateIn);
@@ -234,7 +270,7 @@ public class ScheduleView implements Serializable {
 
 	}
 
-	/* @method generate date */
+	/** @method generate date */
 	public void genererDates() {
 		DateTime date = new DateTime(dateIn);
 		final int dayOfWeek = date.getDayOfWeek();
@@ -266,10 +302,10 @@ public class ScheduleView implements Serializable {
 		typeEvenement = "";
 	}
 
-	/* @methode signaler un retard */
-	public void signalerUnRetad() {
+	/** @methode signaler un retard (refactoring)*/
+	private void signalerUnRetad() {
 		Evenement retard = null;
-		retard = factory.createEvent("Retard");
+		retard = FactoryBean.getEvenementFactory().create("retard");
 		retard.setStartDate(dateStart);
 		retard.setEndDate(dateEnd);
 		retard.setCurentDate(new Date());
@@ -291,10 +327,10 @@ public class ScheduleView implements Serializable {
 		}
 	}
 
-	/* @methode signaler une absence */
-	public void signalerUnAbsence() {
+	/** @methode signaler une absence (refactoring) */
+	private void signalerUneAbsence() {
 		Evenement absence = null;
-		absence = factory.createEvent("Absence");
+		absence = FactoryBean.getEvenementFactory().create("Absence");
 		absence.setStartDate(dateStart);
 		absence.setEndDate(dateEnd);
 		absence.setCurentDate(new Date());
@@ -316,10 +352,10 @@ public class ScheduleView implements Serializable {
 		}
 	}
 
-	/* @methode signaler un entretien */
-	public void signalerUnEntretien() {
+	/** @methode signaler un entretien (refactoring) */
+	private void signalerUnEntretien() {
 		Evenement entretien = null;
-		entretien = factory.createEvent("Entretien");
+		entretien = FactoryBean.getEvenementFactory().create("Entretien");
 		entretien.setStartDate(dateStart);
 		entretien.setEndDate(dateEnd);
 		entretien.setCurentDate(new Date());
@@ -341,10 +377,10 @@ public class ScheduleView implements Serializable {
 		}
 	}
 
-	/* @methode signaler un etudiantTop */
-	public void signalerUnEtudiantTop() {
+	/** @methode signaler un etudiantTop (refactoring)*/
+	private void signalerUnEtudiantTop() {
 		Evenement topEtudiant = null;
-		topEtudiant = factory.createEvent("TopEtudiant");
+		topEtudiant = FactoryBean.getEvenementFactory().create("TopEtudiant");
 		topEtudiant.setStartDate(new Date());
 		topEtudiant.setEndDate(new Date());
 		topEtudiant.setCurentDate(new Date());
@@ -366,10 +402,10 @@ public class ScheduleView implements Serializable {
 		}
 	}
 
-	/* @methode signaler un etudiantTop */
-	public void signalerUnEtudiantWarning() {
+	/** @methode signaler un etudiantTop (refactoring) */
+	private void signalerUnEtudiantWarning() {
 		Evenement warningEtudiant = null;
-		warningEtudiant = factory.createEvent("WarningEtudiant");
+		warningEtudiant = FactoryBean.getEvenementFactory().create("WarningEtudiant");
 		warningEtudiant.setStartDate(new Date());
 		warningEtudiant.setEndDate(new Date());
 		warningEtudiant.setCurentDate(new Date());
@@ -397,7 +433,7 @@ public class ScheduleView implements Serializable {
 			if (typeEvenement.equals("retard")) {
 				signalerUnRetad();
 			} else if (typeEvenement.equals("absence")) {
-				signalerUnAbsence();
+				signalerUneAbsence();
 			} else if (typeEvenement.equals("entretient")) {
 				signalerUnEntretien();
 			} else if (typeEvenement.equals("top")) {

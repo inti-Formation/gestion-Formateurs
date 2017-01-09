@@ -52,9 +52,9 @@ public class SpecialiteBean implements Serializable{
 		return "specialite?faces-redirect=true";
 	}
 	
-	/*add Specialite*/
+	/**@method add Specialite*/
 	public void addSpecialite(){
-		Specialite specialite = new Specialite(designation);
+		specialite = createSpecialite();
 		try {
 			serviceSpec.addSpecialite(specialite);
 			getAllSpecialite();
@@ -65,12 +65,23 @@ public class SpecialiteBean implements Serializable{
 		}
 		
 	}
+	
+	/**
+	 * @create New Specialite
+	 **@return Object Specialite 
+	 **@factory.create.method
+	 */
+	private Specialite createSpecialite() {
+		specialite = FactoryBean.getSepcialiteFactory().create("Specialite");
+		specialite.setDesignation(designation);
+		return specialite;
+	}
 	@PostConstruct
 	public void getAllSpec(){
 		getAllSpecialite();
 		LOGGER.info("Specialitées"+specialites);
 	}
-	/*@method getAllSpecialite*/
+	/**@method getAllSpecialite*/
 	public void getAllSpecialite(){
 		specialites=serviceSpec.getAllSpecV2();
 	}

@@ -2,7 +2,10 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
@@ -47,26 +50,41 @@ public class Bean implements Serializable {
 
 	/*method add question*/
 	public void addQuestionV2() {
-		Question q = new Question(propositionquestion, premeiereReponse,
-				douxiemeReponse, troisiemeReponse, quatriemeReponse,
-				premeiereBonneReponse, douxiemeBonneReponse,
-				troisiemeBonneReponse, quatriemeBonneReponse);
-		q.setNumQuestion(nombreQuestionsByModule + 1);
+		Question question = createQuestion();
 		try {
-			serviceQuestion.addQuestion(q, idModule);
+			serviceQuestion.addQuestion(question, idModule);
 			getQuestionByModule();
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Success",
-					"La Question :" + q.getPropositionquestion()
+					"La Question :" + question.getPropositionquestion()
 					+ " Ajouter Avec Success dans le Module N °" + idModule));
 			/*reset filds*/
-			reset();
+			 reset();
+			mixChoiseOfReponses();
 		} catch (AddQuestionException e) {
 			FacesContext context2 = FacesContext.getCurrentInstance();
 			context2.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Warning",e.getMessage()));		
 		}
 	}
-	/*reset*/
+	/**
+	 * @return Object Question 
+	 * @factory.create.method
+	 */
+	private Question createQuestion() {
+		Question question = FactoryBean.getQuestionFactory().create("Question");
+		question.setPropositionquestion(propositionquestion);
+		question.setPremeiereReponse(premeiereReponse);
+		question.setDouxiemeReponse(douxiemeReponse);
+		question.setTroisiemeReponse(troisiemeReponse);
+		question.setQuatriemeReponse(quatriemeReponse);
+		question.setPremeiereBonneReponse(premeiereBonneReponse);
+		question.setDouxiemeBonneReponse(douxiemeBonneReponse);
+		question.setTroisiemeBonneReponse(troisiemeBonneReponse);
+		question.setQuatriemeBonneReponse(quatriemeBonneReponse);
+		question.setNumQuestion(nombreQuestionsByModule + 1);
+		return question;
+	}
+	/**@reset*/
 	public void reset(){
 		propositionquestion="";
 		premeiereReponse="";
@@ -77,13 +95,34 @@ public class Bean implements Serializable {
 		douxiemeBonneReponse="";
 		troisiemeBonneReponse="";
 		quatriemeBonneReponse="";
+		mixChoiseOfReponses();
 	}
-    /* get question by module*/
+	
+	public void mixChoiseOfReponses(){
+		// String Array
+	    String[] stringArray = 
+	        new String[] { "mauvaise", "bonne", "mauvaise", "mauvaise"};
+	    
+	    List<String> tabListe = Arrays.asList(stringArray);
+	    Collections.shuffle(tabListe);
+		
+		for(int i=0;i<tabListe.size();i++){
+			setPremeiereBonneReponse(tabListe.get(0));
+			setDouxiemeBonneReponse( tabListe.get(1));
+			setTroisiemeBonneReponse(tabListe.get(2));
+			setQuatriemeBonneReponse(tabListe.get(3));
+		}
+		
+	}
+	
+    /**@get question by module*/
 	public void getQuestionByModule() {
 		nombreQuestionsByModule = serviceQuestion
 				.nombreQuestionsByModule(idModule);
 		questions = serviceQuestion.getAllQuestionsByModule(idModule);
 	}
+	
+	
 
 	public Bean() {
 		m_lFields = new ArrayList();
@@ -219,5 +258,6 @@ public class Bean implements Serializable {
 	public void setQuatriemeBonneReponse(String quatriemeBonneReponse) {
 		this.quatriemeBonneReponse = quatriemeBonneReponse;
 	}
-
+	
+	
 }

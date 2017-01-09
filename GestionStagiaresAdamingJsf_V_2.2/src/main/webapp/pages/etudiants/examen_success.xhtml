@@ -65,11 +65,19 @@
 				    
 					<p:column headerText="Point">
 				        <h:outputText value="#{r.point}" />
+				        <p:spacer width="10"></p:spacer>
+				        <h:graphicImage rendered="#{r.point == 1}"     name="NiceAdmin/img/check.png"/> 
+                        <h:graphicImage rendered="#{r.point == 0}" name="NiceAdmin/img/cross.png"/> 
 				    </p:column>
 				</p:dataTable>
-				<h:form>
+				<br></br>
+				<br></br>
 				<!-- add boutton accueil -->
-				<p:commandButton ajax="false" action="index?faces-redirect=true" value="Retour Accueil"/></h:form>
+				<div style="text-align:center;">
+					<h:form>
+					   <h:commandButton styleClass="btn btn-danger" ajax="false" action="index?faces-redirect=true" value="Retour Accueil"/>
+					</h:form>
+				</div>
    		 </h:panelGroup>
 	</div>		  
 	</div>

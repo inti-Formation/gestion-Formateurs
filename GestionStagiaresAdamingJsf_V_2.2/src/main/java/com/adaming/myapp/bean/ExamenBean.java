@@ -65,10 +65,9 @@ public class ExamenBean implements Serializable {
 	public String redirect() {
 
 		// on cree la note finale
-		Note noteF = new Note(note);
-
+		Note noteFinal = createNote();
 		try {
-			serviceNotes.addNoteFinal(noteF, etudiant.getSessionEtudiant()
+			serviceNotes.addNoteFinal(noteFinal, etudiant.getSessionEtudiant()
 					.getIdSession(), etudiant.getIdEtudiant(), idModule);
 		} catch (Exception e) {
 			resetVarsExam();
@@ -83,11 +82,23 @@ public class ExamenBean implements Serializable {
 		return "examen_success?redirect=true";
 	}
 
+	/**
+	 * @create New Score
+	 ** @return Object Note
+	 ** @factory.create.method
+	 */
+	private Note createNote() {
+		Note noteFinal = FactoryBean.getNoteFactory().create("Note");
+        noteFinal.setScore(note);
+		return noteFinal;
+	}
+
 	/* @method copie de redirect() avec redirection a la fin de Timeout */
 	public void onTimeout() {
 
-		Note noteF = new Note(note);
-		serviceNotes.addNoteFinal(noteF, etudiant.getSessionEtudiant()
+		// on cree la note finale
+		 Note noteFinal = createNote();
+		serviceNotes.addNoteFinal(noteFinal, etudiant.getSessionEtudiant()
 				.getIdSession(), etudiant.getIdEtudiant(), idModule);
 
 		// init reponsesFinal
@@ -95,13 +106,7 @@ public class ExamenBean implements Serializable {
 		// on ordonne la listes des reponses par num
 		Collections.sort(reponses, new MyComparator());
 		LOGGER.info("trier le tableau"+reponses);
-
-		FacesContext
-				.getCurrentInstance()
-				.getApplication()
-				.getNavigationHandler()
-				.handleNavigation(FacesContext.getCurrentInstance(), null,
-						"examen_success");
+		FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null,"examen_success");
 	}
 
 	/* @method add ExamenV3 */
@@ -112,34 +117,22 @@ public class ExamenBean implements Serializable {
              for(Question q:questions){
 				if (reponseSelectionnee.equals(q.getPremeiereReponse()) && 
 						q.getPremeiereBonneReponse().equals("bonne")) {
-						note++;
-					    q.setPoint(1);
-					    q.setStrReponse(reponseSelectionnee);
-					    question=q;
-					    break;
+					    	question = incrementScore(q);
+							break;
 					} 
 					else if (reponseSelectionnee.equals(q.getDouxiemeReponse()) && 
 							q.getDouxiemeBonneReponse().equals("bonne")) {
-							note++;
-							 q.setPoint(1);
-							 q.setStrReponse(reponseSelectionnee);
-							 question=q;
+							question = incrementScore(q);
 							 break;
 					} 
 					else if (reponseSelectionnee.equals(q.getTroisiemeReponse()) && 
 							q.getTroisiemeBonneReponse().equals("bonne")) {
-							note++;
-							 q.setPoint(1);
-							 q.setStrReponse(reponseSelectionnee);
-							question=q;
+							question = incrementScore(q);
 							break;
 					} 
 					else if (reponseSelectionnee.equals(q.getQuatriemeReponse()) && 
 							q.getQuatriemeBonneReponse().equals("bonne")) {
-							note++;
-							 q.setPoint(1);
-							 q.setStrReponse(reponseSelectionnee);
-						    question=q;
+							question = incrementScore(q);
 						    break;
 					}
 					else if (reponseSelectionnee.equals(q.getPremeiereReponse()) && 
@@ -154,6 +147,7 @@ public class ExamenBean implements Serializable {
 						 q.setStrReponse(reponseSelectionnee);
 						 q.setPoint(0);
 						 question=q;
+						 System.out.println("réponse fause "+question);
 						 break;
 					}
 			}
@@ -163,6 +157,16 @@ public class ExamenBean implements Serializable {
             LOGGER.debug("tab size"+reponses.size());
 		}
        
+	}
+    /**@refactoring incrementScore*/
+	private Question incrementScore(Question q) {
+		Question question;
+		note++;
+		q.setPoint(1);
+		q.setStrReponse(reponseSelectionnee);
+		question=q;
+		System.out.println("question stocké juste "+question);
+		return question;
 	}
 
 	public void resetVarsExam() {
@@ -186,7 +190,7 @@ public class ExamenBean implements Serializable {
 	
     /*init examen*/
 	public String initExamen() {
-		etudiant = new Etudiant();
+		etudiant = createEtudiant();
 		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
 		idSession = etudiant.getSessionEtudiant().getIdSession();
 		idEtudiant = etudiant.getIdEtudiant();
@@ -194,10 +198,22 @@ public class ExamenBean implements Serializable {
 		return "examen?redirect=true";
 
 	}
+
+	/**
+	 * @create New Etudiant
+	 ** @return Object Etudiant
+	 ** @factory.create.method
+	 */
+	private Etudiant createEtudiant() {
+		etudiant = FactoryBean.getEtudiantFactory().create("Etudiant");
+	    return etudiant;
+	}
 	/*get all notes by student*/
 	public String getAllNotesByStudent(){
-		etudiant = new Etudiant();
+		etudiant = createEtudiant();
+		System.out.println("create "+etudiant);
 		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
+		System.out.println("get etudiant by name "+etudiant);
 		idEtudiant = etudiant.getIdEtudiant();
 		notes=new ArrayList<Note>();
 		notes=serviceNotes.getAllNotesByStudent(idEtudiant);

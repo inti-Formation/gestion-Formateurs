@@ -5,7 +5,25 @@ import java.util.Random;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.adaming.myapp.entities.Etudiant;
+import com.adaming.myapp.entities.Formateur;
+import com.adaming.myapp.entities.Module;
+import com.adaming.myapp.entities.Note;
+import com.adaming.myapp.entities.Question;
+import com.adaming.myapp.entities.Role;
+import com.adaming.myapp.entities.SessionEtudiant;
+import com.adaming.myapp.entities.Specialite;
+import com.adaming.myapp.entities.User;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
+import com.adaming.myapp.factory.manager.IFactory;
+import com.adaming.myapp.factory.producer.EtudiantFactoryProducer;
+import com.adaming.myapp.factory.producer.FormateurFactoryProducer;
+import com.adaming.myapp.factory.producer.ModuleFactoryProducer;
+import com.adaming.myapp.factory.producer.NoteFactoryProducer;
+import com.adaming.myapp.factory.producer.QuestionFactoryProducer;
+import com.adaming.myapp.factory.producer.RoleFactoryProducer;
+import com.adaming.myapp.factory.producer.SessionFactoryProducer;
+import com.adaming.myapp.factory.producer.SpecialiteFactoryProducer;
+import com.adaming.myapp.factory.producer.UserFactoryProducer;
 
 public class Test {
     
@@ -24,15 +42,9 @@ public class Test {
 	}
 	public static void main(String[] args) {
 		//System.out.println(generateSessionKey(8));
-		Integer x = 5;
-		Integer y = 5;
-		Integer z = new Integer(5);
-		System.out.println("x : "+x);
-		System.out.println("y : "+y);
-		System.out.println("z : "+z);
-		System.out.println( "x @"+x.TYPE);
-		System.out.println( "y @"+y.TYPE);
-		System.out.println( "z @"+z.TYPE);
+		
+		
+
 	}
 	
 	

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.adaming.myapp.entities.Etudiant;
@@ -24,7 +25,7 @@ public class Note implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idNote;
 	private Double score;
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="ID_ETU_NOTE")
 	private Etudiant etudiant;
 	@OneToOne

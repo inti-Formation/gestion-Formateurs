@@ -2,6 +2,7 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -10,14 +11,18 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.AddSessionException;
 import com.adaming.myapp.session.service.ISessionService;
+import com.adaming.myapp.tools.DataUtil;
+import com.adaming.myapp.tools.Filter;
 import com.adaming.myapp.user.service.IUserService;
 
 
@@ -36,37 +41,54 @@ public class SessionBean implements Serializable{
 	private ISessionService serviceSession;
 
 	private Long idSession;
+	@NotNull(message="La Formation est Obligatoire")
 	private Long idSpecialite;
+	@NotNull(message="Date de Début est Obligatoire")
 	private Date dateDebute;
+	@NotNull(message="Date de Fin est Obligatoire")
 	private Date dateFin;
 	private Long dateDebuteInDays;
 	private Long dateFinInDays;
 	private List<SessionEtudiant> sessions;
 	private List<SessionEtudiant> sessionsInProgress;
+	@NotEmpty(message="Lieu est Obligatoire")
 	private String lieu;
 	private String succes;
 	private String addSessionException;
 	private SessionEtudiant sessionEtudiant;
+	private Date curentDate;
 
-    /*@method add session*/
+    /**@method add session*/
 	public void addSession() throws ParseException {
-		SessionEtudiant se = new SessionEtudiant(dateDebute,
-				dateFin, lieu);
+		sessionEtudiant = createSession();
 		try {
-			serviceSession.addSessionStudent(se, idSpecialite);
+			serviceSession.addSessionStudent(sessionEtudiant, idSpecialite);
 			getAllSessions();
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Success",
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Success",
 					"La Prochaine Session aura lieu à " + lieu
 					+ " à bien été enregistrer avec succes "));
 			reset();
 		} catch (AddSessionException e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Warning",e.getMessage()));
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Warning",e.getMessage()));
 			dateDebute=null;
 			dateFin=null;		
 		}
 
+	}
+
+	/**
+	 * @create New Session
+	 **@return Object Session 
+	 **@factory.create.method
+	 */
+	private SessionEtudiant createSession() {
+		sessionEtudiant = FactoryBean.getSessionFactory().create("SessionEtudiant");
+		sessionEtudiant.setDateDebute(dateDebute);
+		sessionEtudiant.setDateFin(dateFin);
+		sessionEtudiant.setLieu(lieu);
+		return sessionEtudiant;
 	}
 	
 	/*vider les champs aprés l'insertion de chaque session*/
@@ -92,7 +114,7 @@ public class SessionBean implements Serializable{
 	public void getAllSessions() throws ParseException {
 		//getSessionEnCours();
 		sessions = serviceSession.getAllSessions();
-		Date curentDate= new Date();
+		curentDate= new Date();
 		for(SessionEtudiant s:sessions){
 			if(s.getDateFin().getTime()<=curentDate.getTime()){
 				s.setEtatSession("TERMINE");
@@ -126,7 +148,12 @@ public class SessionBean implements Serializable{
 			
 		}
 	}
-	
+	/**@filling all villes and départements*/
+	public List<String> getAllVilles(String query){
+		List<String> villes = Arrays.asList(DataUtil.fillingVilles(query));
+		List<String> villesFiltred = Filter.filterObject(query, villes);
+		return villesFiltred;
+	}
 
 	public Long getIdSession() {
 		return idSession;
@@ -222,6 +249,20 @@ public class SessionBean implements Serializable{
 
 	public void setDateFinInDays(Long dateFinInDays) {
 		this.dateFinInDays = dateFinInDays;
+	}
+
+	/**
+	 * @return the curentDate
+	 */
+	public Date getCurentDate() {
+		return curentDate;
+	}
+
+	/**
+	 * @param curentDate the curentDate to set
+	 */
+	public void setCurentDate(Date curentDate) {
+		this.curentDate = curentDate;
 	}
 
 	
