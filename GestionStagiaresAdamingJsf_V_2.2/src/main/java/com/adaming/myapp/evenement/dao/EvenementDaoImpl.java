@@ -22,61 +22,40 @@ public class EvenementDaoImpl extends EvenementAbstractJpa implements
 	}
 
 	@Override
-	public List<Evenement> getEvenementsRetards() {
+	public List<Object[]> getEvenementsRetards() {
 		return getEvenementsRetardsAbstractJpa();
 	}
 
 	@Override
-	public List<Evenement> getEvenementsAbsences() {
+	public List<Object[]> getEvenementsAbsences() {
 		return getEvenementsAbsencesAbstractJpa();
 	}
 
 	@Override
-	public List<Evenement> getEvenementsEntretien() {
+	public List<Object[]> getEvenementsEntretien() {
 		return getEvenementsEntretienAbstractJpa();
 	}
 
 	@Override
-	public List<Evenement> getNumberOfCurrentsRetards() {
-
-		return getNumberOfCurrentsRetardsAbstractJpa();
+	public List<Object[]> getDailyCountOfRetards() {
+		return getDailyCountOfRetardsAbstractJpa();
 	}
 
 	@Override
-	public List<Evenement> getNumberOfCurrentsAbsence() {
-
-		return getNumberOfCurrentsAbsenceAbstractJpa();
+	public List<Object[]> getDailyCountOfAbsence() {
+		return getDailyCountOfAbsenceAbstractJpa();
 	}
 
 	@Override
-	public List<Evenement> getNumberOfCurrentsWarning() {
-
-		return getNumberOfCurrentsWarningAbstractJpa();
+	public List<Object[]> getDailyCountOfWarning() {
+		return getDailyCountOfWarningAbstractJpa();
 	}
 
 	@Override
-	public List<Evenement> getNumberOfCurrentsTop() {
-
-		return getNumberOfCurrentsTopAbstractJpa();
+	public List<Object[]> getDailyCountOfTop() {
+		return getDailyCountOfTopAbstractJpa();
 	}
 
-	@Override
-	public List<Evenement> getAllEvenementsRetards() {
-
-		return getAllEvenementsRetardsAbstractJpa();
-	}
-
-	@Override
-	public List<Evenement> getAllEvenementsEntretient() {
-
-		return getAllEvenementsEntretientAbstractJpa();
-	}
-
-	@Override
-	public List<Evenement> getAllEvenementsAbsences() {
-
-		return getAllEvenementsAbsencesAbstractJpa();
-	}
 
 	@Override
 	public List<Evenement> getAllEvenements() {
@@ -96,10 +75,35 @@ public class EvenementDaoImpl extends EvenementAbstractJpa implements
 		return getEventsExisteAbstractJpa(idEtudiant);
 	}
 
-/*	@Override
-	public List<Object[]> getEventsTopExiste(Long idEtudiant) {
+	@Override
+	public long getNumberOfRetards() {
 		// TODO Auto-generated method stub
-		return getEventsTopExiste(idEtudiant);
-	}*/
+		return getNumberOfRetardsAbstractJpa();
+	}
+
+	@Override
+	public long getNumberOfAbsence() {
+		// TODO Auto-generated method stub
+		return getNumberOfAbsenceAbstractJpa();
+	}
+
+	@Override
+	public long getNumberOfWarning() {
+		// TODO Auto-generated method stub
+		return getNumberOfWarningAbstractJpa();
+	}
+
+	@Override
+	public long getNumberOfTop() {
+		// TODO Auto-generated method stub
+		return getNumberOfOfTopAbstractJpa();
+	}
+
+	@Override
+	public Evenement verifyExistingEvent(Long idEtudiant) {
+		// TODO Auto-generated method stub
+		return verifyExistingEventAbstractJpa(idEtudiant);
+	}
+
 
 }

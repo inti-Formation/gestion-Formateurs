@@ -5,7 +5,9 @@
 	xmlns:h = "http://java.sun.com/jsf/html"
 	xmlns:p = "http://primefaces.org/ui"
     xmlns:ui= "http://java.sun.com/jsf/facelets">
-
+       <f:metadata>
+		 <f:viewAction action="#{examenBean.initResponses}" />
+	   </f:metadata>
 <h:head>
 	<title>Examen</title>
 	   <f:facet name="middle">
@@ -17,15 +19,17 @@
             <h:outputStylesheet name="NiceAdmin/css/font-awesome.min.css"/>
             <h:outputScript  name="NiceAdmin/js/jquery.js" />
             <h:outputScript  name="NiceAdmin/js/bootstrap.js" />
-            <h:outputScript  name="NiceAdmin/js/jquery.scrollTo.min.js" />
-            <h:outputScript  name="NiceAdmin/js/jquery.nicescroll.js" />
-            <h:outputScript  name="NiceAdmin/js/jquery.customSelect.min.js" />
-            <h:outputScript  name="NiceAdmin/js/scripts.js" />
-            <h:outputScript  name="NiceAdmin/js/charts.js" />
+
      </f:facet>
+<SCRIPT type="text/javascript">
+    window.history.forward();
+    function noBack() { window.history.forward(); }
+</SCRIPT>
 </h:head>
-<h:body>
-<ui:include src="header.xhtml"></ui:include>
+
+<h:body onload="noBack();"
+onpageshow="if (event.persisted) noBack();" onunload="">
+
 <!--ui:include src="aside.xhtml" ></ui:include-->
 <ui:include src="form_addExamen.xhtml"></ui:include>
 

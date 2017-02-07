@@ -1,8 +1,11 @@
 package com.adaming.myapp.module.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.adaming.myapp.entities.Module;
@@ -11,32 +14,35 @@ import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.exception.AddModuleException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.persistence.AbstractJpaDao;
+import com.adaming.myapp.tools.LoggerConfig;
 
 public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
     
-	private final Logger LOGGER = Logger.getLogger("ModuleDaoImpl");
 	
 	@Override
 	public List<Module> getAll() {
 		List<Module> modules = getAllAbstractJpa();
-		LOGGER.info("il existe "+modules.size()+"Modules");
+		LoggerConfig.logInfo("il existe "+modules.size()+"Modules");
 		return modules;
 	}
 
 	@Override
 	public Module getOne(Long id) {
-		Module m = getOneAbstractJpa(id);
-		LOGGER.info("le module"+m.getIdModule()+"a bien été recupérer");
-		return m;
+		 final String SQL = "select distinct m from Module m " +
+                 "left join fetch m.specialite " +
+                 "where m.id = :x";
+
+		 return (Module) em.createQuery(SQL)
+		       .setParameter("x", id)
+		       .getSingleResult();
 	}
 
 	@Override
-	public Module addModule(Module m, Long idSpecialite)
-			throws AddModuleException {
+	public Module addModule(Module m, Long idSpecialite){
 		Specialite s  = em.find(Specialite.class, idSpecialite);
 		m.setSpecialite(s);
 		em.persist(m);
-		LOGGER.info("le module"+m.getIdModule()+" a bien été enregistrer");
+		LoggerConfig.logInfo("le module"+m.getIdModule()+" a bien été enregistrer");
 		return m;
 	}
 
@@ -45,7 +51,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 		Specialite s = em.find(Specialite.class,idSpecialite);
 		m.setSpecialite(s);
 		em.merge(m);
-		LOGGER.info("le module "+m.getIdModule()+" a bien été recupérer");
+		LoggerConfig.logInfo("le module "+m.getIdModule()+" a bien été Modifié");
 		return m;
 	}
 
@@ -58,7 +64,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 			if(modules.size() ==0){
 				throw new VerificationInDataBaseException("Il n'existe aucun module dans le cursus "+s.getDesignation());
 			}
-			LOGGER.info("il existes"+modules.size()+" dans la specialite"+s.getDesignation());
+			LoggerConfig.logInfo("il existes"+modules.size()+" dans la specialite"+s.getDesignation());
 		}
 		return modules;
 	}
@@ -67,8 +73,48 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 	public List<Module> getModulesBySession(Long idSession) {
 		SessionEtudiant session = em.find(SessionEtudiant.class,idSession);
 		List<Module> modules = session.getSpecialite().getModules();
-		LOGGER.info("il existe "+modules.size()+" modules dans la sessions Numéro "+idSession);
+		LoggerConfig.logInfo("il existe "+modules.size()+" modules dans la sessions Numéro "+idSession);
 		return modules;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getModulesBySessionV2(Long idSession) {
+		final String SQL = "Select m.idModule,m.nomModule,m.actif,sp.idSession From Module m join m.specialite.sessionEtudiant sp where sp.idSession =:x";
+		Query query = em.createQuery(SQL);
+		query.setParameter("x",idSession);
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Module> getModuleActivedBySession(Long idSession) {
+		final String SQL ="from Module m join fetch m.specialite sp join fetch sp.sessionEtudiant se where se.idSession =:x and m.actif = TRUE";
+		Query query = em.createQuery(SQL).setParameter("x",idSession);
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<Object[]> getModulesValideBySession(Long idSession) {
+		final String SQL = "Select DISTINCT m.idModule,m.nomModule,m.actif,se.idSession FROM Note n "
+				         + "join n.module m join n.sessionEtudiant se where se.idSession =:x and n.score IS NOT NULL";
+		Query query = em.createQuery(SQL).setParameter("x",idSession);
+		Set<Object[]> modulesValides = new HashSet<Object[]>(query.getResultList());
+		return modulesValides;
+	}
+
+	@Override
+	public Module verifyExistingModule(String name) {
+		 final String SQL = "select distinct m from Module m where m.nomModule =:x";     
+		 Module module = null;
+         Query query =  em.createQuery(SQL)
+				       .setParameter("x", name);
+		 if(query.getResultList() != null && !query.getResultList().isEmpty()){
+			 module = (Module) query.getResultList().get(0);
+		 }
+
+		 return module;
 	}
 
 }

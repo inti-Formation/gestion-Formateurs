@@ -9,30 +9,30 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.exception.AddSpecialiteException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.specialite.dao.ISpecialiteDao;
+import com.adaming.myapp.tools.LoggerConfig;
 
 @Transactional(readOnly=true)
 public class SpecialiteServiceImpl implements ISpecialiteService{
     
-	Logger log = Logger.getLogger("SpecialiteServiceImpl");
+	
 	
 	private ISpecialiteDao dao;
 	
 	public void setDao(ISpecialiteDao dao) {
 		this.dao = dao;
-		log.info("<----------dao specialite injected-------->");
+		LoggerConfig.logInfo("<----------dao specialite injected-------->");
 	}
 
 	@Override
 	@Transactional(readOnly=false)
-	public Specialite addSpecialite(Specialite sp) throws AddSpecialiteException {
-		List<Specialite> tabSpecialite = null;
-		tabSpecialite = getAllSpecV2();// get All Spécialitée disponibles
-		for (Specialite s : tabSpecialite) {
-			if (s.getDesignation().equals(sp.getDesignation())) {
-				throw new AddSpecialiteException(
-						"La Spécialitée "+s.getDesignation()+" Existe Déja !!");
-			}
+	public Specialite addSpecialite(Specialite sp) throws VerificationInDataBaseException {
+		Specialite specialite = verifyExistingSpecialite(sp.getDesignation());
+		if (specialite != null) 
+		{
+			throw new VerificationInDataBaseException(
+					"La Spécialitée "+sp.getDesignation()+" Existe Déja !!");
 		}
 		return dao.addSpecialite(sp);
 	}
@@ -50,16 +50,18 @@ public class SpecialiteServiceImpl implements ISpecialiteService{
 		return dao.getSpecialiteById(idSpecialite);
 	}
 
-	/*@Override
-	public List<Specialite> getAllSpec() {
-		// TODO Auto-generated method stub
-		return dao.getAllSpec();
-	}*/
+	
 
 	@Override
 	public List<Specialite> getAllSpecV2() {
 		// TODO Auto-generated method stub
 		return dao.getAllSpecV2();
+	}
+
+	@Override
+	public Specialite verifyExistingSpecialite(String name) {
+		// TODO Auto-generated method stub
+		return dao.verifyExistingSpecialite(name);
 	}
 	
 	

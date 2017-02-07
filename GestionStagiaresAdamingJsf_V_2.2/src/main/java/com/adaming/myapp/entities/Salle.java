@@ -21,6 +21,7 @@ public class Salle implements Serializable{
 	@JoinColumn(name="ID_SIT_SALLE")
 	private Site site;
 
+	
 	public Salle(String numeroSalle, Integer nbPlace) {
 		super();
 		this.numeroSalle = numeroSalle;
@@ -86,7 +87,6 @@ public class Salle implements Serializable{
 	public void setSite(Site site) {
 		this.site = site;
 	}
-	
-	
 
+	
 }

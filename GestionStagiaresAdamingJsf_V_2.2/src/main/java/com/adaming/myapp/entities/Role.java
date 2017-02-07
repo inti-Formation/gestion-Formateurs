@@ -3,6 +3,7 @@ package com.adaming.myapp.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ public class Role implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idRole;
 	private String roleName;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_users")
 	private User user;
 	

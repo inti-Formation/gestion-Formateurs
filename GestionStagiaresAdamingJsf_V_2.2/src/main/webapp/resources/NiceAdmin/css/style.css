@@ -9,7 +9,9 @@ Website: http://geekslabs.com/
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(line-icons.css);
 
-
+.ui-selectonemenu-filter-container {
+    width: 98% !important;
+}
 #qid {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -57,7 +59,7 @@ ui-timer {
 }
 
 .modal-body {
-    min-height: 205px
+   /* min-height: 205px*/
 }
 
 
@@ -78,6 +80,32 @@ ui-timer {
     text-align: center;
     padding: 3px 5px;
     background: #00a0df;
+    position: absolute;
+    right: -4px;
+    top: 0px;
+    z-index: 100;
+    border-radius: 9px;
+    min-width: 18px;
+    height: 18px;
+    text-align: center;
+    padding: 3px 5px;
+    color: #ffffff;
+    line-height: 1!important;
+    vertical-align: baseline;
+    white-space: nowrap;
+    display: inline-block;
+    font-size: 12px;
+}
+.red{
+	background-color: red!important;
+}
+.myclassActive{
+		border-radius: 9px;
+    min-width: 18px;
+    height: 18px;
+    text-align: center;
+    padding: 3px 5px;
+    background: red;
     position: absolute;
     right: -4px;
     top: 0px;
@@ -456,7 +484,7 @@ ui-radiobutton-icon
 }
 .ui-widget-header{
 	    border: 1px solid #c7c7cc!important;
-	    background: #e8edff!important;
+	    background: #C6F3E2!important;
 }
 /*messages errors*/
 .ui-growl-item {
@@ -1208,7 +1236,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     max-width: 300px !important;
     min-width: 160px !important;
     top: 42px;
-    width: 235px !important;
+    width: 550px !important;
     padding: 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.176) !important;
     border: none !important;
@@ -1883,13 +1911,13 @@ div[data-role="editor-toolbar"] {
 }
 
 .chats .by-me .chat-content{
-	margin-left: 60px;
+	margin-left: 50px;
 	position: relative; 
 	background: #fff; 
 	border: 1px solid #ddd;
 	padding: 7px 10px;
 	border-radius: 5px;
-	font-size: 13px;
+	font-size: 11px;
 }
 
 .chats .by-me .chat-content:after, .chats .by-me .chat-content:before { 
@@ -2398,7 +2426,7 @@ div[data-role="editor-toolbar"] {
 .toggle-nav {
     float: left;
     padding-right: 15px;
-    margin-top: 20px;
+    margin-top: 11px;
 }
 
 .toggle-nav .icon-reorder {

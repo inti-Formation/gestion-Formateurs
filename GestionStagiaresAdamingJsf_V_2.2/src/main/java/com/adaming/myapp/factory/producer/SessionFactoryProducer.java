@@ -4,9 +4,9 @@ import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.factory.impl.SessionFactoryImpl;
 import com.adaming.myapp.factory.manager.IFactory;
 
-public class SessionFactoryProducer {
+public final class SessionFactoryProducer {
 
-	public static IFactory<SessionEtudiant> getFactoryImpl(String typeImpl){
+	public final static IFactory<SessionEtudiant> getFactoryImpl(String typeImpl){
 		if("SessionFactoryImpl".equalsIgnoreCase(typeImpl)){
 			return new SessionFactoryImpl();
 		}

@@ -1,5 +1,6 @@
 package com.adaming.myapp.etudiant.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -8,9 +9,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.adaming.myapp.entities.Etudiant;
+import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.AddEtudiantException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.tools.LoggerConfig;
 /**
  *  @author Adel 
  *  @version 1.0.0
@@ -35,7 +38,7 @@ public abstract class EtudiantAbstractJpa {
 	/**
      * Logger @see java.util.logging.Logger
      **/
-	final Logger LOGGER = Logger.getLogger("EtudiantAbstractJpa");
+	
 	
 	
 	/**
@@ -48,7 +51,7 @@ public abstract class EtudiantAbstractJpa {
 		e.setSessionEtudiant(s);
 		s.getEtudiants().add(e);
 		entityManager.persist(e);
-		LOGGER.info("l'etudiant " + e.getIdEtudiant() + " a bien été ajouter");
+		LoggerConfig.logInfo("l'etudiant " + e.getIdEtudiant() + " a bien été ajouter");
 		return e;
 	}
 	
@@ -63,7 +66,7 @@ public abstract class EtudiantAbstractJpa {
 		SessionEtudiant s = entityManager.find(SessionEtudiant.class, idSession);
 		e.setSessionEtudiant(s);
 		entityManager.merge(e);
-		LOGGER.info("l'etudiant " + e.getIdEtudiant() + " a bien été modifie");
+		LoggerConfig.logInfo("l'etudiant " + e.getIdEtudiant() + " a bien été modifie");
 		return e;
 	}
     
@@ -77,7 +80,7 @@ public abstract class EtudiantAbstractJpa {
 	public Etudiant removeStudentAbstractJpa(Long idStudent) {
 		Etudiant e = entityManager.find(Etudiant.class, idStudent);
 		entityManager.remove(e);
-		LOGGER.info("l'etudiant " + e.getIdEtudiant() + " a bien été supprime");
+		LoggerConfig.logInfo("l'etudiant " + e.getIdEtudiant() + " a bien été supprime");
 		return e;
 	}
 	
@@ -89,9 +92,13 @@ public abstract class EtudiantAbstractJpa {
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getStudentById
 	**/
 	public Etudiant getStudentByIdAbstractJpa(Long idStudent) {
-		Etudiant e = entityManager.find(Etudiant.class, idStudent);
-		LOGGER.info("l'etudiant " + e.getIdEtudiant() + " a bien été recuperer");
-		return e;
+		final String SQL = "select distinct e from Etudiant e " +
+                "join fetch e.sessionEtudiant " +
+                "where e.idEtudiant = :x";
+
+		 return (Etudiant) entityManager.createQuery(SQL)
+		       .setParameter("x", idStudent)
+		       .getSingleResult();
 	}
 	
 	
@@ -103,29 +110,22 @@ public abstract class EtudiantAbstractJpa {
 	 * @throws VerificationInDataBaseException 
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiantBySession
 	**/
-	public List<Etudiant> getEtudiantBySessionAbstractJpa(Long idSession) throws VerificationInDataBaseException {
-		List<Etudiant> etudiants = null;
-		SessionEtudiant s = entityManager.find(SessionEtudiant.class, idSession);
-		if(s!=null){
-			etudiants = s.getEtudiants();
-			if(etudiants.size() ==0){
-				throw new VerificationInDataBaseException("Il n'existe aucun étudiant dans la session Numéro "+idSession);
-			}
-			LOGGER.info("le nombre des etudiants dans la session N "
-					+ s.getIdSession() + "est " + etudiants.size());
-		}
-		return etudiants;
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getEtudiantBySessionAbstractJpa(Long idSession) {
+
+		final String SQL = "Select e.idEtudiant,e.nomEtudiant,e.prenomEtudiant,e.dateDeNaissance,e.formationInitial,e.ecole,e.dateObtention,e.adresse.adresse,e.adresse.codePostal,e.numTel,e.mail,se.idSession,se.dateDebute,se.dateFin,e.adresse.ville,e.adresse.pays FROM Etudiant e join e.sessionEtudiant se where se.idSession=:x";
+        Query query = entityManager.createQuery(SQL);
+        query.setParameter("x",idSession);
+        List<Object[]> objects = query.getResultList();
+		return objects;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Etudiant> getStudentsBySessionAbstractJpa(Long idSession){
-		List<Etudiant> etudiants = null;
-		SessionEtudiant s = entityManager.find(SessionEtudiant.class, idSession);
-		if(s!=null){
-			etudiants = s.getEtudiants();
-			LOGGER.info("le nombre des etudiants dans la session N "
-					+ s.getIdSession() + "est " + etudiants.size());
-		}
-		return etudiants;
+		
+		final String SQL = "From Etudiant e join fetch e.sessionEtudiant se where se.idSession =:x";
+		Query query = entityManager.createQuery(SQL).setParameter("x",idSession);
+		return query.getResultList();
 	}
 
 	
@@ -137,12 +137,28 @@ public abstract class EtudiantAbstractJpa {
 	 * {@inheritDoc} 
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiant
 	**/
-    @SuppressWarnings("unchecked")
+
 	public Etudiant getEtudiantAbstractJpa(String mail) {
+		final String SQL = "select distinct e From Etudiant e where e.mail=:x";
 		Query query = entityManager
-				.createQuery("From Etudiant e where e.mail=:x");
-		query.setParameter("x", mail);
-		List<Etudiant> u = query.getResultList();
-		return u.get(0);
+				.createQuery(SQL).setParameter("x", mail);
+
+		Etudiant etudiant = null;
+		if(query.getResultList() != null && !query.getResultList().isEmpty()){
+			 etudiant = (Etudiant) query.getResultList().get(0);
+		 }
+		return etudiant;
+	}
+    
+	public Etudiant verifyExistingEtudiantAbstractJpa(String name, Date dateDeNaissance) {
+		final String SQL = "select distinct e From Etudiant e where e.nomEtudiant=:x and e.dateDeNaissance =:y";
+		Query query = entityManager
+				.createQuery(SQL).setParameter("x", name).setParameter("y",dateDeNaissance);
+
+		Etudiant etudiant = null;
+		if(query.getResultList() != null && !query.getResultList().isEmpty()){
+			 etudiant = (Etudiant) query.getResultList().get(0);
+		 }
+		return etudiant;
 	}
 }

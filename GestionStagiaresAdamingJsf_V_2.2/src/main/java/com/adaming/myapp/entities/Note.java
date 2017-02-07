@@ -1,9 +1,8 @@
 package com.adaming.myapp.entities;
 
 import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,23 +14,24 @@ import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.SessionEtudiant;
 
+@SuppressWarnings("serial")
 @Entity
 public class Note implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idNote;
 	private Double score;
-	@ManyToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_ETU_NOTE")
 	private Etudiant etudiant;
-	@OneToOne
+	
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_SES_NOTE")
 	private SessionEtudiant sessionEtudiant;
-	@OneToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_MOD_NOTE")
 	private Module module;
 	

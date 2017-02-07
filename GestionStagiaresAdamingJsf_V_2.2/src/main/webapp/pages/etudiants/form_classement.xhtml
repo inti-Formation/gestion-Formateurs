@@ -12,7 +12,11 @@
 	<br> </br>
 	<br> </br>
 	<br> </br>
+	
 	<div class="well container">
+	<p:messages autoUpdate="true" closable="true" showDetail="true" showSummary="true"></p:messages>
+	<p:growl id="growl" showDetail="true" life="5000" /> 
+	<c:if test="#{fn:length(classementBean.modules) > 0}">
 	    <section class="wrapper">
 		  <div class="row">
 				<div class="col-lg-12">
@@ -20,7 +24,8 @@
 						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Classement</h3>
 					</ol>
 				</div>
-			</div>            
+			</div>  
+			           
               <div class="row">
                   <div class="col-lg-12">
                       <section class="panel">
@@ -32,21 +37,21 @@
                                  <h:form class="form-validate form-horizontal">
 	                               <div class="form-group ">
 	                                   <label for="session" class="control-label col-lg-2">Module <span class="required">*</span></label>
-	                                   <div class="col-lg-10">
-	                                        <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-												required-message="1 - le Module *"
+	                                   <div class="col-lg-5">
+	                                        <h:selectOneMenu style="height:35px;width:100%;color:#797979;font-size:16px;" styleClass="selectpicker"
+												
 											    value="#{classementBean.idModule}">
 											    <f:selectItem itemLabel="Sélectionnez un Module"
 														itemValue="#{null}" />
 												<f:selectItems value="#{classementBean.modules}" var="m"
-														itemLabel="#{m.nomModule}"
-														itemValue="#{m.idModule}" />
+														itemLabel="#{m[1]}"
+														itemValue="#{m[0]}" />
 											</h:selectOneMenu>
 	                                    </div>
 	                                 </div>
 	                                 <div class="form-group">
-	                                       <div class="col-lg-offset-2 col-lg-10">
-	                                           <p:commandButton update=":form10:list" action="#{classementBean.getAllNotesBySessionAndModule}" value="Voir les Résultats" styleClass="btn btn-primary"/>
+	                                       <div class="col-lg-offset-2 col-lg-5">
+	                                           <h:commandButton  update=":form10:list" action="#{classementBean.getAllNotesBySessionAndModule}" value="Voir les Résultats" style="border-radius: 2px!important" styleClass="btn btn-primary btn-lg btn-block"/>
 	                                       </div>
 	                                 </div>
 								  </h:form>
@@ -73,15 +78,15 @@
 													<div class="info-box dark-bg">
 													    
 														<h:outputText value="#{iteration.index+1}"></h:outputText>
-														<p:progressBar  value="#{n.score * 5}" labelTemplate="{value}%" displayOnly="true"/>					
-														<div class="count">#{n.etudiant.nomEtudiant} #{n.etudiant.prenomEtudiant}</div>
-														<div class="title">#{n.score}</div>	
+														<p:progressBar  value="#{n[1]* 5}" labelTemplate="{value}%" displayOnly="true"/>					
+														<div class="count">#{n[2]} #{n[3]}</div>
+														<div class="title">#{n[1]}</div>	
 														<br/>
-														<h:graphicImage rendered="#{n.score eq 20}"     name="NiceAdmin/img/medal_1.png"/>
-														<h:graphicImage rendered="#{n.score ge 15}"     name="NiceAdmin/img/medal_2.png"/> 
-														<h:graphicImage rendered="#{n.score eq 14}"     name="NiceAdmin/img/medal_3.png"/> 
-														<h:graphicImage rendered="#{n.score eq 13}"     name="NiceAdmin/img/medal.png"/> 
-														<h:graphicImage rendered="#{n.score lt 10}"     name="NiceAdmin/img/dislike.png"/> 
+														<h:graphicImage rendered="#{n[1] eq 20}"     name="NiceAdmin/img/medal_1.png"/>
+														<h:graphicImage rendered="#{n[1] ge 15}"     name="NiceAdmin/img/medal_2.png"/> 
+														<h:graphicImage rendered="#{n[1] eq 14}"     name="NiceAdmin/img/medal_3.png"/> 
+														<h:graphicImage rendered="#{n[1] eq 13}"     name="NiceAdmin/img/medal.png"/> 
+														<h:graphicImage rendered="#{n[1] lt 10}"     name="NiceAdmin/img/dislike.png"/> 
 													</div><!--/.info-box-->			
 												</div><!--/.col-->
 										</div><!--/.row-->
@@ -94,6 +99,7 @@
 				</div>
 			</div>
 		</section>
+		</c:if>
 	</div>
 </ui:composition>
 </html>

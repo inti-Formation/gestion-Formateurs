@@ -12,7 +12,7 @@
               <ul class="sidebar-menu">                
                   <li class="active">
                       <h:link outcome="index">
-                          <i><h:graphicImage name="NiceAdmin/img/home.png"/></i>
+                         <i><h:graphicImage width="24px" height="24px" name="NiceAdmin/img/dashboard2.png"/></i>
                           <span>Dashboard</span>
                       </h:link>
                   </li>
@@ -23,7 +23,7 @@
                          <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
                       </a>
                       <ul class="sub">
-                         <li><h:link outcome="custom_password">Changer Le Mot-Passe</h:link></li>                            
+                         <li><h:link outcome="custom_password">Changer Le M-D-Passe</h:link></li>                            
                       </ul>
                   </li>
                   <li class="sub-menu">
@@ -33,7 +33,7 @@
                          <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
                       </a>
                       <ul class="sub">
-                         <li><h:form><h:commandLink action="#{contratBean.redirect}" value="Singature Etudiant"/> </h:form>  </li> 
+                         <li><h:form><h:commandLink action="#{contratBean.redirect}" value="Signature Etudiant"/> </h:form>  </li> 
                       </ul>
                   </li>  
 				  <li class="sub-menu">
@@ -44,7 +44,7 @@
                       </a>
                       <ul class="sub">
                          <li><h:form><h:commandLink action="#{examenBean.initExamen}" value="Passer Un Examen"/> </h:form>  </li>                          
-                         <li><h:form><h:commandLink action="#{examenBean.getAllNotesByStudent}" value="Résultat"/> </h:form>  </li>                    
+                         <li><h:form><h:commandLink action="#{classementBean.getAllNotesByStudents}" value="Résultat"/> </h:form>  </li>                    
                       </ul>
                      
                   </li> 
@@ -56,7 +56,7 @@
                        <i><h:graphicImage name="NiceAdmin/img/security-unlock-button.png" style="float: right;padding-right: 6px"/></i>
                       </a>
                        <ul class="sub">
-                         <li><h:form><h:commandLink action="#{classementBean.getAllModuleBySession}" value="Voir le Classement"/> </h:form>  </li>                                 
+                         <li><h:form><h:commandLink action="#{classementBean.getAllModulesValideBySession}" value="Voir le Classement"/> </h:form>  </li>                                 
                       </ul>
                   </li> 
                    <li class="sub-menu">

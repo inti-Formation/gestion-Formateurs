@@ -4,17 +4,17 @@ import java.util.List;
 
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.GetUserException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IUserService {
-
-	 List<User> getUserByPasswordAndMail(String mail, String password);
 
 	 List<User> getUsersByMail(String mail);
 
 	 User saveUser(User u);
 
 	 User getUser(String mail) throws GetUserException;
-
-	 User updatePassword(String mail, String password, String newPassword)
-			throws GetUserException;
+	 
+	 User getUserByMail(String mail) throws VerificationInDataBaseException;
+	 
+	 User customPassword(User u);
 }

@@ -49,57 +49,59 @@
 		<!-- timer -->
 		<div class="timer">
 			<h:form>
-				<p:growl autoUpdate="true"/>  
+				<p:growl/>  
 				<pe:timer  
-				    timeout="1500"  
+				    timeout="#{examenBean.examenTimeInSeconde}"  
 				    format="HH:mm:ss"
 				    singleRun="true"  
 				    listener="#{examenBean.onTimeout}"/>   
 			</h:form>    		
          </div>
+         <p:growl id="growl" autoUpdate="true" showDetail="true" showSummary="true"></p:growl>
          <!-- data list question  -->
 
-			<p:dataList value="#{examenBean.questionsByModule}" var="q"
+			<p:dataList value="#{examenBean.questions}" var="q"
 					varStatus="iteration">
 		<h:form id="formSelect">
-					<h:inputHidden value="#{examenBean.idSession}" />
-					<h:inputHidden value="#{examenBean.idEtudiant}" />
+					<h:inputHidden value="#{examenBean.sessionEtudiant.idSession}" />
+					<h:inputHidden value="#{examenBean.etudiant.idEtudiant}" />
 					<h:inputHidden value="#{examenBean.idModule}" />
 					<!-- Questions -->
-			    <div class="container-fluid bg-info">
+			  
 			    <div class="modal-dialog" style="width:70%!important">
 		      <div class="modal-content">
 		         <div class="modal-header">
-		            <h3 style="font-size: 20px"><span class="label label-warning" id="qid">#{iteration.index+1}</span><p:spacer width="10"></p:spacer> <h:outputText value="#{q.propositionquestion} ?"/></h3>
+		            <h3 style="font-size: 20px"><span class="label label-warning" id="qid">#{iteration.index+1}</span><p:spacer width="10"></p:spacer> <h:outputText value="#{q.label} ?"/></h3>
 		         </div>
-		           
+		          
 			        <div class="modal-body">
-			           
-		               <!-- select responses  -->
-			        <p:selectOneRadio  
-								value="#{examenBean.reponseSelectionnee}" layout="grid"
-								columns="1" required="true" requiredMessage="vous devez selectionné une réponse">
-				             <div class="quiz" id="quiz">
-					            <f:selectItem  itemLabel="A- #{q.premeiereReponse}"  itemValue="#{q.premeiereReponse}" />
-					            <f:selectItem  itemLabel="B- #{q.douxiemeReponse}" itemValue="#{q.douxiemeReponse}"/>
-					            <f:selectItem  itemLabel="C- #{q.troisiemeReponse}" itemValue="#{q.troisiemeReponse}" />
-					            <f:selectItem  itemLabel="D- #{q.quatriemeReponse}" itemValue="#{q.quatriemeReponse}" />
-				            </div>
-				    </p:selectOneRadio>
+			         
+			               <!-- select responses  -->
+				        <p:selectOneRadio  
+									value="#{examenBean.reponseSelectionnee}" layout="grid" 
+									columns="1" required="true" requiredMessage="Obligatoire">
+					             <div class="quiz" id="quiz">
+					                <f:selectItems  value="#{q.reponses}" var="c" itemLabel="#{c.labelReponse}" itemValue="#{c.idReponse}" ></f:selectItems>
+					            </div>
+					    </p:selectOneRadio>
+
 		          </div>
 		          
+		   
+		    
 		          <!-- button click -->
 					<div style="text-align:center!important;padding-bottom:10px">	
-					<p:commandButton action="#{examenBean.registerV3}" value="Répondre"  ajax="true">
+					<p:commandButton  action="#{examenBean.register}" value="Répondre"  ajax="true">
 						
-						<p:effect type="clip" event="click" ></p:effect>
+						<p:effect type="clip" event="click"  ></p:effect>
 					    
 					</p:commandButton>
 					</div>
 			      </div>
 		        </div>
-		     </div>
+		
 		</h:form>
+		
 		</p:dataList>
 
         <!-- modal confirmation -->

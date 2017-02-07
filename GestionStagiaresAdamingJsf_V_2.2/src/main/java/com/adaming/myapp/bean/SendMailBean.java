@@ -19,6 +19,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.adaming.myapp.tools.LoggerConfig;
+
 @SuppressWarnings("serial")
 @Component("mailBean")
 @Scope(value="session")
@@ -28,7 +30,7 @@ public class SendMailBean implements Serializable {
 	 * LOGGER log4J
 	 * @see org.apache.log4j.Logger
 	 * */
-    private final Logger LOGGER  = Logger.getLogger("SendMailBean");
+   
     
 	//attribut pour tester l'envoi
 	final String username = "nymraif.stark8623@gmail.com";
@@ -57,7 +59,7 @@ public class SendMailBean implements Serializable {
 	public String sendMail() {
 		
 		
-		 LOGGER.debug("destinataire : "+to +" from :"+from +" le message :"+msg +" obj : "+objet);
+		LoggerConfig.logInfo("destinataire : "+to +" from :"+from +" le message :"+msg +" obj : "+objet);
 		 String host = "localhost";
 		 Properties properties = System.getProperties();
 		 properties.put("mail.smtp.auth", "true");
@@ -99,7 +101,7 @@ public class SendMailBean implements Serializable {
 	         FacesContext context = FacesContext.getCurrentInstance();
 	         context.addMessage(mybutton.getClientId(context), msgVal);*/
 	         setMsgSuccess("Sent message successfully");
-	         LOGGER.info(msgSuccess);
+	         LoggerConfig.logInfo(msgSuccess);
 	         
 	      }catch (MessagingException mex) {
 	         mex.printStackTrace();

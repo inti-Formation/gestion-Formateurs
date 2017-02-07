@@ -6,16 +6,18 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+
+
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
-import org.apache.log4j.Logger;
+import org.geonames.Toponym;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.adaming.myapp.entities.Adresse;
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.Role;
 import com.adaming.myapp.entities.User;
@@ -23,12 +25,25 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.formateur.service.IFormateurService;
 import com.adaming.myapp.role.service.IRoleService;
 import com.adaming.myapp.tools.DataUtil;
-import com.adaming.myapp.tools.Filter;
-import com.adaming.myapp.tools.GenerateSessionKey;
+import com.adaming.myapp.tools.SendEmailUtil;
+import com.adaming.myapp.tools.Utilitaire;
 import com.adaming.myapp.user.service.IUserService;
+
+/**
+ * la calss formateurBean, c'est le bean qui permet 
+ * de répondre aux besoins métiers,
+ * pour la création,suppression,modification 
+ * de la class Formateur
+ * 
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ */
+
 @SuppressWarnings("serial")
 @Component("formateurBean")
-@Scope(value="request")
+@ViewScoped
 public class FormateurBean implements Serializable{
     
 	
@@ -40,12 +55,17 @@ public class FormateurBean implements Serializable{
 	@Inject
 	private IRoleService serviceRole;
 	
-	@NotEmpty(message="Veuillez sélectionnez une civilitée")
+	private Adresse adresseObject;
+	
+	@NotEmpty(message="Veuillez sélectionnez une civilité")
 	private String civilite;
 	@NotEmpty
+	@NotBlank
 	private String nom;
+	@NotBlank
 	@NotEmpty
 	private String prenom;
+	@NotBlank
 	@NotEmpty
 	private String adresse;
 	@NotEmpty
@@ -58,7 +78,10 @@ public class FormateurBean implements Serializable{
 	@NotNull
 	private Date dateDeNaissance;
 	@NotEmpty
-	private String lieuDeNaissance;
+	private String ville;
+	@NotEmpty
+	@NotBlank
+	private String pays;
 	@NotEmpty
 	private String specialite;
 	
@@ -66,41 +89,82 @@ public class FormateurBean implements Serializable{
 	private User user;
 	private Role role;
 	private String passwordRandom;
-	/*methodes*/
+	private String passwordCrypted;
+	private List<Toponym> villes;
+	
+	 // Query Operations
+	
+	/** 
+	 * la methode init appel la methode reset
+	 * pour vider les champs
+	 * 
+	 * @return page formateur
+	 */
+	public String init(){
+		reset();
+		return "formateur?faces-redirect=true";
+	}
+	
+	
+	/**
+	 * la methode addFormateur permet d'ajouter un formateur,
+	 * génerer un password random,crypter le password,
+	 * créer un nouveau Formateur,créer un nouveau User,
+	 * créer un nouveau Role et associer le role et le user au formateur créeé
+	 *
+	 * @see com.adaming.myapp.bean.generateRandomPassword
+	 * @see com.adaming.myapp.bean.createFormateur
+	 * @see com.adaming.myapp.bean.createUser
+	 * @see com.adaming.myapp.tools.Utilitaire.passWordEncoderGenerator
+	 * @see com.adaming.myapp.tools.Utilitaire.displayMessageInfo
+	 * @see com.adaming.myapp.tools.Utilitaire.displayMessageWarning
+	 * @throws @see com.adaming.myapp.exception.VerificationInDataBaseException
+	 */
 	public void addFormateur(){
-		/**generate random password*/
-		passwordRandom = generateRandomPassword();
-		/**@create New Formateur */
+		
+		passwordRandom  = generateRandomPassword();
+		/***/
+		passwordCrypted = Utilitaire.passWordEncoderGenerator(passwordRandom);
+		/***/
 		formateur = createFormateur();
-		/**@create New User */
-		user = createUser(passwordRandom);
-		/**@create New Role */
+		/***/
+		user = createUser(passwordCrypted);
+		/***/
 		role = createRole();
-		try {
+		try 
+		{
 			serviceFormateur.addFormateur(formateur);
 			serviceUser.saveUser(user);
 			serviceRole.saveRole(role, user.getIdUser());
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "le Formateur "+nom+", "+prenom+" à bien été ajoutée avec Success"+" Voici les informations du compte Formateur : "+"Pseudo : "+mail+", Password : "+passwordRandom));
+			Utilitaire.displayMessageInfo("le Formateur "+nom+", "+prenom+" à bien été ajoutée avec succès"+" Un e-mail de confirmation a été adressé à l’adresse e-mail : "+"Pseudo : "+mail+", Password : "+passwordRandom);
+			SendEmailUtil.sendMail(formateur.getMail(), "Confirmation de votre inscription",SendEmailUtil.CONFIRMATION_MESSAGE(formateur.getCivilite(),formateur.getNom(),formateur.getPrenom(),formateur.getMail(), passwordRandom));
 			reset();
-		} catch (VerificationInDataBaseException e1) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e1.getMessage()));
+		} 
+		catch (VerificationInDataBaseException e1) 
+		{
+			Utilitaire.displayMessageWarning(e1.getMessage());
 		}
 	}
+
 	/**
-	 * @create New Role
-	 **@return Object Role 
-	 **@factory.create.method
+	 * la methode createRole permet de créer un Role
+	 * 
+	 * @return le role créeé
+	 * @see com.adaming.myapp.bean.FactoryBean.ROLE_FACTORY
+	 * 
 	 */
 	private Role createRole() {
 		role = FactoryBean.getRoleFactory().create("Role");
 		role.setRoleName("ROLE_FORMATEUR");
 		return role;
 	}
+
 	/**
-	 * @create New User
-	 * @param passwordRandom
-	 * @return Object User 
-	 * @factory.create.method
+	 * la methode createUser permet de créer un user
+	 * 
+	 * @param passwordRandom un password génere aléatoirement
+	 * @return le user créeé
+	 * @see com.adaming.myapp.bean.FactoryBean.USER_FACTORY
 	 */
 	private User createUser(String passwordRandom) {
 		user=FactoryBean.getUserFactory().create("User");
@@ -110,75 +174,118 @@ public class FormateurBean implements Serializable{
 		return user;
 	}
 	
-	
+
 	/**
-	 * @create New Formateur
-	 * @return Object Formateur 
-	 * @factory.create.method
+	 * la methode createFormateur permet de créer un formateur
+	 * 
+	 * @return le formateur créeé
+	 * @see com.adaming.myapp.bean.FactoryBean.FORMATEUR_FACTORY
 	 */
 	private Formateur createFormateur() {
+		adresseObject = new Adresse(adresse, ville, codePostal, pays);
 		formateur = FactoryBean.getFormateurFactory().create("Formateur");
 		formateur.setCivilite(civilite);
 		formateur.setNom(nom);
 		formateur.setPrenom(prenom);
-		formateur.setAdresse(adresse);
-		formateur.setCodePostal(codePostal);
 		formateur.setTelMobile(telMobile);
 		formateur.setMail(mail);
 		formateur.setNationalite(nationalite);
 		formateur.setDateDeNaissance(dateDeNaissance);
-		formateur.setLieuDeNaissance(lieuDeNaissance);
 		formateur.setSpecialite(specialite);
+		formateur.setAdresse(adresseObject);
 		return formateur;
 	}
 	
 	/**
-	 ** @method generateRandomKey, generate random password width length 8
-	 ** 
+	 * la methode generateRandomPassword permet de génerer un 
+	 * password aléatoirement
+	 * 
+	 * @return password générer
+	 * @see com.adaming.myapp.tools.Utilitaire.generateRandomKey
+	 * 
 	 */
 	private String generateRandomPassword() {
-		passwordRandom = GenerateSessionKey.generateRandomKey(8);
+		passwordRandom = Utilitaire.generateRandomKey(8);
 		return passwordRandom;
 	}
 	
 	
 	/**
-	 * @vider les champs aprés l'inscription de chaque formateur
+	 * la methode reset permet de vider
+	 * les champs aprés l'inscription de chaque formateur
 	 * 
 	 **/
 	public void reset(){
-		civilite="";
-		nom="";
-		prenom="";
-		adresse="";
+		civilite ="";
+		nom= "";
+		prenom ="";
+		adresse ="";
 		codePostal="";
-		telMobile="";
-		mail="";
-		nationalite="";
-		dateDeNaissance=null;
-		lieuDeNaissance="";
-		specialite="";
+		telMobile ="";
+		mail ="";
+		nationalite ="";
+		dateDeNaissance =null;
+		ville ="";
+		specialite ="";
+		pays ="";
+		villes = null;
 	}
+	
+	
 	/**
-	 * @Autocomplete pour faire l'autocomplétion
-	 * remplir le tableau des spécialité affecter à chauque formateur
+	 * la methode specialitesInfo permet de faire l'autocomplétion,
+	 * remplir le tableau des spécialités affectées à chaque formateur.
 	 * 
+	 * @param query le mot cle tapé dans le formulaire
+	 * @return la liste des spécilaitées trouvées
+	 * @see com.adaming.myapp.tools.Utilitaire.filterObject
+	 * @see com.adaming.myapp.tools.DataUtil.fillingSpecialites
 	 **/
 	public List<String> specialitesInfo(String query){
 		List<String> specilites = DataUtil.fillingSpecialites(query);
-		List<String> filtred = Filter.filterObject(query, specilites);
+		List<String> filtred = Utilitaire.filterObject(query, specilites);
+		return filtred;
+	}
+	
+	
+	
+	/**
+	 * la methode getNations permet de faire l'autocomplétion,
+	 * remplir le tableau de nationnalité affecter à chaque formateur
+	 * 
+	 * @param  query le mot cle tapé dans le formulaire
+	 * @return la liste des nationnalitées trouvées
+	 * @see com.adaming.myapp.tools.Utilitaire.filterObject
+	 **/
+	public List<String> getNations(String query){
+		List<String> nations = Arrays.asList(DataUtil.fillingNation(query));
+		List<String> filtred = Utilitaire.filterObject(query, nations);
 		return filtred;
 	}
 	
 	/**
-	 * @Autocomplete pour faire l'autocomplétion
-	 * remplir le tableau des nations affecter à chauque formateur
+	 * la methode getVillesByCp permet de faire une recherche d'une ville, pays, depuis un code postal
+	 * elle permet également de remplir un tableau de villes, afin d'associé le résultat obtenu  à chaque formateur
 	 * 
+	 * @param  query le code postal tapé dans le formulaire
+	 * @return la liste des villes trouvées
+	 * @see com.adaming.myapp.tools.Utilitaire.getVilles
 	 **/
-	public List<String> getNations(String query){
-		List<String> nations = Arrays.asList(DataUtil.fillingNation(query));
-		List<String> filtred = Filter.filterObject(query, nations);
-		return filtred;
+	public List<Toponym> getVillesByCp(String codePostal){
+		if(codePostal != null)
+		{
+			villes = new ArrayList<Toponym>();
+			for(Toponym toponym:Utilitaire.getVilles(codePostal))
+			{
+				System.out.println(toponym.getName());
+				villes.add(toponym);
+			}
+		}
+		else
+		{
+			villes.clear();
+		}
+		return villes;
 	}
 	
 
@@ -230,11 +337,12 @@ public class FormateurBean implements Serializable{
 	public void setDateDeNaissance(Date dateDeNaissance) {
 		this.dateDeNaissance = dateDeNaissance;
 	}
-	public String getLieuDeNaissance() {
-		return lieuDeNaissance;
+
+	public String getVille() {
+		return ville;
 	}
-	public void setLieuDeNaissance(String lieuDeNaissance) {
-		this.lieuDeNaissance = lieuDeNaissance;
+	public void setVille(String ville) {
+		this.ville = ville;
 	}
 	public String getSpecialite() {
 		return specialite;
@@ -253,6 +361,23 @@ public class FormateurBean implements Serializable{
 	public void setCivilite(String civilite) {
 		this.civilite = civilite;
 	}
-
+	public Adresse getAdresseObject() {
+		return adresseObject;
+	}
+	public void setAdresseObject(Adresse adresseObject) {
+		this.adresseObject = adresseObject;
+	}
+	public String getPays() {
+		return pays;
+	}
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+	public List<Toponym> getVilles() {
+		return villes;
+	}
+	public void setVilles(List<Toponym> villes) {
+		this.villes = villes;
+	}
 
 }

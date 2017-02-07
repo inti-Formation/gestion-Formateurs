@@ -1,26 +1,19 @@
 package com.adaming.myapp.question.dao;
 
 import java.util.List;
-
-import com.adaming.myapp.entities.Question;
-import com.adaming.myapp.exception.AddQuestionException;
+import java.util.Set;
+import com.adaming.myapp.entities.Questions;
+import com.adaming.myapp.entities.Reponses;
 
 public interface IQuestionDao {
 
-	 Question addQuestion(Question q,Long idModule) throws AddQuestionException;
+	 Questions addQuestions(Questions q,Long idModule,List<Reponses> reponses);
 	
-	 Question updateQuestion(Question q,Long idModule);
+	 Set<Questions> getQuestionsByModule(Long idModule);
 	
-	 Question getQuestionById(Long idQuestion);
-	
-	 List<Question> getAllQuestions();
-	
-	 int nombreQuestionsByModule(Long idModule);
-	
-	 List<Question> getAllQuestionsByModule(Long idModule);
-	
-	
-	
-	
+	 Questions verifyExistingQuestions(String label);
+	 
+	 Set<Reponses> getAllReponsesByModule(Long idModule);
+	 
 	
 }

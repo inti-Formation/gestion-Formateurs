@@ -17,13 +17,13 @@ public class SalleDaoImpl extends AbstractJpaDao<Salle> implements ISalleDao {
 	}
 
 	@Override
-	public Salle getOne(Long id) {
+	public Salle getOne(final Long id) {
 		// TODO Auto-generated method stub
 		return getOneAbstractJpa(id);
 	}
 
 	@Override
-	public Salle add(Salle salle,Long idSite) {
+	public Salle add(final Salle salle,final Long idSite) {
 		Site site = em.find(Site.class,idSite);
 		salle.setSite(site);
 		em.persist(salle);
@@ -31,23 +31,23 @@ public class SalleDaoImpl extends AbstractJpaDao<Salle> implements ISalleDao {
 	}
 
 	@Override
-	public Salle update(Salle salle) {
+	public Salle update(final Salle salle) {
 		em.merge(salle);
 		return salle;
 	}
 
 	@Override
-	public Salle remove(Long idSalle) {
+	public Salle remove(final Long idSalle) {
 		Salle salle = getOne(idSalle);
 		em.remove(salle);
 		return salle;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Salle> getSalleByName(String numero,Long idSite) {
-		Query query = em.createQuery("select sa.numeroSalle,sa.site.idSite From Salle sa where sa.numeroSalle=:x and sa.site.idSite =:y");
-		query.setParameter("x",numero);
-		query.setParameter("y",idSite);
+	public List<Salle> getSalleByName(final String numero,final Long idSite) {
+		final String SQL = "select sa.numeroSalle,sa.site.idSite From Salle sa where sa.numeroSalle=:x and sa.site.idSite =:y";
+		Query query = em.createQuery(SQL).setParameter("x",numero).setParameter("y",idSite);
 		return query.getResultList();
 	}
 

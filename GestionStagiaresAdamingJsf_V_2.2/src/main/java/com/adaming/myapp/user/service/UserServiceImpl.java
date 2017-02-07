@@ -1,25 +1,24 @@
 package com.adaming.myapp.user.service;
 
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Logger;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.GetUserException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.tools.LoggerConfig;
 import com.adaming.myapp.user.dao.IUserDao;
 
-
+@Transactional(readOnly=true)
 public class UserServiceImpl implements IUserService{
 
-	private Logger logger = Logger.getLogger("UserServiceImpl");
+	
     
 	private IUserDao dao;
 	
 	public void setDao(IUserDao dao) {
 		this.dao = dao;
-		logger.info("<------User Dao Injected------->");
+		LoggerConfig.logInfo("<------User Dao Injected------->");
 	}
 	
 
@@ -31,32 +30,37 @@ public class UserServiceImpl implements IUserService{
 
 	
 	@Override
-	@Transactional(readOnly=true)
 	public User getUser(String mail) throws GetUserException {
 		
 		return dao.getUser(mail);
 	}
 
-	@Override
-	@Transactional(readOnly=false)
-	public User updatePassword(String mail, String password, String newPassword)
-			throws GetUserException {
-		// TODO Auto-generated method stub
-		return dao.updatePassword(mail, password, newPassword);
-	}
+	
 
 	@Override
-	@Transactional(readOnly=true)
 	public List<User> getUsersByMail(String mail) {
 		// TODO Auto-generated method stub
 		return dao.getUsersByMail(mail);
 	}
 
+	
+
+
 	@Override
-	@Transactional(readOnly=true)
-	public List<User> getUserByPasswordAndMail(String mail, String password) {
+	public User getUserByMail(String mail) throws VerificationInDataBaseException {
+		User user = dao.getUserByMail(mail);
+		if(user == null){
+				throw new VerificationInDataBaseException("Votre mail n'existe pas dans notre base de donnée");
+		}
+		return user;
+	}
+
+
+	@Override
+	@Transactional(readOnly=false)
+	public User customPassword(User u) {
 		// TODO Auto-generated method stub
-		return dao.getUserByPasswordAndMail(mail, password);
+		return dao.customPassword(u);
 	}
 
 	

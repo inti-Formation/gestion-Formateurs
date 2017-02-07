@@ -12,7 +12,7 @@
 	<br> </br>
 	<br> </br>
 	<br> </br>
-	 <p:dialog widgetVar="dlg2" width="75%" modal="true" height="490px">
+		 <p:dialog widgetVar="dlg2" width="75%" modal="true" height="490px" closable="false">
               <div class="sk-circle">
 			  <div class="sk-circle1 sk-child"></div>
 			  <div class="sk-circle2 sk-child"></div>
@@ -29,80 +29,75 @@
 			</div>
         </p:dialog>
 	<div class="well container">
-	    <section class="wrapper">
-		  <div class="row">
+		 <!-- Form validations -->  
+		 <section class="wrapper">
+		     <div class="row">
 				<div class="col-lg-12">
 					<ol class="breadcrumb">
 						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Examen</h3>
 					</ol>
 				</div>
-			</div>            
+			 </div> 
+			  <div class="row">
+				<div class="col-lg-12">
+					<div class="alert alert-info" style="background:white!important;color:#797979;opacity: 0.7;">
+					  <h1 style ="text-transform: uppercase;">#{examenBean.etudiant.nomEtudiant} #{examenBean.etudiant.prenomEtudiant}</h1>
+					  <c:if test="#{examenBean.activeException}">
+						  <h3 style ="text-transform: uppercase;">Formation</h3>
+						  <p  style ="text-transform: uppercase;"><h:outputText value="#{examenBean.sessionEtudiant.specialite.designation}"/></p>
+						  <br></br>
+						  <span><h:outputLabel value="#{examenBean.sessionEtudiant.site.nomSite}"/></span>
+						  <span>/</span>
+						  <span><h:outputLabel value="#{examenBean.sessionEtudiant.salle.numeroSalle}"/></span>
+					  </c:if>
+					  <br></br>
+					  <br></br>
+					  <p:growl id="growl" showDetail="true" life="5000" /> 
+					  <p:messages id="message" closable="true" showDetail="true" autoUpdate="true"/>              
+					</div>
+				</div>
+				
+			 </div> 
+			 <c:if test="#{(examenBean.activeException)}">
+			  <c:if test="#{fn:length(examenBean.modulesActived ) > 0}">
               <div class="row">
                   <div class="col-lg-12">
                       <section class="panel">
                           <header class="panel-heading">
-                              Examen
+                              Passer un Examen
                           </header>
                           <div class="panel-body">
                               <div class="form">
-	
-								<h:form id="form">
-								     <br/><br/>
-								     <!-- add if pour exception -->
-										<c:if test="#{not empty examenBean.addExamException}">
-											<div class="alert alert-warning">
-											<h:outputText id="exception" style="color:red;text-align:center;display: block" value="#{examenBean.addExamException}"/>
-											</div>
-										</c:if>
-										
-									<div class="inputpersso">
-									   <div class="alert alert-info" style="color: black">
-											<p:outputLabel  value="Informations:"
-												styleClass="paddingTop20" />
-											<br />
-							
-							
-											<br />
-											<strong>Etudiant : </strong><br />
-											<h:outputText value="#{examenBean.etudiant.nomEtudiant} - #{examenBean.etudiant.prenomEtudiant}"/><br />
-											<strong>Session : </strong><br />
-											<h:outputText value="Formation: #{examenBean.etudiant.sessionEtudiant.specialite.designation}"/><br />
-											<h:outputText value="Lieu: #{examenBean.etudiant.sessionEtudiant.lieu}"/><br />
-										<c:if test="#{fn:length(examenBean.moduleBySessions) >0 }">
-											<p:outputLabel for="module" value="Module:"
-											styleClass="paddingTop20" />
-										    <br />
-										
-											<p:selectOneMenu id="module" required="true"
-												required-message="Veuillez Rensiegnez la Session SVP!!"
-												renderLabel="true" value="#{examenBean.idModule}">
-												<f:selectItem itemLabel="Sélectionnez Un Module"
-													itemValue="#{null}" noSelectionOption="true"/>
-												<f:selectItems value="#{examenBean.moduleBySessions}" var="m"
-													itemLabel="#{m.nomModule}" itemValue="#{m.idModule}" />
-											    <p:ajax event="valueChange" 
-														listener="#{examenBean.getAllQuestionByModule}" />
-											</p:selectOneMenu>
-											<br />
-											<h:message for="module" />
-											<br></br>
-											<h:commandButton onclick="PF('dlg2').show();" action="#{examenBean.goStartExamen}"
-												value="Start" styleClass="btn btn-info btn-lm"/>
-								          </c:if>
-								        </div>
-										
-									</div>
-									<br />
-									<br />
-									<br />
-									<br />
-								</h:form>
-							</div>
-						</div>
-					</section>
-				</div>
-			</div>
-		</section>
+                                  <h:form class="form-validate form-horizontal" target="_blank">
+                                    <div class="form-group ">
+                                      
+                                      <div class="form-group ">
+                                          <label for="site" class="control-label col-lg-2">Module <span class="required">*</span></label>
+                                          <div class="col-lg-5">
+                                              <h:selectOneMenu style="height:35px;width:100%;color:#797979;font-size:16px;" styleClass="selectpicker"
+												value="#{examenBean.idModule}" id="site">
+												<f:selectItem itemLabel="Sélectionnez Un Module" itemValue="#{null}" noSelectionOption="true" />
+												<f:selectItems value="#{examenBean.modulesActived}" var="m"
+												itemLabel="#{m.nomModule}" itemValue="#{m.idModule}" />
+											  </h:selectOneMenu>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <div class="col-lg-offset-2 col-lg-10">
+                                              <h:commandButton onclick="PF('dlg2').show()" action="#{examenBean.startExamen}" value="Commencer l'examen" class="btn btn-primary"/>
+                                          </div>
+                                      </div>
+                                      </div>
+                                   </h:form>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+              </c:if>
+             </c:if>
+          </section>
 	</div>
+
 </ui:composition>
 </html>

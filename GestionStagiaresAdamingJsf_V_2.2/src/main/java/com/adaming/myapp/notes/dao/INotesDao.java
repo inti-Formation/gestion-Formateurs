@@ -11,14 +11,16 @@ public interface INotesDao {
 
 	 List<Note> getAllNotes();
 
-	 List<Note> getNotesBySessionAndModule(Long idSession, Long idMoule);
+	 List<Object[]> getNotesBySessionAndModule(Long idSession, Long idMoule);
 
 	 boolean testNoteByEtuAndByModule(Long idSession, Long idModule,
 			Long idEtudiant);
 	
 	 List<Note> getAllNotesByStudent(Long idEtudiant);
 	
-	 List<Note> getAllNotesBySession(Long idSession);
+	 List<Object[]> getAllNotesBySession(Long idSession);
+	 
+	 Double getMoyenne(Long idSession,Long idModule);
 	
 	
 }

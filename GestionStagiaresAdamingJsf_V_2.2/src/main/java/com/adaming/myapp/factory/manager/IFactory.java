@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public interface IFactory <T extends Serializable>{
 
-	T create (String object);
+	T create (final String object);
 	
 	
 }

@@ -30,23 +30,9 @@
 			</div>
         </p:dialog>
 	<div class="well container">
-		<br />
-		<!-- exception add new evenement -->
-		<c:if test="#{not empty scheduleView.evenementFoundException}">
-			<div class="alert alert-warning">
-				<h:outputText value="#{scheduleView.evenementFoundException}"
-					styleClass="errorExeption" />
-			</div>
-		</c:if>
-		<!-- message success -->
-		<c:if test="#{not empty scheduleView.evenementSuccess}">
-			<div class="alert alert-info">
-				<h:outputText value="#{scheduleView.evenementSuccess}"
-					styleClass="messageSuccess" />
-			</div>
-		</c:if>
-		<!-- errors de validation -->
-		<h:messages style="color:red;"></h:messages>
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+        <p:growl id="growl" showDetail="true" autoUpdate="true" closable="true" />
+		<c:if test="#{fn:length(scheduleView.modules) > 0}">
 		<section class="wrapper">
 		  <div class="row">
 				<div class="col-lg-12">
@@ -68,7 +54,6 @@
                                           <label for="session" class="control-label col-lg-2">Session en Cours :</label>
                                           <div class="col-lg-10">
 											<h:outputText value="Formation: #{scheduleView.sessionFormateur.specialite.designation}"/><br />
-											<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}"/><br />
                                           </div>
                                      </div>
                                     
@@ -79,20 +64,22 @@
 	                                          </div>
 	                                   </div>
 	                                   <br/><br/>
+	                                  
 	                                   <div class="form-group" align="center">
+	                                            
 	                                            <h:form id="form10">
 		                                             <p:dataTable style="width:90%" value="#{scheduleView.modules}" var="m">
 		                                                
 		                                               <p:column headerText="Module">
-													        <h:outputText value="#{m.nomModule}" />
+													        <h:outputText value="#{m[1]}" />
 													    </p:column>
 													 
 													    <p:column  headerText="Authorisation">
-													            <h:outputText value="Désactivé" rendered="#{not m.actif}"></h:outputText>
-													            <h:outputText value="Activé" rendered="#{m.actif}" /> 
+													            <h:outputText value="Désactivé" rendered="#{not m[2]}"></h:outputText>
+													            <h:outputText value="Activé" rendered="#{m[2]}" /> 
 													            <p:spacer width="10"></p:spacer>
-													            <h:graphicImage rendered="#{m.actif}"     name="NiceAdmin/img/checkbox.png"/> 
-														        <h:graphicImage rendered="#{not m.actif}" name="NiceAdmin/img/disabled.png"/> 
+													            <h:graphicImage rendered="#{m[2]}"     name="NiceAdmin/img/checkbox.png"/> 
+														        <h:graphicImage rendered="#{not m[2]}" name="NiceAdmin/img/disabled.png"/> 
 													    </p:column>
 													    <p:column style="width:100px;text-align:center;">
 													        <f:facet name="header">
@@ -101,9 +88,9 @@
 													       <p:commandLink oncomplete="PF('actionDialog').show()"
 															update=":form10:moduleDetail" title="Modifier">
 															 <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
-															<f:param value="#{m.idModule}" name="idModule" />
+															<f:param value="#{m[0]}" name="idModule" />
 															<p:ajax update=":form10:moduleDetail" event="click"
-																listener="#{scheduleView.getCurrentModule(m.idModule)}" />
+																listener="#{scheduleView.getCurrentModule(m[0])}" />
 												           </p:commandLink>
 													    </p:column>
 		                                             </p:dataTable> 
@@ -136,6 +123,7 @@
 													</p:dialog>       
 	                                             </h:form>
 	                                   </div>
+	                                 
 									</div>
 									</div>
 		                       </div>
@@ -143,6 +131,7 @@
 		              </div>
 				</div>
 		    </section>
+		  </c:if>
 		</div>
 </ui:composition>
 </html>

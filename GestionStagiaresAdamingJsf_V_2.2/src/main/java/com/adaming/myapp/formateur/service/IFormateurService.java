@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.adaming.myapp.entities.Formateur;
+import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IFormateurService {
@@ -11,13 +12,15 @@ public interface IFormateurService {
 	 Formateur addFormateur(Formateur f)
 			throws VerificationInDataBaseException;
 
-	 void addFormateurToSession(Long idSession, Long idFormateur);
+	 SessionEtudiant verifyExistingAffectation(final Long idFormateur,final Long idSession) throws VerificationInDataBaseException;
+	 
+	 void addFormateurToSession(final Long idSession,final Long idFormateur) throws VerificationInDataBaseException;
 
 	 List<Formateur> getAllFormateurs();
 
-	 Formateur getFormateur(String mail);
+	 Formateur getFormateur(final String mail);
 	
-	 Formateur getFormateurById(Long idFormateur);
+	 Formateur getFormateurById(final Long idFormateur) throws VerificationInDataBaseException;
 	 
 	 List<Object[]> getFormateuByName(final String nom,final Date dateDeNaissance,final String mail);
 }

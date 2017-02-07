@@ -22,29 +22,33 @@ public interface IEvenementService {
 
 
 	/* toutes les evenements par semaine */
-	List<Evenement> getEvenementsRetards() throws EvenementNotFoundException;
+	List<Object[]> getEvenementsRetards() throws EvenementNotFoundException;
 
-	List<Evenement> getEvenementsAbsences() throws EvenementNotFoundException;
+	List<Object[]> getEvenementsAbsences() throws EvenementNotFoundException;
 
-	List<Evenement> getEvenementsEntretien() throws EvenementNotFoundException;
+	List<Object[]> getEvenementsEntretien() throws EvenementNotFoundException;
 
 	/* evenement du jour */
 
-	List<Evenement> getNumberOfCurrentsRetards();
+	 List<Object[]> getDailyCountOfRetards();
 
-	List<Evenement> getNumberOfCurrentsAbsence();
+	 List<Object[]> getDailyCountOfAbsence();
 
-	List<Evenement> getNumberOfCurrentsWarning();
+	 List<Object[]> getDailyCountOfWarning();
 
-	List<Evenement> getNumberOfCurrentsTop();
+	 List<Object[]> getDailyCountOfTop();
+	 
+	 /* evenement du jour nombres */
+	 long getNumberOfRetards();
+
+	 long getNumberOfAbsence();
+
+	 long getNumberOfWarning();
+
+	 long getNumberOfTop();
 
 	/* toutes les evenements */
 
-	List<Evenement> getAllEvenementsRetards();
-
-	List<Evenement> getAllEvenementsEntretient();
-
-	List<Evenement> getAllEvenementsAbsences();
 
 	List<Evenement> getAllEvenements();
 
@@ -52,4 +56,7 @@ public interface IEvenementService {
 
 	List<Evenement> getAllEvenementsBetweenTwoDate(Long idSession, Date date)
 			throws EvenementNotFoundException;
+	
+	/**@verification evenement */
+	 Evenement verifyExistingEvent(Long idEtudiant);
 }

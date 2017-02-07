@@ -5,7 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
 <ui:composition>
 	<br> </br>
@@ -26,10 +27,11 @@
                           <header class="panel-heading">
                               Résultats
                           </header>
+                          
                           <div class="panel-body">
                               <div class="form">
 							    <h:form>
-							       <ui:repeat var="n" value="#{examenBean.notes}">
+							       <ui:repeat var="n" value="#{classementBean.notesByStudents}">
 						                <div class="row" style="float:left">
 											<div style="width:100%" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 												<div style="margin-right:25px" class="info-box dark-bg">

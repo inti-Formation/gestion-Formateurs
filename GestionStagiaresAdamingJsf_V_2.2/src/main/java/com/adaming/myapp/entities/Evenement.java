@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,27 +31,13 @@ public class Evenement implements Serializable {
 	protected Date endDate;
 	protected String signaleur;
 	protected Date curentDate;
-	@Transient
-	private int minuteOfEvenement;
-	@Transient
-	private int hoursOfEvenement;
-	@Transient
-	private int dureeInMinute;
-	@Transient
-	private int dureeInHours;
-	@Transient
-	private String typeEvenement;
-	
-	@Transient
-	private String monthOfEvenement;
-	@Transient
-	private String dayOfEvenement;
+
 
 	/* assoc */
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_EVE_ETUDIANT")
 	private Etudiant etudiant;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_EVE_SESSION")
 	private SessionEtudiant sessionEtudiant;
 
@@ -129,73 +116,13 @@ public class Evenement implements Serializable {
 		this.signaleur = signaleur;
 	}
 
-	public int getMinuteOfEvenement() {
-		return minuteOfEvenement;
-	}
-
-	public void setMinuteOfEvenement(int minuteOfEvenement) {
-		this.minuteOfEvenement = minuteOfEvenement;
-	}
-
-	public int getHoursOfEvenement() {
-		return hoursOfEvenement;
-	}
-
-	public void setHoursOfEvenement(int hoursOfEvenement) {
-		this.hoursOfEvenement = hoursOfEvenement;
-	}
-
-	public int getDureeInMinute() {
-		return dureeInMinute;
-	}
-
-	public void setDureeInMinute(int dureeInMinute) {
-		this.dureeInMinute = dureeInMinute;
-	}
-
-	public int getDureeInHours() {
-		return dureeInHours;
-	}
-
-	public void setDureeInHours(int dureeInHours) {
-		this.dureeInHours = dureeInHours;
-	}
-
-	public String getTypeEvenement() {
-		return typeEvenement;
-	}
-
-	public void setTypeEvenement(String typeEvenement) {
-		this.typeEvenement = typeEvenement;
-	}
-
-	public String getMonthOfEvenement() {
-		return monthOfEvenement;
-	}
-
-	public void setMonthOfEvenement(String monthOfEvenement) {
-		this.monthOfEvenement = monthOfEvenement;
-	}
-
-	public String getDayOfEvenement() {
-		return dayOfEvenement;
-	}
-
-	public void setDayOfEvenement(String dayOfEvenement) {
-		this.dayOfEvenement = dayOfEvenement;
-	}
-
 	@Override
 	public String toString() {
 		return "Evenement [idEvenement=" + idEvenement + ", startDate="
 				+ startDate + ", endDate=" + endDate + ", signaleur="
-				+ signaleur + ", curentDate=" + curentDate
-				+ ", minuteOfEvenement=" + minuteOfEvenement
-				+ ", hoursOfEvenement=" + hoursOfEvenement + ", dureeInMinute="
-				+ dureeInMinute + ", dureeInHours=" + dureeInHours
-				+ ", typeEvenement=" + typeEvenement + ", monthOfEvenement="
-				+ monthOfEvenement + ", dayOfEvenement=" + dayOfEvenement + "]";
+				+ signaleur + ", curentDate=" + curentDate + "]";
 	}
+	
 	
 
 }

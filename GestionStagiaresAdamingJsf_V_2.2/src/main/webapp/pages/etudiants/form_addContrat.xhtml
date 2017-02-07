@@ -42,7 +42,7 @@
 											<h3 style="border: 1px solid;text-align:center">Attestation de prêt de Matériel</h3>
 											<br></br>
 											<p>je sousigné(e), Monsieur / Madame : #{contratBean.etudiant.nomEtudiant} #{contratBean.etudiant.prenomEtudiant} </p>
-											<p>Demeurant : #{contratBean.etudiant.adressePostal} #{contratBean.etudiant.codePostal}</p>
+											<p>Demeurant : #{contratBean.etudiant.adresse.adresse} #{contratBean.etudiant.adresse.codePostal}, #{contratBean.etudiant.adresse.ville} #{contratBean.etudiant.adresse.pays}</p>
 											<p>Reconnais avoir reçu en mains propres : [Ordinateur avec chargeur][Souris][Sacoche]</p>
 											<p>N° INTI -------------------------------- de la part de la société INTIFORMATION</p>
 											<div style="color:black">
@@ -58,16 +58,18 @@
 											   <p>Tout incident ou problème devra être signalé au responsable technique ou au formateur</p>
 											   <br></br>
 											   <p>Pour faire valoir ce que de droit,</p> 
-											   <p>Faite à #{contratBean.sessionEtudiant.lieu} Le #{contratBean.formattedDate}</p>
+											   <p>Faite à ------------ Le #{contratBean.formattedDate}</p>
 											   <br></br>
 											   <br></br>
 											   <p>
 											    
 											     <h:form style="background:white;padding-top:20px;padding-bottom:20px;font-weight:bold;text-align:center">
-												     <p:growl id="msgs" life="2000" showDetail="true" />
+												     <div style="padding-top: 20px;"> 
+												     <p:growl  id="growler" life="2000" />
+												     </div>
 												     <h:outputText style="color:red;padding:10px" value="J'ai lu et j'accepte les conditions générales d'utilisation ainsi que la decharge de reponsabilité " />
 												     <p:selectBooleanButton  value="#{contratBean.active}" onLabel="Oui" offLabel="Non" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-											            <p:ajax update="msgs" listener="#{contratBean.addMessage}" />
+											            <p:ajax update="growler" listener="#{contratBean.addMessage}" />
 											         </p:selectBooleanButton>
 											         <h:inputHidden value="#{contratBean.etudiant.idEtudiant}"/>
 											         <br></br>

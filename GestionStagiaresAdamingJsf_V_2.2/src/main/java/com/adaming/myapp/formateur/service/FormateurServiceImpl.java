@@ -7,19 +7,20 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.entities.Formateur;
+import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.formateur.dao.IFormateurDao;
+import com.adaming.myapp.tools.LoggerConfig;
 
 @Transactional(readOnly=true)
 public class FormateurServiceImpl implements IFormateurService {
 
 	private IFormateurDao dao;
 
-	private final Logger LOGGER = Logger.getLogger("FormateurServiceImpl");
 
 	public void setDao(IFormateurDao dao) {
 		this.dao = dao;
-		LOGGER.info("<----------Dao Formateur Injected-------->");
+		LoggerConfig.logInfo("<----------Dao Formateur Injected-------->");
 	}
 
 	@Override
@@ -52,7 +53,8 @@ public class FormateurServiceImpl implements IFormateurService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public void addFormateurToSession(Long idSession, Long idFormateur) {
+	public void addFormateurToSession(Long idSession, Long idFormateur) throws VerificationInDataBaseException {
+		verifyExistingAffectation(idFormateur, idSession);
 		dao.addFormateurToSession(idSession, idFormateur);
 	}
 
@@ -69,8 +71,11 @@ public class FormateurServiceImpl implements IFormateurService {
 	}
 
 	@Override
-	public Formateur getFormateurById(Long idFormateur) {
-		// TODO Auto-generated method stub
+	public Formateur getFormateurById(Long idFormateur) throws VerificationInDataBaseException {
+		Formateur formateur = dao.getOne(idFormateur);
+		if(formateur == null){
+			throw new VerificationInDataBaseException("le Formateur n'est pas encore affécté, on peut pas accéder à ces informations");
+		}
 		return dao.getOne(idFormateur);
 	}
 
@@ -79,6 +84,15 @@ public class FormateurServiceImpl implements IFormateurService {
 			String mail) {
 		// TODO Auto-generated method stub
 		return dao.getFormateuByName(nom, dateDeNaissance, mail);
+	}
+
+	@Override
+	public  SessionEtudiant verifyExistingAffectation(final Long idFormateur,final Long idSession) throws VerificationInDataBaseException {
+		SessionEtudiant sessionEtudiant = dao.verifyExistingAffectation(idFormateur, idSession);
+		if(sessionEtudiant != null){
+			throw new VerificationInDataBaseException("le Formateur est déja affecté à la session N°"+sessionEtudiant.getIdSession()+" , on peut pas l'affecter une 2éme fois ");
+		}
+		return sessionEtudiant;
 	}
 
 }

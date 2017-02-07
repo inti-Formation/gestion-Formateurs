@@ -38,17 +38,18 @@ public class EtudiantServiceTestU {
 	@Test
 	@Ignore
 	public void testAddStudent() throws VerificationInDataBaseException {
-		Etudiant e = new Etudiant("nomEtudiant2", "prenomEtudiant2", new Date(), "formationInitial", "ecole", new Date(), "adressePostal", "codePostal", "numTel", "mail2");
+		Etudiant e = new Etudiant("nomEtudiant2", "prenomEtudiant2", new Date(), "formationInitial", "ecole", new Date(), "numTel", "mail2",null);
 		try {
 			serviceEtudiant.addStudent(e,1L);
 			assertNotNull(e.getIdEtudiant());
-		} catch (AddEtudiantException e1) {
+		} catch (VerificationInDataBaseException e1) {
 			System.out.println(e1.getMessage());
 		}
 		
 	}
 
 	@Test
+	@Ignore
 	public void testUpdateStudent() {
 		Etudiant e = serviceEtudiant.getStudentById(1L);
 		e.setNomEtudiant("nomModifier");
@@ -58,6 +59,7 @@ public class EtudiantServiceTestU {
 	}
 
 	@Test
+	@Ignore
 	public void testRemoveStudent() {
 		Etudiant e = serviceEtudiant.getStudentById(14L);
 		serviceEtudiant.removeStudent(14L);
@@ -67,13 +69,33 @@ public class EtudiantServiceTestU {
 	@Test
 	public void testGetStudentById() {
 		Etudiant e = serviceEtudiant.getStudentById(1L);
+		System.out.println(e);
 		assertNotNull(e.getIdEtudiant());
 	}
 
 	@Test
+	@Ignore
 	public void testGetEtudiantBySession() throws VerificationInDataBaseException {
-		List<Etudiant> tabE = serviceEtudiant.getEtudiantBySession(1L);
+		List<Object[]> tabE = serviceEtudiant.getEtudiantBySession(1L);
+		System.out.println(tabE.get(0));
 		assertTrue(tabE.size()>=0);
 	}
+	
+	@Test
+	@Ignore
+	public void getStudentsBySession(){
+		try {
+			List<Etudiant> students = serviceEtudiant.getStudentsBySession(1L);
+		    for(Etudiant e:students){
+		    	
+		    	System.out.println(e.getNomEtudiant());
+		    }
+		} catch (VerificationInDataBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		} 
+	}
+
 
 }

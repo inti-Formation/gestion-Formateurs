@@ -13,8 +13,8 @@
 	<br> </br>
 	<br> </br>
 	<div class="well container">
-         <!-- messages errors + exception -->
-	     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+     
+	     
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -23,32 +23,37 @@
 						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Module</h3>
 					</ol>
 				</div>
-			</div>            
+			</div>  
+			
               <div class="row">
                   <div class="col-lg-12">
                       <section class="panel">
                           <header class="panel-heading">
                               Ajouter un module
                           </header>
+                           
                           <div class="panel-body">
                               <div class="form">
                                   <h:form class="form-validate form-horizontal">
                                       <div class="form-group ">
                                           <label for="formation" class="control-label col-lg-2">Formation <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:selectOneMenu value="#{moduleBean.idSpecialite}" style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-												requiredMessage="1 - Formation *">
+                                              <h:selectOneMenu required="true" requiredMessage="la formation est obligatoire" id="formation" value="#{moduleBean.idSpecialite}" style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker">
 												<f:selectItem itemLabel="Sélectionnez Une Formation" itemValue="" />
 												<f:selectItems value="#{specialiteBean.specialites}" var="spec"
 														itemLabel="#{spec.designation}" itemValue="#{spec.idSpecialite}" />
 											</h:selectOneMenu>
                                           </div>
+                                          <h:message for="formation" style="color:red;text-align:center;display:block"></h:message>
                                        </div>
                                        <div class="form-group ">
-                                          <label for="Module" class="control-label col-lg-2">Module <span class="required">*</span></label>
+                                          <label for="module" class="control-label col-lg-2">Module <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText value="#{moduleBean.nomModule}" requiredMessage="2 - Module *" required="true" class="form-control" id="module"  type="text" />
+                                              <h:inputText value="#{moduleBean.nomModule}" class="form-control" id="module"  type="text" >
+                                                  <f:validateRegex pattern="[a-z A-ZÉéè 0-9]+$"></f:validateRegex>
+                                              </h:inputText>
                                           </div>
+                                          <h:message for="module" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
@@ -75,12 +80,12 @@
                           <div class="panel-body">
                               <div class="form">
                                 <h:form id="form10" class="form-validate form-horizontal">
-									  <p:growl id="growl" showDetail="true" life="5000" /> 
+									  <p:growl id="growler" showDetail="true" life="5000" severity="info,warn" /> 
                                       <div class="form-group ">
-                                          <label for="session" class="control-label col-lg-2">Sessions <span class="required">*</span></label>
+                                          <label for="session" class="control-label col-lg-2">Formations <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:selectOneMenu style="cursor:pointer; height:35px;width:75%;color:#797979;font-size:16px;" styleClass="selectpicker" 
-												value="#{moduleBean.idSpecialite}">
+                                              <h:selectOneMenu id="session" style="cursor:pointer; height:35px;width:75%;color:#797979;font-size:16px;" styleClass="selectpicker" 
+												value="#{moduleBean.idSpecialite}" >
 												<f:selectItem itemLabel="Sélectionnez Une Specialitée"
 													itemValue="#{null}" noSelectionOption="true" />
 												<f:selectItems value="#{specialiteBean.specialites}" var="s"
@@ -89,6 +94,7 @@
 													listener="#{moduleBean.getModulesBySpecialite}" update="@form" />
 											</h:selectOneMenu>
                                           </div>
+                                          <h:message for="session" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
 								<br />
 								<br />
@@ -167,13 +173,16 @@
 								showEffect="blind" hideEffect="explode" resizable="false">
 								<p:outputPanel id="moduleDetail" style="text-align:center;">
 								  <c:if test="#{not empty moduleBean.m}">
+								    
 									<h:inputHidden value="#{moduleBean.m.idModule}" />
 									<br />
 									<h:inputHidden value="#{moduleBean.m.specialite.idSpecialite}" />
 									<br />
 									<h:outputText value="designation" />
 									<br />
-									<h:inputText value="#{moduleBean.m.nomModule}" />
+									<h:inputText value="#{moduleBean.m.nomModule}">
+									   <f:validateRegex pattern="[a-z A-ZÉéè 0-9]+$"></f:validateRegex>
+									</h:inputText>
 									<br/><br/>
 									<h:outputText value="Activation Du Module" />
 									<br />
@@ -185,11 +194,13 @@
 											itemValue="false"  />
 									
 								    </p:selectOneMenu>
+			
 								  </c:if>
+								  <p:messages id="messages"></p:messages>
 								</p:outputPanel>
 								<br />
 								<br />
-								<p:commandButton value="Modifier" action="#{moduleBean.edit}" />
+								<p:commandButton ajax="true" update="messages" value="Modifier" action="#{moduleBean.edit}" />
 							</p:dialog>
 						</h:form>
                               </div>

@@ -5,7 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition>
 	<br> </br>
@@ -32,32 +33,43 @@
                               <div class="form">
                                   <h:form class="form-validate form-horizontal">
                                     <div class="form-group ">
-                                      <p:growl id="growl" showDetail="true" life="5000" /> 
+                                      <p:growl id="growl" showDetail="true" life="5000" severity="info,warn" /> 
                                       
                                       <div class="form-group ">
                                           <label for="numeroSalle" class="control-label col-lg-2">Nom Salle <span class="required">*</span></label>
                                           <div class="col-lg-6">
-                                               <h:inputText value="#{salleBean.numeroSalle}" id="numeroSalle" class="form-control"></h:inputText>
+                                               <h:inputText value="#{salleBean.numeroSalle}" id="numeroSalle" class="form-control">
+                                                   <f:validateRegex pattern="[a-z A-ZÉéè 0-9]+$"></f:validateRegex>
+                                               </h:inputText>
                                           </div>
+                                           <br/><br/>
+                                           <h:message for="numeroSalle" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
+                                      
+                                     
                                       <div class="form-group ">
                                           <label for="site" class="control-label col-lg-2">Site <span class="required">*</span></label>
                                           <div class="col-lg-5">
-                                              <h:selectOneMenu style="height:35px;width:100%;color:#797979;font-size:16px;" styleClass="selectpicker"
+                                              <h:selectOneMenu required="true" requiredMessage="le site est obligatoire" style="height:35px;width:100%;color:#797979;font-size:16px;" styleClass="selectpicker"
 												value="#{salleBean.idSite}" id="site">
 												<f:selectItem itemLabel="Sélectionnez Un Site" itemValue="#{null}" noSelectionOption="true" />
 												<f:selectItems value="#{salleBean.sites}" var="site"
 												itemLabel="#{site.nomSite}" itemValue="#{site.idSite}" />
 											</h:selectOneMenu>
+											 <br/><br/>
+                                           <h:message for="site" style="color:red;text-align:center;display:block"></h:message>
                                           </div>
+                                          
                                       </div>
                                       <div class="form-group ">
                                           <label for="nbPlace" class="control-label col-lg-2">Nombre de places Max <span class="required">*</span></label>
                                           <div class="col-lg-6">
-                                               <h:inputText value="#{salleBean.nbPlace}" id="nbPlace" class="form-control"></h:inputText>
+                                              <p:inputMask  value="#{salleBean.nbPlace}" id="nbPlace" maxlength="2" mask="99" styleClass="form-control" />
                                           </div>
+                                          <br/><br/>
+                                           <h:message for="nbPlace" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
-                                      
+                                        
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
                                               <h:commandButton action="#{salleBean.addSalle}" update="@form" value="Save" class="btn btn-primary"/>

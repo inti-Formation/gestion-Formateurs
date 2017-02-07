@@ -1,21 +1,13 @@
 package com.adaming.myapp.specialite.dao;
 
 import java.util.List;
-import java.util.logging.Logger;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import com.adaming.myapp.entities.Specialite;
-import com.adaming.myapp.exception.AddSpecialiteException;
-
 public class SpecialiteDaoImpl extends SpecialiteAbstractJpa implements ISpecialiteDao {
 
 
 	@Override
 	public Specialite addSpecialite(Specialite sp)
-			throws AddSpecialiteException {
+    {
 		return addSpecialiteAbstractJpa(sp);
 	}
 
@@ -29,15 +21,17 @@ public class SpecialiteDaoImpl extends SpecialiteAbstractJpa implements ISpecial
 		return getSpecialiteByIdAbstractJpa(idSpecialite);
 	}
 
-	/*@Override
-	public List<Specialite> getAllSpec() {
-		return getAllSpecAbstractJpa();
-	}
-*/
+	
 	@Override
 	public List<Specialite> getAllSpecV2() {
 		// TODO Auto-generated method stub
 		return getAllSpecV2AbstractJpa();
+	}
+
+	@Override
+	public Specialite verifyExistingSpecialite(String name) {
+		// TODO Auto-generated method stub
+		return verifyExistingSpecialiteAbstractJpa(name);
 	}
 
 	

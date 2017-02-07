@@ -10,6 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.GetUserException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.specialite.service.ISpecialiteService;
 import com.adaming.myapp.user.service.IUserService;
 
@@ -35,13 +36,16 @@ public class UserServiceTestU {
 			User u = new User("adel",motDePass,true);
 			serviceUser.saveUser(u);
 		}*/
-		@Ignore
+		
 		@Test
-		public void UpdateUser() {
+		public void getUserByMail(){
 			try {
-				serviceUser.updatePassword("boumaza_adel", "aaa","adel21");
-			} catch (GetUserException e) {
-				System.out.println(e.getMessage());
+				User u = serviceUser.getUserByMail("ad.boumaza@yahoo.fr");
+				u.setPassword("1234");
+				serviceUser.customPassword(u);
+			} catch (VerificationInDataBaseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		

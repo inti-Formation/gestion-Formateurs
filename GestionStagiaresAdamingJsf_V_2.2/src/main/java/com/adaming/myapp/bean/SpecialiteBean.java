@@ -11,12 +11,16 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.exception.AddSpecialiteException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.specialite.service.ISpecialiteService;
+import com.adaming.myapp.tools.LoggerConfig;
+import com.adaming.myapp.tools.Utilitaire;
 
 @SuppressWarnings("serial")
 @Component("specialiteBean")
@@ -27,7 +31,7 @@ public class SpecialiteBean implements Serializable{
 	 * LOGGER log4J
 	 * @see org.apache.log4j.Logger
 	 * */
-    private final Logger LOGGER = Logger.getLogger("SpecialiteBean");
+   
     
 	@Inject
     private ISpecialiteService serviceSpec;
@@ -37,7 +41,7 @@ public class SpecialiteBean implements Serializable{
 	private List<Specialite> specialites;
 
 	private Long idSpecialite;
-	
+	@NotEmpty(message = "Veuillez indiquer le cursus Svp !!")
 	private String designation;
     
 	
@@ -58,10 +62,10 @@ public class SpecialiteBean implements Serializable{
 		try {
 			serviceSpec.addSpecialite(specialite);
 			getAllSpecialite();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","la spécialitée " + designation + " à bien été ajoutée"));
+			Utilitaire.displayMessageInfo("la spécialitée " + designation + " à bien été ajoutée");
 			designation = "";
-		} catch (AddSpecialiteException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+		} catch (VerificationInDataBaseException e) {
+			Utilitaire.displayMessageWarning(e.getMessage());
 		}
 		
 	}
@@ -79,7 +83,7 @@ public class SpecialiteBean implements Serializable{
 	@PostConstruct
 	public void getAllSpec(){
 		getAllSpecialite();
-		LOGGER.info("Specialitées"+specialites);
+		LoggerConfig.logInfo("Specialitées"+specialites);
 	}
 	/**@method getAllSpecialite*/
 	public void getAllSpecialite(){

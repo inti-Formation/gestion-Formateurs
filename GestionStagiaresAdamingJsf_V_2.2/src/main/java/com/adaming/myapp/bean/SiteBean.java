@@ -1,6 +1,7 @@
 package com.adaming.myapp.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import javax.inject.Inject;
 import javax.persistence.Embedded;
 import javax.print.attribute.standard.Severity;
 
+import org.geonames.Toponym;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.primefaces.event.map.GeocodeEvent;
 import org.primefaces.model.map.DefaultMapModel;
@@ -27,6 +30,7 @@ import com.adaming.myapp.entities.Salle;
 import com.adaming.myapp.entities.Site;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.site.service.ISiteService;
+import com.adaming.myapp.tools.Utilitaire;
 
 @SuppressWarnings("serial")
 @Component("siteBean")
@@ -35,7 +39,8 @@ public class SiteBean implements Serializable {
 
 	@Inject
 	private ISiteService serviceSite;
-	
+	@Inject
+	private FormateurBean formateurBean;
 
 	private Adresse adresseObject;
 	private Site site;
@@ -43,17 +48,23 @@ public class SiteBean implements Serializable {
 	private List<Object[]> salles;
 	private MapModel geoModel;
 	private String centerGeoMap = "41.850033, -87.6500523";
+	private List<Toponym> villes;
 
 	@NotEmpty
+	@NotBlank
 	private String nomSite;
 	@NotEmpty
+	@NotBlank
 	private String adresse;
 	@NotEmpty
 	private String ville;
 	@NotEmpty
 	private String codePostal;
 	@NotEmpty
+	@NotBlank
 	private String pays;
+	
+	
 
 	public void addSite() {
 		adresseObject = new Adresse(adresse, ville, codePostal, pays);
@@ -62,17 +73,12 @@ public class SiteBean implements Serializable {
 		site.setNomSite(nomSite);
 		try {
 			serviceSite.add(site);
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+			Utilitaire.displayMessageInfo(
 							"le Site " + nomSite
-									+ " à bien été ajouter avec success"));
+									+ " à bien été ajouter avec succès");
 			reset();
 		} catch (VerificationInDataBaseException e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning...!",
-							e.getMessage()));
+			Utilitaire.displayMessageWarning(e.getMessage());
 		}
 	}
 
@@ -82,6 +88,7 @@ public class SiteBean implements Serializable {
 		codePostal = "";
 		ville = "";
 		pays = "";
+		villes = null;
 	}
 
 	public String resetAndRedirect() {
@@ -95,7 +102,12 @@ public class SiteBean implements Serializable {
 	}
 	
 	public String getAllSallesBySite(Long idSite){
-		salles = serviceSite.getSallesBySite(idSite);
+		try {
+			salles = serviceSite.getSallesBySite(idSite);
+		} catch (VerificationInDataBaseException e) {
+			Utilitaire.displayMessageWarning(e.getMessage());
+			return null;
+		}
 		return "salles-by-sites?faces-redirect=true";
 	}
 	
@@ -123,6 +135,12 @@ public class SiteBean implements Serializable {
 						.getAddress()));
 			}
 		}
+	}
+	
+	public List<Toponym> getVillesByCp(String codePostal){
+		villes = new ArrayList<Toponym>();
+		villes = formateurBean.getVillesByCp(codePostal);
+		return villes;
 	}
 
 	/**
@@ -293,6 +311,22 @@ public class SiteBean implements Serializable {
 	 */
 	public void setCenterGeoMap(String centerGeoMap) {
 		this.centerGeoMap = centerGeoMap;
+	}
+
+	public List<Toponym> getVilles() {
+		return villes;
+	}
+
+	public void setVilles(List<Toponym> villes) {
+		this.villes = villes;
+	}
+
+	public FormateurBean getFormateurBean() {
+		return formateurBean;
+	}
+
+	public void setFormateurBean(FormateurBean formateurBean) {
+		this.formateurBean = formateurBean;
 	}
 
 	

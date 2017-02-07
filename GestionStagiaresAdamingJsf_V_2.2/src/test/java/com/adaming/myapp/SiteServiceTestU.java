@@ -86,7 +86,7 @@ public class SiteServiceTestU {
 	   System.out.println(s);
 	}
 	@Test
-	public void getSallesBySite(){
+	public void getSallesBySite() throws VerificationInDataBaseException{
 		
 		List<Object[]> results= serviceSite.getSallesBySite(1L);
 		for(Object [] e:results){

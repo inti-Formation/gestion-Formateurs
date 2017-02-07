@@ -1,69 +1,68 @@
 package com.adaming.myapp.question.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.primefaces.event.ReorderEvent;
+
 import com.adaming.myapp.entities.Module;
-import com.adaming.myapp.entities.Question;
+import com.adaming.myapp.entities.Questions;
+import com.adaming.myapp.entities.Reponses;
 import com.adaming.myapp.exception.AddQuestionException;
+import com.adaming.myapp.tools.LoggerConfig;
 
 public abstract class QuestionAbstractJpa {
 
 	@PersistenceContext
 	private EntityManager em;
 	
-	Logger log = Logger.getLogger("QuestionAbstractJpa");
-
-	public Question addQuestionAbstractJpa(Question q, Long idModule) throws AddQuestionException {
-		Module      m = em.find(Module.class,idModule);
-		q.setModule(m);
+	public Questions addQuestionsAbstractJpa(Questions q,Long idModule,List<Reponses> reponses){
+		Module module = em.find(Module.class, idModule);
+		for(Reponses r:reponses){
+			r.setQuestions(q);
+		}
+		q.setModule(module);
+		q.setReponses(reponses);
 		em.persist(q);
-		log.info("la quesion :"+q.getIdQuestion()+" a bien été ajoute");
 		return q;
 	}
-
-	public Question updateQuestionAbstractJpa(Question q, Long idModule) {
-		Module m = em.find(Module.class, idModule);
-		q.setModule(m);
-		em.merge(q);
-		log.info("la question"+q.getIdQuestion()+" a bien été modifier");
-		return q;
-	}
-
-	public Question getQuestionByIdAbstractJpa(Long idQuestion) {
-		Question q = em.find(Question.class,idQuestion);
-		log.info("la question "+q.getIdQuestion()+"a bien été recupérer");
-		return q;
-	}
-
-
+	
 	@SuppressWarnings("unchecked")
-	public List<Question> getAllQuestionsAbstractJpa() {
-		Query query = em.createQuery("from Question");
-		log.info("il existe"+query.getResultList().size()+" Questions");
-		return query.getResultList();
-	}
-
-
-	public int nombreQuestionsByModuleAbstractJpa(Long idModule) {
-		int nombreQuestions = 0;
-		Module m = em.find(Module.class,idModule);
-		List<Question> tabQuestions = m.getQuestions();
-	    nombreQuestions = tabQuestions.size();
-	    log.info("il existe "+nombreQuestions+" Questions"+" dans le module "+m.getNomModule());
-		return nombreQuestions;
-	}
-
-
-	public List<Question> getAllQuestionsByModuleAbstractJpa(Long idModule) {
-		Module m = em.find(Module.class,idModule);
-		List<Question> questions = m.getQuestions();
-		log.info("la liste des Questions par Module");
+	public Set<Questions> getQuestionsByModuleAbstracJpa(Long idModule){
+		final String SQL = "from Questions q join fetch q.reponses r join fetch q.module m where m.idModule =:x ORDER BY q.idQuestions";
+		Query query = em.createQuery(SQL).setParameter("x",idModule);
+		Set<Questions> questions = new HashSet<Questions>(query.getResultList());
+		LoggerConfig.logInfo("la liste des Questions par Module");
 		return questions;
 	}
+	
+	public Questions verifyExistingQuestionsAbstractJpa(String label){
+		 final String SQL = "select distinct q from Questions q where q.label =:x";     
+		 Questions question = null;
+         Query query =  em.createQuery(SQL)
+				       .setParameter("x", label);
+		 if(query.getResultList() != null && !query.getResultList().isEmpty()){
+			 question = (Questions) query.getResultList().get(0);
+		 }
+
+		 return question;
+	}
+	
+	 @SuppressWarnings("unchecked")
+	public Set<Reponses> getAllReponsesByModuleAbstractJpa(Long idModule){
+		 
+		 final String SQL ="from Reponses r join fetch r.questions q join fetch q.module m where m.idModule =:x";
+		 
+		 Query query = em.createQuery(SQL).setParameter("x",idModule);
+		 Set<Reponses> reponses = new HashSet<Reponses>(query.getResultList());
+		 return reponses;
+	 }
+	
 
 }

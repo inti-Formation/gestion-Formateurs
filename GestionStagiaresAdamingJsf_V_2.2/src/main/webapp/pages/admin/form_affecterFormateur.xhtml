@@ -30,7 +30,7 @@
         </p:dialog>
 	<div class="well container">
 	     <!-- errors de validation -->
-	     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />   
+	     <p:growl id="growler" showDetail="true"  autoUpdate="true" closable="true" severity="warn,info" />   
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -69,7 +69,8 @@
 												value="#{affectationFormateurBean.idSession}">
 												<f:selectItem itemLabel="Sélectionnez Une Session En Cours"
 													itemValue="#{null}" />
-											    <f:selectItems value="#{affectationFormateurBean.sessionsInProgress}" var="s" itemLabel="Session N°:#{s.idSession},Formation : #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}" itemValue="#{s.idSession}"/>
+											    <f:selectItems value="#{affectationFormateurBean.sessionsInProgress}" var="s" 
+											    itemLabel="Session N°:#{s[0]}, #{s[1]}, Début:#{s[2]},Site : #{s[4]}" itemValue="#{s[0]}" />
 											</h:selectOneMenu>
                                           </div>
                                        </div>

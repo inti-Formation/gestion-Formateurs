@@ -4,23 +4,23 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.adaming.myapp.entities.Salle;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.salle.dao.ISalleDao;
+import com.adaming.myapp.tools.LoggerConfig;
 @Transactional(readOnly=true)
 public class SalleServiceImpl implements ISalleService {
     
 	private ISalleDao dao;
 	
-	private final Logger LOGGER = Logger.getLogger(SalleServiceImpl.class);
-	
-	
+
 	/**
 	 * @param dao the dao to set
 	 */
 	public void setDao(ISalleDao dao) {
 		this.dao = dao;
-		LOGGER.info("<---------DAO Salle Injected----->");
+		LoggerConfig.logInfo("<---------DAO Salle Injected----->");
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class SalleServiceImpl implements ISalleService {
 	public Salle add(Salle salle, Long idSite) throws VerificationInDataBaseException {
 		List<Salle> salles = getSalleByName(salle.getNumeroSalle(), idSite);
 		if(salles.size()>0){
-			throw new VerificationInDataBaseException("La salle Numéro :"+salle.getNumeroSalle()+"existe Déja dans le site numéro "+idSite);
+			throw new VerificationInDataBaseException("La salle Numéro :"+salle.getNumeroSalle()+" existe Déja dans le site numéro "+idSite);
 		}
 		return dao.add(salle, idSite);
 	}

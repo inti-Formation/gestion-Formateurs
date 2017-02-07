@@ -35,6 +35,14 @@
 			<artifactId>all-themes</artifactId>
 			<version>1.0.8</version>
 		</dependency>
+				
+		<!-- https://mvnrepository.com/artifact/com.ocpsoft/prettyfaces-jsf2 -->
+		<dependency>
+		    <groupId>com.ocpsoft</groupId>
+		    <artifactId>prettyfaces-jsf2</artifactId>
+		    <version>3.3.2</version>
+		</dependency>
+		
 
 		<!-- Primefaces Extensions -->
 		<dependency>
@@ -319,6 +327,27 @@
 			<artifactId>mapstruct</artifactId>
 			<version>1.1.0.CR2</version>
 		</dependency>
+		<!-- pool de connection hibernate -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-c3p0</artifactId>
+		    <version>5.0.8.Final</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>c3p0</groupId>
+		    <artifactId>c3p0</artifactId>
+		    <version>0.9.1.2</version>
+		</dependency>
+		<!-- web service api villes, et adresse postal -->
+	    <!-- https://mvnrepository.com/artifact/org.geonames/geonames -->
+		<dependency>
+		    <groupId>org.geonames</groupId>
+		    <artifactId>geonames</artifactId>
+		    <version>1.0</version>
+		</dependency>
+	    
 	</dependencies>
 	<build>
 		<plugins>

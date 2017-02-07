@@ -17,6 +17,11 @@
    <!--  <bean class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter">
        <property name="baseAddress" value="http://localhost:8093/etudiant"></property>
     </bean> -->
+    <!-- injection de dépendances Examen-->
+    <bean id="ExamenDao" class="com.adaming.myapp.examen.dao.ExamenDaoImpl"></bean>
+    <bean id="ExamenService" class="com.adaming.myapp.examen.service.ExamenServiceImpl">
+      <property name="dao" ref="ExamenDao"></property>
+    </bean>
     <!-- injection de dépendances Salle-->
 	<bean id="SalleDao" class="com.adaming.myapp.salle.dao.SalleDaoImpl"></bean>
 	<bean id="SalleService" class="com.adaming.myapp.salle.service.SalleServiceImpl">
@@ -101,9 +106,6 @@
 	<bean id="NotesService" class="com.adaming.myapp.notes.service.NotesServiceImpl">
 		<property name="dao" ref="NotesDao"></property>
 	</bean>
-	
-
-
 
 	<bean id="datasource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -162,16 +164,20 @@
 
 	 <security:authentication-manager>
 		<security:authentication-provider>
+		  <security:password-encoder ref="encoder"/>
 		  <security:jdbc-user-service data-source-ref="datasource" 
 			  users-by-username-query="select name,password,actived from user where name=?" 
 			  authorities-by-username-query="select u.name,r.roleName from user u, role r where u.idUser = r.id_users and u.name =? "/>
 		</security:authentication-provider>
 		<security:authentication-provider>
 		  <security:user-service>
-		     <security:user name="admin2" password="admin2" authorities="ROLE_ADMIN"/>
+		     <security:user name="admin" password="admin1234" authorities="ROLE_ADMIN"/>
 		  </security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager> 
-	
+	 <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+       <constructor-arg name="strength" value="12" />
+      </bean>
+      
 	
 </beans>

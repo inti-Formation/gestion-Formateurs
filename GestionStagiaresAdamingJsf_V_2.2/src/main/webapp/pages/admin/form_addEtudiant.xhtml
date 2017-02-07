@@ -12,9 +12,8 @@
 	<br> </br>
 	<br> </br>
 	<br> </br>
+	
 	<div class="well container">
-		 <!-- exception add new Etudiant + message success+ error validation-->
-	     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />	
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -23,7 +22,8 @@
 						<h3 class="page-header"><i><h:graphicImage name="NiceAdmin/img/form.png"/> </i> Form Etudiant</h3>
 					</ol>
 				</div>
-			</div>            
+			</div> 
+			  <p:messages id="messages" showDetail="true"  severity="info" closable="true" />             
               <div class="row">
                   <div class="col-lg-12">
                       <section class="panel">
@@ -34,84 +34,131 @@
                               <div class="form">
                                   <h:form class="form-validate form-horizontal">
                                       <div class="form-group ">
-                                          <label for="session" class="control-label col-lg-2">Session(En Cours) <span class="required">*</span></label>
+                                          <label for="session" class="control-label col-lg-2">Session (En Cours) <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:selectOneMenu  style="cursor:pointer;height:35px;width:25%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-												requiredMessage="1 - session *"
-												value="#{etudiantBean.idSession}">
-												<f:selectItem itemLabel="Sélectionnez une session"
+                                              <h:selectOneMenu required="true" requiredMessage="la session est Obligatoire" id="session" style="cursor:pointer;height:35px;width:75%;color:#797979;font-size:16px;" styleClass="selectpicker" value="#{etudiantBean.idSession}">
+												<f:selectItem  itemLabel="-------------------------------------------Sélectionnez une session-------------------------------------------"
 													itemValue="#{null}" noSelectionOption="true" />
 											     <f:selectItems value="#{etudiantBean.sessionsEncours}" var="s"
-													itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute}"
-													itemValue="#{s.idSession}" />
+													itemLabel="Session N°:#{s[0]}, #{s[1]}, Début:#{s[2]},Site : #{s[4]}"
+													itemValue="#{s[0]}" />
 											</h:selectOneMenu>
                                           </div>
+                                           <h:message for="session" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="nom" class="control-label col-lg-2">Nom <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="2 - Nom *" required="true" value="#{etudiantBean.nomEtudiant}" class="form-control" id="nom"  type="text" />
+                                              <h:inputText maxlength="30" value="#{etudiantBean.nomEtudiant}" class="form-control" id="nom"  type="text">
+                                                 <f:validateRegex pattern="[a-z A-Z]+$"></f:validateRegex>
+                                              </h:inputText>
                                           </div>
+                                            <h:message for="nom" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="prenom" class="control-label col-lg-2">Prénom <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="3 - Prénom *" required="true" value="#{etudiantBean.prenomEtudiant}" class="form-control" id="prenom"  type="text" />
+                                              <h:inputText  maxlength="30" value="#{etudiantBean.prenomEtudiant}" class="form-control" id="prenom"  type="text">
+                                                 <f:validateRegex pattern="[a-z A-Z]+$"></f:validateRegex>
+                                              </h:inputText>
                                           </div>
+                                         <h:message for="prenom" style="color:red;text-align:center;display:block"></h:message>
+                                          
                                       </div>
                                       <div class="form-group ">
                                           <label for="adresse" class="control-label col-lg-2">Adresse <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="4 - Adresse *" required="true" value="#{etudiantBean.adressePostal}" class="form-control" id="adresse"  type="text" />
+                                              <h:inputText maxlength="100"  value="#{etudiantBean.adressePostal}" class="form-control" id="adresse"  type="text">
+                                                  <f:validateRegex pattern="[a-z A-ZÉéè 0-9]+$"></f:validateRegex>
+                                              </h:inputText>
                                           </div>
+                                          <h:message for="adresse" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="codePostal" class="control-label col-lg-2">Code Postal <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="5 - Code Postal *" required="true" value="#{etudiantBean.codePostal}" class="form-control" id="codePostal"  type="text" />
+                                               <p:inputMask onkeypress="if (event.keyCode == 13) { onchange(); return false; }"  styleClass="form-control"  id="codePostal" value="#{etudiantBean.codePostal}" mask="99999">
+                                                   <f:ajax render="ville pays" event="change" listener="#{etudiantBean.getVillesByCp(etudiantBean.codePostal)}" />
+                                               </p:inputMask>
                                           </div>
+                                           <h:message for="codePostal" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
+                                      <div class="form-group ">
+                                          <label for="ville" class="control-label col-lg-2">Ville <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+											   <p:selectOneMenu id="ville" filter="true"
+											    filterMatchMode="startsWith" 
+											    value="#{etudiantBean.ville}">
+											        <f:selectItem itemLabel="Select One" itemValue=""
+											             noSelectionOption="true" />
+											        <f:selectItems value="#{etudiantBean.villes}" var="f" itemValue="#{f.name}" itemLabel="#{f.name}"></f:selectItems>
+											   </p:selectOneMenu>
+                                          </div>
+                                          <h:message for="ville" style="color:red;text-align:center;display:block"></h:message>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="pays" class="control-label col-lg-2">Pays <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+											   <p:selectOneMenu id="pays" filter="true"
+											    filterMatchMode="startsWith" 
+											    value="#{etudiantBean.pays}">
+											        <f:selectItem itemLabel="Select One" itemValue=""
+											             noSelectionOption="true" />
+											        <f:selectItems value="#{etudiantBean.villes}" var="f" itemValue="#{f.countryName}" itemLabel="#{f.countryName}"></f:selectItems>
+											   </p:selectOneMenu>
+                                          </div>
+                                         <h:message for="pays" style="color:red;text-align:center;display:block"></h:message>
+                                      </div>
+                                       
                                       <div class="form-group ">
                                           <label for="telMobile" class="control-label col-lg-2">Tél <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="6 - Tél *" required="true"  value="#{etudiantBean.numTel}" class="form-control" id="telMobile"  type="text" />
+                                               <p:inputMask styleClass="form-control"   id="telMobile" value="#{etudiantBean.numTel}" mask="(99) 99-99-99-99"/>
                                           </div>
+                                           <h:message for="telMobile" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="mail" class="control-label col-lg-2">Mail <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="7 - Mail *" required="true" value="#{etudiantBean.mail}" class="form-control" id="mail"  type="text">
+                                              <h:inputText   value="#{etudiantBean.mail}" class="form-control" id="mail"  type="text">
                                                  <f:validator binding="#{emailValidator}" />
                                               </h:inputText>
                                           </div>
+                                           <h:message for="mail" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="dateDeNaissance" class="control-label col-lg-2">Date De Naissance <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <p:calendar styleClass="calendar" id="dateDeNaissance" yearRange="c-70:c+10"
-												value="#{etudiantBean.dateDeNaissance}" effect="fold" required="true" navigator="true"
-												required-message="9 - Date De Naissance * " />
+                                              <p:calendar styleClass="calendar" id="dateDeNaissance" yearRange="c-40:c+0" 
+												value="#{etudiantBean.dateDeNaissance}" effect="fold"  navigator="true" />
                                           </div>
+                                          <h:message for="dateDeNaissance" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
-                                          <label for="FormationInitial" class="control-label col-lg-2">Formation Initial <span class="required">*</span></label>
+                                          <label for="FormationInitial" class="control-label col-lg-2">Formation Initiale <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="10 - Formation Initial *" required="true" value="#{etudiantBean.formationInitial}"  class="form-control" id="FormationInitial"  type="text" />
+                                              <h:inputText    value="#{etudiantBean.formationInitial}"  class="form-control" id="FormationInitial"  type="text">
+                                                <f:validateRegex pattern="[a-z A-ZÉéè]+$"></f:validateRegex>
+                                              </h:inputText>
                                           </div>
+                                          <h:message for="FormationInitial" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="ecole" class="control-label col-lg-2">Ecole <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText requiredMessage="11 - Ecole *" required="true" value="#{etudiantBean.ecole}" class="form-control" id="ecole"  type="text" />
+                                              <h:inputText value="#{etudiantBean.ecole}" class="form-control" id="ecole"  type="text" >
+                                                   <f:validateRegex pattern="[a-z A-ZÉéè]+$"></f:validateRegex>
+                                              </h:inputText>
                                           </div>
+                                          <h:message for="ecole" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="dateObtention" class="control-label col-lg-2">Année d'obtention du diplôme<span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <p:calendar yearRange="c-70:c+10" styleClass="calendar" id="dateObtention" 
-												value="#{etudiantBean.dateObtention}" effect="fold" required="true" navigator="true"
-												required-message="12 - Date Obtention * " />
+                                              <p:calendar yearRange="c-10:c+0" styleClass="calendar" id="dateObtention" 
+												value="#{etudiantBean.dateObtention}" effect="fold"  navigator="true" />
                                           </div>
+                                          <h:message for="dateObtention" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
@@ -137,7 +184,8 @@
                           <div class="panel-body">
                               <div class="form">
                                 <h:form id="form7" class="form-validate form-horizontal">
-									  <p:growl id="growl" showDetail="true" life="5000" /> 
+									  <p:growl id="growler" showDetail="true" life="5000"  severity="info,warn" />
+									  
                                       <div class="form-group ">
                                           <label for="session" class="control-label col-lg-2">Sessions <span class="required">*</span></label>
                                           <div class="col-lg-10">
@@ -146,11 +194,11 @@
 												<p:ajax event="valueChange"
 												listener="#{etudiantBean.getAllStudentsBySession}"
 												update="@form" />
-												<f:selectItem itemLabel="Sélectionnez Une Session"
+												<f:selectItem  itemLabel="-------------------------------------------Sélectionnez une session-------------------------------------------"
 													itemValue="#{null}" noSelectionOption="true" />
 												<f:selectItems  value="#{etudiantBean.allSessions}" var="s"
-													itemLabel="Session N°:#{s.idSession}, #{s.specialite.designation},Lieu : #{s.lieu}, Début:#{s.dateDebute} ,(#{s.etatSession})"
-													itemValue="#{s.idSession}" />
+													itemLabel="Session N°:#{s[0]}, #{s[1]}, Début:#{s[2]},Site : #{s[4]}"
+													itemValue="#{s[0]}" />
 											</h:selectOneMenu>
                                           </div>
                                       </div>
@@ -202,38 +250,32 @@
 												<f:facet name="header">
 													<h:outputText value="Nom" />
 												</f:facet>
-												<h:outputText value="#{newStudents.nomEtudiant}" />
+												<h:outputText value="#{newStudents[1]}" />
 											</p:column>
 											<p:column style="width:140px;">
 												<f:facet name="header">
 													<h:outputText value="Prénom" />
 												</f:facet>
-												<h:outputText value="#{newStudents.prenomEtudiant}" />
-											</p:column>
-											<p:column style="width:140px;">
-												<f:facet name="header">
-													<h:outputText value="Specialitee" />
-												</f:facet>
-												<h:outputText
-													value="#{newStudents.sessionEtudiant.specialite.designation}" />
+												<h:outputText value="#{newStudents[2]}" />
 											</p:column>
 											<p:column style="width:100px;">
 												<f:facet name="header">
-													<h:outputText value="Début" />
+													<h:outputText value="Début de Formation" />
 												</f:facet>
-												<h:outputText value="#{newStudents.sessionEtudiant.dateDebute}" />
+												<h:outputText value="#{newStudents[12]}" />
 											</p:column>
 											<p:column style="width:100px;">
 												<f:facet name="header">
-													<h:outputText value="Fin" />
+													<h:outputText value="Fin de Formation" />
 												</f:facet>
-												<h:outputText value="#{newStudents.sessionEtudiant.dateFin}" />
+												<h:outputText value="#{newStudents[13]}" />
 											</p:column>
 											<p:column style="width:100px;">
 												<f:facet name="header">
-													<h:outputText value="Lieu" />
+													<h:outputText value="Statut" />
 												</f:facet>
-												<h:outputText value="#{newStudents.sessionEtudiant.lieu}" />
+												<h:outputText  rendered="#{etudiantBean.currentTime.time le newStudents[13].time}" value="En Cours" />
+												<h:outputText  rendered="#{etudiantBean.currentTime.time gt newStudents[13].time }" value="Terminé" />
 											</p:column>
 										    <p:column style="width:80px;text-align:center;">
 										       <f:facet name="header">
@@ -243,9 +285,9 @@
 												update=":form7:moduleDetail"
 												    title="Modifier">
 												    <h:graphicImage name="NiceAdmin/img/pencil.png" style="width:20px;height:20px"></h:graphicImage>
-													<f:param value="#{newStudents.idEtudiant}" name="idEtudiant"/>
-													<f:param value="#{newStudents.sessionEtudiant.idSession}" name="idSession"/>
-											        <p:ajax update=":form7:moduleDetail" event="click" listener="#{etudiantBean.getCurrentEtudiant(newStudents.idEtudiant)}"/>
+													<f:param value="#{newStudents[0]}" name="idEtudiant"/>
+													<f:param value="#{newStudents[11]}" name="idSession"/>
+											        <p:ajax update=":form7:moduleDetail" event="click" listener="#{etudiantBean.getCurrentEtudiant(newStudents[0])}"/>
 												</p:commandLink> 
 										    </p:column>
 										</p:dataTable>
@@ -257,34 +299,55 @@
 									<p:dialog header="Etudiant Info" widgetVar="carDialog"
 											modal="true" showEffect="blind" hideEffect="explode"
 											resizable="false" width="500px">
-											<p:outputPanel id="moduleDetail" style="text-align:center;">
+											<p:outputPanel id="moduleDetail" style="text-align:center;overflow:scroll;height:500px;">
 											      <c:if test="#{not empty etudiantBean.etudiant}">
 														<h:inputHidden value="#{etudiantBean.etudiant.idEtudiant}" />
 														<h:inputHidden value="#{etudiantBean.etudiant.sessionEtudiant.idSession}" />
-														<h:outputText value="Nom Etudiant:" /><br/>
-														<h:inputText value="#{etudiantBean.etudiant.nomEtudiant}" /><br/>
-														<h:outputText value="Prénom Etdudiant" /><br/>
-														<h:inputText value="#{etudiantBean.etudiant.prenomEtudiant}" /><br/>
+														<h:outputText value="Nom Etudiant" /><br/>
+														<h:inputText value="#{etudiantBean.etudiant.nomEtudiant}">
+														    <f:validateRegex pattern="[a-z A-Z]+$"></f:validateRegex>
+														</h:inputText><br/>
+														<h:outputText value="Prénom Etudiant" /><br/>
+														<h:inputText value="#{etudiantBean.etudiant.prenomEtudiant}">
+														    <f:validateRegex pattern="[a-z A-Z]+$"></f:validateRegex>
+														</h:inputText><br/>
 														<h:outputText value="Date De Naissance" /><br/>
-														<p:calendar value="#{etudiantBean.etudiant.dateDeNaissance}" /><br/>
+														<p:calendar value="#{etudiantBean.etudiant.dateDeNaissance}" yearRange="c-40:c+0" navigator="true" required="true"/><br/>
 														<h:outputText value="Formation Initial" /><br/>
-														<h:inputText value="#{etudiantBean.etudiant.formationInitial}" /><br/>
+														<h:inputText value="#{etudiantBean.etudiant.formationInitial}">
+														    <f:validateRegex pattern="[a-z A-ZÉéè]+$"></f:validateRegex>
+														</h:inputText><br/>
 														<h:outputText value="Ecole " /><br/>
-														<h:inputText value="#{etudiantBean.etudiant.ecole}" /><br/>
+														<h:inputText value="#{etudiantBean.etudiant.ecole}">
+														  <f:validateRegex pattern="[a-z A-ZÉéè]+$"></f:validateRegex>
+														</h:inputText><br/>
 														<h:outputText value="Date d'Obtention " /><br/>
-														<p:calendar value="#{etudiantBean.etudiant.dateObtention}" /><br/>
+														<p:calendar value="#{etudiantBean.etudiant.dateObtention}" required="true" yearRange="c-10:c+0" navigator="true" /><br/>
 														<h:outputText value="Adresse Postal" /><br/>
-														<h:inputText value="#{etudiantBean.etudiant.adressePostal}" /><br/>
+														<h:inputText value="#{etudiantBean.etudiant.adresse.adresse}" required="true">
+														    <f:validateRegex pattern="[a-z A-ZÉéè 0-9]+$"></f:validateRegex>
+														</h:inputText><br/>
 														<h:outputText value="Code Postal" /><br/>
-														<h:inputText value="#{etudiantBean.etudiant.codePostal}" /><br/> 
+														<p:inputMask value="#{etudiantBean.etudiant.adresse.codePostal}" mask="99999" required="true"/><br/> 
+														<h:outputText value="Ville" /><br/>
+														<h:inputText value="#{etudiantBean.etudiant.adresse.ville}" required="true">
+														    <f:validateRegex pattern="[a-z A-ZÉéè]+$"></f:validateRegex>
+														</h:inputText><br/>
+														<h:outputText value="Pays" /><br/>
+														<h:inputText value="#{etudiantBean.etudiant.adresse.pays}" required="true">
+														    <f:validateRegex pattern="[a-z A-ZÉéè]+$"></f:validateRegex>
+														</h:inputText><br/>
 														<h:outputText value="Tél" /><br/>
-														<h:inputText value="#{etudiantBean.etudiant.numTel}" /><br/>
+														<p:inputMask value="#{etudiantBean.etudiant.numTel}" mask="(99) 99-99-99-99" required="true"/><br/>
 														<h:outputText value="Mail" /><br/>
-														<h:inputText value="#{etudiantBean.etudiant.mail}" /><br/>
+														<h:inputText value="#{etudiantBean.etudiant.mail}">
+														   <f:validator binding="#{emailValidator}" />
+														</h:inputText><br/>
+														<p:messages id="messages"></p:messages>
 											 </c:if>
 											</p:outputPanel>
 											<br/>
-							             <p:commandButton  value="Modifier" action="#{etudiantBean.edit}"/>
+							             <p:commandButton update="messages" ajax="true" value="Modifier" action="#{etudiantBean.edit}"/>
 							            </p:dialog>
 						           
 							    </h:form>

@@ -96,8 +96,8 @@ public class ContratDaoImpl extends AbstractJpaDao<Contrat> implements IContratD
 		List<Contrat> contrats = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Contrat>(Contrat.class));
 		return contrats;*/
 		
-		String sql = "select * from contrat c join etudiant e on c.ID_CONTRAT_ETU=e.idEtudiant";
-		List<Contrat> contrats = jdbcTemplate.query(sql, new RowMapper<Contrat>(){
+		final String SQL = "select * from contrat c join etudiant e on c.ID_CONTRAT_ETU=e.idEtudiant";
+		List<Contrat> contrats = jdbcTemplate.query(SQL, new RowMapper<Contrat>(){
 
 			@Override
 			public Contrat mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -105,7 +105,7 @@ public class ContratDaoImpl extends AbstractJpaDao<Contrat> implements IContratD
 				c.setIdContrat(rs.getLong("idContrat"));
 				c.setDate(rs.getDate("date"));
 				c.setActive(rs.getBoolean("active"));
-				/*je veux récupérer seulement le id et aussi le nom de l'etudiant*/
+				/**je veux récupérer seulement le id et aussi le nom de l'etudiant*/
 				Etudiant e = new Etudiant();
 				e.setIdEtudiant(rs.getLong("idEtudiant"));
 				e.setNomEtudiant(rs.getString("nomEtudiant"));
@@ -121,8 +121,8 @@ public class ContratDaoImpl extends AbstractJpaDao<Contrat> implements IContratD
 
 	@Override
 	public Contrat getOne(Long id) {
-		String sql = "select * from contrat where idContrat=?";
-		Contrat c = jdbcTemplate.queryForObject(sql, new Object[]{id},new BeanPropertyRowMapper<Contrat>(Contrat.class));
+		final String SQL = "select * from contrat where idContrat=?";
+		Contrat c = jdbcTemplate.queryForObject(SQL, new Object[]{id},new BeanPropertyRowMapper<Contrat>(Contrat.class));
 		return c;
 	}
     
@@ -130,21 +130,21 @@ public class ContratDaoImpl extends AbstractJpaDao<Contrat> implements IContratD
 	
 	@Override
 	public Contrat addContrat(Contrat c,Long idEtudiant) {
-		String sql = "insert into contrat (date,active,ID_CONTRAT_ETU) values (?,?,?)";
-		jdbcTemplate.update(sql, c.getDate(),c.isActive(),idEtudiant);
+		final String SQL = "insert into contrat (date,active,ID_CONTRAT_ETU) values (?,?,?)";
+		jdbcTemplate.update(SQL, c.getDate(),c.isActive(),idEtudiant);
 		return c;
 	}
 
 	@Override
 	public int nombreContrat() {
-		String sql = "select count(*) from contrat";
-		return jdbcTemplate.queryForInt(sql);
+		final String SQL = "select count(*) from contrat";
+		return jdbcTemplate.queryForInt(SQL);
 	}
 	
 	@Override
 	public void remove(Long idContrat) {
-		String sql = "delete from contrat where idContrat=?";
-		jdbcTemplate.update(sql, idContrat);
+		final String SQL = "delete from contrat where idContrat=?";
+		jdbcTemplate.update(SQL, idContrat);
 	}
 
 

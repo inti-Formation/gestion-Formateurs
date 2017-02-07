@@ -8,17 +8,14 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 <h:head>
-	<title>BootsFaces Basic Page</title>
+	<title>Header</title>
 </h:head>
 <ui:composition>
 	<header class="header dark-bg">
 		<div class="toggle-nav">
 			<div class="icon-reorder tooltips"
 				data-original-title="Toggle Navigation" data-placement="bottom">
-				<i><div class="lines"></div></i>
-				<i><div class="lines"></div></i>
-				<i><div class="lines"></div></i>
-				
+				<i><h:graphicImage width="32px" height="32px" name="NiceAdmin/img/home.png"/></i>
 			</div>
 		</div>
 		<h:link outcome="index" class="logo">INTI 
@@ -28,15 +25,6 @@
 			<!-- notificatoin dropdown start-->
 			<ul class="nav pull-right top-menu">
 
-				<!-- task notificatoin start -->
-				<li id="task_notificatoin_bar" class="dropdown"><a
-					data-toggle="dropdown" class="dropdown-toggle" href="#"> </a>
-					<ul class="dropdown-menu extended tasks-bar">
-						<div class="notify-arrow notify-arrow-blue"></div>
-						<li>
-							<p class="blue">You have 6 pending letter</p>
-						</li>
-					</ul></li>
 				<li class="dropdown"><a data-toggle="dropdown"
 					class="dropdown-toggle" href="#"> <span class="profile-ava">
 
@@ -46,7 +34,7 @@
 					<ul class="dropdown-menu extended logout">
 						<div class="log-arrow-up"></div>
 						<li class="eborder-top">
-						<h:outputLink value="${pageContext.request.contextPath}/myapp/j_spring_security_logout"><i><h:graphicImage style="width: 20px" name="NiceAdmin/img/shutdown.png"/></i> Déconnection</h:outputLink></li>
+						<h:outputLink  value="#{request.contextPath}/j_spring_security_logout"><i><h:graphicImage style="width: 20px" name="NiceAdmin/img/shutdown.png"/></i> Déconnection</h:outputLink></li>
 					</ul>
 				</li>
 				<!-- user login dropdown end -->
@@ -59,60 +47,58 @@
                     
                     <!-- task notificatoin start -->
                     <li id="task_notificatoin_bar" class="dropdown">
-                               
-                                    <h:outputScript>
-                                    
-                                     
-                                     function btnColor(btn, color) {
-                                        var id1 = document.getElementById("btnHousing");
-                                        var id2 = document.getElementById('btnHousing1');
-                                        var id3 = document.getElementById('btnHousing2');
-                                        var id4 = document.getElementById('btnHousing3');
-										var property = document.getElementById(btn);
-										
-										     
-										    if (property.className !== 'badge')
-										     { 
-										        
-										        property.style.backgroundColor="rgb(255,0,0)";
-										        property.className = 'badge';
-										    }
-										    else {
-										        property.style.backgroundColor = "rgb(0,160,223)";
-										        
-										        property.className = '';
-										    }
-										}
-                                      
-                                    </h:outputScript>
+ 
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span>
-	                            <i><h:graphicImage styleClass="button" onclick="btnColor('btnHousing','rgb(0,160,223)');"  style="width: 20px;" name="NiceAdmin/img/going-to-work.png"/></i>
-	                            <span class="myclass" id="btnHousing"  onclick="btnColor('btnHousing','rgb(0,160,223)');" >#{dashboardBean.numberOfCurrentRetards}</span>
+	                            <i><h:graphicImage styleClass="button"  style="width: 20px;" name="NiceAdmin/img/going-to-work.png"/></i>
+	                            <h:outputLabel value="#{dashboardBean.countRetards}"  styleClass="#{dashboardBean.countRetards gt 0 ? 'myclassActive':'myclass'}"/>
                             </span>
                         </a>
                         <ul class="dropdown-menu extended inbox">
                             <div class="notify-arrow notify-arrow-blue"></div>
-                            <li>
-                                <p class="blue">il y a  #{dashboardBean.numberOfCurrentRetards} nouveaux retards</p>
+                            <li>                           
+                                <p class="blue">il y a  #{dashboardBean.countRetards} nouveaux retards</p>
                             </li>
                             <li>
-                              <ui:repeat var="r" value="#{dashboardBean.limitationRetards}">
+                              <ui:repeat var="r" value="#{dashboardBean.retardsJournaliereLimited}">
                                 <h:link outcome="evenement_journaliere">
-                                   
+                                    <span class="photo"><h:graphicImage name="NiceAdmin/img/user_formateur.png"/></span>
                                     <span class="subject">
-	                                    <span class="from" >#{r.signaleur}</span>
-	                                    <span class="time">#{r.hoursOfEvenement}h #{r.minuteOfEvenement} min</span>
-                                        <span class="from">#{r.dayOfEvenement}</span>
-                                        <span class="from">#{r.monthOfEvenement}</span>		
+	                                    <span class="from" >#{r[3]}</span>
+	                                    <span class="time">
+			                                 <h:outputLabel rendered="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60) gt 60}" value="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60*60)}">
+		                                          <f:convertNumber pattern="0"></f:convertNumber>
+		                                     </h:outputLabel>
+		                                      <h:outputLabel rendered="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60) eq 60}" value="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60*60)}">
+		                                          <f:convertNumber pattern="0"></f:convertNumber>
+		                                     </h:outputLabel>
+		                                      <h:outputLabel rendered="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60) lt 60}" value="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60)}">
+		                                          <f:convertNumber pattern="0"></f:convertNumber>
+		                                     </h:outputLabel>
+		                                     <p:spacer width="5"></p:spacer>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60) gt 60}" value="hrs"></h:outputLabel>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60) eq 60}" value="h"></h:outputLabel>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - r[4].time)/(1000*60) lt 60}" value="min"></h:outputLabel>
+	                                    </span>
                                     </span>
-                                    <span class="message">
-                                       l'étudiant #{r.etudiant.nomEtudiant} #{r.etudiant.prenomEtudiant} est en retard
+                                    <span class="form">
+	                                    <h:outputLabel value="#{r[4]}">
+	                                          <f:convertDateTime type="date" dateType="short" />
+	                                    </h:outputLabel>
                                     </span>
+                                    <br/>
+				                     <ul class="chats">
+					                      <!-- Chat by us. Use the class "by-me". -->
+					                      <li class="by-me">
+					                        <div class="chat-content">
+					                          l'étudiant  #{r[6]} #{r[7]}  est en Retard
+					                        </div>
+					                      </li> 
+				                     </ul>
                                 </h:link>
                               </ui:repeat>
                             </li>
-                            <c:if test="#{fn:length(dashboardBean.limitationRetards) >=4 }">
+                            <c:if test="#{fn:length(dashboardBean.retardsJournaliereLimited) >=4 }">
 	                            <li>
 	                                <h:link outcome="evenement_journaliere">Voir tous les messages</h:link>
 	                            </li>
@@ -123,30 +109,55 @@
                     <!-- inbox notificatoin start-->
                     <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i><h:graphicImage onclick="btnColor('btnHousing1','rgb(0,160,223)');"  style="width: 20px;" name="NiceAdmin/img/bell.png"/></i>
-                            <span class="myclass" id="btnHousing1" onclick="btnColor('btnHousing1','rgb(0,160,223)');" >#{dashboardBean.numberOfCurrentAbsences}</span>
+                            <i><h:graphicImage  style="width: 20px;" name="NiceAdmin/img/bell.png"/></i>
+                            <h:outputLabel value="#{dashboardBean.countAbsence}"  styleClass="#{dashboardBean.countAbsence gt 0 ? 'myclassActive':'myclass'}"/>
                         </a>
                         
                         <ul class="dropdown-menu extended inbox">
                             <div class="notify-arrow notify-arrow-blue"></div>
                             <li>
-                                <p class="blue">il y a  #{dashboardBean.numberOfCurrentAbsences} nouveaux absences</p>
+                                <p class="blue">il y a  #{dashboardBean.countAbsence} nouveaux absences</p>
                             </li>
                             <li>
-                              <ui:repeat var="s" value="#{dashboardBean.limitationAbsences}">
+                              <ui:repeat var="a" value="#{dashboardBean.absenceJournaliereLimited}">
                                 <h:link outcome="evenement_journaliere">
-                                    
+                                    <span class="photo"><h:graphicImage name="NiceAdmin/img/user_formateur.png"/></span>
                                     <span class="subject">
-	                                    <span class="from">#{s.signaleur}</span>
-	                                    <span class="time">#{s.hoursOfEvenement}h #{s.minuteOfEvenement} min</span>
+	                                    <span class="from" >#{a[3]}</span>
+	                                    <span class="time">
+		                                    <h:outputLabel rendered="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60) gt 60}" value="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60*60)}">
+		                                        <f:convertNumber pattern="0"></f:convertNumber>
+		                                    </h:outputLabel>
+											<h:outputLabel rendered="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60) eq 60}" value="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60*60)}">
+											    <f:convertNumber pattern="0"></f:convertNumber>
+											</h:outputLabel>
+											<h:outputLabel rendered="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60) lt 60}" value="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60)}">
+											    <f:convertNumber pattern="0"></f:convertNumber>
+											</h:outputLabel>
+											<p:spacer width="5"></p:spacer>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60) gt 60}" value="hrs"></h:outputLabel>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60) eq 60}" value="h"></h:outputLabel>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - a[4].time)/(1000*60) lt 60}" value="min"></h:outputLabel>
+	                                    </span>
                                     </span>
-                                    <span class="message">
-                                       l'étudiant #{s.etudiant.nomEtudiant} #{s.etudiant.prenomEtudiant} est absent
+                                    <span class="form">
+	                                    <h:outputLabel value="#{a[4]}">
+	                                          <f:convertDateTime type="date" dateType="short" />
+	                                    </h:outputLabel>
                                     </span>
+                                    <br/>
+                                     <ul class="chats">
+					                      <!-- Chat by us. Use the class "by-me". -->
+					                      <li class="by-me">
+					                        <div class="chat-content">
+					                           l'étudiant  #{a[6]} #{a[7]}  est Absent
+					                        </div>
+					                      </li> 
+				                     </ul>
                                 </h:link>
                               </ui:repeat>
                             </li>
-                             <c:if test="#{fn:length(dashboardBean.limitationAbsences) >=4 }">
+                             <c:if test="#{fn:length(dashboardBean.absenceJournaliereLimited) >=4 }">
 	                            <li>
 	                                <h:link outcome="evenement_journaliere">Voir tous les messages</h:link>
 	                            </li>
@@ -158,29 +169,54 @@
                      
                     <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i><h:graphicImage onclick="btnColor('btnHousing2','rgb(0,160,223)');"  style="width: 20px;" name="NiceAdmin/img/warning.png"/></i>
-                            <span class="myclass" id="btnHousing2" onclick="btnColor('btnHousing2','rgb(0,160,223)');">#{dashboardBean.numberOfCurrentWarning}</span>
+                            <i><h:graphicImage  style="width: 20px;" name="NiceAdmin/img/warning.png"/></i>
+                            <h:outputLabel value="#{dashboardBean.countWarning}"  styleClass="#{dashboardBean.countWarning gt 0 ? 'myclassActive':'myclass'}"/>
                         </a>
                         <ul class="dropdown-menu extended inbox">
                             <div class="notify-arrow notify-arrow-blue"></div>
                             <li>
-                                <p class="blue">il y a  #{dashboardBean.numberOfCurrentWarning} nouveaux Warning</p>
+                                <p class="blue">il y a  #{dashboardBean.countWarning} nouveaux Warning</p>
                             </li>
                             <li>
-                              <ui:repeat var="s" value="#{dashboardBean.limitationWarning}">
-                                <h:link outcome="evenement_journaliere">
-                                    
+                              <ui:repeat var="w" value="#{dashboardBean.warningJournaliereLimited}">
+                               <h:link outcome="evenement_journaliere">
+                                   <span class="photo"><h:graphicImage name="NiceAdmin/img/user_formateur.png"/></span>
                                     <span class="subject">
-	                                    <span class="from">#{s.signaleur}</span>
-	                                    <span class="time">#{s.hoursOfEvenement}h #{s.minuteOfEvenement} min</span>
+	                                    <span class="from" >#{w[3]}</span>
+	                                    <span class="time">
+		                                    <h:outputLabel rendered="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60) gt 60}" value="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60*60)}">
+		                                       <f:convertNumber pattern="0"></f:convertNumber>
+		                                    </h:outputLabel>
+											<h:outputLabel rendered="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60) eq 60}" value="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60*60)}">
+											  <f:convertNumber pattern="0"></f:convertNumber>
+											</h:outputLabel>
+											<h:outputLabel rendered="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60) lt 60}" value="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60)}">
+											  <f:convertNumber pattern="0"></f:convertNumber>
+											</h:outputLabel>
+											 <p:spacer width="5"></p:spacer>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60) gt 60}" value="hrs"></h:outputLabel>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60) eq 60}" value="h"></h:outputLabel>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - w[4].time)/(1000*60) lt 60}" value="min"></h:outputLabel>
+	                                    </span>
                                     </span>
-                                    <span class="message">
-                                       l'étudiant #{s.etudiant.nomEtudiant} #{s.etudiant.prenomEtudiant} en Warning
+                                    <span class="form">
+	                                    <h:outputLabel value="#{w[4]}">
+	                                          <f:convertDateTime type="date" dateType="short" />
+	                                    </h:outputLabel>
                                     </span>
+                                    <br/>
+                                    <ul class="chats">
+					                      <!-- Chat by us. Use the class "by-me". -->
+					                      <li class="by-me">
+					                        <div class="chat-content">
+					                           l'étudiant  #{w[6]} #{w[7]}  en Warning
+					                        </div>
+					                      </li> 
+				                     </ul>
                                 </h:link>
                               </ui:repeat>
                             </li>
-                             <c:if test="#{fn:length(dashboardBean.limitationWarning) >=4 }">
+                             <c:if test="#{fn:length(dashboardBean.warningJournaliereLimited) >=4 }">
 	                            <li>
 	                                <h:link outcome="evenement_journaliere">Voir tous les messages</h:link>
 	                            </li>
@@ -190,29 +226,54 @@
                      <!-- inbox notificatoin start-->
                     <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i><h:graphicImage onclick="btnColor('btnHousing3','rgb(0,160,223)');"  style="width: 20px;" name="NiceAdmin/img/star.png"/></i>
-                            <span class="myclass" id="btnHousing3" onclick="btnColor('btnHousing3','rgb(0,160,223)');" >#{dashboardBean.numberOfCurrentTop}</span>
+                            <i><h:graphicImage  style="width: 20px;" name="NiceAdmin/img/star.png"/></i>
+                           <h:outputLabel value="#{dashboardBean.countTop}"  styleClass="#{dashboardBean.countTop gt 0 ? 'myclassActive':'myclass'}"/>
                         </a>
                         <ul class="dropdown-menu extended inbox">
                             <div class="notify-arrow notify-arrow-blue"></div>
                             <li>
-                                <p class="blue">il y a  #{dashboardBean.numberOfCurrentTop} nouveaux Top</p>
+                                <p class="blue">il y a  #{dashboardBean.countTop} nouveaux Top</p>
                             </li>
                             <li>
-                              <ui:repeat var="s" value="#{dashboardBean.limitationTop}">
+                              <ui:repeat var="t" value="#{dashboardBean.topJournaliereLimited}">
                                 <h:link outcome="evenement_journaliere">
-                                    
+                                   <span class="photo"><h:graphicImage name="NiceAdmin/img/user_formateur.png"/></span>
                                     <span class="subject">
-	                                    <span class="from">#{s.signaleur}</span>
-	                                    <span class="time">#{s.hoursOfEvenement}h #{s.minuteOfEvenement} min</span>
+	                                    <span class="from" >#{t[3]}</span>
+	                                    <span class="time">
+		                                    <h:outputLabel rendered="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60) gt 60}" value="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60*60)}">
+		                                      <f:convertNumber pattern="0"></f:convertNumber>
+		                                    </h:outputLabel>
+											<h:outputLabel rendered="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60) eq 60}" value="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60*60)}">
+											  <f:convertNumber pattern="0"></f:convertNumber>
+											</h:outputLabel>
+											<h:outputLabel rendered="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60) lt 60}" value="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60)}">
+											  <f:convertNumber pattern="0"></f:convertNumber>
+											</h:outputLabel>
+											 <p:spacer width="5"></p:spacer>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60) gt 60}" value="hrs"></h:outputLabel>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60) eq 60}" value="h"></h:outputLabel>
+		                                     <h:outputLabel rendered="#{(dashboardBean.currentTime.time - t[4].time)/(1000*60) lt 60}" value="min"></h:outputLabel>
+	                                    </span>
                                     </span>
-                                    <span class="message">
-                                       l'étudiant #{s.etudiant.nomEtudiant} #{s.etudiant.prenomEtudiant} est le Top
+                                    <span class="form">
+	                                    <h:outputLabel value="#{t[4]}">
+	                                          <f:convertDateTime type="date" dateType="short" />
+	                                    </h:outputLabel>
                                     </span>
+                                    <br/>
+                                    <ul class="chats">
+					                      <!-- Chat by us. Use the class "by-me". -->
+					                      <li class="by-me">
+					                        <div class="chat-content">
+					                             l'étudiant  #{t[6]} #{t[7]}  est le Top
+					                        </div>
+					                      </li> 
+				                     </ul>
                                 </h:link>
                               </ui:repeat>
                             </li>
-                             <c:if test="#{fn:length(dashboardBean.limitationTop) >=4 }">
+                             <c:if test="#{fn:length(dashboardBean.topJournaliereLimited) >=4 }">
 	                            <li>
 	                                <h:link outcome="evenement_journaliere">Voir tous les messages</h:link>
 	                            </li>

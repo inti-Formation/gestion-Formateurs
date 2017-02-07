@@ -20,93 +20,60 @@ import com.adaming.myapp.entities.WarningEtudiant;
 import com.adaming.myapp.evenement.dao.IEvenementDao;
 import com.adaming.myapp.exception.EvenementNotFoundException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.tools.LoggerConfig;
 
 @Transactional(readOnly=true)
 public class EvenementServiceImpl implements IEvenementService {
 
-	Logger logger = Logger.getLogger("EvenementServiceImpl");
 
 	private IEvenementDao dao;
 
 	public void setDao(IEvenementDao dao) {
-		logger.info("<---------dao Evenement injected------->");
+		LoggerConfig.logInfo("<---------dao Evenement injected------->");
 		this.dao = dao;
 	}
 
 	@Override
-	public List<Evenement> getEvenementsRetards()
+	public List<Object[]> getEvenementsRetards()
 			throws EvenementNotFoundException {
-		List<Evenement> retards = null;
+		List<Object[]> retards = null;
 		retards = dao.getEvenementsRetards();
-		if (retards.size() == 0) {
+		if (retards.isEmpty()) {
 			throw new EvenementNotFoundException("Aucun retard mentionné !");
 		}
 		return retards;
 	}
 
 	@Override
-	public List<Evenement> getEvenementsAbsences()
+	public List<Object[]> getEvenementsAbsences()
 			throws EvenementNotFoundException {
-		List<Evenement> absences = null;
+		List<Object[]> absences = null;
 		absences = dao.getEvenementsAbsences();
-		if (absences.size() == 0) {
+		if (absences.isEmpty()) {
 			throw new EvenementNotFoundException("Aucune absence mentionnée !");
 		}
 		return absences;
 	}
 
 	@Override
-	public List<Evenement> getEvenementsEntretien()
+	public List<Object[]> getEvenementsEntretien()
 			throws EvenementNotFoundException {
-		List<Evenement> entretien = null;
+		List<Object[]> entretien = null;
 		entretien = dao.getEvenementsEntretien();
-		if (entretien.size() == 0) {
+		if (entretien.isEmpty()) {
 			throw new EvenementNotFoundException("Aucun entretien mentionné !");
 		}
 		return entretien;
 	}
 
-	@Override
-	public List<Evenement> getNumberOfCurrentsRetards() {
-		// TODO Auto-generated method stub
-		return dao.getNumberOfCurrentsRetards();
-	}
+	
 
-	@Override
-	public List<Evenement> getNumberOfCurrentsAbsence() {
-		// TODO Auto-generated method stub
-		return dao.getNumberOfCurrentsAbsence();
-	}
+	
 
-	@Override
-	public List<Evenement> getAllEvenementsRetards() {
-		// TODO Auto-generated method stub
-		return dao.getAllEvenementsRetards();
-	}
+	
+	
 
-	@Override
-	public List<Evenement> getNumberOfCurrentsWarning() {
-		// TODO Auto-generated method stub
-		return dao.getNumberOfCurrentsWarning();
-	}
-
-	@Override
-	public List<Evenement> getNumberOfCurrentsTop() {
-		// TODO Auto-generated method stub
-		return dao.getNumberOfCurrentsTop();
-	}
-
-	@Override
-	public List<Evenement> getAllEvenementsEntretient() {
-		// TODO Auto-generated method stub
-		return dao.getAllEvenementsEntretient();
-	}
-
-	@Override
-	public List<Evenement> getAllEvenementsAbsences() {
-		// TODO Auto-generated method stub
-		return dao.getAllEvenementsAbsences();
-	}
+	
 
 	@Override
 	public List<Evenement> getAllEvenements() {
@@ -146,24 +113,13 @@ public class EvenementServiceImpl implements IEvenementService {
 	@Transactional(readOnly=false)
 	public Evenement AddWarningAndTop(Evenement e, Long idSession,
 			Long idEtudiant) throws VerificationInDataBaseException {
-		List<Evenement> evenements = null;
-		evenements = getAllEvenements();
-		for (Evenement evenement : evenements) {
-			if (evenement != null) {
-				if (evenement.getSessionEtudiant().getIdSession() == idSession
-						&& evenement.getEtudiant().getIdEtudiant() == idEtudiant
-						&& !evenement.getClass().getSimpleName()
-								.equals("Absence")
-						&& !evenement.getClass().getSimpleName()
-								.equals("Entretien")
-						&& !evenement.getClass().getSimpleName()
-								.equals("Retard")) {
-					throw new VerificationInDataBaseException("l' etudiant "
-							+ evenement.getEtudiant().getNomEtudiant() + " , "
-							+ evenement.getEtudiant().getPrenomEtudiant()
-							+ " est déja signalé");
-				}
-			}
+		
+		Evenement event = verifyExistingEvent(idEtudiant);
+		if(event != null)
+		{
+			throw new VerificationInDataBaseException("l'étudiant N °"
+					+idEtudiant + " , " + " est déja signalé");
+	
 		}
 		return dao.AddWarningAndTop(e, idSession, idEtudiant);
 	}
@@ -195,6 +151,60 @@ public class EvenementServiceImpl implements IEvenementService {
 	public List<Object[]> getEventsExiste(Long idEtudiant) {
 		// TODO Auto-generated method stub
 		return dao.getEventsExiste(idEtudiant);
+	}
+
+	@Override
+	public List<Object[]> getDailyCountOfRetards() {
+		// TODO Auto-generated method stub
+		return dao.getDailyCountOfRetards();
+	}
+
+	@Override
+	public List<Object[]> getDailyCountOfAbsence() {
+		// TODO Auto-generated method stub
+		return dao.getDailyCountOfAbsence();
+	}
+
+	@Override
+	public List<Object[]> getDailyCountOfWarning() {
+		// TODO Auto-generated method stub
+		return dao.getDailyCountOfWarning();
+	}
+
+	@Override
+	public List<Object[]> getDailyCountOfTop() {
+		// TODO Auto-generated method stub
+		return dao.getDailyCountOfTop();
+	}
+
+	@Override
+	public long getNumberOfRetards() {
+		// TODO Auto-generated method stub
+		return dao.getNumberOfRetards();
+	}
+
+	@Override
+	public long getNumberOfAbsence() {
+		// TODO Auto-generated method stub
+		return dao.getNumberOfAbsence();
+	}
+
+	@Override
+	public long getNumberOfWarning() {
+		// TODO Auto-generated method stub
+		return dao.getNumberOfWarning();
+	}
+
+	@Override
+	public long getNumberOfTop() {
+		// TODO Auto-generated method stub
+		return dao.getNumberOfTop();
+	}
+
+	@Override
+	public Evenement verifyExistingEvent(Long idEtudiant) {
+		// TODO Auto-generated method stub
+		return dao.verifyExistingEvent(idEtudiant);
 	}
 
 }

@@ -1,4 +1,5 @@
 package com.adaming.myapp.etudiant.dao;
+import java.util.Date;
 import java.util.List;
 
 import com.adaming.myapp.entities.Etudiant;
@@ -82,7 +83,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getEtudiantBySessionAbstractJpa
     **/
 	@Override
-	public List<Etudiant> getEtudiantBySession(Long idSession) throws VerificationInDataBaseException {
+	public List<Object[]> getEtudiantBySession(Long idSession) {
 		return getEtudiantBySessionAbstractJpa(idSession);
 	}
     
@@ -111,6 +112,15 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	public List<Etudiant> getStudentsBySession(Long idSession) {
 		// TODO Auto-generated method stub
 		return getStudentsBySessionAbstractJpa(idSession);
+	}
+
+
+
+
+	@Override
+	public Etudiant verifyExistingEtudiant(String name, Date dateDeNaissance) {
+		// TODO Auto-generated method stub
+		return verifyExistingEtudiantAbstractJpa(name, dateDeNaissance);
 	}
 
 }

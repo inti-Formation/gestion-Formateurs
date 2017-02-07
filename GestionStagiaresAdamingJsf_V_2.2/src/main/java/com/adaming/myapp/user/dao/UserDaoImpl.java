@@ -18,20 +18,24 @@ public class UserDaoImpl extends UserAbstractJpa implements IUserDao{
 		return getUserAbstractJpa(mail);
 	}
 
-	@Override
-	public User updatePassword(String mail, String password, String newPassword) throws GetUserException {
-		return updatePasswordAbstractJpa(mail, password, newPassword);
-	}
-
+	
 	@Override
 	public List<User> getUsersByMail(String mail) {
 		return getUsersByMailAbstractJpa(mail);
 	}
 
+	
+
 	@Override
-	public List<User> getUserByPasswordAndMail(String mail, String password) {
+	public User getUserByMail(String mail) {
 		// TODO Auto-generated method stub
-		return getUserByPasswordAndMailAbstractJpa(mail, password);
+		return getUserByMailAbstractJpa(mail);
+	}
+
+	@Override
+	public User customPassword(User u) {
+		// TODO Auto-generated method stub
+		return customPasswordAbstractJpa(u);
 	}
 
 	

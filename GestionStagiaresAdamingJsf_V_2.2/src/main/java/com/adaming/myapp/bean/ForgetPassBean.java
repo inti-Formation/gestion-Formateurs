@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.GetUserException;
+import com.adaming.myapp.tools.LoggerConfig;
 import com.adaming.myapp.user.service.IUserService;
 
 @SuppressWarnings("serial")
@@ -29,7 +30,7 @@ public class ForgetPassBean implements Serializable {
 	 * LOGGER LOG4j 
 	 * @see org.apache.log4j.Logger
 	 */
-    private final Logger LOGGER  = Logger.getLogger("ForgetPassBean");
+  
     
 	
 	@Inject
@@ -48,13 +49,13 @@ public class ForgetPassBean implements Serializable {
 
 	public String sendPass() {
 
-		User u = new User();
+		User u = FactoryBean.getUserFactory().create("User");
 
 		try {
 			u = serviceUser.getUser(mail);
 		} catch (GetUserException e) {
 			setError(e.getMessage());
-			LOGGER.debug(error);
+			LoggerConfig.logDebug(error);
 			return null;
 		}
 
@@ -91,7 +92,7 @@ public class ForgetPassBean implements Serializable {
 			// Send message
 			Transport.send(message);
 
-            LOGGER.info("Sent message successfully");
+			LoggerConfig.logInfo("Sent message successfully");
 
 		} catch (MessagingException mex) {
 			mex.printStackTrace();

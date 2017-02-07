@@ -9,11 +9,12 @@ import com.adaming.myapp.entities.Salle;
 import com.adaming.myapp.entities.Site;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.site.dao.ISiteDao;
+import com.adaming.myapp.tools.LoggerConfig;
 
 @Transactional(readOnly=true)
 public class SiteServiceImpl implements ISiteService{
     
-	private final Logger LOGGER = Logger.getLogger(SiteServiceImpl.class);
+	
 	
 	private ISiteDao dao;
 
@@ -23,7 +24,7 @@ public class SiteServiceImpl implements ISiteService{
 	 */
 	public void setDao(ISiteDao dao) {
 		this.dao = dao;
-		LOGGER.info("<------Dao Site Injected----->");
+		LoggerConfig.logInfo("<------Dao Site Injected----->");
 	}
 
 	@Override
@@ -69,9 +70,12 @@ public class SiteServiceImpl implements ISiteService{
 	}
 
 	@Override
-	public List<Object[]> getSallesBySite(Long idSite) {
-		// TODO Auto-generated method stub
-		return dao.getSallesBySite(idSite);
+	public List<Object[]> getSallesBySite(Long idSite) throws VerificationInDataBaseException {
+		List<Object[]> salles = dao.getSallesBySite(idSite);
+		if(salles.isEmpty()){
+			throw new VerificationInDataBaseException("Aucune Salle Trouvée dans le site N° "+idSite);
+		}
+		return salles;
 	}
 
 }

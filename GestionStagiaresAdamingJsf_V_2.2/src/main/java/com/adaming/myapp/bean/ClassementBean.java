@@ -2,20 +2,37 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import javax.inject.Inject;
-
-import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
 import com.adaming.myapp.entities.Etudiant;
-import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Note;
+import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
+import com.adaming.myapp.session.service.ISessionService;
+import com.adaming.myapp.tools.LoggerConfig;
+import com.adaming.myapp.tools.Utilitaire;
+
+
+/**
+ * la calss Bean , c'est le bean qui permet 
+ * de répondre aux besoins métiers,de la class Questions
+ * ajouter une question, ajouter une réponse,
+ * récupérer la liste des quetion par module  
+ * 
+ * 
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ */
+
 
 @SuppressWarnings("serial")
 @Component("classementBean")
@@ -26,7 +43,7 @@ public class ClassementBean implements Serializable {
 	 * LOGGER LOG4j 
 	 * @see org.apache.log4j.Logger
 	 */
-    private final Logger LOGGER  = Logger.getLogger("ClassementBean");
+  
 	
 	@Inject
 	private INotesService serviceNotes;
@@ -35,70 +52,76 @@ public class ClassementBean implements Serializable {
 	@Inject
 	private IModuleService serviceModule;
 	@Inject
+	private ISessionService serviceSession;
+	@Inject
 	private UserAuthentificationBean userAuthentification;
 	
-	private Long idSession;
-	private Long idEtudiant;
+
 	private Long idModule;
-	private List<Note> notes;
+	private SessionEtudiant sessionEtudiant;
+	private List<Object[]> notes;
 	private Etudiant etudiant;
-	private List<Module> modules;
+	private Set<Object[]> modules;
+	private List<Note> notesByStudents;
 	
 	
 	/*get all notes by session*/
-	public String getAllModuleBySession(){
+	public String getAllModulesValideBySession(){
 		getEtudiantByName();
-		modules= new ArrayList<Module>();
-		modules=serviceModule.getModulesBySession(idSession);
-		LOGGER.info("Modules : "+modules);
+		modules= new HashSet<Object[]>();
+		try {
+			modules=serviceModule.getModulesValideBySession(sessionEtudiant.getIdSession());
+			reset();
+		} catch (VerificationInDataBaseException e) {
+			Utilitaire.displayMessageWarning(e.getMessage());
+		}
+		LoggerConfig.logInfo("Modules : "+modules);
 		return "classement?redirect=true";
+	}
+	public void reset(){
+		idModule = null;
+		setNotes(null);
 	}
 	
 	/*get All Notes By Session And Module*/
     public void getAllNotesBySessionAndModule(){
-        getEtudiantByName();
-		notes=new ArrayList<Note>();
-		notes=serviceNotes.getNotesBySessionAndModule(idSession, idModule);
-		LOGGER.info("Notes : "+notes);
+		notes=new ArrayList<Object[]>();
+		notes=serviceNotes.getNotesBySessionAndModule(sessionEtudiant.getIdSession(), idModule);
+		LoggerConfig.logInfo("Notes : "+notes);
     }
     
     /*@method get Etudiant By Name */
     public void getEtudiantByName(){
+    	etudiant = createEtudiant();
+    	LoggerConfig.logInfo("Etudiant : "+etudiant);
+		try {
+			sessionEtudiant = serviceSession.getSessionByEtudiant(etudiant.getIdEtudiant());
+		} catch (VerificationInDataBaseException e) {
+			Utilitaire.displayMessageWarning(e.getMessage());
+		}
+    }
+    
+    public Etudiant createEtudiant(){
     	etudiant = FactoryBean.getEtudiantFactory().create("Etudiant");
 		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
-		LOGGER.info("Etudiant : "+etudiant);
-		idSession = etudiant.getSessionEtudiant().getIdSession();
+        return etudiant;
+    }
+    
+    public String getAllNotesByStudents(){
+    	etudiant = createEtudiant();
+    	notesByStudents = serviceNotes.getAllNotesByStudent(etudiant.getIdEtudiant());
+    	return "resultats?faces-redirect=true";
     }
 
-	public Long getIdSession() {
-		return idSession;
-	}
 
 
-	public void setIdSession(Long idSession) {
-		this.idSession = idSession;
-	}
-
-
-	public Long getIdEtudiant() {
-		return idEtudiant;
-	}
-
-
-	public void setIdEtudiant(Long idEtudiant) {
-		this.idEtudiant = idEtudiant;
-	}
-
-
-	public List<Note> getNotes() {
+	public List<Object[]> getNotes() {
 		return notes;
 	}
 
-
-	public void setNotes(List<Note> notes) {
+	public void setNotes(List<Object[]> notes) {
 		this.notes = notes;
 	}
-
 
 	public Etudiant getEtudiant() {
 		return etudiant;
@@ -119,14 +142,27 @@ public class ClassementBean implements Serializable {
 		this.idModule = idModule;
 	}
 
-
-	public List<Module> getModules() {
+	public Set<Object[]> getModules() {
 		return modules;
 	}
 
-
-	public void setModules(List<Module> modules) {
+	public void setModules(Set<Object[]> modules) {
 		this.modules = modules;
 	}
+
+	public SessionEtudiant getSessionEtudiant() {
+		return sessionEtudiant;
+	}
+
+	public void setSessionEtudiant(SessionEtudiant sessionEtudiant) {
+		this.sessionEtudiant = sessionEtudiant;
+	}
+	public List<Note> getNotesByStudents() {
+		return notesByStudents;
+	}
+	public void setNotesByStudents(List<Note> notesByStudents) {
+		this.notesByStudents = notesByStudents;
+	}
+
 	
 }

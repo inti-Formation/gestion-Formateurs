@@ -24,16 +24,15 @@ public class Module implements Serializable {
 	private Long idModule;
 	private String nomModule;
 	private boolean actif = false;
-	@Transient
-	private String etatModule="En Cours";
+
 	/* assoc */
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "ID_SP_MODULE")
 	private Specialite specialite;
 
-	@OneToMany(mappedBy = "module", fetch = FetchType.EAGER)
-	private List<Question> questions;
-
+	@OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
+	private List<Questions> questions;
+	
 	/* construct */
 	public Module() {
 		// TODO Auto-generated constructor stub
@@ -68,11 +67,11 @@ public class Module implements Serializable {
 		this.specialite = specialite;
 	}
 
-	public List<Question> getQuestions() {
+	public List<Questions> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(List<Question> questions) {
+	public void setQuestions(List<Questions> questions) {
 		this.questions = questions;
 	}
 
@@ -84,18 +83,14 @@ public class Module implements Serializable {
 		this.actif = actif;
 	}
 
-	public String getEtatModule() {
-		return etatModule;
-	}
+	
+	
 
-	public void setEtatModule(String etatModule) {
-		this.etatModule = etatModule;
-	}
 
 	@Override
 	public String toString() {
 		return "Module [idModule=" + idModule + ", nomModule=" + nomModule
-				+ ", actif=" + actif + ", etatModule=" + etatModule + "]";
+				+ ", actif=" + actif + "]";
 	}
 	
 

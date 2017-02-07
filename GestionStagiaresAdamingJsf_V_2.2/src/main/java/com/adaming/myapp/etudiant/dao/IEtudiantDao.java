@@ -1,5 +1,6 @@
 package com.adaming.myapp.etudiant.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.adaming.myapp.entities.Etudiant;
@@ -57,7 +58,7 @@ public interface IEtudiantDao {
 	  * donne le type " identifiant de l'objet etudiant "
 	  * @return une liste sous forme d'un objet etudiant
 	  *  @throws VerificationInDataBaseException **/
-	  List<Etudiant> getEtudiantBySession(Long idSession) throws VerificationInDataBaseException;
+	  List<Object[]> getEtudiantBySession(Long idSession) ;
 			 
 	
 	  
@@ -74,5 +75,8 @@ public interface IEtudiantDao {
 	   * @return une list d'objets de type etudiant
 	   * @method utilisée pour la vérification le momoent d'ajouter un etudiant**/
 	  List<Etudiant>getStudentsBySession(Long idSession);
+	  
+	  Etudiant verifyExistingEtudiant(String name,Date dateDeNaissance);
+	  
 
 }

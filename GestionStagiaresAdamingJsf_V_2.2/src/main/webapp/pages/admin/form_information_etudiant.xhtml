@@ -53,13 +53,25 @@
                                       <div class="form-group ">
                                           <label for="adresse" class="control-label col-lg-2">Adresse </label>
                                           <div class="col-lg-10">
-                                              <h:outputText value="#{dashboardBean.etudiant.adressePostal}" class="form-control"/>
+                                              <h:outputText value="#{dashboardBean.etudiant.adresse.adresse}" class="form-control"/>
                                           </div>
                                       </div>
                                       <div class="form-group ">
                                           <label for="codePostal" class="control-label col-lg-2">Code Postal </label>
                                           <div class="col-lg-10">
-                                              <h:outputText  value="#{dashboardBean.etudiant.codePostal}" class="form-control" />
+                                              <h:outputText  value="#{dashboardBean.etudiant.adresse.codePostal}" class="form-control" />
+                                          </div>
+                                      </div>
+                                       <div class="form-group ">
+                                          <label for="ville" class="control-label col-lg-2">Ville </label>
+                                          <div class="col-lg-10">
+                                              <h:outputText  value="#{dashboardBean.etudiant.adresse.ville}" class="form-control" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group ">
+                                          <label for="pays" class="control-label col-lg-2">Pays </label>
+                                          <div class="col-lg-10">
+                                              <h:outputText  value="#{dashboardBean.etudiant.adresse.pays}" class="form-control" />
                                           </div>
                                       </div>
                                       <div class="form-group ">

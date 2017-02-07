@@ -3,15 +3,15 @@ package com.adaming.myapp.formateur.dao;
 
 import java.util.Date;
 import java.util.List;
-
 import com.adaming.myapp.entities.Formateur;
-import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.persistence.IGenericDao;
 
 public interface IFormateurDao extends IGenericDao<Formateur> {
 
-	 Formateur addFormateur(Formateur f)
-			throws VerificationInDataBaseException;
+	 Formateur addFormateur(Formateur f);
+	
+	 SessionEtudiant verifyExistingAffectation(final Long idFormateur,final Long idSession);
 
 	 void addFormateurToSession(final Long idSession, final Long idFormateur);
 

@@ -18,15 +18,16 @@
             <h:outputStylesheet name="NiceAdmin/css/font-awesome.min.css"/>
             <h:outputScript  name="NiceAdmin/js/jquery.js" />
             <h:outputScript  name="NiceAdmin/js/bootstrap.js" />
-            <h:outputScript  name="NiceAdmin/js/jquery.scrollTo.min.js" />
+           
             <h:outputScript  name="NiceAdmin/js/jquery.nicescroll.js" />
-            <h:outputScript  name="NiceAdmin/js/jquery.customSelect.min.js" />
+            
             <h:outputScript  name="NiceAdmin/js/scripts.js" />
+    
      </f:facet>
 </h:head>
 <h:body>
 <ui:include src="header.xhtml"></ui:include>
-<!--ui:include src="aside.xhtml" ></ui:include-->
+<!--ui:include src="aside_formateur.xhtml" ></ui:include-->
 <br/>
 <br/>
 <br/>
@@ -40,7 +41,7 @@
 		   <c:if test="#{not scheduleView.module.actif}">Désactivé</c:if>
 		   <c:if test="#{scheduleView.module.actif}">Activé n'oubliez pas de le désactiver à la fin de l'examen</c:if>
 		   <br/>
-		   <h:link style="color:red;font-weight:bold" outcome="index.xhtml" value="retour à la page d'acceuil "/>
+		   <h:link style="color:red;font-weight:bold" outcome="index.xhtml" value="retour à la page d'accueil "/>
 		</div> 
 </div>
 </h:body>

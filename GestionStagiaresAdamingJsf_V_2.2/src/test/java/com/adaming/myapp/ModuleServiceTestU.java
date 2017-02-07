@@ -3,6 +3,7 @@ package com.adaming.myapp;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hamcrest.core.IsEqual;
 import org.junit.AfterClass;
@@ -12,8 +13,11 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.adaming.myapp.entities.Module;
+import com.adaming.myapp.entities.Note;
 import com.adaming.myapp.exception.AddModuleException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
+import com.adaming.myapp.notes.service.INotesService;
 
 public class ModuleServiceTestU {
 
@@ -32,13 +36,12 @@ public class ModuleServiceTestU {
 	}
 
 	@Test
-	@Ignore
 	public void testAddModule() {
-		Module m= new Module("Java");
+		Module m= new Module("AngularJs2");
 		try {
 			serviceModule.addModule(m,2L);
 			assertNotNull(m.getIdModule());
-		} catch (AddModuleException e) {
+		} catch (VerificationInDataBaseException e) {
 			System.out.println(e.getMessage());
 		}
 		
@@ -62,10 +65,58 @@ public class ModuleServiceTestU {
 	}
 
 	@Test
+	@Ignore
 	public void testGetModulesBySession() {
-		List<Module> tabM= serviceModule.getModulesBySession(4L);
-		assertTrue(tabM.size()>0);
+		try {
+			List<Object[]> tabM= serviceModule.getModulesBySessionV2(1L);
+			for(Object [] o:tabM){
+				System.out.println(o[0]);
+				System.out.println(o[1]);
+				System.out.println(o[4]);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		
+	}
+	
+	@Test
+	@Ignore
+	public void getModulesActived(){
+		List<Module> modules;
+		try {
+			modules = serviceModule.getModuleActivedBySession(10L);
+		} catch (VerificationInDataBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	@Test
+	@Ignore
+	public void getAllModulePasser(){
+		Set<Object[]> modules;
+		try {
+			modules = serviceModule.getModulesValideBySession(2L);
+			for(Object [] m:modules){
+				System.out.println(m[1]);
+			}
+		} catch (VerificationInDataBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	@Ignore
+	public void verificationModule(){
+		Module m = serviceModule.verifyExistingModule("angularJs");
+		System.out.println(m);
 	}
 
 }
+
+

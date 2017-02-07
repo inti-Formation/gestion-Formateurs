@@ -13,8 +13,7 @@
 	<br> </br>
 	<br/> 
 	<div class="well container">
-	  <!-- messages errors + exception -->
-	   <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />   
+	   <p:growl id="growler" showDetail="true" showSummary="true" autoUpdate="true" severity="info,warn"></p:growl>
 	   <section class="wrapper">
 		  <div class="row">
 				<div class="col-lg-12">
@@ -36,11 +35,14 @@
                                   <h:form class="form-validate form-horizontal" id="form5">
                                       <!-- input specialites -->
                                       <div class="form-group ">
-                                          <label for="cname" class="control-label col-lg-2">Cursus <span class="required">*</span></label>
+                                          <label for="name" class="control-label col-lg-2">Cursus <span class="required">*</span></label>
                                           <div class="col-lg-6">
-                                            <h:inputText id="name" requiredMessage="Veuillez indiquer le cursus Svp !!" required="true" style="margin-bottom: 10px"  value="#{specialiteBean.designation}" class="form-control"/>
+                                            <h:inputText id="name" style="margin-bottom: 10px"  value="#{specialiteBean.designation}" class="form-control">
+                                                <f:validateRegex pattern="[a-z A-ZÉé]+$"></f:validateRegex>
+                                            </h:inputText>
                                           </div>
                                       </div>
+                                       <h:message for="name" style="color:red;text-align:center;display:block"></h:message>
 					                  <!-- button save and cancel -->
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
@@ -85,14 +87,18 @@
 												<br />
 												<h:outputText value="designation" />
 												<br />
-												<h:inputText value="#{specialiteBean.specialite.designation}" />
-												
+												<h:inputText id="design" value="#{specialiteBean.specialite.designation}" >
+												     <f:validateRegex pattern="[a-z A-ZÉé]+$"></f:validateRegex>
+												</h:inputText>
+												<br />
+												<br />
+												<p:message id="messages" for="design"></p:message>
 												<br />
 											    
 											</p:outputPanel>
 											<br />
 										<br />
-										<p:commandButton value="Modifier" action="#{specialiteBean.edit}" />
+										<p:commandButton ajax="true" update="messages" value="Modifier" action="#{specialiteBean.edit}" />
 									</p:dialog>
                                    </h:form>  
 		                       </div>

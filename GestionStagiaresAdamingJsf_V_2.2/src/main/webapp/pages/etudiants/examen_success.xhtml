@@ -17,14 +17,15 @@
             <h:outputStylesheet name="NiceAdmin/css/font-awesome.min.css"/>
             <h:outputScript  name="NiceAdmin/js/jquery.js" />
             <h:outputScript  name="NiceAdmin/js/bootstrap.js" />
-            <h:outputScript  name="NiceAdmin/js/jquery.scrollTo.min.js" />
-            <h:outputScript  name="NiceAdmin/js/jquery.nicescroll.js" />
-            <h:outputScript  name="NiceAdmin/js/jquery.customSelect.min.js" />
-            <h:outputScript  name="NiceAdmin/js/scripts.js" />
             
      </f:facet>
+     <SCRIPT type="text/javascript">
+    window.history.forward();
+    function noBack() { window.history.forward(); }
+</SCRIPT>
 </h:head>
-<h:body>
+<h:body onload="noBack();"
+onpageshow="if (event.persisted) noBack();" onunload="">
 <br/>
 <br/>
 <br/>
@@ -35,7 +36,7 @@
 			<div class="alert alert-info" style="text-align:center;margin-bottom:0px!important">
 			   <h:graphicImage style="margin-right:10px;vertical-align: sub!important" name="NiceAdmin/img/tick.png"/> 
 			   <h:outputText style="color:black" value="Merçi d'avoir passer l'examen pour Valider le Module Numéro #{examenBean.idModule} "/><br/>
-			   <h:outputText style="color:red;" value="Votre Score Final est : #{examenBean.scoreFinal} / 20"/>
+			   <h:outputText style="color:red;" value="Votre Score Final est : #{examenBean.scoreFinal}"/>
 			</div> 
 			
 			<br/><br/>
@@ -43,32 +44,28 @@
 		<h1>Resumé de vos réponses</h1>
 		<br/>
 		    <h:panelGroup>
-				<p:dataTable var="r" value="#{examenBean.reponses}">
+				<p:dataTable var="r" value="#{examenBean.reponsesSelected}">
 				    <p:column headerText="N°">
-				        <h:outputText value="#{r.numQuestion}" />
+				        <h:outputText value="#{r.questions.numeroQuestion}" />
 				    </p:column>
 				 
 				    <p:column headerText="Question">
-				        <h:outputText value="#{r.propositionquestion}" />
+				        <h:outputText value="#{r.questions.label}" />
 				    </p:column>
 				 
-				    <p:column headerText="Props">
-				        <h:outputText value="A. #{r.premeiereReponse}" styleClass="goodAnswer#{r.premeiereBonneReponse eq 'bonne'}"/><br/>
-				        <h:outputText value="B. #{r.douxiemeReponse}" styleClass="goodAnswer#{r.douxiemeBonneReponse eq 'bonne'}"/><br/>
-				        <h:outputText value="C. #{r.troisiemeReponse}" styleClass="goodAnswer#{r.troisiemeBonneReponse eq 'bonne'}"/><br/>
-				        <h:outputText value="D. #{r.quatriemeReponse}" styleClass="goodAnswer#{r.quatriemeBonneReponse eq 'bonne'}" />
+				    <p:column headerText="Réponse">
+				        <h:outputText value=" - #{r.labelReponse}" styleClass="goodAnswer#{r.etat}"/><br/>
 				    </p:column>
-				    
-				    <p:column headerText="Reponse">
-				        <h:outputText value="#{r.strReponse}" />
-				    </p:column>
-				    
-					<p:column headerText="Point">
-				        <h:outputText value="#{r.point}" />
+				    <p:column headerText="Point">
+				        <h:outputText rendered="#{r.etat}"     value="1" />
+				        <h:outputText rendered="#{not r.etat}" value="0" />
 				        <p:spacer width="10"></p:spacer>
-				        <h:graphicImage rendered="#{r.point == 1}"     name="NiceAdmin/img/check.png"/> 
-                        <h:graphicImage rendered="#{r.point == 0}" name="NiceAdmin/img/cross.png"/> 
+				        <h:graphicImage rendered="#{r.etat}"     name="NiceAdmin/img/check.png"/> 
+                        <h:graphicImage rendered="#{not r.etat}" name="NiceAdmin/img/cross.png"/> 
 				    </p:column>
+			        <f:facet name="footer">
+			          Note Final :  #{examenBean.scoreFinal}
+			        </f:facet>
 				</p:dataTable>
 				<br></br>
 				<br></br>

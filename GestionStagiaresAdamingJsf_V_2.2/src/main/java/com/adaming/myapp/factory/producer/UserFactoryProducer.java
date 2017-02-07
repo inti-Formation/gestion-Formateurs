@@ -3,9 +3,9 @@ import com.adaming.myapp.entities.User;
 import com.adaming.myapp.factory.impl.UserFactoryImpl;
 import com.adaming.myapp.factory.manager.IFactory;
 
-public class UserFactoryProducer {
+public final class UserFactoryProducer {
 
-	public static IFactory<User> getFactoryImpl(String typeImpl){
+	public final static IFactory<User> getFactoryImpl(String typeImpl){
 		if("UserFactoryImpl".equalsIgnoreCase(typeImpl)){
 			return new UserFactoryImpl();
 		}

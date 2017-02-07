@@ -15,7 +15,7 @@
 	<br> </br>
 
 	<div class="well container">
-		  <p:growl id="growl" showDetail="true" life="5000" /> 
+		  <p:growl id="growl" showDetail="true" life="5000" severity="info,warn" /> 
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -38,39 +38,62 @@
                                       <div class="form-group ">
                                           <label for="cname" class="control-label col-lg-2">Nom du Site <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText  value="#{siteBean.nomSite}" class="form-control" id="cname"  type="text" />
+                                              <h:inputText  value="#{siteBean.nomSite}" class="form-control" id="cname"  type="text">
+                                                  <f:validateRegex pattern="[a-z A-ZÉéè 0-9]+$"></f:validateRegex>
+                                              </h:inputText>
                                           </div>
                                           <h:message for="cname" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
                                       <div class="form-group ">
                                           <label for="adresse" class="control-label col-lg-2">Adresse <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText value="#{siteBean.adresse}" class="form-control" id="adresse"  type="text" />
+                                              <h:inputText value="#{siteBean.adresse}" class="form-control" id="adresse"  type="text">
+                                                  <f:validateRegex pattern="[a-z A-ZÉéè 0-9]+$"></f:validateRegex>
+                                              </h:inputText>
                                           </div>
                                           <h:message for="adresse" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
-                                      <div class="form-group ">
-                                          <label for="ville" class="control-label col-lg-2">Ville <span class="required">*</span></label>
-                                          <div class="col-lg-10">
-                                              <h:inputText  value="#{siteBean.ville}" class="form-control" id="ville"  type="text" />
-                                          </div>
-                                          <h:message for="ville" style="color:red;text-align:center;display:block"></h:message>
-                                      </div>
-                                      <div class="form-group ">
+                                      
+                                       <div class="form-group ">
                                           <label for="codePostal" class="control-label col-lg-2">Code Postal <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                               <p:inputMask styleClass="form-control"  id="codePostal" value="#{siteBean.codePostal}"  mask="99999"/>
+                                               <p:inputMask onkeypress="if (event.keyCode == 13) { onchange(); return false; }"  styleClass="form-control"  id="codePostal" value="#{siteBean.codePostal}"  mask="99999">
+                                                   <f:ajax render="ville pays" event="change" listener="#{siteBean.getVillesByCp(siteBean.codePostal)}" />
+                                               </p:inputMask>
                                           </div>
                                            <h:message for="codePostal" style="color:red;text-align:center;display:block"></h:message>
                                       </div>
+                                     
+                                      <div class="form-group ">
+                                          <label for="ville" class="control-label col-lg-2">Ville <span class="required">*</span></label>
+                                          <div class="col-lg-10">
+											   <p:selectOneMenu id="ville" filter="true"
+											    filterMatchMode="startsWith" 
+											    value="#{siteBean.ville}">
+											        <f:selectItem itemLabel="Select One" itemValue=""
+											             noSelectionOption="true" />
+											        <f:selectItems value="#{siteBean.villes}" var="f" itemValue="#{f.name}" itemLabel="#{f.name}"></f:selectItems>
+											   </p:selectOneMenu>
+                                          </div>
+                                          <h:message for="ville" style="color:red;text-align:center;display:block"></h:message>
+                                      </div>
+                                      
+                                     
+                                      
                                       
                                       <div class="form-group ">
                                           <label for="pays" class="control-label col-lg-2">Pays <span class="required">*</span></label>
                                           <div class="col-lg-10">
-                                              <h:inputText  value="#{siteBean.pays}" class="form-control" id="pays"  type="text" />
+											   <p:selectOneMenu id="pays" filter="true"
+											    filterMatchMode="startsWith" 
+											    value="#{siteBean.pays}">
+											        <f:selectItem itemLabel="Select One" itemValue=""
+											             noSelectionOption="true" />
+											        <f:selectItems value="#{siteBean.villes}" var="f" itemValue="#{f.countryName}" itemLabel="#{f.countryName}"></f:selectItems>
+											   </p:selectOneMenu>
                                           </div>
-                                          <h:message for="pays" style="color:red;text-align:center;display:block"></h:message>
-                                      </div>             
+                                         <h:message for="pays" style="color:red;text-align:center;display:block"></h:message>
+                                      </div>           
                    
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">

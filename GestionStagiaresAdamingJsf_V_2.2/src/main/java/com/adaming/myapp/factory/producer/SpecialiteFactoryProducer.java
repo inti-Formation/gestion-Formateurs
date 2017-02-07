@@ -4,9 +4,9 @@ import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.factory.impl.SpecialiteFactoryImpl;
 import com.adaming.myapp.factory.manager.IFactory;
 
-public class SpecialiteFactoryProducer {
+public final class SpecialiteFactoryProducer {
 
-	public static IFactory<Specialite> getFactoryImpl(String typeImpl){
+	public final static IFactory<Specialite> getFactoryImpl(String typeImpl){
 		if("SpecialiteFactoryImpl".equalsIgnoreCase(typeImpl)){
 			return new SpecialiteFactoryImpl();
 		}

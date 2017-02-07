@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,12 +18,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+@SuppressWarnings("serial")
 @Entity
 public class SessionEtudiant implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idSession;
@@ -30,36 +29,38 @@ public class SessionEtudiant implements Serializable {
 	private Date dateDebute;
     @Temporal(TemporalType.DATE)
 	private Date dateFin;
-	private String lieu;
-	@Transient
-	private String etatSession;
-	@Transient
-	private String dateDebuteInDays;
-	@Transient
-	private String dateFinInDays;
+    private Long nombreJours;
+
+
 	/*association*/
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_SPEC_SESSION")
 	private Specialite specialite;
 
-	@OneToMany(mappedBy="sessionEtudiant")
+	@OneToMany(mappedBy="sessionEtudiant",fetch=FetchType.LAZY)
 	private List<Etudiant> etudiants;
 	
-	@ManyToMany(mappedBy="sessionsEtudiant")
+	@ManyToMany(mappedBy="sessionsEtudiant",fetch=FetchType.LAZY)
 	private List<Formateur> formateurs;
-	@OneToMany(mappedBy="sessionEtudiant")
+	@OneToMany(mappedBy="sessionEtudiant",fetch=FetchType.LAZY)
 	private List<Note> notes;
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="ID_SITE_SESSION")
+	private Site site;
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="ID_SALLE_SESSION")
+	private Salle salle;
 	
 	/*construct*/
     public SessionEtudiant() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SessionEtudiant(Date dateDebute, Date dateFin, String lieu) {
+	public SessionEtudiant(Date dateDebute, Date dateFin,Long nombreJours) {
 		super();
 		this.dateDebute = dateDebute;
 		this.dateFin = dateFin;
-		this.lieu = lieu;
+		this.nombreJours=nombreJours;
 	}
 
 	public Long getIdSession() {
@@ -86,14 +87,7 @@ public class SessionEtudiant implements Serializable {
 		this.dateFin = dateFin;
 	}
 
-	public String getLieu() {
-		return lieu;
-	}
-
-	public void setLieu(String lieu) {
-		this.lieu = lieu;
-	}
-
+	
 	public Specialite getSpecialite() {
 		return specialite;
 	}
@@ -112,29 +106,7 @@ public class SessionEtudiant implements Serializable {
 		this.etudiants = etudiants;
 	}
 
-	public String getEtatSession() {
-		return etatSession;
-	}
-
-	public void setEtatSession(String etatSession) {
-		this.etatSession = etatSession;
-	}
-
-	public String getDateDebuteInDays() {
-		return dateDebuteInDays;
-	}
-
-	public void setDateDebuteInDays(String dateDebuteInDays) {
-		this.dateDebuteInDays = dateDebuteInDays;
-	}
-
-	public String getDateFinInDays() {
-		return dateFinInDays;
-	}
-
-	public void setDateFinInDays(String dateFinInDays) {
-		this.dateFinInDays = dateFinInDays;
-	}
+	
 
 	public List<Formateur> getFormateurs() {
 		return formateurs;
@@ -151,14 +123,53 @@ public class SessionEtudiant implements Serializable {
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
+	
+
+	/**
+	 * @return the site
+	 */
+	public Site getSite() {
+		return site;
+	}
+
+	/**
+	 * @param site the site to set
+	 */
+	public void setSite(Site site) {
+		this.site = site;
+	}
+
+	/**
+	 * @return the salle
+	 */
+	public Salle getSalle() {
+		return salle;
+	}
+
+	/**
+	 * @param salle the salle to set
+	 */
+	public void setSalle(Salle salle) {
+		this.salle = salle;
+	}
+	
+	
+
+	public Long getNombreJours() {
+		return nombreJours;
+	}
+
+	public void setNombreJours(Long nombreJours) {
+		this.nombreJours = nombreJours;
+	}
 
 	@Override
 	public String toString() {
 		return "SessionEtudiant [idSession=" + idSession + ", dateDebute="
-				+ dateDebute + ", dateFin=" + dateFin + ", lieu=" + lieu
-				+ ", etatSession=" + etatSession + ", dateDebuteInDays="
-				+ dateDebuteInDays + ", dateFinInDays=" + dateFinInDays + "]";
+				+ dateDebute + ", dateFin=" + dateFin + ", etatSession="
+				+ "]";
 	}
+
 
 	
 	

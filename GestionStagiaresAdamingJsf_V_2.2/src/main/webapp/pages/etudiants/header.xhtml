@@ -6,17 +6,14 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-	<title>BootsFaces Basic Page</title>
+	<title>Header</title>
 </h:head>
 <ui:composition>
 	<header class="header dark-bg">
 		<div class="toggle-nav">
 			<div class="icon-reorder tooltips"
 				data-original-title="Toggle Navigation" data-placement="bottom">
-				<i><div class="lines"></div></i>
-				<i><div class="lines"></div></i>
-				<i><div class="lines"></div></i>
-				
+				<i><h:graphicImage width="32px" height="32px" name="NiceAdmin/img/home.png"/></i>
 			</div>
 		</div>
 		<h:link outcome="index" class="logo">INTI 
@@ -43,7 +40,7 @@
 					<ul class="dropdown-menu extended logout">
 						<div class="log-arrow-up"></div>
 						<li class="eborder-top">
-						<h:outputLink value="${pageContext.request.contextPath}/myapp/j_spring_security_logout"><i><h:graphicImage style="width: 20px" name="NiceAdmin/img/shutdown.png"/></i> Déconnection</h:outputLink></li>
+						<h:outputLink value="#{request.contextPath}/j_spring_security_logout"><i><h:graphicImage style="width: 20px" name="NiceAdmin/img/shutdown.png"/></i> Déconnection</h:outputLink></li>
 					</ul>
 				</li>
 				<!-- user login dropdown end -->

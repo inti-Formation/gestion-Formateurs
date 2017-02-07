@@ -2,40 +2,57 @@ package com.adaming.myapp.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.Etudiant;
+import com.adaming.myapp.entities.Examen;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Note;
-import com.adaming.myapp.entities.Question;
+import com.adaming.myapp.entities.Questions;
+import com.adaming.myapp.entities.Reponses;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
+import com.adaming.myapp.examen.service.IExamenService;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.question.service.IQuestionService;
+import com.adaming.myapp.session.service.ISessionService;
+import com.adaming.myapp.tools.LoggerConfig;
 import com.adaming.myapp.tools.MyComparator;
+import com.adaming.myapp.tools.Utilitaire;
 
 @SuppressWarnings("serial")
 @Component("examenBean")
 @Scope(value = "session")
 public class ExamenBean implements Serializable {
-
 	/**
 	 * LOGGER LOG4j 
 	 * @see org.apache.log4j.Logger
 	 */
-    private final Logger LOGGER  = Logger.getLogger("ExamenBean");
+   
 	
     @Inject
 	private IEtudiantService serviceEtudiant;
+    
+    @Inject
+   	private ISessionService serviceSession;
+    
 	@Inject
 	private IModuleService serviceModule;
 	@Inject
@@ -44,44 +61,142 @@ public class ExamenBean implements Serializable {
 	private INotesService serviceNotes;
 	@Inject
 	private UserAuthentificationBean userAuthentification;
-
-	private Long idSession;
-	private Long idModule;
-	private Long idEtudiant;
-	private List<Question> questionsByModule;
-	private List<SessionEtudiant> sessionEnCours;
-	private List<Etudiant> etudiantsBySession;
-	private List<Module> moduleBySessions;
-	private List<Note> notes;
-	private String addExamException;
-	private Double note = 0.0;
-	private String reponseSelectionnee;
-	private Object scoreFinal;
-	private List<Question> reponses;
-	private Etudiant etudiant;
+	@Inject
+	private IExamenService serviceExamen;
 	
+    private Set<Questions> questions;
+	private Long idModule;
+	private List<Note> notes;
+	private Double note = 0.0;
+	private Long reponseSelectionnee;
+	private Object scoreFinal;
+	private List<Reponses> reponsesSelected;
+	private Etudiant etudiant;
+	private SessionEtudiant sessionEtudiant;
+	private boolean activeException;
+	private List<Module> modulesActived = new ArrayList<Module>();
+	private  int examenTimeInSeconde ;
+	private Date serverTime;
+	private Examen examen;
 
-	/* @method redirection à la fin de l'examen et afficher la note final */
-	public String redirect() {
-
-		// on cree la note finale
-		Note noteFinal = createNote();
+	
+	/**@init examen*/
+	public String initExamen(){
+		idModule = null;
+		activeException = true;
+		etudiant        = createEtudiant();
+		etudiant        = serviceEtudiant.getEtudiant(userAuthentification.getName());
 		try {
-			serviceNotes.addNoteFinal(noteFinal, etudiant.getSessionEtudiant()
-					.getIdSession(), etudiant.getIdEtudiant(), idModule);
-		} catch (Exception e) {
-			resetVarsExam();
-			return "index?redirect=true";
+			sessionEtudiant = serviceSession.getSessionByEtudiant(etudiant.getIdEtudiant());
+			getModulesActivedBySession();
+		} catch (VerificationInDataBaseException e) {
+			activeException = false;
+			Utilitaire.displayMessageWarning(e.getMessage());
+		}
+		return "examen";
+	}
+	
+	/**
+	 * @create New Etudiant
+	 ** @return Object Etudiant
+	 ** @factory.create.method
+	 */
+	private Etudiant createEtudiant() {
+		etudiant = FactoryBean.getEtudiantFactory().create("Etudiant");
+	    return etudiant;
+	}
+	
+	/**@methode getModules Actived By Session*/
+	
+	public void getModulesActivedBySession(){
+		if(sessionEtudiant != null){
+			try {
+				modulesActived = serviceModule.getModuleActivedBySession(sessionEtudiant.getIdSession());
+			} catch (VerificationInDataBaseException e) {
+				Utilitaire.displayMessageWarning(e.getMessage());
+			}
+		}
+		if(modulesActived.size()>0){
+			getNotesByStudent();
+		}
+	}
+	
+	/**@noteByStudents */
+	public void getNotesByStudent(){
+		List<Module> modulesNotDisplay =  new ArrayList<Module>();
+		List<Module> modulesValidee = new ArrayList<Module>();
+		notes = serviceNotes.getAllNotesByStudent(etudiant.getIdEtudiant());
+		if(notes.size() > 0){
+			for(Note n:notes){
+				if(n.getScore() != null && n.getEtudiant().getIdEtudiant() == etudiant.getIdEtudiant()){
+					modulesValidee.add(n.getModule());
+				}
+			}
+			
+			for(Module modActived : modulesActived){
+				for(Module modValide : modulesValidee){
+					if(modActived.getIdModule().equals(modValide.getIdModule())){
+						modulesNotDisplay.add(modActived);
+					}
+				}
+			}
+			modulesActived.removeAll(modulesNotDisplay);
+			if(modulesActived.size() == 0){
+				Utilitaire.displayMessageWarning("Vous n'avez aucun module a validé");
+			}
 		}
 
-		// init reponsesFinal
-		resetVarsExam();
-		// on ordonne la listes des reponses par num
-		Collections.sort(reponses, new MyComparator());
-		LOGGER.info("trier le tableau"+reponses);
-		return "examen_success?redirect=true";
+		LoggerConfig.logInfo("modules actived : "+modulesActived);
+		LoggerConfig.logInfo("modules not display :"+modulesValidee);
+		LoggerConfig.logInfo("modulesDisplay : "+modulesNotDisplay);
+			
 	}
-
+	/*cette methode permet d'initialisée le tableau de 
+	 * reponses en cas d'actualisation de la page*/
+	public void initResponses(){
+		reponsesSelected = new ArrayList<Reponses>();
+		reponsesSelected.clear();
+		note = 0.0;
+	}
+	
+	public String startExamen(){
+		scoreFinal = 0.0;
+		reponseSelectionnee = null;
+		initResponses();
+		questions = serviceQuestion.getQuestionsByModule(idModule);
+		if(questions.isEmpty()){
+			Utilitaire.displayMessageWarning("il existe aucune question dans la base de donnée");
+			return null;
+		}
+		else{
+			serverTime = new Date();
+			final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+			Calendar date = Calendar.getInstance();
+			long t= date.getTimeInMillis();
+			Date afterAddingTwentntyFiveMins=new Date(t + (25 * ONE_MINUTE_IN_MILLIS));
+			Examen examen = new Examen(afterAddingTwentntyFiveMins);
+			try {
+				serviceExamen.addExamen(examen, etudiant.getIdEtudiant(), idModule, sessionEtudiant.getIdSession());
+				getTimeOfExamenInit();
+			} catch (VerificationInDataBaseException e) {
+				Utilitaire.displayMessageInfo("Examen ecnours");
+				getTimeOfExamenInit();
+				return "start_examen";
+			}
+			
+			return "start_examen";
+		}
+	}
+	
+	public void getTimeOfExamenInit(){
+		examen = serviceExamen.verifyExistingExamen(etudiant.getIdEtudiant(), idModule,sessionEtudiant.getIdSession());
+		if(examen != null){
+			long examenTimeInMiliSeconde = (examen.getDateExamenStart().getTime() - serverTime.getTime() );
+			examenTimeInSeconde = (int) (examenTimeInMiliSeconde / 1000) ;
+			System.out.println("difference en secondes"+examenTimeInSeconde);
+		}
+	}
+	
 	/**
 	 * @create New Score
 	 ** @return Object Note
@@ -92,217 +207,129 @@ public class ExamenBean implements Serializable {
         noteFinal.setScore(note);
 		return noteFinal;
 	}
+	
+	/* @method redirection à la fin de l'examen et afficher la note final */
+	public String redirect() {
 
+		// on cree la note finale
+		Note noteFinal = createNote();
+		try {
+			serviceNotes.addNoteFinal(noteFinal, sessionEtudiant.getIdSession(), etudiant.getIdEtudiant(), idModule);
+		} catch (Exception e) {
+			resetVarsExam();
+			return "index?faces-redirect=true";
+		}
+
+		// init reponsesFinal
+		resetVarsExam();
+		// on ordonne la listes des reponses par num
+
+		Collections.sort(reponsesSelected, new MyComparator());
+		LoggerConfig.logInfo("trier le tableau"+reponsesSelected);
+		return "examen_success?faces-redirect=true";
+	}
+	public void resetVarsExam() {
+		// init reponsesFinal
+		reponseSelectionnee = new Long(0);
+		scoreFinal = note;
+		note = 0.0;
+		reponseSelectionnee = null;
+		questions = new HashSet<Questions>();
+	}
+	
 	/* @method copie de redirect() avec redirection a la fin de Timeout */
 	public void onTimeout() {
 
 		// on cree la note finale
 		 Note noteFinal = createNote();
-		serviceNotes.addNoteFinal(noteFinal, etudiant.getSessionEtudiant()
-				.getIdSession(), etudiant.getIdEtudiant(), idModule);
+		try {
+			serviceNotes.addNoteFinal(noteFinal, sessionEtudiant.getIdSession(), etudiant.getIdEtudiant(), idModule);
+			// init reponsesFinal
+			resetVarsExam();
+			// on ordonne la listes des reponses par num
+			Collections.sort(reponsesSelected, new MyComparator());
+			LoggerConfig.logInfo("trier le tableau"+reponsesSelected);
+			FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null,"examen_success");
+		} catch (VerificationInDataBaseException e) {
+			Utilitaire.displayMessageWarning(e.getMessage());
+		}
 
-		// init reponsesFinal
-		resetVarsExam();
-		// on ordonne la listes des reponses par num
-		Collections.sort(reponses, new MyComparator());
-		LOGGER.info("trier le tableau"+reponses);
-		FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null,"examen_success");
 	}
-
-	/* @method add ExamenV3 */
-	public void registerV3() {
-        Question question=null;
-		List<Question> questions = serviceQuestion.getAllQuestionsByModule(idModule);
+	
+	
+	/* @method repondre */
+	public void register() {
+        Reponses rep = null;
         if(!reponseSelectionnee.equals(null)){
-             for(Question q:questions){
-				if (reponseSelectionnee.equals(q.getPremeiereReponse()) && 
-						q.getPremeiereBonneReponse().equals("bonne")) {
-					    	question = incrementScore(q);
-							break;
-					} 
-					else if (reponseSelectionnee.equals(q.getDouxiemeReponse()) && 
-							q.getDouxiemeBonneReponse().equals("bonne")) {
-							question = incrementScore(q);
-							 break;
-					} 
-					else if (reponseSelectionnee.equals(q.getTroisiemeReponse()) && 
-							q.getTroisiemeBonneReponse().equals("bonne")) {
-							question = incrementScore(q);
-							break;
-					} 
-					else if (reponseSelectionnee.equals(q.getQuatriemeReponse()) && 
-							q.getQuatriemeBonneReponse().equals("bonne")) {
-							question = incrementScore(q);
-						    break;
-					}
-					else if (reponseSelectionnee.equals(q.getPremeiereReponse()) && 
-							!q.getPremeiereBonneReponse().equals("bonne")
-							|| reponseSelectionnee.equals(q.getDouxiemeReponse()) && 
-							!q.getDouxiemeBonneReponse().equals("bonne")
-							|| reponseSelectionnee.equals(q.getTroisiemeReponse()) && 
-							!q.getTroisiemeBonneReponse().equals("bonne")
-							|| reponseSelectionnee.equals(q.getQuatriemeReponse()) && 
-							!q.getQuatriemeBonneReponse().equals("bonne")
-							){
-						 q.setStrReponse(reponseSelectionnee);
-						 q.setPoint(0);
-						 question=q;
-						 System.out.println("réponse fause "+question);
-						 break;
-					}
-			}
-            reponses.add(question);
-            LOGGER.info("tab"+reponses);
-            LOGGER.debug("note "+note);
-            LOGGER.debug("tab size"+reponses.size());
+           for(Questions q:questions){
+        	   for(Reponses r:q.getReponses()){
+                  if(reponseSelectionnee.equals(r.getIdReponse())){
+                	 rep = r;
+                  }
+        	   }
+		   }
+           if(rep.isEtat()){
+        	   note  ++;
+        	   LoggerConfig.logInfo("Note actuelle "+note);
+           }
+             reponsesSelected.add(rep);
+             LoggerConfig.logInfo("tab"+reponsesSelected);
 		}
        
 	}
-    /**@refactoring incrementScore*/
-	private Question incrementScore(Question q) {
-		Question question;
-		note++;
-		q.setPoint(1);
-		q.setStrReponse(reponseSelectionnee);
-		question=q;
-		System.out.println("question stocké juste "+question);
-		return question;
+	
+	
+
+	
+	public List<Note> getNotes() {
+		return notes;
 	}
-
-	public void resetVarsExam() {
-		// init reponsesFinal
-		reponseSelectionnee = new String();
-		scoreFinal = note;
-		note = 0.0;
-		reponseSelectionnee = null;
-		questionsByModule = new ArrayList<Question>();
-
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
 	}
-
-	/* @method for to passe un examens */
-	public String goStartExamen() {
-		setModuleBySessions(null);
-		scoreFinal = 0.0;
-		reponseSelectionnee = null;
-		reponses = new ArrayList<Question>();
-		return "start_examen?redirect=true";
+	public Double getNote() {
+		return note;
+	}
+	public void setNote(Double note) {
+		this.note = note;
+	}
+	public Long getReponseSelectionnee() {
+		return reponseSelectionnee;
+	}
+	public void setReponseSelectionnee(Long reponseSelectionnee) {
+		this.reponseSelectionnee = reponseSelectionnee;
+	}
+	public Object getScoreFinal() {
+		return scoreFinal;
+	}
+	public void setScoreFinal(Object scoreFinal) {
+		this.scoreFinal = scoreFinal;
 	}
 	
-    /*init examen*/
-	public String initExamen() {
-		etudiant = createEtudiant();
-		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
-		idSession = etudiant.getSessionEtudiant().getIdSession();
-		idEtudiant = etudiant.getIdEtudiant();
-		getAllModulesBySession();
-		return "examen?redirect=true";
 
+	public Etudiant getEtudiant() {
+		return etudiant;
 	}
-
-	/**
-	 * @create New Etudiant
-	 ** @return Object Etudiant
-	 ** @factory.create.method
-	 */
-	private Etudiant createEtudiant() {
-		etudiant = FactoryBean.getEtudiantFactory().create("Etudiant");
-	    return etudiant;
+	public void setEtudiant(Etudiant etudiant) {
+		this.etudiant = etudiant;
 	}
-	/*get all notes by student*/
-	public String getAllNotesByStudent(){
-		etudiant = createEtudiant();
-		System.out.println("create "+etudiant);
-		etudiant = serviceEtudiant.getEtudiant(userAuthentification.getName());
-		System.out.println("get etudiant by name "+etudiant);
-		idEtudiant = etudiant.getIdEtudiant();
-		notes=new ArrayList<Note>();
-		notes=serviceNotes.getAllNotesByStudent(idEtudiant);
-		return "resultats?redirect=true";
+	public SessionEtudiant getSessionEtudiant() {
+		return sessionEtudiant;
 	}
-
-	/* @@method get All Modules By Session */
-	public void getAllModulesBySession() {
-		moduleBySessions = new ArrayList<Module>();
-        notes=new ArrayList<Note>();
-		moduleBySessions = serviceModule.getModulesBySession(idSession);
-		notes = serviceNotes.getAllNotes();
-		boolean hasNotes = false;
-		List<Module> modulesBySessionsActif = new ArrayList<Module>();
-		List<Module> modulesInter = new ArrayList<Module>();
-		List<Module> modulesNotDisplay = new ArrayList<Module>();
-		if (!moduleBySessions.isEmpty()) {
-
-			// on boucle les notes
-			for (Note note : notes) {
-
-				if (note.getEtudiant().getIdEtudiant() == idEtudiant) {
-
-					   LOGGER.info("Boucle Note "
-							+ note.getEtudiant().getNomEtudiant());
-
-					if (note.getScore() != null) {
-						// modules passés par l'étudiant
-						modulesNotDisplay.add(note.getModule());
-						LOGGER.info(note.getModule().getNomModule());
-					}
-				}
-			}
-
-			for (Module mod : moduleBySessions) {
-
-				if (mod.isActif()) {
-
-					LOGGER.debug("Boucle Module " + mod.getNomModule());
-					modulesBySessionsActif.add(mod);
-
-					for (Module modN : modulesNotDisplay) {
-
-						LOGGER.debug("Test Boucle For n2");
-						LOGGER.debug("Id mod " + mod.getIdModule());
-						LOGGER.debug("Id modN " + mod.getIdModule());
-						modulesInter = modulesBySessionsActif;
-						if (mod.getIdModule().equals(modN.getIdModule())) {
-							LOGGER.debug("Test Add moduleList");
-							modulesInter.remove(mod);
-							hasNotes = true;
-
-						}
-					}
-				}
-			}
-
-			if (hasNotes) {
-				moduleBySessions = modulesInter;
-			} else {
-				moduleBySessions = modulesBySessionsActif;
-
-			}
-
-			if (moduleBySessions.isEmpty()) {
-				setAddExamException("Vous n'avez pas de modules à valider !");
-			} else {
-				setAddExamException("");
-			}
-
-		} else {
-
-			setAddExamException("Pas de modules pour cette session !");
-		}
-
+	public void setSessionEtudiant(SessionEtudiant sessionEtudiant) {
+		this.sessionEtudiant = sessionEtudiant;
 	}
-
-	/* @@method getAllQuestions By Module */
-	public void getAllQuestionByModule() {
-		questionsByModule = new ArrayList<Question>();
-		questionsByModule = serviceQuestion.getAllQuestionsByModule(idModule);
+	public boolean isActiveException() {
+		return activeException;
 	}
-
-	public Long getIdSession() {
-		return idSession;
+	public void setActiveException(boolean activeException) {
+		this.activeException = activeException;
 	}
-
-	public void setIdSession(Long idSession) {
-		this.idSession = idSession;
+	public List<Module> getModulesActived() {
+		return modulesActived;
+	}
+	public void setModulesActived(List<Module> modulesActived) {
+		this.modulesActived = modulesActived;
 	}
 
 	public Long getIdModule() {
@@ -315,110 +342,48 @@ public class ExamenBean implements Serializable {
 
 	
 
-	public Long getIdEtudiant() {
-		return idEtudiant;
+	public List<Reponses> getReponsesSelected() {
+		return reponsesSelected;
 	}
 
-	public void setIdEtudiant(Long idEtudiant) {
-		this.idEtudiant = idEtudiant;
+	public void setReponsesSelected(List<Reponses> reponsesSelected) {
+		this.reponsesSelected = reponsesSelected;
 	}
 
-	
-
-	public List<Question> getQuestionsByModule() {
-		return questionsByModule;
+	public Set<Questions> getQuestions() {
+		return questions;
 	}
 
-	public void setQuestionsByModule(List<Question> questionsByModule) {
-		this.questionsByModule = questionsByModule;
+	public void setQuestions(Set<Questions> questions) {
+		this.questions = questions;
 	}
 
-	public List<SessionEtudiant> getSessionEnCours() {
-		return sessionEnCours;
+
+	public Examen getExamen() {
+		return examen;
 	}
 
-	public void setSessionEnCours(List<SessionEtudiant> sessionEnCours) {
-		this.sessionEnCours = sessionEnCours;
+	public void setExamen(Examen examen) {
+		this.examen = examen;
 	}
 
-	public List<Etudiant> getEtudiantsBySession() {
-		return etudiantsBySession;
+	public int getExamenTimeInSeconde() {
+		return examenTimeInSeconde;
 	}
 
-	public void setEtudiantsBySession(List<Etudiant> etudiantsBySession) {
-		this.etudiantsBySession = etudiantsBySession;
+	public void setExamenTimeInSeconde(int examenTimeInSeconde) {
+		this.examenTimeInSeconde = examenTimeInSeconde;
 	}
 
-	public List<Module> getModuleBySessions() {
-		return moduleBySessions;
+	public Date getServerTime() {
+		return serverTime;
 	}
 
-	public void setModuleBySessions(List<Module> moduleBySessions) {
-		this.moduleBySessions = moduleBySessions;
-	}
-
-	public String getAddExamException() {
-		return addExamException;
-	}
-
-	public void setAddExamException(String addExamException) {
-		this.addExamException = addExamException;
+	public void setServerTime(Date serverTime) {
+		this.serverTime = serverTime;
 	}
 
 	
-
-	public Double getNote() {
-		return note;
-	}
-
-	public void setNote(Double note) {
-		this.note = note;
-	}
-
-	public String getReponseSelectionnee() {
-		return reponseSelectionnee;
-	}
-
-	public void setReponseSelectionnee(String reponseSelectionnee) {
-		this.reponseSelectionnee = reponseSelectionnee;
-	}
-
-	public Object getScoreFinal() {
-		return scoreFinal;
-	}
-
-	public void setScoreFinal(Object scoreFinal) {
-		this.scoreFinal = scoreFinal;
-	}
-
-	public List<Note> getNotes() {
-		return notes;
-	}
-
-	public void setNotes(List<Note> notes) {
-		this.notes = notes;
-	}
-
-	public List<Question> getReponses() {
-		return reponses;
-	}
-
-	public void setReponses(List<Question> reponses) {
-		this.reponses = reponses;
-	}
-
-	public Etudiant getEtudiant() {
-		return etudiant;
-	}
-
-	public void setEtudiant(Etudiant etudiant) {
-		this.etudiant = etudiant;
-	}
-
-	public void setUserAuthentification(
-			UserAuthentificationBean userAuthentification) {
-		this.userAuthentification = userAuthentification;
-	}
 
 	
 

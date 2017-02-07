@@ -6,18 +6,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.entities.Role;
 import com.adaming.myapp.role.dao.IRoleDao;
+import com.adaming.myapp.tools.LoggerConfig;
 
 @Transactional(readOnly=true)
 public class RoleServiceImpl implements IRoleService {
     
-	Logger log = Logger.getLogger("RoleServiceImpl");
+	
 	
     private IRoleDao dao;
     
 
 	public void setDao(IRoleDao dao) {
 		this.dao = dao;
-		log.info("<--------Role Doa Injeted-------->");
+		LoggerConfig.logInfo("<--------Role Doa Injeted-------->");
 	}
 
 

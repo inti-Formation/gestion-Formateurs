@@ -8,10 +8,10 @@ import com.adaming.myapp.entities.TopEtudiant;
 import com.adaming.myapp.entities.WarningEtudiant;
 import com.adaming.myapp.factory.manager.IFactory;
 
-public class EvenementFactoryImpl  implements IFactory<Evenement>{
+public final class EvenementFactoryImpl  implements IFactory<Evenement>{
 
 	@Override
-	public Evenement create(String object) {
+	public final Evenement create(final String object) {
 		if("Retard".equalsIgnoreCase(object)){
 			return new Retard();
 		}

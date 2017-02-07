@@ -18,21 +18,8 @@
 	<div class="well container">
        <br/>
         <!-- messages errors + exception -->
-		   <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />   
-		   <!-- exception add new evenement -->
-			<c:if test="#{not empty scheduleView.evenementFoundException}">
-				<div class="alert alert-warning">
-					<h:outputText value="#{scheduleView.evenementFoundException}"
-							styleClass="errorExeption"/>
-				</div>
-			</c:if>
-			<!-- message success -->
-			<c:if test="#{not empty scheduleView.evenementSuccess}">
-				<div class="alert alert-info">
-					<h:outputText value="#{scheduleView.evenementSuccess}"
-							styleClass="messageSuccess" />
-				</div>
-			</c:if>
+		   <p:growl id="growler" showDetail="true" autoUpdate="true" closable="true" severity="info,warn"/>   
+
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -55,37 +42,37 @@
                                           <label for="session" class="control-label col-lg-2">Session en Cours :</label>
                                           <div class="col-lg-10">
 											<h:outputText value="Formation: #{scheduleView.sessionFormateur.specialite.designation}"/><br />
-											<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}"/><br />
+											
                                           </div>
                                        </div>
                                         
                                        <!-- Affichage Warning/Etudiant --> 
-                                      <c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
+                                      <c:if test="#{fn:length(scheduleView.etudiants) >0 }">
                                             <div>
-				                                <h:inputHidden value="#{scheduleView.idSession}"/>
+				                                <h:inputHidden value="#{scheduleView.sessionFormateur.idSession}"/>
 				                            </div>
 				                            <div>
 				                                <h:inputHidden value="#{userAuthentification.user.name}"/>
 				                            </div>
 	                                        <div class="form-group ">
-	                                          <label for="session" class="control-label col-lg-2">Etudiant <span class="required">*</span></label>
+	                                          <label for="etudiant" class="control-label col-lg-2">Etudiant <span class="required">*</span></label>
 	                                          <div class="col-lg-10">
-	                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-													required-message="2 - l'Etudiant *"
+	                                              <h:selectOneMenu id="etudiant" style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker"
 													value="#{scheduleView.idEtudiant}">
 													<f:selectItem itemLabel="Sélectionnez un etudiant"
 														itemValue="#{null}" />
-													<f:selectItems value="#{scheduleView.etudiantsBySession}" var="e"
-														itemLabel="#{e.nomEtudiant},#{e.prenomEtudiant}"
-														itemValue="#{e.idEtudiant}" />
+													<f:selectItems value="#{scheduleView.etudiants}" var="e"
+														itemLabel="#{e[1]},#{e[2]}"
+														itemValue="#{e[0]}" />
 												</h:selectOneMenu>
 	                                          </div>
+	                                           <br></br>
+	                                          <h:message for="etudiant" style="text-align:center;color:red;display:block"></h:message>
 	                                       </div>
 	                                       <div class="form-group ">
-	                                          <label for="session" class="control-label col-lg-2">Evénement <span class="required">*</span></label>
+	                                          <label for="event" class="control-label col-lg-2">Evénement <span class="required">*</span></label>
 	                                          <div class="col-lg-10">
-	                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-													required-message="3 - l'Evénement*"
+	                                              <h:selectOneMenu id="event" style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker"
 														value="#{scheduleView.typeEvenement}">
 														<f:selectItem itemLabel="Sélectionnez Un Evénement"
 															itemValue="#{null}" />
@@ -93,9 +80,10 @@
 															itemValue="top" />
 														<f:selectItem itemLabel="Warning"
 															itemValue="warning" />
-														
 												</h:selectOneMenu>
 	                                          </div>
+	                                          <br></br>
+	                                          <h:message for="event" style="text-align:center;color:red;display:block"></h:message>
 	                                       </div>
 	                                      <div class="form-group">
 	                                          <div class="col-lg-offset-2 col-lg-10">

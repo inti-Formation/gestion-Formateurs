@@ -30,6 +30,7 @@
 			  <div class="sk-circle12 sk-child"></div>
 			</div>
         </p:dialog>
+        <p:growl id="growl" autoUpdate="true" showDetail="true" showSummary="true"/>
 	<div class="well container">
 		 <!-- Form validations -->  
 		 <section class="wrapper">
@@ -68,7 +69,11 @@
 											    </p:column>
 											    <p:column headerText="Historiques Sessions" width="200px">
 											        <p:dataList value="#{f.sessionsEtudiant}" var="s">
-											           <h:outputText value="Session N°:#{s.idSession}, Formation : #{s.specialite.designation}, Lieu : #{s.lieu},(#{s.etatSession})"/>
+											           <h:outputText value="Session N°:#{s.idSession}"/>
+											           <p:spacer width="10"></p:spacer>
+											           <h:outputLabel    rendered="#{affectationFormateurBean.currentTime lt s.dateDebute.time }" value="N'est pas Encore Démarré, elle démarre le #{s.dateDebute}" />
+											           <h:outputLabel  style="color:red" rendered="#{s.dateFin.time lt affectationFormateurBean.currentTime}" value="Terminé le #{s.dateFin}"></h:outputLabel>
+											           <h:outputLabel  rendered="#{affectationFormateurBean.currentTime le s.dateFin.time and affectationFormateurBean.currentTime gt s.dateDebute.time}" value="En Cours, elle termine le #{s.dateFin}" />
 											        </p:dataList>
 											    </p:column>
                                           </p:dataTable>

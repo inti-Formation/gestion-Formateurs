@@ -6,7 +6,8 @@ import com.adaming.myapp.entities.Evenement;
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.Note;
-import com.adaming.myapp.entities.Question;
+import com.adaming.myapp.entities.Questions;
+import com.adaming.myapp.entities.Reponses;
 import com.adaming.myapp.entities.Role;
 import com.adaming.myapp.entities.Salle;
 import com.adaming.myapp.entities.SessionEtudiant;
@@ -20,6 +21,7 @@ import com.adaming.myapp.factory.producer.FormateurFactoryProducer;
 import com.adaming.myapp.factory.producer.ModuleFactoryProducer;
 import com.adaming.myapp.factory.producer.NoteFactoryProducer;
 import com.adaming.myapp.factory.producer.QuestionFactoryProducer;
+import com.adaming.myapp.factory.producer.ReponsesFactoryProducer;
 import com.adaming.myapp.factory.producer.RoleFactoryProducer;
 import com.adaming.myapp.factory.producer.SalleFactoryProducer;
 import com.adaming.myapp.factory.producer.SessionFactoryProducer;
@@ -29,7 +31,7 @@ import com.adaming.myapp.factory.producer.UserFactoryProducer;
 
 
 @SuppressWarnings("serial")
-public class FactoryBean implements Serializable {
+public final class FactoryBean implements Serializable {
 
 	private static final IFactory<Evenement> EVENEMENT_FACTORY 
 	   = EvenementFactoryProducer.getFactoryImpl("EvenementFactoryImpl");
@@ -46,7 +48,7 @@ public class FactoryBean implements Serializable {
 	private static final IFactory<Module> MODULE_FACTORY 
 	   = ModuleFactoryProducer.getFactoryImpl("ModuleFactoryImpl");
 	
-	private static final IFactory<Question> QUESTION_FACTORY 
+	private static final IFactory<Questions> QUESTION_FACTORY 
 	   = QuestionFactoryProducer.getFactoryImpl("QuestionFactoryImpl");
 	
 	private static final IFactory<Role> ROLE_FACTORY 
@@ -66,6 +68,10 @@ public class FactoryBean implements Serializable {
 	
 	private static final IFactory<Salle> SALLE_FACTORY 
 	   = SalleFactoryProducer.getFactoryImpl("SalleFactoryImpl");
+	
+	private static final IFactory<Reponses> REPONSES_FACTORY 
+	   = ReponsesFactoryProducer.getFactoryImpl("ReponsesFactoryImpl");
+	
 	/**
 	 * @return the evenementFactory
 	 */
@@ -104,7 +110,7 @@ public class FactoryBean implements Serializable {
 	/**
 	 * @return the questionFactory
 	 */
-	public static IFactory<Question> getQuestionFactory() {
+	public static IFactory<Questions> getQuestionFactory() {
 		return QUESTION_FACTORY;
 	}
 
@@ -148,6 +154,10 @@ public class FactoryBean implements Serializable {
 	 */
 	public static IFactory<Salle> getSalleFactory() {
 		return SALLE_FACTORY;
+	}
+
+	public static IFactory<Reponses> getReponsesFactory() {
+		return REPONSES_FACTORY;
 	}
 
 	

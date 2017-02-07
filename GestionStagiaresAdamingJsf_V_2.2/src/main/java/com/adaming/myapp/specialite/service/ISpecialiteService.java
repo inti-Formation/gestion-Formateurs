@@ -4,16 +4,18 @@ import java.util.List;
 
 import com.adaming.myapp.entities.Specialite;
 import com.adaming.myapp.exception.AddSpecialiteException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface ISpecialiteService {
 
-	 Specialite addSpecialite(Specialite sp) throws AddSpecialiteException;
+	Specialite addSpecialite(Specialite sp) throws VerificationInDataBaseException;
+
+	Specialite updateSpecialite(Specialite sp);
+
+	Specialite getSpecialiteById(Long idSpecialite);
 	
-	 Specialite updateSpecialite(Specialite sp);
+	Specialite verifyExistingSpecialite(String name);
+
+	List<Specialite> getAllSpecV2();
 	
-	 Specialite getSpecialiteById(Long idSpecialite);
-	
-	 //List<Specialite> getAllSpec();
-	 
-	 List<Specialite> getAllSpecV2();
 }

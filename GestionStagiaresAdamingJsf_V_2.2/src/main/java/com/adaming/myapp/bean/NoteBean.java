@@ -26,6 +26,8 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.session.service.ISessionService;
+import com.adaming.myapp.tools.LoggerConfig;
+import com.adaming.myapp.tools.Utilitaire;
 
 @SuppressWarnings("serial")
 @Component("noteBean")
@@ -36,7 +38,7 @@ public class NoteBean implements Serializable{
 	 * LOGGER LOG4j 
 	 * @see org.apache.log4j.Logger
 	 */
-    private final Logger LOGGER  = Logger.getLogger("NoteBean");
+   
     
 	
 	@Inject
@@ -51,19 +53,18 @@ public class NoteBean implements Serializable{
 	private Long idSession;
 	private Long idModule;
 	private Long idEtudiant;
-	private List<SessionEtudiant> sessions;
-	private List<Etudiant> etudiants;
-	private List<Module> modules;
-	private Object noteEtudiant;
-	Set<Module> modulesNotDuplicate =null;
-	private List<Note> notes;
+	private List<Object[]> sessions;
+	private List<Object[]> etudiants;
+	private List<Object[]> modules;
+	private List<Object[]> notes;
 	
 	
 	
 	/*@method load page notes*/
-	public void init(){
-		sessions=serviceSession.getAllSessions();
-		LOGGER.info("Session : "+sessions);
+	public String init(){
+		sessions=serviceSession.getAllSessionsV2();
+		LoggerConfig.logInfo("Session : "+sessions);
+		return "notes?faces-redirect=true";
 	}
 	
 	/* @method get All Students By Session */
@@ -71,21 +72,21 @@ public class NoteBean implements Serializable{
 		try {
 			etudiants = serviceEtudiant.getEtudiantBySession(idSession);
 		} catch (VerificationInDataBaseException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!",e.getMessage()));
+			Utilitaire.displayMessageWarning(e.getMessage());
 		}
-		LOGGER.info("Etudiants :"+etudiants);
+		LoggerConfig.logInfo("Etudiants :"+etudiants);
 	}
 	
 	/* @@method get All Modules By Session */
 	public void getAllModulesBySession() {
-		modules= new ArrayList<Module>();
-		modules= serviceModule.getModulesBySession(idSession);
-		LOGGER.info("Modules By Sessions :"+modules);
+		modules= new ArrayList<Object[]>();
+		modules= serviceModule.getModulesBySessionV2(idSession);
+		LoggerConfig.logInfo("Modules By Sessions :"+modules);
 	}
 	/*@ methode get all Notes by sessions and Module*/
 	public void getAllNotesByModule(){
 	  notes=serviceNotes.getNotesBySessionAndModule(idSession,idModule);
-	  LOGGER.info("Notes :"+notes);
+	  LoggerConfig.logInfo("Notes :"+notes);
 	}
 	
 	public Long getIdSession() {
@@ -106,53 +107,39 @@ public class NoteBean implements Serializable{
 	public void setIdEtudiant(Long idEtudiant) {
 		this.idEtudiant = idEtudiant;
 	}
-
-	public List<SessionEtudiant> getSessions() {
-		return sessions;
-	}
-
-	public void setSessions(List<SessionEtudiant> sessions) {
-		this.sessions = sessions;
-	}
-
-	public List<Etudiant> getEtudiants() {
-		return etudiants;
-	}
-	public void setEtudiants(List<Etudiant> etudiants) {
-		this.etudiants = etudiants;
-	}
+    
 	
 
-	public List<Module> getModules() {
-		return modules;
-	}
-
-	public void setModules(List<Module> modules) {
-		this.modules = modules;
-	}
-
-	public Set<Module> getModulesNotDuplicate() {
-		return modulesNotDuplicate;
-	}
-
-	public void setModulesNotDuplicate(Set<Module> modulesNotDuplicate) {
-		this.modulesNotDuplicate = modulesNotDuplicate;
-	}
-
-	public Object getNoteEtudiant() {
-		return noteEtudiant;
-	}
-
-	public void setNoteEtudiant(Object noteEtudiant) {
-		this.noteEtudiant = noteEtudiant;
-	}
-
-	public List<Note> getNotes() {
+	public List<Object[]> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(List<Note> notes) {
+	public void setNotes(List<Object[]> notes) {
 		this.notes = notes;
+	}
+
+	public List<Object[]> getModules() {
+		return modules;
+	}
+
+	public void setModules(List<Object[]> modules) {
+		this.modules = modules;
+	}
+
+	public List<Object[]> getSessions() {
+		return sessions;
+	}
+
+	public void setSessions(List<Object[]> sessions) {
+		this.sessions = sessions;
+	}
+
+	public List<Object[]> getEtudiants() {
+		return etudiants;
+	}
+
+	public void setEtudiants(List<Object[]> etudiants) {
+		this.etudiants = etudiants;
 	}
 	
 	

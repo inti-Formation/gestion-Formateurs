@@ -1,22 +1,20 @@
 package com.adaming.myapp.question.service;
 
 import java.util.List;
-
-import com.adaming.myapp.entities.Question;
+import java.util.Set;
+import com.adaming.myapp.entities.Questions;
+import com.adaming.myapp.entities.Reponses;
 import com.adaming.myapp.exception.AddQuestionException;
+import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IQuestionService {
 
-	 Question addQuestion(Question q, Long idModule) throws AddQuestionException;
+	Questions addQuestions(Questions q, Long idModule, List<Reponses> reponses)
+			throws VerificationInDataBaseException;
 
-	 Question updateQuestion(Question q, Long idModule);
-	
-	 Question getQuestionById(Long idQuestion);
-	
-	 List<Question> getAllQuestions();
-	
-	 int nombreQuestionsByModule(Long idModule);
-	
-	 List<Question> getAllQuestionsByModule(Long idModule);
+	Set<Questions> getQuestionsByModule(Long idModule);
 
+	Questions verifyExistingQuestions(String label);
+
+	Set<Reponses> getAllReponsesByModule(Long idModule);
 }

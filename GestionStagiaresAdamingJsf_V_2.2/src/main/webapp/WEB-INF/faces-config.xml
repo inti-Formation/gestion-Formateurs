@@ -1,13 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<faces-config version="2.2"
-              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
               http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
-              
+
 	<application>
-		<el-resolver>
-			org.springframework.web.jsf.el.SpringBeanFacesELResolver
-		</el-resolver>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
+	<!-- Exception View Expired -->
+	<factory>
+		<exception-handler-factory>com.adaming.myapp.exception.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
+	</factory>
+	<!-- vider le cache des navigateurs -->
+	<lifecycle>
+		<phase-listener id="nocache">com.adaming.myapp.tools.CacheControlPhaseListener</phase-listener>
+	</lifecycle>
 </faces-config>

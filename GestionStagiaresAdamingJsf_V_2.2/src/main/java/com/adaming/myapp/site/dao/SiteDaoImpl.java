@@ -10,10 +10,11 @@ import com.adaming.myapp.entities.Salle;
 import com.adaming.myapp.entities.Site;
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.persistence.AbstractJpaDao;
+import com.adaming.myapp.tools.LoggerConfig;
 
 public class SiteDaoImpl extends AbstractJpaDao<Site> implements ISiteDao{
     
-	private Logger LOGGER = Logger.getLogger(SiteDaoImpl.class);
+
 	
 	@Override
 	public List<Site> getAll() {
@@ -30,14 +31,14 @@ public class SiteDaoImpl extends AbstractJpaDao<Site> implements ISiteDao{
 	@Override
 	public Site add(Site site) {
 		em.persist(site);
-		LOGGER.info("Site "+site+ "has benn added");
+		LoggerConfig.logInfo("Site "+site+ "has benn added");
 		return site;
 	}
 
 	@Override
 	public Site update(Site site) {
 		em.merge(site);
-		LOGGER.info("Site "+site+ "has benn merged");
+		LoggerConfig.logInfo("Site "+site+ "has benn merged");
 		return site;
 	}
 
@@ -45,7 +46,7 @@ public class SiteDaoImpl extends AbstractJpaDao<Site> implements ISiteDao{
 	public Site remove(Long idSite) {
 		Site site = getOne(idSite);
 		em.remove(site);
-		LOGGER.info("Site "+site+ "has benn removed");
+		LoggerConfig.logInfo("Site "+site+ "has benn removed");
 		return site;
 	}
 
@@ -65,9 +66,11 @@ public class SiteDaoImpl extends AbstractJpaDao<Site> implements ISiteDao{
 				  "Select sa.idSalle,sa.numeroSalle,sa.nbPlace FROM Salle sa JOIN"
 				+ " sa.site o where o.idSite=:x");
 		query.setParameter("x",idSite);
-		LOGGER.info("il existe "+query.getResultList()+" dans le site "+idSite);
+		LoggerConfig.logInfo("il existe "+query.getResultList()+" dans le site "+idSite);
 		return query.getResultList();
 	}
+	
+	
 
 
 }

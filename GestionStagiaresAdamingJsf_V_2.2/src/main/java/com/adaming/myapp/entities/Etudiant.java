@@ -1,8 +1,11 @@
 package com.adaming.myapp.entities;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,9 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-/*@Author Adel
- *@version 1.0.0
- *@date 09/10/2016
+/**@Author Adel
+ **@version 1.0.0
+ **@date 09/10/2016
  *
  * */
 @SuppressWarnings("serial")
@@ -29,10 +32,10 @@ public class Etudiant implements Serializable {
 	private String formationInitial;
 	private String ecole;
 	private Date dateObtention;
-	private String adressePostal;
-	private String codePostal;
 	private String numTel;
 	private String mail;
+	@Embedded
+	private Adresse adresse;
 	
 	@Transient
 	private  String [] presence = {"OK","OK","OK","OK","OK","OK","OK","OK","OK","OK"};
@@ -47,15 +50,15 @@ public class Etudiant implements Serializable {
 	private final String [][] evaluation ={{"Veuillez Choisir un Niveau","Excellent","Très Bien","Moyen","Passable","Trop Juste"},{"Veuillez Choisir un Niveau","Excellent","Très Bien","Moyen","Passable","Trop Juste"},{"Veuillez Choisir un Niveau","Excellent","Très Bien","Moyen","Passable","Trop Juste"}} ;
 	
 	/*assoc*/
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_SESS_ETUDIANT")
     private SessionEtudiant sessionEtudiant;
 	@OneToMany(mappedBy="etudiant",fetch=FetchType.LAZY)
 	private List<Note> notes;
-	@OneToMany(mappedBy="etudiant",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="etudiant",fetch=FetchType.LAZY)
 	private List<Evenement> evenements;
 
-	/*construct*/
+	/**construct*/
 	public Etudiant() {
 		// TODO Auto-generated constructor stub
 	}
@@ -65,8 +68,7 @@ public class Etudiant implements Serializable {
 
 	public Etudiant(String nomEtudiant, String prenomEtudiant,
 			Date dateDeNaissance, String formationInitial, String ecole,
-			Date dateObtention, String adressePostal, String codePostal,
-			String numTel, String mail) {
+			Date dateObtention, String numTel, String mail, Adresse adresse) {
 		super();
 		this.nomEtudiant = nomEtudiant;
 		this.prenomEtudiant = prenomEtudiant;
@@ -74,10 +76,9 @@ public class Etudiant implements Serializable {
 		this.formationInitial = formationInitial;
 		this.ecole = ecole;
 		this.dateObtention = dateObtention;
-		this.adressePostal = adressePostal;
-		this.codePostal = codePostal;
 		this.numTel = numTel;
 		this.mail = mail;
+		this.adresse = adresse;
 	}
 	
 	/*get and set */
@@ -85,7 +86,6 @@ public class Etudiant implements Serializable {
 	public Long getIdEtudiant() {
 		return idEtudiant;
 	}
-
 
 
 	public void setIdEtudiant(Long idEtudiant) {
@@ -166,29 +166,7 @@ public class Etudiant implements Serializable {
 
 
 
-	public String getAdressePostal() {
-		return adressePostal;
-	}
-
-
-
-	public void setAdressePostal(String adressePostal) {
-		this.adressePostal = adressePostal;
-	}
-
-
-
-	public String getCodePostal() {
-		return codePostal;
-	}
-
-
-
-	public void setCodePostal(String codePostal) {
-		this.codePostal = codePostal;
-	}
-
-
+	
 
 	public String getNumTel() {
 		return numTel;
@@ -276,5 +254,16 @@ public class Etudiant implements Serializable {
 	}
 
 
+	public Adresse getAdresse() {
+		return adresse;
+	}
+
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
+	}
+
+
+	
 	
 }

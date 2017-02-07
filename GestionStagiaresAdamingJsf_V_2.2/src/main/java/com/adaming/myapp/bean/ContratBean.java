@@ -17,6 +17,7 @@ import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.etudiant.service.IEtudiantService;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.tools.Utilitaire;
 
 @Component("contratBean")
 @Scope(value="session")
@@ -71,13 +72,13 @@ public class ContratBean {
 		date = new Date();
 		Contrat contrat = new Contrat(date,active);
 		if(active==false){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!","vous devez cochez la case « J'ai pris connaissance et j'accepte les Conditions Générales »"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("vous devez cochez la case « J'ai pris connaissance et j'accepte les Conditions Générales »"));
 		}else{
 			try {
 				serviceContrat.addContrat(contrat, etudiant.getIdEtudiant());
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info!","Merci, votre signature a bien été prise en compte"));
+				Utilitaire.displayMessageInfo("Merci, votre signature a bien été prise en compte");
 			} catch (VerificationInDataBaseException e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur!",e.getMessage()));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 			}
 		}
 		

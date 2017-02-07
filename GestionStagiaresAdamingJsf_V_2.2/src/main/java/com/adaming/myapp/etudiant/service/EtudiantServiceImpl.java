@@ -1,5 +1,6 @@
 package com.adaming.myapp.etudiant.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -9,6 +10,7 @@ import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.etudiant.dao.IEtudiantDao;
 import com.adaming.myapp.exception.AddEtudiantException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.tools.LoggerConfig;
 /**
  *  @author Adel 
  *  @version 1.0.0
@@ -27,7 +29,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	/**
      * Logger @see java.util.logging.Logger
      */
-	final Logger LOGGER = Logger.getLogger("EtudiantServiceImpl");
+	
     
 	
    /**
@@ -37,7 +39,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
 
 	public void setDao(IEtudiantDao dao) {
 		this.dao = dao;
-		LOGGER.info("<-----------Dao Student Injected---------->");
+		LoggerConfig.logInfo("<-----------Dao Student Injected---------->");
 	}
     
 	
@@ -49,22 +51,21 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	@Override
 	@Transactional(readOnly=false)
 	public Etudiant addStudent(Etudiant e, Long idSession)
-			throws AddEtudiantException {
-		List<Etudiant> tabEtudiant = null;// verifications
-		tabEtudiant = getStudentsBySession(idSession);
-		if(tabEtudiant.size()>0){
-			for (Etudiant etudiant : tabEtudiant) {
-				if (etudiant.getDateDeNaissance().compareTo(e.getDateDeNaissance()) == 0
-						&& etudiant.getNomEtudiant().equals(e.getNomEtudiant())) {
-					throw new AddEtudiantException("L'étudiant "
+			throws VerificationInDataBaseException {
+	            Etudiant etudiant = verifyExistingEtudiant(e.getNomEtudiant(),e.getDateDeNaissance());
+	            if (etudiant != null)
+				{
+					throw new VerificationInDataBaseException("L'étudiant "
 							+ e.getNomEtudiant()
 							+ " Existe déja dans la Session N°" + idSession);
-				}else if(etudiant.getMail().equals(e.getMail())){
-					throw new AddEtudiantException("l'adresse mail "+etudiant.getMail()+" existe déjà dans la sesion N° "+idSession+" Veuillez renseigner une autre adresse mail");
 				}
-			}
-		}
-		return dao.addStudent(e, idSession);
+				else 
+					if(getEtudiant(e.getMail()) != null)
+				{
+					throw new VerificationInDataBaseException("l'adresse mail "+e.getMail()+" existe déjà dans la session N° "+idSession+" Veuillez renseigner une autre adresse mail");
+				}
+
+		        return dao.addStudent(e, idSession);
 	}
    
 	
@@ -112,9 +113,16 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getEtudiantBySession
 	 **/
 	@Override
-	public List<Etudiant> getEtudiantBySession(Long idSession) throws VerificationInDataBaseException {
-		// TODO Auto-generated method stub
-		return dao.getEtudiantBySession(idSession);
+	public List<Object[]> getEtudiantBySession(Long idSession) throws VerificationInDataBaseException {
+		 List<Object[]> objects = dao.getEtudiantBySession(idSession);
+		 if(objects != null){
+        	if(objects.size() == 0){
+        		throw new VerificationInDataBaseException("Il n'existe aucun étudiant dans la session Numéro "+idSession);
+        	}
+        	LoggerConfig.logInfo("le nombre des etudiants dans la session N "
+					+ idSession + "est " + objects.size());
+        }
+		return objects;
 	}
     
 	
@@ -131,9 +139,19 @@ public class EtudiantServiceImpl implements IEtudiantService {
 
 
 	@Override
-	public List<Etudiant> getStudentsBySession(Long idSession) {
-		// TODO Auto-generated method stub
+	public List<Etudiant> getStudentsBySession(Long idSession) throws VerificationInDataBaseException {
+		List<Etudiant> etudiants = dao.getStudentsBySession(idSession);
+        if(etudiants == null || etudiants.isEmpty()){
+        		throw new VerificationInDataBaseException("Il n'existe aucun étudiant dans la session Numéro "+idSession);
+        }
 		return dao.getStudentsBySession(idSession);
+	}
+
+
+	@Override
+	public Etudiant verifyExistingEtudiant(String name, Date dateDeNaissance) {
+		// TODO Auto-generated method stub
+		return dao.verifyExistingEtudiant(name, dateDeNaissance);
 	}
 
 }

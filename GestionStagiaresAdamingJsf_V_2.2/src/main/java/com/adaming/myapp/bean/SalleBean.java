@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.binding.message.Severity;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import com.adaming.myapp.entities.Site;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.salle.service.ISalleService;
 import com.adaming.myapp.site.service.ISiteService;
+import com.adaming.myapp.tools.Utilitaire;
 @SuppressWarnings("serial")
 @Component("salleBean")
 @ViewScoped
@@ -32,6 +34,7 @@ public class SalleBean implements Serializable {
     private List<Salle> salles;
     
     @NotEmpty
+    @NotBlank
 	private String numeroSalle;
     @NotNull
 	private Integer nbPlace;
@@ -42,18 +45,12 @@ public class SalleBean implements Serializable {
 		salle = createSalle();
 		try {
 			serviceSalle.add(salle, idSite);
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
-							"la Salle " + numeroSalle
-									+ " à bien été ajouter avec success"));
+			Utilitaire.displayMessageInfo("la Salle " + numeroSalle
+									+ " à bien été ajouter avec succès");
 			reset();
 			getAllSites();
 		} catch (VerificationInDataBaseException e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning...!",
-							e.getMessage()));
+			Utilitaire.displayMessageWarning(e.getMessage());
 		}
 	}
 

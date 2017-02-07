@@ -8,13 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.adaming.myapp.contrat.dao.IContratDao;
 import com.adaming.myapp.entities.Contrat;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
+import com.adaming.myapp.tools.LoggerConfig;
 @Transactional(readOnly=true)
 public class ContratServiceImpl implements IContratService{
 	
 	/**
      * Logger @see java.util.logging.Logger
      **/
-	final Logger LOGGER = Logger.getLogger("ContratServiceImpl");
+	
 	
 	
 	private IContratDao dao;
@@ -25,7 +26,7 @@ public class ContratServiceImpl implements IContratService{
 	 */
 	public void setDao(IContratDao dao) {
 		this.dao = dao;
-		LOGGER.info("<-------Dao Contrat Injected------>");
+		LoggerConfig.logInfo("<-------Dao Contrat Injected------>");
 		
 	}
 

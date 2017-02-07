@@ -1,8 +1,6 @@
 package com.adaming.myapp.bean;
 
 import java.io.Serializable;
-
-import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.GetUserException;
+import com.adaming.myapp.tools.LoggerConfig;
 
 @SuppressWarnings("serial")
 @Component("userAuthentification")
@@ -22,7 +21,7 @@ public class UserAuthentificationBean implements Serializable {
 	 * LOGGER LOG4j 
 	 * @see org.apache.log4j.Logger
 	 */
-    private final Logger LOGGER  = Logger.getLogger("UserAuthentificationBean");
+   
     
 	
 
@@ -34,9 +33,9 @@ public class UserAuthentificationBean implements Serializable {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		LOGGER.debug("User Details"+userDetails);
+		LoggerConfig.logInfo("User Details"+userDetails);
         name=userDetails.getUsername();
-        LOGGER.debug("name : "+name);
+        LoggerConfig.logInfo("name : "+name);
 		if (context instanceof SecurityContext){
             Authentication authentication = context.getAuthentication();
             if (authentication instanceof Authentication){

@@ -1,41 +1,37 @@
 package com.adaming.myapp.question.dao;
 
 import java.util.List;
-import com.adaming.myapp.entities.Question;
+import java.util.Set;
+import com.adaming.myapp.entities.Questions;
+import com.adaming.myapp.entities.Reponses;
 import com.adaming.myapp.exception.AddQuestionException;
 
-public class QuestionDaoImpl extends QuestionAbstractJpa implements IQuestionDao{
-    
+public class QuestionDaoImpl extends QuestionAbstractJpa implements
+		IQuestionDao {
 
-	
 	@Override
-	public Question addQuestion(Question q, Long idModule) throws AddQuestionException {
-		return addQuestionAbstractJpa(q, idModule);
+	public Questions addQuestions(Questions q, Long idModule,
+			List<Reponses> reponses) {
+		// TODO Auto-generated method stub
+		return addQuestionsAbstractJpa(q, idModule, reponses);
 	}
 
 	@Override
-	public Question updateQuestion(Question q, Long idModule) {
-		return updateQuestionAbstractJpa(q, idModule);
+	public Set<Questions> getQuestionsByModule(Long idModule) {
+		// TODO Auto-generated method stub
+		return getQuestionsByModuleAbstracJpa(idModule);
 	}
 
 	@Override
-	public Question getQuestionById(Long idQuestion) {
-		return getQuestionByIdAbstractJpa(idQuestion);
+	public Questions verifyExistingQuestions(String label) {
+		// TODO Auto-generated method stub
+		return verifyExistingQuestionsAbstractJpa(label);
 	}
 
 	@Override
-	public List<Question> getAllQuestions() {
-		return getAllQuestionsAbstractJpa();
-	}
-
-	@Override
-	public int nombreQuestionsByModule(Long idModule) {
-		return nombreQuestionsByModuleAbstractJpa(idModule);
-	}
-
-	@Override
-	public List<Question> getAllQuestionsByModule(Long idModule) {
-		return getAllQuestionsByModuleAbstractJpa(idModule);
+	public Set<Reponses> getAllReponsesByModule(Long idModule) {
+		// TODO Auto-generated method stub
+		return getAllReponsesByModuleAbstractJpa(idModule);
 	}
 
 }

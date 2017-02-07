@@ -22,34 +22,43 @@ public interface IEvenementDao {
 
 	/* toutes les evenements par semaine */
 
-	 List<Evenement> getEvenementsRetards();
+	 List<Object[]> getEvenementsRetards();
 			
 
-	 List<Evenement> getEvenementsAbsences();
+	 List<Object[]> getEvenementsAbsences();
 
-	 List<Evenement> getEvenementsEntretien();
+	 List<Object[]> getEvenementsEntretien();
 
 	/* evenement du jour */
 
-	 List<Evenement> getNumberOfCurrentsRetards();
+	 List<Object[]> getDailyCountOfRetards();
 
-	 List<Evenement> getNumberOfCurrentsAbsence();
+	 List<Object[]> getDailyCountOfAbsence();
 
-	 List<Evenement> getNumberOfCurrentsWarning();
+	 List<Object[]> getDailyCountOfWarning();
 
-	 List<Evenement> getNumberOfCurrentsTop();
+	 List<Object[]> getDailyCountOfTop();
+	 
+	 /* evenement du jour */
+
+	 long getNumberOfRetards();
+
+	 long getNumberOfAbsence();
+
+	 long getNumberOfWarning();
+
+	 long getNumberOfTop();
+
 
 	/* toutes les evenements */
 
-	 List<Evenement> getAllEvenementsRetards();
-
-	 List<Evenement> getAllEvenementsEntretient();
-
-	 List<Evenement> getAllEvenementsAbsences();
 
 	 List<Evenement> getAllEvenements();
 
 	 List<Evenement> getAllEvenementsBySession(Long idSession);
+	 
+	 /**@verification*/
+	 Evenement verifyExistingEvent(Long idEtudiant);
 	 
 	
 

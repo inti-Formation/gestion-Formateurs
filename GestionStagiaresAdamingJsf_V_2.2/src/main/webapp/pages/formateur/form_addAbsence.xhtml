@@ -16,20 +16,6 @@
 	<br> </br>
 	<div class="well container">
  	<br/>
-			<!-- exception add new evenement -->
-			<c:if test="#{not empty scheduleView.evenementFoundException}">
-				<div class="alert alert-warning">
-					<h:outputText value="#{scheduleView.evenementFoundException}"
-							styleClass="errorExeption"/>
-				</div>
-			</c:if>
-			<!-- message success -->
-			<c:if test="#{not empty scheduleView.evenementSuccess}">
-				<div class="alert alert-info">
-					<h:outputText  value="#{scheduleView.evenementSuccess}"
-							styleClass="messageSuccess" />
-				</div>
-			</c:if>
 	     <!-- errors de validation -->
 	     <section class="wrapper">
 		  <div class="row">
@@ -52,13 +38,12 @@
                                           <label for="session" class="control-label col-lg-2">Session en Cours :</label>
                                           <div class="col-lg-10">
 											<h:outputText value="Formation: #{scheduleView.sessionFormateur.specialite.designation}"/><br />
-											<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}"/><br />
                                           </div>
                                      </div>
                                      <div class="form-group ">
 	                                          <label for="dateD" class="control-label col-lg-2">Modifier Semaine :</label>
 	                                          <div class="col-lg-10">
-													<p:calendar requiredMessage="Vuillez choisir une date" id="dateD" navigator="true" yearRange="c-10:c+0"
+													<p:calendar requiredMessage="Veuillez choisir une date" id="dateD" navigator="true" yearRange="c-10:c+0" 
 														value="#{scheduleView.dateIn}" showWeek="true" /> 
 													<c:if test="#{not scheduleView.active}">
 														<span style="color:red;font-weight:bold;"> 
@@ -68,7 +53,7 @@
 	                                                </c:if>	
 	                                          </div>
 	                                  </div>
-	                                  <div class="form-group">
+	                                   <div class="form-group">
 	                                          <div class="col-lg-offset-2 col-lg-10">
 	                                             <h:commandButton action="#{scheduleView.generateEvents}" value="Generer" class="btn btn-primary"  />
 	                                          </div>
@@ -102,7 +87,7 @@
 										<br />
 										<br />
 										
-										<c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
+										<c:if test="#{fn:length(scheduleView.students) >0 }">
 											<div align="center">
 												<!-- more Informations width tag absence-->
 												<h:outputText style="color:black" value="Présent - " />
@@ -120,7 +105,7 @@
 												<h:outputText style="color:black" value="Férié  - " />
 												<h:outputText style="color:red;font-weight:bold;" value="F" />
 												<br /> <br />
-												<p:dataTable var="e" value="#{scheduleView.etudiantsBySession}"
+												<p:dataTable var="e" value="#{scheduleView.students}"
 													id="studentTable" editable="true" editMode="cell"
 													widgetVar="cellSchedule" 
 													style="width:96%;margin-bottom:20px;">
@@ -134,7 +119,7 @@
 														<p:row>
 															<p:column rowspan="3" headerText="Etudiant" />
 															<p:column colspan="10" style="color:red;font-weight:bold;"
-																headerText="Session n° #{scheduleView.idSession} - Formation: #{scheduleView.sessionEtudiant.specialite.designation}" />
+																headerText="Session n° #{scheduleView.sessionFormateur.idSession} - Formation: #{scheduleView.sessionFormateur.specialite.designation}" />
 														</p:row>
 														<p:row>
 															<p:column colspan="2"
@@ -295,7 +280,6 @@
 														target="#{exporterController.customExporter}" />
 													<pe:exporter type="pdf" target="studentTable"
 														fileName="GroupedTable" />
-									
 												</p:commandButton>
 									
 											</div>

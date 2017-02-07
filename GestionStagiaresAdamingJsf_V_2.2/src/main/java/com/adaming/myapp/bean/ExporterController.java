@@ -8,6 +8,8 @@ import javax.faces.bean.ApplicationScoped;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.adaming.myapp.tools.LoggerConfig;
+
 @SuppressWarnings("serial")
 @Component("exporterController")
 @ApplicationScoped
@@ -17,13 +19,13 @@ public class ExporterController implements Serializable {
 	 * LOGGER LOG4j 
 	 * @see org.apache.log4j.Logger
 	 */
-    private final Logger LOGGER  = Logger.getLogger("ExporterController");
+  
 
 	private Boolean customExporter;
 
 	public ExporterController() {
 		customExporter = false;
-		LOGGER.info("init ExporterController");
+		LoggerConfig.logInfo("init ExporterController");
 	}
 
 	public Boolean getCustomExporter() {

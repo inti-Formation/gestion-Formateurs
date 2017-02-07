@@ -28,13 +28,15 @@ public class EmailValidator implements Validator {
 			Object value) throws ValidatorException {
 		
 		matcher = pattern.matcher(value.toString());
-        if(!matcher.matches()){
+        if(!matcher.matches())
+        {
             FacesMessage msg = new FacesMessage("Inscription Impossible - Le format de l'adresse mail n'est pas valide.");
             msg.setSeverity(FacesMessage.SEVERITY_WARN);
             throw new ValidatorException(msg);
  
         }
-        if(value.toString().length()>=100){
+        if(value.toString().length()>=100)
+        {
             FacesMessage msg = new FacesMessage("Email to long (>99)", "Email longer than 100 characters.");
             msg.setSeverity(FacesMessage.SEVERITY_WARN);
             throw new ValidatorException(msg);

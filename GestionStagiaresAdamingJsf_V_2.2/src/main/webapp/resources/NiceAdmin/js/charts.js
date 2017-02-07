@@ -1,4 +1,0 @@
-function send(){
-	alert("bb");
-}
-

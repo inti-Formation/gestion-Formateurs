@@ -16,6 +16,7 @@ public class JpaTest {
 		 ClassPathXmlApplicationContext context;
 		 
 		 context = new ClassPathXmlApplicationContext(new String[]{"app.xml"});
+		 context.close();
 		/* serviceContrat=(IContratService)context.getBean("ContratService");
 		 try {
 			serviceContrat.addContrat(new Contrat(new Date(), true),3L);

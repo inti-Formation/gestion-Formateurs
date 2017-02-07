@@ -18,21 +18,8 @@
 	<div class="well container">
        <br/>
 	       <!-- messages errors + exception -->
-		   <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />   
-			<!-- exception add new evenement -->
-			<c:if test="#{not empty scheduleView.evenementFoundException}">
-				<div class="alert alert-warning">
-					<h:outputText value="#{scheduleView.evenementFoundException}"
-							styleClass="errorExeption"/>
-				</div>
-			</c:if>
+		   <p:growl id="growler" showDetail="true" autoUpdate="true" closable="true" severity="warn,info" />   
 			<!-- message success -->
-			<c:if test="#{not empty scheduleView.evenementSuccess}">
-				<div class="alert alert-info">
-					<h:outputText value="#{scheduleView.evenementSuccess}"
-							styleClass="messageSuccess" />
-				</div>
-			</c:if>
 		 <!-- Form validations -->  
 		 <section class="wrapper">
 		  <div class="row">
@@ -50,19 +37,18 @@
                           </header>
                           <div class="panel-body">
                               <div class="form">
-                                  <h:form class="form-validate form-horizontal">
+                                  <h:form  class="form-validate form-horizontal">
                                       <div class="form-group ">
                                           <label for="session" class="control-label col-lg-2">Session en Cours :</label>
                                           <div class="col-lg-10">
 											<h:outputText value="Formation: #{scheduleView.sessionFormateur.specialite.designation}"/><br />
-											<h:outputText value="Lieu: #{scheduleView.sessionFormateur.lieu}"/><br />
                                           </div>
                                        </div>
                                         
                                        <!-- Affichage Evenement/Etudiant --> 
-                                      <c:if test="#{fn:length(scheduleView.etudiantsBySession) >0 }">
+                                        <c:if test="#{fn:length(scheduleView.etudiants) >0 }">
                                             <div>
-				                                <h:inputHidden value="#{scheduleView.idSession}"/>
+				                                <h:inputHidden value="#{scheduleView.sessionFormateur.idSession}"/>
 				                            </div>
 				                            <div>
 				                                <h:inputHidden value="#{userAuthentification.user.name}"/>
@@ -70,22 +56,22 @@
 	                                        <div class="form-group ">
 	                                          <label for="session" class="control-label col-lg-2">Etudiant <span class="required">*</span></label>
 	                                          <div class="col-lg-10">
-	                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-													required-message="2 - l'Etudiant *"
+	                                              <h:selectOneMenu id="session" style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker"
 													value="#{scheduleView.idEtudiant}">
 													<f:selectItem itemLabel="Sélectionnez un etudiant"
 														itemValue="#{null}" />
-													<f:selectItems value="#{scheduleView.etudiantsBySession}" var="e"
-														itemLabel="#{e.nomEtudiant},#{e.prenomEtudiant}"
-														itemValue="#{e.idEtudiant}" />
+													<f:selectItems value="#{scheduleView.etudiants}" var="e"
+														itemLabel="#{e[1]},#{e[2]}"
+														itemValue="#{e[0]}" />
 												</h:selectOneMenu>
 	                                          </div>
+	                                          <br></br>
+	                                          <h:message for="session" style="text-align:center;color:red;display:block"></h:message>
 	                                       </div>
 	                                       <div class="form-group ">
-	                                          <label for="session" class="control-label col-lg-2">Evénement <span class="required">*</span></label>
+	                                          <label for="event" class="control-label col-lg-2">Evénement <span class="required">*</span></label>
 	                                          <div class="col-lg-10">
-	                                              <h:selectOneMenu style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker" required="true"
-													required-message="3 - l'Evénement*"
+	                                              <h:selectOneMenu id="event" style="height:35px;width:50%;color:#797979;font-size:16px;" styleClass="selectpicker"
 														value="#{scheduleView.typeEvenement}">
 														<f:selectItem itemLabel="Sélectionnez Un Evénement"
 															itemValue="#{null}" />
@@ -97,19 +83,25 @@
 															itemValue="entretient" />
 												</h:selectOneMenu>
 	                                          </div>
+	                                          <br></br>
+	                                          <h:message for="event" style="text-align:center;color:red;display:block"></h:message>
 	                                       </div>
                                       
 	                                      <div class="form-group ">
 	                                          <label for="De" class="control-label col-lg-2">De <span class="required">*</span></label>
 	                                          <div class="col-lg-10">
-	                                             <p:calendar  required="true" requiredMessage="4 - la date début d'événement"  value="#{scheduleView.dateStart}" pattern="MM/dd/yyyy HH:mm:ss" />
+	                                               <p:calendar placeholder="ex : 12/01/2017 09h:00" lang="fr" locale="fr" id="De" minHour="8" maxHour="18" value="#{scheduleView.dateStart}" pattern="MM/dd/yyyy HH:mm" />
 	                                          </div>
+	                                          <br></br>
+	                                           <h:message for="De" style="text-align:center;color:red;display:block"></h:message>
 	                                      </div>
 	                                      <div class="form-group ">
 	                                          <label for="A" class="control-label col-lg-2">À <span class="required">*</span></label>
 	                                          <div class="col-lg-10">
-	                                              <p:calendar required="true" requiredMessage="5 - la date Fin d'événement"  value="#{scheduleView.dateEnd}" pattern="MM/dd/yyyy HH:mm:ss" />
+	                                              <p:calendar placeholder="ex : 12/01/2017 11h:00" lang="fr" locale="fr" id="A" minHour="8" maxHour="18" value="#{scheduleView.dateEnd}" pattern="MM/dd/yyyy HH:mm" />
 	                                          </div>
+	                                          <br></br>
+	                                           <h:message  for="A" style="text-align:center;color:red;display:block"></h:message>
 	                                      </div>
 	                                      <div class="form-group">
 	                                          <div class="col-lg-offset-2 col-lg-10">
@@ -118,6 +110,10 @@
 	                                      </div>
                                    </c:if>
                                   </h:form>
+                                  <SCRIPT type="text/javascript">
+                                     PrimeFaces.locales ['fr'] = { closeText: 'Fermer', prevText: 'Précédent', nextText: 'Suivant', monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ], monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ], dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'], dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'], dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'], weekHeader: 'Semaine', firstDay: 1, isRTL: false, showMonthAfterYear: false, yearSuffix:'', timeOnlyTitle: 'Choisir l\'heure', timeText: 'Heure', hourText: 'Heures', minuteText: 'Minutes', secondText: 'Secondes', currentText: 'Maintenant', ampm: false, month: 'Mois', week: 'Semaine', day: 'Jour', allDayText: 'Toute la journée' };
+                                     
+                                     </SCRIPT>
                               </div>
                           </div>
                       </section>

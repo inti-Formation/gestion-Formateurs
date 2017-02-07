@@ -10,10 +10,10 @@ import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.persistence.AbstractJpaDao;
+import com.adaming.myapp.tools.LoggerConfig;
 
 public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IFormateurDao {
-
-	private final Logger LOGGER = Logger.getLogger("FormateurDaoImpl");
+    
     
 	@Override
 	public List<Formateur> getAll() {
@@ -23,18 +23,20 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 
 	@Override
 	public Formateur getOne(Long id) {
-		// TODO Auto-generated method stub
-		return getOneAbstractJpa(id);
+			final String SQL = "from Formateur f join fetch f.sessionsEtudiant where f.idFormateur = :x";
+			Query query = em.createQuery(SQL).setParameter("x",id);
+			Formateur formateur = null;
+			if(query.getResultList() != null && !query.getResultList().isEmpty()){
+				 formateur = (Formateur) query.getResultList().get(0);
+			}
+			return formateur;
 	}
 
-	
-	
 	@Override
-	public Formateur addFormateur(Formateur f)
-			throws VerificationInDataBaseException {
+	public Formateur addFormateur(Formateur f){
 		
 		em.persist(f);
-		LOGGER.info("le formateur " + f.getNom()
+		LoggerConfig.logInfo("le formateur " + f.getNom()
 				+ "à bien été criée avec success");
 		return f;
 	}
@@ -45,7 +47,7 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 		Formateur f = em.find(Formateur.class, idFormateur);
 		session.getFormateurs().add(f);
 		f.getSessionsEtudiant().add(session);
-		LOGGER.info("le formateur " + f.getNom()
+		LoggerConfig.logInfo("le formateur " + f.getNom()
 				+ " a bien été attribué à la session " + session.getIdSession());
 	}
 
@@ -71,6 +73,17 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 		query.setParameter("z",mail);
 		query.setMaxResults(1);
 		return query.getResultList();
+	}
+
+	@Override
+	public  SessionEtudiant verifyExistingAffectation(final Long idFormateur,final Long idSession){
+		final String SQL  = "from SessionEtudiant se join fetch se.formateurs f where f.idFormateur =:x and se.idSession =:y";
+		Query query = em.createQuery(SQL).setParameter("x",idFormateur).setParameter("y",idSession);
+		SessionEtudiant sessionEtudiant = null;
+		if(query.getResultList() != null && !query.getResultList().isEmpty()){
+			sessionEtudiant = (SessionEtudiant) query.getResultList().get(0);
+		}
+		return sessionEtudiant;
 	}
 
 	
