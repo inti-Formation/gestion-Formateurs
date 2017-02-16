@@ -9,10 +9,10 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface ISessionService {
 
-	 SessionEtudiant addSessionStudent(SessionEtudiant se,Long idSpecialite,Long idSite,Long idSalle) throws AddSessionException;
+	 SessionEtudiant addSessionStudent(final SessionEtudiant se,final Long idSpecialite,final Long idSite,final Long idSalle) throws AddSessionException;
 	
-	 SessionEtudiant updateSessionEtudiant(SessionEtudiant se,
-				Long idSpecialite,Long idSite,Long idSalle) throws AddSessionException;
+	 SessionEtudiant updateSessionEtudiant(final SessionEtudiant se,
+			 final Long idSpecialite,final Long idSite,final Long idSalle) throws AddSessionException;
 	
 	
 	 SessionEtudiant getSessionEtudiantById(final Long idSessionEtudiant);

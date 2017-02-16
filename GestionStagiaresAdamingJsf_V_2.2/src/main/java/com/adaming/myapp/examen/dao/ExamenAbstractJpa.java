@@ -24,8 +24,8 @@ public abstract class ExamenAbstractJpa {
 	 * Logger @see java.util.logging.Logger
 	 **/
 
-	public Examen addExamenAbstractJpa(Examen examen, Long idEtudiant,
-			Long idModule, Long idSession) {
+	public Examen addExamenAbstractJpa(final Examen examen, final Long idEtudiant,
+			final Long idModule, final Long idSession) {
 
 		Etudiant etudiant = entityManager.find(Etudiant.class, idEtudiant);
 		Module module = entityManager.find(Module.class, idModule);

@@ -3,7 +3,7 @@ package com.adaming.myapp.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataUtil {
+public final class DataUtil {
 
 	/**
 	 * @Autocomplete pour faire l'autocomplétion remplir le tableau des

@@ -27,7 +27,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 	}
 
 	@Override
-	public Module getOne(Long id) {
+	public Module getOne(final Long id) {
 		 final String SQL = "select distinct m from Module m " +
                  "left join fetch m.specialite " +
                  "where m.id = :x";
@@ -38,7 +38,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 	}
 
 	@Override
-	public Module addModule(Module m, Long idSpecialite){
+	public Module addModule(final Module m, final Long idSpecialite){
 		Specialite s  = em.find(Specialite.class, idSpecialite);
 		m.setSpecialite(s);
 		em.persist(m);
@@ -47,7 +47,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 	}
 
 	@Override
-	public Module updateModule(Module m, Long idSpecialite) {
+	public Module updateModule(final Module m, final Long idSpecialite) {
 		Specialite s = em.find(Specialite.class,idSpecialite);
 		m.setSpecialite(s);
 		em.merge(m);
@@ -56,7 +56,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 	}
 
 	@Override
-	public List<Module> getModulesBySpecialite(Long idSpecialite) throws VerificationInDataBaseException {
+	public List<Module> getModulesBySpecialite(final Long idSpecialite) throws VerificationInDataBaseException {
 		Specialite s  = em.find(Specialite.class,idSpecialite);
 		List<Module> modules=null;
 		if(s != null){
@@ -70,7 +70,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 	}
 
 	@Override
-	public List<Module> getModulesBySession(Long idSession) {
+	public List<Module> getModulesBySession(final Long idSession) {
 		SessionEtudiant session = em.find(SessionEtudiant.class,idSession);
 		List<Module> modules = session.getSpecialite().getModules();
 		LoggerConfig.logInfo("il existe "+modules.size()+" modules dans la sessions Numéro "+idSession);
@@ -79,7 +79,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> getModulesBySessionV2(Long idSession) {
+	public List<Object[]> getModulesBySessionV2(final Long idSession) {
 		final String SQL = "Select m.idModule,m.nomModule,m.actif,sp.idSession From Module m join m.specialite.sessionEtudiant sp where sp.idSession =:x";
 		Query query = em.createQuery(SQL);
 		query.setParameter("x",idSession);
@@ -88,7 +88,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Module> getModuleActivedBySession(Long idSession) {
+	public List<Module> getModuleActivedBySession(final Long idSession) {
 		final String SQL ="from Module m join fetch m.specialite sp join fetch sp.sessionEtudiant se where se.idSession =:x and m.actif = TRUE";
 		Query query = em.createQuery(SQL).setParameter("x",idSession);
 		return query.getResultList();
@@ -96,7 +96,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Object[]> getModulesValideBySession(Long idSession) {
+	public Set<Object[]> getModulesValideBySession(final Long idSession) {
 		final String SQL = "Select DISTINCT m.idModule,m.nomModule,m.actif,se.idSession FROM Note n "
 				         + "join n.module m join n.sessionEtudiant se where se.idSession =:x and n.score IS NOT NULL";
 		Query query = em.createQuery(SQL).setParameter("x",idSession);
@@ -105,7 +105,7 @@ public class ModuleDaoImpl extends AbstractJpaDao<Module> implements IModuleDao{
 	}
 
 	@Override
-	public Module verifyExistingModule(String name) {
+	public Module verifyExistingModule(final String name) {
 		 final String SQL = "select distinct m from Module m where m.nomModule =:x";     
 		 Module module = null;
          Query query =  em.createQuery(SQL)

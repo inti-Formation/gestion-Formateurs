@@ -25,7 +25,7 @@ public class FormateurServiceImpl implements IFormateurService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public Formateur addFormateur(Formateur f)
+	public Formateur addFormateur(final Formateur f)
 			throws VerificationInDataBaseException {
 		List<Object[]> formateurs = getFormateuByName(f.getNom(), f.getDateDeNaissance(),f.getMail());
 		
@@ -53,7 +53,7 @@ public class FormateurServiceImpl implements IFormateurService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public void addFormateurToSession(Long idSession, Long idFormateur) throws VerificationInDataBaseException {
+	public void addFormateurToSession(final Long idSession,final Long idFormateur) throws VerificationInDataBaseException {
 		verifyExistingAffectation(idFormateur, idSession);
 		dao.addFormateurToSession(idSession, idFormateur);
 	}
@@ -65,13 +65,13 @@ public class FormateurServiceImpl implements IFormateurService {
 	}
 
 	@Override
-	public Formateur getFormateur(String mail) {
+	public Formateur getFormateur(final String mail) {
 		// TODO Auto-generated method stub
 		return dao.getFormateur(mail);
 	}
 
 	@Override
-	public Formateur getFormateurById(Long idFormateur) throws VerificationInDataBaseException {
+	public Formateur getFormateurById(final Long idFormateur) throws VerificationInDataBaseException {
 		Formateur formateur = dao.getOne(idFormateur);
 		if(formateur == null){
 			throw new VerificationInDataBaseException("le Formateur n'est pas encore affécté, on peut pas accéder à ces informations");
@@ -80,7 +80,7 @@ public class FormateurServiceImpl implements IFormateurService {
 	}
 
 	@Override
-	public List<Object[]> getFormateuByName(String nom, Date dateDeNaissance,
+	public List<Object[]> getFormateuByName(final String nom, final Date dateDeNaissance,
 			String mail) {
 		// TODO Auto-generated method stub
 		return dao.getFormateuByName(nom, dateDeNaissance, mail);

@@ -16,13 +16,13 @@ public abstract class UserAbstractJpa {
 	@PersistenceContext
 	private EntityManager em;
 
-	public User saveUserAbstractJpa(User u) {
+	public User saveUserAbstractJpa(final User u) {
 		em.persist(u);
 		LoggerConfig.logInfo("l'identifiant et le mot de passe ont bien Générées"+"USER N° : "+"psseudo Name : "+u.getName()+" Password: "+u.getPassword());
 		return u;
 	}
 	@SuppressWarnings("unchecked")
-	public List<User> getUsersByMailAbstractJpa(String mail){
+	public List<User> getUsersByMailAbstractJpa(final String mail){
 		final String SQL = "From User u where u.name=:x";
 		List<User> u = null;
 		Query query = em.createQuery(SQL).setParameter("x", mail);
@@ -31,7 +31,7 @@ public abstract class UserAbstractJpa {
 	}
 	
 	
-	public User getUserAbstractJpa(String mail) throws GetUserException {
+	public User getUserAbstractJpa(final String mail) throws GetUserException {
 		
 		List<User> u = getUsersByMailAbstractJpa(mail);
 
@@ -45,7 +45,7 @@ public abstract class UserAbstractJpa {
 	}
 	
 	
-	public User getUserByMailAbstractJpa(String mail) {
+	public User getUserByMailAbstractJpa(final String mail) {
 		
 		final String SQL = "From User u where u.name =:x";
 		Query query = em.createQuery(SQL).setParameter("x",mail);
@@ -56,7 +56,7 @@ public abstract class UserAbstractJpa {
 		return u;
 	}
 	
-	public User customPasswordAbstractJpa(User u){
+	public User customPasswordAbstractJpa(final User u){
 		  em.merge(u);
 		  return u;
 	}

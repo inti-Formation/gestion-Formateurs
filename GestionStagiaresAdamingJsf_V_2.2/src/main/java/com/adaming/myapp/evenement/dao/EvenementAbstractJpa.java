@@ -22,7 +22,7 @@ public abstract class EvenementAbstractJpa {
 	@PersistenceContext
 	private EntityManager em;
 
-	public Evenement addEvenementAbstractJpa(Evenement e, Long idSession, Long idEtudiant)
+	public Evenement addEvenementAbstractJpa(final Evenement e, final Long idSession, final Long idEtudiant)
 			{
 		SessionEtudiant se = em.find(SessionEtudiant.class, idSession);
 		Etudiant e1 = em.find(Etudiant.class, idEtudiant);
@@ -35,8 +35,8 @@ public abstract class EvenementAbstractJpa {
 	}
 
 	
-	public Evenement addWarningAndTopAbstractJpa(Evenement e, Long idSession,
-			Long idEtudiant) {
+	public Evenement addWarningAndTopAbstractJpa(final Evenement e, final Long idSession,
+			final Long idEtudiant) {
 		SessionEtudiant se = em.find(SessionEtudiant.class, idSession);
 		Etudiant e1 = em.find(Etudiant.class, idEtudiant);
 		e.setEtudiant(e1);
@@ -197,7 +197,7 @@ public abstract class EvenementAbstractJpa {
 	
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getEventsExisteAbstractJpa(Long idEtudiant) {
+	public List<Object[]> getEventsExisteAbstractJpa(final Long idEtudiant) {
 		Query query = em.createQuery("Select e.startDate,e.endDate,e.etudiant.idEtudiant"
 				+ " from Evenement e join e.etudiant et "
 				+ " where et.idEtudiant =:x order by e.idEvenement desc");
@@ -279,7 +279,7 @@ public abstract class EvenementAbstractJpa {
 	}
 
 	
-	public Evenement verifyExistingEventAbstractJpa(Long idEtudiant){
+	public Evenement verifyExistingEventAbstractJpa(final Long idEtudiant){
 		final String SQL = "Select distinct e from Evenement e join e.etudiant et where TYPE_EVENEMENT =:x or TYPE_EVENEMENT =:y and et.idEtudiant =:z";
 		Evenement event = null;
 		Query query = em.createQuery(SQL).setParameter("x","WARNING").setParameter("y","TOP").setParameter("z",idEtudiant);

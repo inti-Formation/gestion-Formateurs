@@ -6,18 +6,18 @@ public class SpecialiteDaoImpl extends SpecialiteAbstractJpa implements ISpecial
 
 
 	@Override
-	public Specialite addSpecialite(Specialite sp)
+	public Specialite addSpecialite(final Specialite sp)
     {
 		return addSpecialiteAbstractJpa(sp);
 	}
 
 	@Override
-	public Specialite updateSpecialite(Specialite sp) {
+	public Specialite updateSpecialite(final Specialite sp) {
 		return updateSpecialiteAbstractJpa(sp);
 	}
 
 	@Override
-	public Specialite getSpecialiteById(Long idSpecialite) {
+	public Specialite getSpecialiteById(final Long idSpecialite) {
 		return getSpecialiteByIdAbstractJpa(idSpecialite);
 	}
 
@@ -29,7 +29,7 @@ public class SpecialiteDaoImpl extends SpecialiteAbstractJpa implements ISpecial
 	}
 
 	@Override
-	public Specialite verifyExistingSpecialite(String name) {
+	public Specialite verifyExistingSpecialite(final String name) {
 		// TODO Auto-generated method stub
 		return verifyExistingSpecialiteAbstractJpa(name);
 	}

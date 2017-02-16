@@ -91,7 +91,7 @@ public class Utilitaire {
 	/**@webSetvice 
 	 * @see http://www.geonames.org/source-code/
 	 * @method getVilles 
-	 * @param villeSearched teh key for searchig
+	 * @param villeSearched the key for searchig
 	 * @return objectFound list of cities
 	 */
 	public static List<Toponym> getVilles(String villeSearched){

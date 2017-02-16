@@ -9,7 +9,7 @@ import com.adaming.myapp.persistence.IGenericDao;
 
 public interface IFormateurDao extends IGenericDao<Formateur> {
 
-	 Formateur addFormateur(Formateur f);
+	 Formateur addFormateur(final Formateur f);
 	
 	 SessionEtudiant verifyExistingAffectation(final Long idFormateur,final Long idSession);
 

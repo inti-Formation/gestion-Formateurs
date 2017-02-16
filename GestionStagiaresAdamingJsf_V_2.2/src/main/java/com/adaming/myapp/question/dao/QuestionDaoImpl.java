@@ -10,26 +10,26 @@ public class QuestionDaoImpl extends QuestionAbstractJpa implements
 		IQuestionDao {
 
 	@Override
-	public Questions addQuestions(Questions q, Long idModule,
-			List<Reponses> reponses) {
+	public Questions addQuestions(final Questions q, final Long idModule,
+			final List<Reponses> reponses) {
 		// TODO Auto-generated method stub
 		return addQuestionsAbstractJpa(q, idModule, reponses);
 	}
 
 	@Override
-	public Set<Questions> getQuestionsByModule(Long idModule) {
+	public Set<Questions> getQuestionsByModule(final Long idModule) {
 		// TODO Auto-generated method stub
 		return getQuestionsByModuleAbstracJpa(idModule);
 	}
 
 	@Override
-	public Questions verifyExistingQuestions(String label) {
+	public Questions verifyExistingQuestions(final String label) {
 		// TODO Auto-generated method stub
 		return verifyExistingQuestionsAbstractJpa(label);
 	}
 
 	@Override
-	public Set<Reponses> getAllReponsesByModule(Long idModule) {
+	public Set<Reponses> getAllReponsesByModule(final Long idModule) {
 		// TODO Auto-generated method stub
 		return getAllReponsesByModuleAbstractJpa(idModule);
 	}

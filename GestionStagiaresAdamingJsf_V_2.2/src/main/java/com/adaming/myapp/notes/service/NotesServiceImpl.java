@@ -28,7 +28,7 @@ public class NotesServiceImpl implements INotesService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public Note addNoteFinal(Note note, Long idSession, Long idEtudiant,
+	public Note addNoteFinal(final Note note, final Long idSession, final Long idEtudiant,
 			Long idModule) throws VerificationInDataBaseException {
 		if (testNoteByEtuAndByModule(idSession, idModule, idEtudiant)) {
 
@@ -38,32 +38,32 @@ public class NotesServiceImpl implements INotesService {
 	}
 
 	@Override
-	public List<Object[]> getNotesBySessionAndModule(Long idSession, Long idMoule) {
+	public List<Object[]> getNotesBySessionAndModule(final Long idSession, final Long idMoule) {
 		// TODO Auto-generated method stub
 		return dao.getNotesBySessionAndModule(idSession, idMoule);
 	}
 
 	@Override
-	public boolean testNoteByEtuAndByModule(Long idSession, Long idModule,
-			Long idEtudiant) {
+	public boolean testNoteByEtuAndByModule(final Long idSession, final Long idModule,
+			final Long idEtudiant) {
 		// TODO Auto-generated method stub
 		return dao.testNoteByEtuAndByModule(idSession, idModule, idEtudiant);
 	}
 
 	@Override
-	public List<Note> getAllNotesByStudent(Long idEtudiant) {
+	public List<Note> getAllNotesByStudent(final Long idEtudiant) {
 
 		return dao.getAllNotesByStudent(idEtudiant);
 	}
 
 	@Override
-	public  List<Object[]> getAllNotesBySession(Long idSession) {
+	public  List<Object[]> getAllNotesBySession(final Long idSession) {
 		// TODO Auto-generated method stub
 		return dao.getAllNotesBySession(idSession);
 	}
 
 	@Override
-	public Double getMoyenne(Long idSession, Long idModule) {
+	public Double getMoyenne(final Long idSession, final Long idModule) {
 		// TODO Auto-generated method stub
 		return dao.getMoyenne(idSession, idModule);
 	}

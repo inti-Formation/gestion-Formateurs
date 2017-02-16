@@ -8,7 +8,7 @@ public class RoleDaoImpl extends RoleAbstractJpa implements IRoleDao {
    
 	
 	@Override
-	public Role saveRole(Role r, Long idUser) {
+	public Role saveRole(final Role r, final Long idUser) {
 		return saveRoleAbstractJpa(r, idUser); 
 	}
 

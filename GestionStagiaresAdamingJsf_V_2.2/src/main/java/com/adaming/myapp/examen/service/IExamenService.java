@@ -5,7 +5,7 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IExamenService {
 
-	Examen addExamen(Examen examen,Long idEtudiant,Long idModule,Long idSession) throws VerificationInDataBaseException;
+	Examen addExamen(final Examen examen,final Long idEtudiant,final Long idModule,final Long idSession) throws VerificationInDataBaseException;
 	
-	Examen verifyExistingExamen(Long idEtdudiant,Long idModule,Long idSession);
+	Examen verifyExistingExamen(final Long idEtdudiant,final Long idModule,final Long idSession);
 }

@@ -23,7 +23,7 @@ public class ModuleServiceImpl implements IModuleService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public Module addModule(Module m, Long idSpecialite) throws VerificationInDataBaseException {
+	public Module addModule(final Module m, final Long idSpecialite) throws VerificationInDataBaseException {
 		    Module module = verifyExistingModule(m.getNomModule());
           
 			if(module != null)
@@ -35,20 +35,20 @@ public class ModuleServiceImpl implements IModuleService{
 	}
 
 	@Override
-	public Module getModuleById(Long idModule) {
+	public Module getModuleById(final Long idModule) {
 		// TODO Auto-generated method stub
 		return dao.getOne(idModule);
 	}
 
 	@Override
 	@Transactional(readOnly=false)
-	public Module updateModule(Module m, Long idSpecialite) {
+	public Module updateModule(final Module m, final Long idSpecialite) {
 		// TODO Auto-generated method stub
 		return dao.updateModule(m, idSpecialite);
 	}
 
 	@Override
-	public List<Module> getModulesBySpecialite(Long idSpecialite) throws VerificationInDataBaseException {
+	public List<Module> getModulesBySpecialite(final Long idSpecialite) throws VerificationInDataBaseException {
 		// TODO Auto-generated method stub
 		return dao.getModulesBySpecialite(idSpecialite);
 	}
@@ -60,19 +60,19 @@ public class ModuleServiceImpl implements IModuleService{
 	}
 
 	@Override
-	public List<Module> getModulesBySession(Long idSession) {
+	public List<Module> getModulesBySession(final Long idSession) {
 		// TODO Auto-generated method stub
 		return dao.getModulesBySession(idSession);
 	}
 
 	@Override
-	public List<Object[]> getModulesBySessionV2(Long idSession) {
+	public List<Object[]> getModulesBySessionV2(final Long idSession) {
 		// TODO Auto-generated method stub
 		return dao.getModulesBySessionV2(idSession);
 	}
 
 	@Override
-	public List<Module> getModuleActivedBySession(Long idSession) throws VerificationInDataBaseException {
+	public List<Module> getModuleActivedBySession(final Long idSession) throws VerificationInDataBaseException {
 		List<Module> modules = dao.getModuleActivedBySession(idSession); 
 		if(modules.isEmpty()){
 			throw new VerificationInDataBaseException("il n'y a aucun module activé ...");
@@ -81,7 +81,7 @@ public class ModuleServiceImpl implements IModuleService{
 	}
 
 	@Override
-	public Set<Object[]> getModulesValideBySession(Long idSession) throws VerificationInDataBaseException {
+	public Set<Object[]> getModulesValideBySession(final Long idSession) throws VerificationInDataBaseException {
 		Set<Object[]> modulesValide = dao.getModulesValideBySession(idSession);
 		if(modulesValide.isEmpty()){
 			throw new VerificationInDataBaseException("il n'y a aucun module Validé par la session N °"+ idSession);
@@ -90,7 +90,7 @@ public class ModuleServiceImpl implements IModuleService{
 	}
 
 	@Override
-	public Module verifyExistingModule(String name) {
+	public Module verifyExistingModule(final String name) {
 		// TODO Auto-generated method stub
 		return dao.verifyExistingModule(name);
 	}

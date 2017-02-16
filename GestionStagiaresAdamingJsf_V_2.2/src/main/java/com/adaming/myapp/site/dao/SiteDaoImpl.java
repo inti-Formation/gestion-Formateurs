@@ -23,27 +23,27 @@ public class SiteDaoImpl extends AbstractJpaDao<Site> implements ISiteDao{
 	}
 
 	@Override
-	public Site getOne(Long id) {
+	public Site getOne(final Long id) {
 		// TODO Auto-generated method stub
 		return getOneAbstractJpa(id);
 	}
 
 	@Override
-	public Site add(Site site) {
+	public Site add(final Site site) {
 		em.persist(site);
 		LoggerConfig.logInfo("Site "+site+ "has benn added");
 		return site;
 	}
 
 	@Override
-	public Site update(Site site) {
+	public Site update(final Site site) {
 		em.merge(site);
 		LoggerConfig.logInfo("Site "+site+ "has benn merged");
 		return site;
 	}
 
 	@Override
-	public Site remove(Long idSite) {
+	public Site remove(final Long idSite) {
 		Site site = getOne(idSite);
 		em.remove(site);
 		LoggerConfig.logInfo("Site "+site+ "has benn removed");
@@ -52,7 +52,7 @@ public class SiteDaoImpl extends AbstractJpaDao<Site> implements ISiteDao{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Site> getSiteByName(String nom, String adresse) {
+	public List<Site> getSiteByName(final String nom, final String adresse) {
 		Query query = em.createQuery("select s.nomSite,s.adresse.adresse From Site s where s.nomSite =:x and s.adresse.adresse =:y");
 		query.setParameter("x",nom);
 		query.setParameter("y",adresse);
@@ -61,7 +61,7 @@ public class SiteDaoImpl extends AbstractJpaDao<Site> implements ISiteDao{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getSallesBySite(Long idSite) {
+	public List<Object[]> getSallesBySite(final Long idSite) {
 		Query query = em.createQuery(
 				  "Select sa.idSalle,sa.numeroSalle,sa.nbPlace FROM Salle sa JOIN"
 				+ " sa.site o where o.idSite=:x");

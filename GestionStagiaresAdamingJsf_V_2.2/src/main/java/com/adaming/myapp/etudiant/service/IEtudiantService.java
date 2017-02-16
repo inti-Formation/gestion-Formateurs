@@ -30,28 +30,28 @@ public interface IEtudiantService {
 	 * @throws VerificationInDataBaseException
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.addStudent
 	 **/
-	Etudiant addStudent(Etudiant e, Long idSession) throws VerificationInDataBaseException;
+	Etudiant addStudent(final Etudiant e, final Long idSession) throws VerificationInDataBaseException;
 
 	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.updateStudent
 	 **/
-	Etudiant updateStudent(Etudiant e, Long idSession);
+	Etudiant updateStudent( final Etudiant e, final Long idSession);
 
 	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.removeStudent
 	 **/
-	Etudiant removeStudent(Long idStudent);
+	Etudiant removeStudent(final Long idStudent);
 
 	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getStudentById
 	 **/
-	Etudiant getStudentById(Long idStudent);
+	Etudiant getStudentById(final Long idStudent);
 
 	/**
 	 * {@inheritDoc}
@@ -59,7 +59,7 @@ public interface IEtudiantService {
 	 * @throws VerificationInDataBaseException
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiantBySession
 	 **/
-	List<Object[]> getEtudiantBySession(Long idSession)
+	List<Object[]> getEtudiantBySession(final Long idSession)
 			throws VerificationInDataBaseException;
 
 	/**
@@ -67,7 +67,7 @@ public interface IEtudiantService {
 	 * 
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getEtudiant
 	 **/
-	Etudiant getEtudiant(String mail);
+	Etudiant getEtudiant(final String mail);
 
 	/**
 	 * {@inheritDoc}
@@ -75,10 +75,10 @@ public interface IEtudiantService {
 	 * @throws VerificationInDataBaseException
 	 * @see com.adaming.myapp.etudiant.dao.IEtudiantDao.getStudentsBySession
 	 **/
-	List<Etudiant> getStudentsBySession(Long idSession)
+	List<Etudiant> getStudentsBySession(final Long idSession)
 			throws VerificationInDataBaseException;
 
-	Etudiant verifyExistingEtudiant(String name, Date dateDeNaissance);
+	Etudiant verifyExistingEtudiant(final String name, final Date dateDeNaissance);
 
 	
 }

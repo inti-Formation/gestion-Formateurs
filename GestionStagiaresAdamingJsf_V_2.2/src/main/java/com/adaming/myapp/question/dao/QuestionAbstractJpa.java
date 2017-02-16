@@ -22,7 +22,7 @@ public abstract class QuestionAbstractJpa {
 	@PersistenceContext
 	private EntityManager em;
 	
-	public Questions addQuestionsAbstractJpa(Questions q,Long idModule,List<Reponses> reponses){
+	public Questions addQuestionsAbstractJpa(final Questions q,final Long idModule,final List<Reponses> reponses){
 		Module module = em.find(Module.class, idModule);
 		for(Reponses r:reponses){
 			r.setQuestions(q);
@@ -34,7 +34,7 @@ public abstract class QuestionAbstractJpa {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Set<Questions> getQuestionsByModuleAbstracJpa(Long idModule){
+	public Set<Questions> getQuestionsByModuleAbstracJpa(final Long idModule){
 		final String SQL = "from Questions q join fetch q.reponses r join fetch q.module m where m.idModule =:x ORDER BY q.idQuestions";
 		Query query = em.createQuery(SQL).setParameter("x",idModule);
 		Set<Questions> questions = new HashSet<Questions>(query.getResultList());
@@ -42,7 +42,7 @@ public abstract class QuestionAbstractJpa {
 		return questions;
 	}
 	
-	public Questions verifyExistingQuestionsAbstractJpa(String label){
+	public Questions verifyExistingQuestionsAbstractJpa(final String label){
 		 final String SQL = "select distinct q from Questions q where q.label =:x";     
 		 Questions question = null;
          Query query =  em.createQuery(SQL)
@@ -55,7 +55,7 @@ public abstract class QuestionAbstractJpa {
 	}
 	
 	 @SuppressWarnings("unchecked")
-	public Set<Reponses> getAllReponsesByModuleAbstractJpa(Long idModule){
+	public Set<Reponses> getAllReponsesByModuleAbstractJpa(final Long idModule){
 		 
 		 final String SQL ="from Reponses r join fetch r.questions q join fetch q.module m where m.idModule =:x";
 		 

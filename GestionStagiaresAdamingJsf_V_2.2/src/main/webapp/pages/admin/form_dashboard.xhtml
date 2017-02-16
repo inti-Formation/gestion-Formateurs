@@ -33,7 +33,7 @@
 				
 			   <div class="panel-body">
 			        <header class="panel-heading">
-                          <h4>Session En Cours</h4>
+                          <h2 style="text-align:center;display:block">Session En Cours</h2>
                       </header>
                      <div class="panel-body text-center">
                                  <c:if test="#{fn:length(dashboardBean.sessionsInProgress) > 0}">
@@ -84,7 +84,7 @@
               <div class="col-lg-12">
                   <section class="panel">
                       <header class="panel-heading">
-                          <h4>Evénement de cette Semaine</h4>
+                          <h2 style="text-align:center;display:block">Evénement de cette semaine</h2>
                       </header>
 
                       <div class="panel-body">
@@ -94,7 +94,7 @@
                                       <div class="col-lg-6">
                                           <section class="panel">
                                               <header class="panel-heading">
-                                                  Retard
+                                                   <h2 style="display:block;text-align:center;padding-top: 10px;padding-bottom: 10px;margin: 0px">RETARD</h2>
                                               </header>
                                                <div class="panel-body text-center">
                                                <c:if test="#{fn:length(dashboardBean.retards) >0 }">
@@ -151,7 +151,7 @@
                                       <div class="col-lg-6">
                                           <section class="panel">
                                               <header class="panel-heading">
-                                                  Absence
+                                                  <h2 style="display:block;text-align:center;padding-top: 10px;padding-bottom: 10px;margin: 0px">ABSENCE</h2>
                                               </header>
                                               <div class="panel-body text-center">
                                                <c:if test="#{fn:length(dashboardBean.absences) >0 }">
@@ -205,7 +205,7 @@
                                       <div class="col-lg-6">
                                           <section class="panel">
                                               <header class="panel-heading">
-                                                  Entretien
+                                                   <h2 style="display:block;text-align:center;padding-top: 10px;padding-bottom: 10px;margin: 0px">ENTRETIRN</h2>
                                               </header>
                                               <div class="panel-body text-center">
                                               <c:if test="#{fn:length(dashboardBean.entretiens) >0 }">

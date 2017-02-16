@@ -10,11 +10,11 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 public interface IEvenementService {
 
 	/* Add warning and Top */
-	Evenement AddWarningAndTop(Evenement e, Long idSession, Long idEtudiant)
+	Evenement AddWarningAndTop(final Evenement e, final Long idSession, Long idEtudiant)
 			throws VerificationInDataBaseException;
 
 	/* add evenement */
-	Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant)
+	Evenement addEvenement(Evenement e, final Long idSession, final Long idEtudiant)
 			throws VerificationInDataBaseException;
 
 	List<Object[]> getEventsExiste(final Long idEtudiant);
@@ -52,11 +52,11 @@ public interface IEvenementService {
 
 	List<Evenement> getAllEvenements();
 
-	List<Evenement> getAllEvenementsBySession(Long idSession);
+	List<Evenement> getAllEvenementsBySession(final Long idSession);
 
-	List<Evenement> getAllEvenementsBetweenTwoDate(Long idSession, Date date)
+	List<Evenement> getAllEvenementsBetweenTwoDate(final Long idSession, final Date date)
 			throws EvenementNotFoundException;
 	
 	/**@verification evenement */
-	 Evenement verifyExistingEvent(Long idEtudiant);
+	 Evenement verifyExistingEvent(final Long idEtudiant);
 }

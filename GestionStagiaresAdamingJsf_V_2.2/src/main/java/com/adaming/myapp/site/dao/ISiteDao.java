@@ -16,5 +16,5 @@ public interface ISiteDao extends IGenericDao<Site> {
 	
 	List<Site> getSiteByName(final String nom,final String adresse);
 	
-	List<Object[]> getSallesBySite(Long idSite);
+	List<Object[]> getSallesBySite(final Long idSite);
 }

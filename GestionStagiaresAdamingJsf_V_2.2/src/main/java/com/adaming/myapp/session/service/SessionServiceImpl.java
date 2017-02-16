@@ -28,8 +28,8 @@ public class SessionServiceImpl implements ISessionService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public SessionEtudiant addSessionStudent(SessionEtudiant se,
-			Long idSpecialite,Long idSite,Long idSalle) throws AddSessionException {
+	public SessionEtudiant addSessionStudent(final SessionEtudiant se,
+			final Long idSpecialite,final Long idSite,final Long idSalle) throws AddSessionException {
 		List<Object[]> sallesDisponible = getSallesDisponible(idSalle);
 		final Date CURRENT_TIME = new Date();
 		for(Object[] o:sallesDisponible){
@@ -55,8 +55,8 @@ public class SessionServiceImpl implements ISessionService{
 
 	@Transactional(readOnly=false)
 	@Override
-	public SessionEtudiant updateSessionEtudiant(SessionEtudiant se,
-			Long idSpecialite, Long idSite, Long idSalle) throws AddSessionException {
+	public SessionEtudiant updateSessionEtudiant(final SessionEtudiant se,
+			final Long idSpecialite, final Long idSite, final Long idSalle) throws AddSessionException {
 		  final Date CURRENT_TIME = new Date();
 		  if(se.getDateDebute().after(se.getDateFin()))
 		  {
@@ -71,7 +71,7 @@ public class SessionServiceImpl implements ISessionService{
 
 
 	@Override
-	public SessionEtudiant getSessionEtudiantById(Long idSessionEtudiant) {
+	public SessionEtudiant getSessionEtudiantById(final Long idSessionEtudiant) {
 		// TODO Auto-generated method stub
 		return dao.getSessionEtudiantById(idSessionEtudiant);
 	}
@@ -89,7 +89,7 @@ public class SessionServiceImpl implements ISessionService{
 	}
 
 	@Override
-	public List<Object[]> getSallesDisponible(Long idSalle) {
+	public List<Object[]> getSallesDisponible(final Long idSalle) {
 		// TODO Auto-generated method stub
 		return dao.getSallesDisponible(idSalle);
 	}
@@ -107,7 +107,7 @@ public class SessionServiceImpl implements ISessionService{
 	}
 
 	@Override
-	public SessionEtudiant getSessionByFormateur(Long idFormateur) throws VerificationInDataBaseException {
+	public SessionEtudiant getSessionByFormateur(final Long idFormateur) throws VerificationInDataBaseException {
 		SessionEtudiant session = dao.getSessionByFormateur(idFormateur);
 		if(session == null)
 		{
@@ -121,7 +121,7 @@ public class SessionServiceImpl implements ISessionService{
 	}
 
 	@Override
-	public SessionEtudiant getSessionByEtudiant(Long idEtudiant) throws VerificationInDataBaseException {
+	public SessionEtudiant getSessionByEtudiant(final Long idEtudiant) throws VerificationInDataBaseException {
 		SessionEtudiant session = dao.getSessionByEtudiant(idEtudiant);
 		final Date CURRENT_TIME = new Date();
 		if(session.getDateFin().before(CURRENT_TIME))

@@ -17,7 +17,7 @@ public abstract class SpecialiteAbstractJpa {
 	@PersistenceContext
 	private EntityManager em;
 
-	public Specialite addSpecialiteAbstractJpa(Specialite sp)
+	public Specialite addSpecialiteAbstractJpa(final Specialite sp)
     {
 		em.persist(sp);
 		LoggerConfig.logInfo("la specialite " + sp.getIdSpecialite()
@@ -26,7 +26,7 @@ public abstract class SpecialiteAbstractJpa {
 	}
 
 
-	public Specialite updateSpecialiteAbstractJpa(Specialite sp) {
+	public Specialite updateSpecialiteAbstractJpa(final Specialite sp) {
 		em.merge(sp);
 		LoggerConfig.logInfo("la specialite " + sp.getIdSpecialite()
 				+ "a bien été Modifier");
@@ -34,7 +34,7 @@ public abstract class SpecialiteAbstractJpa {
 	}
 
 
-	public Specialite getSpecialiteByIdAbstractJpa(Long idSpecialite) {
+	public Specialite getSpecialiteByIdAbstractJpa(final Long idSpecialite) {
 		Specialite sp = em.find(Specialite.class, idSpecialite);
 		LoggerConfig.logInfo("la specialite " + sp.getIdSpecialite()
 				+ "a bien été recupérer");
@@ -50,7 +50,7 @@ public abstract class SpecialiteAbstractJpa {
 		return query.getResultList();
 	}
 	
-	public Specialite verifyExistingSpecialiteAbstractJpa(String name){
+	public Specialite verifyExistingSpecialiteAbstractJpa(final String name){
 		final String SQL = "select distinct s from Specialite s where s.designation =:x";
         
 		Specialite specialite = null;

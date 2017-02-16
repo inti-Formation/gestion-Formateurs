@@ -6,21 +6,21 @@ import com.adaming.myapp.entities.Note;
 
 public interface INotesDao {
 
-	 Note addNoteFinal(Note note, Long idSession, Long idEtudiant,
+	 Note addNoteFinal(final Note note, final Long idSession, final Long idEtudiant,
 			Long idModule);
 
 	 List<Note> getAllNotes();
 
-	 List<Object[]> getNotesBySessionAndModule(Long idSession, Long idMoule);
+	 List<Object[]> getNotesBySessionAndModule(final Long idSession, final Long idMoule);
 
-	 boolean testNoteByEtuAndByModule(Long idSession, Long idModule,
+	 boolean testNoteByEtuAndByModule(final Long idSession, final Long idModule,
 			Long idEtudiant);
 	
-	 List<Note> getAllNotesByStudent(Long idEtudiant);
+	 List<Note> getAllNotesByStudent(final Long idEtudiant);
 	
-	 List<Object[]> getAllNotesBySession(Long idSession);
+	 List<Object[]> getAllNotesBySession(final Long idSession);
 	 
-	 Double getMoyenne(Long idSession,Long idModule);
+	 Double getMoyenne(final Long idSession,final Long idModule);
 	
 	
 }

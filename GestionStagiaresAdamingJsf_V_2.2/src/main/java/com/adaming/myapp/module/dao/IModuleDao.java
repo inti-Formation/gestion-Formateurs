@@ -11,19 +11,19 @@ import com.adaming.myapp.persistence.IGenericDao;
 public interface IModuleDao extends IGenericDao<Module> {
 	
 
-	 Module addModule(Module m,Long idSpecialite);
+	 Module addModule(final Module m,final Long idSpecialite);
 	
-	 Module updateModule(Module m,Long idSpecialite);
+	 Module updateModule(final Module m,final Long idSpecialite);
 	
-	 List<Module> getModulesBySpecialite(Long idSpecialite) throws VerificationInDataBaseException;
+	 List<Module> getModulesBySpecialite(final Long idSpecialite) throws VerificationInDataBaseException;
 	
-	 List<Module> getModulesBySession(Long idSession);
+	 List<Module> getModulesBySession(final Long idSession);
 	 
-	 List<Object[]> getModulesBySessionV2(Long idSession);
+	 List<Object[]> getModulesBySessionV2(final Long idSession);
 	
-	 List<Module> getModuleActivedBySession(Long idSession);
+	 List<Module> getModuleActivedBySession(final Long idSession);
 	 
-	 Set<Object[]> getModulesValideBySession(Long idSession);
+	 Set<Object[]> getModulesValideBySession(final Long idSession);
 	 
-	 Module verifyExistingModule(String name);
+	 Module verifyExistingModule(final String name);
 }

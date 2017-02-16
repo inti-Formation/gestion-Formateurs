@@ -21,7 +21,7 @@ public class Specialite implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idSpecialite;
 	private String designation;
-	/*associations*/
+	//associations
 	@OneToMany(mappedBy="specialite")
 	private List<SessionEtudiant> sessionEtudiant;
 	

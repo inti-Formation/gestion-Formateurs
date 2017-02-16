@@ -20,5 +20,5 @@ public interface ISiteService {
 	
 	List<Site> getSiteByName(final String nom,final String adresse);
 	
-	List<Object[]> getSallesBySite(Long idSite) throws VerificationInDataBaseException;
+	List<Object[]> getSallesBySite(final Long idSite) throws VerificationInDataBaseException;
 }

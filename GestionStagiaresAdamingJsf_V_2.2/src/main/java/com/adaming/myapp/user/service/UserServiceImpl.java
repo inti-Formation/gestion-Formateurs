@@ -24,13 +24,13 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public User saveUser(User u) {
+	public User saveUser(final User u) {
 		return dao.saveUser(u);
 	}
 
 	
 	@Override
-	public User getUser(String mail) throws GetUserException {
+	public User getUser(final String mail) throws GetUserException {
 		
 		return dao.getUser(mail);
 	}
@@ -38,7 +38,7 @@ public class UserServiceImpl implements IUserService{
 	
 
 	@Override
-	public List<User> getUsersByMail(String mail) {
+	public List<User> getUsersByMail(final String mail) {
 		// TODO Auto-generated method stub
 		return dao.getUsersByMail(mail);
 	}
@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService{
 
 
 	@Override
-	public User getUserByMail(String mail) throws VerificationInDataBaseException {
+	public User getUserByMail(final String mail) throws VerificationInDataBaseException {
 		User user = dao.getUserByMail(mail);
 		if(user == null){
 				throw new VerificationInDataBaseException("Votre mail n'existe pas dans notre base de donnée");
@@ -58,7 +58,7 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public User customPassword(User u) {
+	public User customPassword(final User u) {
 		// TODO Auto-generated method stub
 		return dao.customPassword(u);
 	}

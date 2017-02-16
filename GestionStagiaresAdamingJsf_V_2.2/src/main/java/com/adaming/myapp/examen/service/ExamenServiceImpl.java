@@ -20,7 +20,7 @@ public class ExamenServiceImpl implements IExamenService {
 	
 	@Override
 	@Transactional(readOnly = false)
-	public Examen addExamen(Examen examen, Long idEtudiant, Long idModule,
+	public Examen addExamen(final Examen examen, final Long idEtudiant, final Long idModule,
 			Long idSession) throws VerificationInDataBaseException {
 		Examen examenExisting= verifyExistingExamen(idEtudiant, idModule, idSession);
 		if(examenExisting != null){
@@ -31,7 +31,7 @@ public class ExamenServiceImpl implements IExamenService {
 	}
 
 	@Override
-	public Examen verifyExistingExamen(Long idEtdudiant, Long idModule, Long idSession) {
+	public Examen verifyExistingExamen(final Long idEtdudiant, final Long idModule, final Long idSession) {
 		
 		return dao.verifyExistingExamen(idEtdudiant, idModule, idSession);
 	}

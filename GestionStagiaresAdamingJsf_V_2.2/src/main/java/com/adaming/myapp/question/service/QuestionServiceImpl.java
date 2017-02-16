@@ -22,8 +22,8 @@ public class QuestionServiceImpl implements IQuestionService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public Questions addQuestions(Questions q, Long idModule,
-			List<Reponses> reponses) throws VerificationInDataBaseException {
+	public Questions addQuestions(final Questions q, final Long idModule,
+			final List<Reponses> reponses) throws VerificationInDataBaseException {
 		Questions question = verifyExistingQuestions(q.getLabel());
 		if (question != null) {
 			throw new VerificationInDataBaseException("La Question "
@@ -34,19 +34,19 @@ public class QuestionServiceImpl implements IQuestionService {
 	}
 
 	@Override
-	public Set<Questions> getQuestionsByModule(Long idModule) {
+	public Set<Questions> getQuestionsByModule(final Long idModule) {
 		// TODO Auto-generated method stub
 		return dao.getQuestionsByModule(idModule);
 	}
 
 	@Override
-	public Questions verifyExistingQuestions(String label) {
+	public Questions verifyExistingQuestions(final String label) {
 		// TODO Auto-generated method stub
 		return dao.verifyExistingQuestions(label);
 	}
 
 	@Override
-	public Set<Reponses> getAllReponsesByModule(Long idModule) {
+	public Set<Reponses> getAllReponsesByModule(final Long idModule) {
 		// TODO Auto-generated method stub
 		return dao.getAllReponsesByModule(idModule);
 	}

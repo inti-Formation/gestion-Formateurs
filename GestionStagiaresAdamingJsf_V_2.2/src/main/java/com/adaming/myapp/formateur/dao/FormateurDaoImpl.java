@@ -22,7 +22,7 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 	}
 
 	@Override
-	public Formateur getOne(Long id) {
+	public Formateur getOne(final Long id) {
 			final String SQL = "from Formateur f join fetch f.sessionsEtudiant where f.idFormateur = :x";
 			Query query = em.createQuery(SQL).setParameter("x",id);
 			Formateur formateur = null;
@@ -33,7 +33,7 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 	}
 
 	@Override
-	public Formateur addFormateur(Formateur f){
+	public Formateur addFormateur(final Formateur f){
 		
 		em.persist(f);
 		LoggerConfig.logInfo("le formateur " + f.getNom()
@@ -42,7 +42,7 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 	}
 
 	@Override
-	public void addFormateurToSession(Long idSession, Long idFormateur) {
+	public void addFormateurToSession(final Long idSession, final Long idFormateur) {
 		SessionEtudiant session = em.find(SessionEtudiant.class, idSession);
 		Formateur f = em.find(Formateur.class, idFormateur);
 		session.getFormateurs().add(f);
@@ -54,7 +54,7 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Formateur getFormateur(String mail) {
+	public Formateur getFormateur(final String mail) {
 
 		Query query = em.createQuery("From Formateur f where f.mail=:x");
 		query.setParameter("x", mail);
@@ -65,7 +65,7 @@ public class FormateurDaoImpl extends AbstractJpaDao<Formateur> implements IForm
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> getFormateuByName(String nom, Date dateDeNaissance,
+	public List<Object[]> getFormateuByName(final String nom, final Date dateDeNaissance,
 			String mail) {
 		Query query = em.createQuery("Select f.nom,f.dateDeNaissance,f.mail from Formateur f where f.nom =:x and f.dateDeNaissance =:y or f.mail =:z");
 		query.setParameter("x",nom);

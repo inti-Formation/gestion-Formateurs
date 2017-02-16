@@ -28,7 +28,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.addStudentAbstractJpa
     **/
 	@Override
-	public Etudiant addStudent(Etudiant e, Long idSession) {
+	public Etudiant addStudent(final Etudiant e, final Long idSession) {
 		return addStudentAbstractJpa(e, idSession);
 	}
 	
@@ -41,7 +41,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.updateStudentAbstractJpa
     **/
 	@Override
-	public Etudiant updateStudent(Etudiant e, Long idSession) {
+	public Etudiant updateStudent(final Etudiant e,  final Long idSession) {
 		return updateStudentAbstractJpa(e, idSession);
 	}
 	
@@ -55,7 +55,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.removeStudentAbstractJpa
     **/
 	@Override
-	public Etudiant removeStudent(Long idStudent) {
+	public Etudiant removeStudent(final Long idStudent) {
 		return removeStudentAbstractJpa(idStudent);
 	}
     
@@ -68,7 +68,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getStudentByIdAbstractJpa
     **/
 	@Override
-	public Etudiant getStudentById(Long idStudent) {
+	public Etudiant getStudentById(final Long idStudent) {
 		return getStudentByIdAbstractJpa(idStudent);
 	}
     
@@ -83,7 +83,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getEtudiantBySessionAbstractJpa
     **/
 	@Override
-	public List<Object[]> getEtudiantBySession(Long idSession) {
+	public List<Object[]> getEtudiantBySession(final Long idSession) {
 		return getEtudiantBySessionAbstractJpa(idSession);
 	}
     
@@ -97,7 +97,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 	* @see com.adaming.myapp.etudiant.dao.EtudiantAbstractJpa.getEtudiantAbstractJpa
     **/
 	@Override
-	public Etudiant getEtudiant(String mail) {
+	public Etudiant getEtudiant(final String mail) {
 		return getEtudiantAbstractJpa(mail);
 	}
 
@@ -109,7 +109,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
     **/
 
 	@Override
-	public List<Etudiant> getStudentsBySession(Long idSession) {
+	public List<Etudiant> getStudentsBySession(final Long idSession) {
 		// TODO Auto-generated method stub
 		return getStudentsBySessionAbstractJpa(idSession);
 	}
@@ -118,7 +118,7 @@ public class EtudiantDaoImpl extends EtudiantAbstractJpa implements IEtudiantDao
 
 
 	@Override
-	public Etudiant verifyExistingEtudiant(String name, Date dateDeNaissance) {
+	public Etudiant verifyExistingEtudiant(final String name, final Date dateDeNaissance) {
 		// TODO Auto-generated method stub
 		return verifyExistingEtudiantAbstractJpa(name, dateDeNaissance);
 	}

@@ -9,31 +9,31 @@ public class UserDaoImpl extends UserAbstractJpa implements IUserDao{
     
 	
 	@Override
-	public User saveUser(User u) {
+	public User saveUser(final User u) {
 		return saveUserAbstractJpa(u);
 	}
 
 	@Override
-	public User getUser(String mail) throws GetUserException {
+	public User getUser(final String mail) throws GetUserException {
 		return getUserAbstractJpa(mail);
 	}
 
 	
 	@Override
-	public List<User> getUsersByMail(String mail) {
+	public List<User> getUsersByMail(final String mail) {
 		return getUsersByMailAbstractJpa(mail);
 	}
 
 	
 
 	@Override
-	public User getUserByMail(String mail) {
+	public User getUserByMail(final String mail) {
 		// TODO Auto-generated method stub
 		return getUserByMailAbstractJpa(mail);
 	}
 
 	@Override
-	public User customPassword(User u) {
+	public User customPassword(final User u) {
 		// TODO Auto-generated method stub
 		return customPasswordAbstractJpa(u);
 	}

@@ -24,7 +24,7 @@ public class SalleServiceImpl implements ISalleService {
 	}
 
 	@Override
-	public Salle getOne(Long id) {
+	public Salle getOne(final Long id) {
 		// TODO Auto-generated method stub
 		return dao.getOne(id);
 	}
@@ -37,7 +37,7 @@ public class SalleServiceImpl implements ISalleService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public Salle add(Salle salle, Long idSite) throws VerificationInDataBaseException {
+	public Salle add(final Salle salle, final Long idSite) throws VerificationInDataBaseException {
 		List<Salle> salles = getSalleByName(salle.getNumeroSalle(), idSite);
 		if(salles.size()>0){
 			throw new VerificationInDataBaseException("La salle Numéro :"+salle.getNumeroSalle()+" existe Déja dans le site numéro "+idSite);
@@ -47,20 +47,20 @@ public class SalleServiceImpl implements ISalleService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public Salle update(Salle salle) {
+	public Salle update(final Salle salle) {
 		// TODO Auto-generated method stub
 		return dao.update(salle);
 	}
 
 	@Override
 	@Transactional(readOnly=false)
-	public Salle remove(Long idSalle) {
+	public Salle remove(final Long idSalle) {
 		// TODO Auto-generated method stub
 		return dao.remove(idSalle);
 	}
 
 	@Override
-	public List<Salle> getSalleByName(String numero, Long idSite) {
+	public List<Salle> getSalleByName(final String numero, final Long idSite) {
 		// TODO Auto-generated method stub
 		return dao.getSalleByName(numero, idSite);
 	}

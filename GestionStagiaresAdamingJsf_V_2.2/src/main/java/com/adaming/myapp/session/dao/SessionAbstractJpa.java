@@ -34,8 +34,8 @@ public abstract class SessionAbstractJpa {
 	@PersistenceContext
 	private EntityManager em;
 	
-	public SessionEtudiant addSessionStudentAbstractJpa(SessionEtudiant se,
-			Long idSpecialite,Long idSite,Long idSalle) throws AddSessionException {
+	public SessionEtudiant addSessionStudentAbstractJpa(final SessionEtudiant se,
+			final Long idSpecialite,final Long idSite,final Long idSalle) throws AddSessionException {
 		Specialite sp = em.find(Specialite.class,idSpecialite);
 		Site site = em.find(Site.class,idSite);
 		Salle salle = em.find(Salle.class,idSalle);
@@ -49,8 +49,8 @@ public abstract class SessionAbstractJpa {
 	}
 
 
-	public SessionEtudiant updateSessionEtudianAbstractJpa(SessionEtudiant se,
-			Long idSpecialite,Long idSite,Long idSalle) {
+	public SessionEtudiant updateSessionEtudianAbstractJpa(final SessionEtudiant se,
+			final Long idSpecialite,final Long idSite,final Long idSalle) {
 		Specialite sp = em.find(Specialite.class,idSpecialite);
 		Site site = em.find(Site.class,idSite);
 		Salle salle = em.find(Salle.class,idSalle);
@@ -63,7 +63,7 @@ public abstract class SessionAbstractJpa {
 	}
 
 
-	public SessionEtudiant getSessionEtudiantByIdAbstractJpa(Long idSessionEtudiant) {
+	public SessionEtudiant getSessionEtudiantByIdAbstractJpa(final Long idSessionEtudiant) {
 		 final String SQL = "select distinct p from SessionEtudiant p " +
                  "left join fetch p.site left join fetch p.salle left join fetch p.specialite " +
                  "where p.id = :id";
@@ -91,7 +91,7 @@ public abstract class SessionAbstractJpa {
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getSallesDisponibleAbstracJpa(Long idSalle) {
+	public List<Object[]> getSallesDisponibleAbstracJpa(final Long idSalle) {
 		Query query = em.createQuery("Select se.idSession,se.dateDebute,se.dateFin,sa.numeroSalle FROM SessionEtudiant se join se.salle sa where sa.idSalle=:x order by se.idSession desc");
 		query.setParameter("x",idSalle);
 		query.setMaxResults(1);
@@ -114,7 +114,7 @@ public abstract class SessionAbstractJpa {
 	}
 	
 	
-	public SessionEtudiant getSessionByFormateurAbstractJpa(Long idFormateur){
+	public SessionEtudiant getSessionByFormateurAbstractJpa(final Long idFormateur){
 		 final String SQL = "select distinct s from SessionEtudiant s " +
                  "left join fetch s.site left join fetch s.salle left join fetch s.specialite " +
                  "left join fetch s.formateurs f left join s.etudiants e where f.idFormateur = :id ORDER BY s.dateFin desc";
@@ -128,7 +128,7 @@ public abstract class SessionAbstractJpa {
 		 return session;
 	}
 	
-	public SessionEtudiant getSessionByEtudiantAbstractJpa(Long idEtudiant){
+	public SessionEtudiant getSessionByEtudiantAbstractJpa(final Long idEtudiant){
 		final String SQL = "select distinct s from SessionEtudiant s " +
                 "join fetch s.site join fetch s.salle join fetch s.specialite " +
                 "left join s.etudiants e where e.idEtudiant = :id ";

@@ -76,7 +76,7 @@ public class ExamenBean implements Serializable {
 	private boolean activeException;
 	private List<Module> modulesActived = new ArrayList<Module>();
 	private  int examenTimeInSeconde ;
-	private Date serverTime;
+	private  Date serverTime;
 	private Examen examen;
 
 	
@@ -169,17 +169,13 @@ public class ExamenBean implements Serializable {
 			return null;
 		}
 		else{
-			serverTime = new Date();
-			final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
-			Calendar date = Calendar.getInstance();
-			long t= date.getTimeInMillis();
-			Date afterAddingTwentntyFiveMins=new Date(t + (25 * ONE_MINUTE_IN_MILLIS));
+			final Date afterAddingTwentntyFiveMins = calculateTimeOfExamen();
 			Examen examen = new Examen(afterAddingTwentntyFiveMins);
 			try {
 				serviceExamen.addExamen(examen, etudiant.getIdEtudiant(), idModule, sessionEtudiant.getIdSession());
 				getTimeOfExamenInit();
 			} catch (VerificationInDataBaseException e) {
-				Utilitaire.displayMessageInfo("Examen ecnours");
+				Utilitaire.displayMessageInfo("Examen en Cours");
 				getTimeOfExamenInit();
 				return "start_examen";
 			}
@@ -187,13 +183,25 @@ public class ExamenBean implements Serializable {
 			return "start_examen";
 		}
 	}
+
+	/**
+	 * @return
+	 */
+	private Date calculateTimeOfExamen() {
+		serverTime = new Date();
+		final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+		final Calendar date = Calendar.getInstance();
+		long t= date.getTimeInMillis();
+		final Date afterAddingTwentntyFiveMins=new Date(t + (25 * ONE_MINUTE_IN_MILLIS));
+		return afterAddingTwentntyFiveMins;
+	}
 	
 	public void getTimeOfExamenInit(){
 		examen = serviceExamen.verifyExistingExamen(etudiant.getIdEtudiant(), idModule,sessionEtudiant.getIdSession());
 		if(examen != null){
-			long examenTimeInMiliSeconde = (examen.getDateExamenStart().getTime() - serverTime.getTime() );
-			examenTimeInSeconde = (int) (examenTimeInMiliSeconde / 1000) ;
-			System.out.println("difference en secondes"+examenTimeInSeconde);
+			final long examenTimeInMiliSeconde = (examen.getDateExamenStart().getTime() - serverTime.getTime() );
+			 examenTimeInSeconde = (int) (examenTimeInMiliSeconde / 1000) ;
+			LoggerConfig.logInfo("difference en secondes"+examenTimeInSeconde);
 		}
 	}
 	
@@ -268,11 +276,14 @@ public class ExamenBean implements Serializable {
                   }
         	   }
 		   }
-           if(rep.isEtat()){
+           if(rep.isEtat() && !reponsesSelected.contains(rep)){
         	   note  ++;
         	   LoggerConfig.logInfo("Note actuelle "+note);
            }
-             reponsesSelected.add(rep);
+           if(!reponsesSelected.contains(rep)){
+        	   reponsesSelected.add(rep);
+           }
+             
              LoggerConfig.logInfo("tab"+reponsesSelected);
 		}
        

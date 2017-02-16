@@ -29,7 +29,7 @@ public class SiteServiceImpl implements ISiteService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public Site add(Site site) throws VerificationInDataBaseException {
+	public Site add(final Site site) throws VerificationInDataBaseException {
 		List<Site> sites = getSiteByName(site.getNomSite(),site.getAdresse().getAdresse());
 		if(sites.size()>0){
 			throw new VerificationInDataBaseException("le site" +site.getNomSite()+" existe déja ..!");
@@ -39,20 +39,20 @@ public class SiteServiceImpl implements ISiteService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public Site update(Site site) {
+	public Site update(final Site site) {
 		// TODO Auto-generated method stub
 		return dao.update(site);
 	}
 
 	@Override
 	@Transactional(readOnly=false)
-	public Site remove(Long idSite) {
+	public Site remove(final Long idSite) {
 		// TODO Auto-generated method stub
 		return dao.remove(idSite);
 	}
 
 	@Override
-	public Site getOne(Long idSite) {
+	public Site getOne(final Long idSite) {
 		// TODO Auto-generated method stub
 		return dao.getOne(idSite);
 	}
@@ -64,13 +64,13 @@ public class SiteServiceImpl implements ISiteService{
 	}
 
 	@Override
-	public List<Site> getSiteByName(String nom, String adresse) {
+	public List<Site> getSiteByName(final String nom, final String adresse) {
 		// TODO Auto-generated method stub
 		return dao.getSiteByName(nom, adresse);
 	}
 
 	@Override
-	public List<Object[]> getSallesBySite(Long idSite) throws VerificationInDataBaseException {
+	public List<Object[]> getSallesBySite(final Long idSite) throws VerificationInDataBaseException {
 		List<Object[]> salles = dao.getSallesBySite(idSite);
 		if(salles.isEmpty()){
 			throw new VerificationInDataBaseException("Aucune Salle Trouvée dans le site N° "+idSite);

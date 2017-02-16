@@ -29,7 +29,7 @@ public class NotesDaoImpl implements INotesDao {
 	}
 
 	@Override
-	public Note addNoteFinal(Note note, Long idSession, Long idEtudiant,
+	public Note addNoteFinal(final Note note, final Long idSession, final Long idEtudiant,
 			Long idModule) {
 		SessionEtudiant s = em.find(SessionEtudiant.class, idSession);
 		note.setSessionEtudiant(s);
@@ -46,7 +46,7 @@ public class NotesDaoImpl implements INotesDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getNotesBySessionAndModule(Long idSession, Long idMoule) {
+	public List<Object[]> getNotesBySessionAndModule(final Long idSession, final Long idMoule) {
 		final String SQL = "Select n.idNote,n.score,e.nomEtudiant,e.prenomEtudiant,m.nomModule,m.idModule,se.idSession FROM Note n "
 						 + "join n.etudiant e join n.module m join n.sessionEtudiant se where "+
 				           "se.idSession=:x and m.idModule =:y ORDER BY n.score DESC";
@@ -59,7 +59,7 @@ public class NotesDaoImpl implements INotesDao {
 		return query.getResultList();
 	}
 
-	public boolean testNoteByEtuAndByModule(Long idSession, Long idModule,
+	public boolean testNoteByEtuAndByModule(final Long idSession, final Long idModule,
 			Long idEtudiant) {
 		Query query = em
 				.createQuery("SELECT count(*) from Note n where n.sessionEtudiant.idSession=:x and n.module.idModule=:y and n.etudiant.idEtudiant=:z");
@@ -78,7 +78,7 @@ public class NotesDaoImpl implements INotesDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Note> getAllNotesByStudent(Long idEtudiant) {
+	public List<Note> getAllNotesByStudent(final Long idEtudiant) {
 		final String SQL = "from Note n join fetch n.module m join fetch n.sessionEtudiant se join fetch n.etudiant et where et.idEtudiant=:x";
 		Query query = em.createQuery(SQL).setParameter("x",idEtudiant);
 		return query.getResultList();
@@ -86,14 +86,14 @@ public class NotesDaoImpl implements INotesDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public  List<Object[]> getAllNotesBySession(Long idSession) {
+	public  List<Object[]> getAllNotesBySession(final Long idSession) {
 		final String SQL = "Select n.idNote,n.score,m.idModule,se.idSession From Note n join n.module m join n.etudiant e join n.sessionEtudiant se where se.idSession=:x";
 		Query query = em.createQuery(SQL).setParameter("x",idSession);
 		return query.getResultList();
 	}
 
 	@Override
-	public Double getMoyenne(Long idSession, Long idModule) {
+	public Double getMoyenne(final Long idSession, final Long idModule) {
 		final String SQL = "Select AVG(n.score) FROM Note n join n.sessionEtudiant se join n.module m where se.idSession=:x and m.idModule=:y";
 		Query query = em.createQuery(SQL).setParameter("x",idSession).setParameter("y",idModule);
 		Double moyenne =(Double) query.getSingleResult();

@@ -4,7 +4,7 @@ import com.adaming.myapp.entities.Examen;
 
 public interface IExamenDao{
 
-	Examen addExamen(Examen examen,Long idEtudiant,Long idModule,Long idSession);
+	Examen addExamen(final Examen examen,final Long idEtudiant,final Long idModule,final Long idSession);
 	
-	Examen verifyExistingExamen(Long idEtdudiant,Long idModule,Long idSession);
+	Examen verifyExistingExamen(final Long idEtdudiant,final Long idModule, final Long idSession);
 }

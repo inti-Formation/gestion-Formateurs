@@ -7,13 +7,13 @@ import com.adaming.myapp.entities.Reponses;
 
 public interface IQuestionDao {
 
-	 Questions addQuestions(Questions q,Long idModule,List<Reponses> reponses);
+	 Questions addQuestions(final Questions q,final Long idModule,final List<Reponses> reponses);
 	
-	 Set<Questions> getQuestionsByModule(Long idModule);
+	 Set<Questions> getQuestionsByModule(final Long idModule);
 	
-	 Questions verifyExistingQuestions(String label);
+	 Questions verifyExistingQuestions(final String label);
 	 
-	 Set<Reponses> getAllReponsesByModule(Long idModule);
+	 Set<Reponses> getAllReponsesByModule(final Long idModule);
 	 
 	
 }

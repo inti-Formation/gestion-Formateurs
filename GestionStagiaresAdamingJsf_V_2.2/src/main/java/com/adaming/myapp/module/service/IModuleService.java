@@ -11,21 +11,21 @@ public interface IModuleService {
 	
 	 List<Module> getAllModules();
 
-	 Module addModule(Module m, Long idSpecialite) throws VerificationInDataBaseException;
+	 Module addModule(final Module m, final Long idSpecialite) throws VerificationInDataBaseException;
 
-	 Module getModuleById(Long idModule);
+	 Module getModuleById(final Long idModule);
 
-	 Module updateModule(Module m, Long idSpecialite);
+	 Module updateModule(final Module m,  final Long idSpecialite);
 
-	 List<Module> getModulesBySpecialite(Long idSpecialite) throws VerificationInDataBaseException;
+	 List<Module> getModulesBySpecialite(final Long idSpecialite) throws VerificationInDataBaseException;
 	
-	 List<Module> getModulesBySession(Long idSession);
+	 List<Module> getModulesBySession(final Long idSession);
 	 
-	 List<Object[]> getModulesBySessionV2(Long idSession);
+	 List<Object[]> getModulesBySessionV2(final Long idSession);
 	 
-	 List<Module> getModuleActivedBySession(Long idSession) throws VerificationInDataBaseException;
+	 List<Module> getModuleActivedBySession(final Long idSession) throws VerificationInDataBaseException;
 	 
-	 Set<Object[]> getModulesValideBySession(Long idSession) throws VerificationInDataBaseException;
+	 Set<Object[]> getModulesValideBySession(final Long idSession) throws VerificationInDataBaseException;
 	 
-	 Module verifyExistingModule(String name);
+	 Module verifyExistingModule(final String name);
 }

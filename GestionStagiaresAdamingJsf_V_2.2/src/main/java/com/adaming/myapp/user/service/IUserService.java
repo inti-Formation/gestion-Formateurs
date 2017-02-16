@@ -8,13 +8,13 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IUserService {
 
-	 List<User> getUsersByMail(String mail);
+	 List<User> getUsersByMail(final String mail);
 
-	 User saveUser(User u);
+	 User saveUser(final User u);
 
-	 User getUser(String mail) throws GetUserException;
+	 User getUser(final String mail) throws GetUserException;
 	 
-	 User getUserByMail(String mail) throws VerificationInDataBaseException;
+	 User getUserByMail(final String mail) throws VerificationInDataBaseException;
 	 
-	 User customPassword(User u);
+	 User customPassword(final User u);
 }

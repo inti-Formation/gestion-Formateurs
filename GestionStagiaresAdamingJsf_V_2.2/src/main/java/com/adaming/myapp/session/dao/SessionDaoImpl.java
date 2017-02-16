@@ -8,21 +8,21 @@ import com.adaming.myapp.exception.AddSessionException;
 public class SessionDaoImpl extends SessionAbstractJpa implements ISessionDao{
 
 	@Override
-	public SessionEtudiant addSessionStudent(SessionEtudiant se,
-			Long idSpecialite, Long idSite, Long idSalle)
+	public SessionEtudiant addSessionStudent(final SessionEtudiant se,
+			final Long idSpecialite, final Long idSite, final Long idSalle)
 			throws AddSessionException {
 		// TODO Auto-generated method stub
 		return addSessionStudentAbstractJpa(se, idSpecialite, idSite, idSalle);
 	}
 
 	@Override
-	public SessionEtudiant updateSessionEtudiant(SessionEtudiant se,
-			Long idSpecialite,Long idSite,Long idSalle) {
+	public SessionEtudiant updateSessionEtudiant(final SessionEtudiant se,
+			final Long idSpecialite, final Long idSite,final Long idSalle) {
 		return updateSessionEtudianAbstractJpa(se,idSpecialite,idSite,idSalle);
 	}
 
 	@Override
-	public SessionEtudiant getSessionEtudiantById(Long idSessionEtudiant) {
+	public SessionEtudiant getSessionEtudiantById(final Long idSessionEtudiant) {
 		return getSessionEtudiantByIdAbstractJpa(idSessionEtudiant);
 	}
 
@@ -37,7 +37,7 @@ public class SessionDaoImpl extends SessionAbstractJpa implements ISessionDao{
 	}
 
 	@Override
-	public List<Object[]> getSallesDisponible(Long idSalle) {
+	public List<Object[]> getSallesDisponible(final Long idSalle) {
 		// TODO Auto-generated method stub
 		return getSallesDisponibleAbstracJpa(idSalle);
 	}
@@ -54,13 +54,13 @@ public class SessionDaoImpl extends SessionAbstractJpa implements ISessionDao{
 	}
 
 	@Override
-	public SessionEtudiant getSessionByFormateur(Long idFormateur) {
+	public SessionEtudiant getSessionByFormateur(final Long idFormateur) {
 		// TODO Auto-generated method stub
 		return getSessionByFormateurAbstractJpa(idFormateur);
 	}
 
 	@Override
-	public SessionEtudiant getSessionByEtudiant(Long idEtudiant) {
+	public SessionEtudiant getSessionByEtudiant(final Long idEtudiant) {
 		// TODO Auto-generated method stub
 		return getSessionByEtudiantAbstractJpa(idEtudiant);
 	}

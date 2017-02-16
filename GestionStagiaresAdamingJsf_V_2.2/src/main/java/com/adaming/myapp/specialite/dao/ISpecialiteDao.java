@@ -8,13 +8,13 @@ import com.adaming.myapp.exception.AddSpecialiteException;
 
 public interface ISpecialiteDao {
 
-	 Specialite addSpecialite(Specialite sp);
+	 Specialite addSpecialite(final Specialite sp);
 	
-	 Specialite updateSpecialite(Specialite sp);
+	 Specialite updateSpecialite(final Specialite sp);
 	
-	 Specialite getSpecialiteById(Long idSpecialite);
+	 Specialite getSpecialiteById(final Long idSpecialite);
 	
-	 Specialite verifyExistingSpecialite(String name);
+	 Specialite verifyExistingSpecialite(final String name);
 	 
 	 List<Specialite> getAllSpecV2();
 }

@@ -4,6 +4,6 @@ import com.adaming.myapp.entities.Role;
 
 public interface IRoleDao {
 
-	 Role saveRole(Role r,Long idUser);
+	 Role saveRole(final Role r,final Long idUser);
 	
 }

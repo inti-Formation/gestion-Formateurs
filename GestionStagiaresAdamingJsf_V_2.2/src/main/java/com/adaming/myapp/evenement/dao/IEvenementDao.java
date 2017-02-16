@@ -11,9 +11,9 @@ public interface IEvenementDao {
 
 	/* add evenement */
 
-	 Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant);
+	 Evenement addEvenement(final Evenement e, final Long idSession, Long idEtudiant);
 
-	 Evenement AddWarningAndTop(Evenement e, Long idSession,
+	 Evenement AddWarningAndTop(final Evenement e, final Long idSession,
 			Long idEtudiant);
 	 
 	 List<Object[]> getEventsExiste(final Long idEtudiant);

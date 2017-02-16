@@ -24,7 +24,7 @@ public interface IEtudiantDao {
 	 * donne le type " identifiant de session " afin de l'associé à une session 
 	 * @return le type sous forme d'un objet etudiant
 	 * @throws AddEtudiantException se lève si le nom et le mail existe déja dans la base de donnée **/ 
-	 Etudiant addStudent(Etudiant e, Long idSession);
+	 Etudiant addStudent(final Etudiant e, final Long idSession);
 			
 
 	
@@ -33,7 +33,7 @@ public interface IEtudiantDao {
 	/** Cette méthode permet de modifié un objet de type étudiant 
 	 * donne le type " identifiant de l'objet session " afin de le garder à sa session initial 
 	 * @return le type sous forme d'un objet  etudiant**/
-	 Etudiant updateStudent(Etudiant e, Long idSession);
+	 Etudiant updateStudent(final Etudiant e, final Long idSession);
 
 	 
 	 
@@ -41,7 +41,7 @@ public interface IEtudiantDao {
 	/** Cette méthode permet de supprimer un objet de type étudiant 
      * donne le type " identifiant de l'objet etudiant "
      * @return le type sous forme d'un objet etudiant**/
-	 Etudiant removeStudent(Long idStudent);
+	 Etudiant removeStudent(final Long idStudent);
 	   
 	  
 	  
@@ -49,7 +49,7 @@ public interface IEtudiantDao {
 	 /** Cette méthode permet de récupérer un objet de type étudiant 
 	  * donne le type " identifiant de l'objet etudiant "
 	  * @return le type sous forme d'un objet etudiant**/
-	  Etudiant getStudentById(Long idStudent);
+	  Etudiant getStudentById(final Long idStudent);
 			 
 	  
 	  
@@ -58,7 +58,7 @@ public interface IEtudiantDao {
 	  * donne le type " identifiant de l'objet etudiant "
 	  * @return une liste sous forme d'un objet etudiant
 	  *  @throws VerificationInDataBaseException **/
-	  List<Object[]> getEtudiantBySession(Long idSession) ;
+	  List<Object[]> getEtudiantBySession(final Long idSession) ;
 			 
 	
 	  
@@ -67,16 +67,16 @@ public interface IEtudiantDao {
 	 /** Cette méthode permet de récupérer un objet de type étudiant 
 	  * @param  le type " mail de l'objet etudiant "
 	  * @return le type sous forme d'un objet etudiant**/
-	  Etudiant getEtudiant(String mail);
+	  Etudiant getEtudiant(final String mail);
 	  
 	  
 	  /** Cette méthode permet de récupérer une Lis d'objets de type étudiant 
 	   * @param donne le l'objet de type session etudiant "
 	   * @return une list d'objets de type etudiant
 	   * @method utilisée pour la vérification le momoent d'ajouter un etudiant**/
-	  List<Etudiant>getStudentsBySession(Long idSession);
+	  List<Etudiant>getStudentsBySession(final Long idSession);
 	  
-	  Etudiant verifyExistingEtudiant(String name,Date dateDeNaissance);
+	  Etudiant verifyExistingEtudiant(final String name,final Date dateDeNaissance);
 	  
 
 }

@@ -50,7 +50,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	**/
 	@Override
 	@Transactional(readOnly=false)
-	public Etudiant addStudent(Etudiant e, Long idSession)
+	public Etudiant addStudent(final Etudiant e, final Long idSession)
 			throws VerificationInDataBaseException {
 	            Etudiant etudiant = verifyExistingEtudiant(e.getNomEtudiant(),e.getDateDeNaissance());
 	            if (etudiant != null)
@@ -75,7 +75,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	 **/
 	@Override
 	@Transactional(readOnly=false)
-	public Etudiant updateStudent(Etudiant e, Long idSession) {
+	public Etudiant updateStudent(final Etudiant e, final Long idSession) {
 		// TODO Auto-generated method stub
 		return dao.updateStudent(e, idSession);
 	}
@@ -88,7 +88,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	 **/
 	@Override
 	@Transactional(readOnly=false)
-	public Etudiant removeStudent(Long idStudent) {
+	public Etudiant removeStudent(final Long idStudent) {
 		// TODO Auto-generated method stub
 		return dao.removeStudent(idStudent);
 	}
@@ -100,7 +100,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getStudentById
 	 **/
 	@Override
-	public Etudiant getStudentById(Long idStudent) {
+	public Etudiant getStudentById(final Long idStudent) {
 		// TODO Auto-generated method stub
 		return dao.getStudentById(idStudent);
 	}
@@ -113,7 +113,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getEtudiantBySession
 	 **/
 	@Override
-	public List<Object[]> getEtudiantBySession(Long idSession) throws VerificationInDataBaseException {
+	public List<Object[]> getEtudiantBySession(final Long idSession) throws VerificationInDataBaseException {
 		 List<Object[]> objects = dao.getEtudiantBySession(idSession);
 		 if(objects != null){
         	if(objects.size() == 0){
@@ -132,14 +132,14 @@ public class EtudiantServiceImpl implements IEtudiantService {
 	 * @see com.adaming.myapp.etudiant.service.IEtudiantService.getEtudiant
 	 **/
 	@Override
-	public Etudiant getEtudiant(String mail) {
+	public Etudiant getEtudiant(final String mail) {
 		// TODO Auto-generated method stub
 		return dao.getEtudiant(mail);
 	}
 
 
 	@Override
-	public List<Etudiant> getStudentsBySession(Long idSession) throws VerificationInDataBaseException {
+	public List<Etudiant> getStudentsBySession(final Long idSession) throws VerificationInDataBaseException {
 		List<Etudiant> etudiants = dao.getStudentsBySession(idSession);
         if(etudiants == null || etudiants.isEmpty()){
         		throw new VerificationInDataBaseException("Il n'existe aucun étudiant dans la session Numéro "+idSession);
@@ -149,7 +149,7 @@ public class EtudiantServiceImpl implements IEtudiantService {
 
 
 	@Override
-	public Etudiant verifyExistingEtudiant(String name, Date dateDeNaissance) {
+	public Etudiant verifyExistingEtudiant(final String name, final Date dateDeNaissance) {
 		// TODO Auto-generated method stub
 		return dao.verifyExistingEtudiant(name, dateDeNaissance);
 	}

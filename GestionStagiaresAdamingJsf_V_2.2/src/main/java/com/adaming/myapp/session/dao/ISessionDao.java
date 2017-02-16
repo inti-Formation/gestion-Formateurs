@@ -8,12 +8,12 @@ import com.adaming.myapp.exception.AddSessionException;
 
 public interface ISessionDao {
 
-	 SessionEtudiant addSessionStudent(SessionEtudiant se,Long idSpecialite,Long idSite,Long idSalle) throws AddSessionException;
+	 SessionEtudiant addSessionStudent(final SessionEtudiant se,final Long idSpecialite,final Long idSite,final Long idSalle) throws AddSessionException;
 	
-	 SessionEtudiant updateSessionEtudiant(SessionEtudiant se,
-				Long idSpecialite,Long idSite,Long idSalle);
+	 SessionEtudiant updateSessionEtudiant(final SessionEtudiant se,
+			 final Long idSpecialite,final Long idSite,final Long idSalle);
 	
-	 SessionEtudiant getSessionEtudiantById(Long idSessionEtudiant);
+	 SessionEtudiant getSessionEtudiantById(final Long idSessionEtudiant);
 	
 	 List<SessionEtudiant> getAllSessions();
 	

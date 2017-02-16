@@ -9,7 +9,7 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 
 public interface IFormateurService {
 
-	 Formateur addFormateur(Formateur f)
+	 Formateur addFormateur(final Formateur f)
 			throws VerificationInDataBaseException;
 
 	 SessionEtudiant verifyExistingAffectation(final Long idFormateur,final Long idSession) throws VerificationInDataBaseException;

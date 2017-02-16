@@ -84,13 +84,13 @@ public class EvenementServiceImpl implements IEvenementService {
 	
 
 	@Override
-	public List<Evenement> getAllEvenementsBySession(Long idSession) {
+	public List<Evenement> getAllEvenementsBySession(final Long idSession) {
 		return dao.getAllEvenementsBySession(idSession);
 	}
 
 	@Override
 	@Transactional(readOnly=false)
-	public Evenement addEvenement(Evenement e, Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
+	public Evenement addEvenement(final Evenement e,final Long idSession, Long idEtudiant) throws VerificationInDataBaseException {
 
 		List<Object[]> evenements = getEventsExiste(idEtudiant);
 		if(!evenements.isEmpty()){
@@ -111,7 +111,7 @@ public class EvenementServiceImpl implements IEvenementService {
 
 	@Override
 	@Transactional(readOnly=false)
-	public Evenement AddWarningAndTop(Evenement e, Long idSession,
+	public Evenement AddWarningAndTop(final Evenement e, final Long idSession,
 			Long idEtudiant) throws VerificationInDataBaseException {
 		
 		Evenement event = verifyExistingEvent(idEtudiant);
@@ -125,7 +125,7 @@ public class EvenementServiceImpl implements IEvenementService {
 	}
 
 	@Override
-	public List<Evenement> getAllEvenementsBetweenTwoDate(Long idSession,
+	public List<Evenement> getAllEvenementsBetweenTwoDate(final Long idSession,
 			Date date) throws EvenementNotFoundException {
 		List<Evenement> events = getAllEvenementsBySession(idSession);
 		List<Evenement> newEvents = null;
@@ -148,7 +148,7 @@ public class EvenementServiceImpl implements IEvenementService {
 	}
 
 	@Override
-	public List<Object[]> getEventsExiste(Long idEtudiant) {
+	public List<Object[]> getEventsExiste(final Long idEtudiant) {
 		// TODO Auto-generated method stub
 		return dao.getEventsExiste(idEtudiant);
 	}
@@ -202,7 +202,7 @@ public class EvenementServiceImpl implements IEvenementService {
 	}
 
 	@Override
-	public Evenement verifyExistingEvent(Long idEtudiant) {
+	public Evenement verifyExistingEvent(final Long idEtudiant) {
 		// TODO Auto-generated method stub
 		return dao.verifyExistingEvent(idEtudiant);
 	}

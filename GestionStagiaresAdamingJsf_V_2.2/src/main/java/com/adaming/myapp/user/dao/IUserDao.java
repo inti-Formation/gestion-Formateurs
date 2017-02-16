@@ -9,14 +9,14 @@ public interface IUserDao {
 	
 	
     
-	 List<User> getUsersByMail(String mail);
+	 List<User> getUsersByMail(final String mail);
 	
-	 User saveUser(User u);
+	 User saveUser(final User u);
 
-	 User getUser(String mail) throws GetUserException;
+	 User getUser(final String mail) throws GetUserException;
 	 
-	 User getUserByMail(String mail);
+	 User getUserByMail(final String mail);
 	 
-	 User customPassword(User u);
+	 User customPassword(final User u);
 
 }

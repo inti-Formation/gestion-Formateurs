@@ -11,7 +11,7 @@ public abstract class RoleAbstractJpa {
 	@PersistenceContext
 	private EntityManager em;
 
-	public Role saveRoleAbstractJpa(Role r, Long idUser) {
+	public Role saveRoleAbstractJpa(final Role r, final Long idUser) {
 		User u = em.find(User.class, idUser);
 		r.setUser(u);
 		em.persist(r);
