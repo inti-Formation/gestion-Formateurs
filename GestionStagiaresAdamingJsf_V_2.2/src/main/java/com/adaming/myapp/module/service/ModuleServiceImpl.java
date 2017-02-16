@@ -11,6 +11,12 @@ import com.adaming.myapp.exception.AddModuleException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.module.dao.IModuleDao;
 import com.adaming.myapp.tools.LoggerConfig;
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Transactional(readOnly=true)
 public class ModuleServiceImpl implements IModuleService{
     

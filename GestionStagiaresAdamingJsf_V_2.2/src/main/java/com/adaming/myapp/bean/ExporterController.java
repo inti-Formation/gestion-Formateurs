@@ -9,7 +9,12 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.tools.LoggerConfig;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Component("exporterController")
 @ApplicationScoped

@@ -9,7 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Entity
 public class Role implements Serializable {
     /**

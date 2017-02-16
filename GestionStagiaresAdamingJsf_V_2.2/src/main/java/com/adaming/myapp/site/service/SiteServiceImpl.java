@@ -10,7 +10,12 @@ import com.adaming.myapp.entities.Site;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.site.dao.ISiteDao;
 import com.adaming.myapp.tools.LoggerConfig;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Transactional(readOnly=true)
 public class SiteServiceImpl implements ISiteService{
     

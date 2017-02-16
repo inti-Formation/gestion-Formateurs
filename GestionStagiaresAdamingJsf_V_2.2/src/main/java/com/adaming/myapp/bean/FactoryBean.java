@@ -28,7 +28,12 @@ import com.adaming.myapp.factory.producer.SessionFactoryProducer;
 import com.adaming.myapp.factory.producer.SiteFactoryProducer;
 import com.adaming.myapp.factory.producer.SpecialiteFactoryProducer;
 import com.adaming.myapp.factory.producer.UserFactoryProducer;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 
 @SuppressWarnings("serial")
 public final class FactoryBean implements Serializable {

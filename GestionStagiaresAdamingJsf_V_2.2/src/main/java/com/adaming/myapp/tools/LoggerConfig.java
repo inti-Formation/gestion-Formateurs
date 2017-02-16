@@ -5,7 +5,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public class LoggerConfig {
 
 	private static final Logger LOGGER = Logger.getLogger(LoggerConfig.class);

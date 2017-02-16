@@ -49,7 +49,12 @@ import org.geonames.WebService;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public class Utilitaire {
 
 	private static ResourceBundle bundle = null;

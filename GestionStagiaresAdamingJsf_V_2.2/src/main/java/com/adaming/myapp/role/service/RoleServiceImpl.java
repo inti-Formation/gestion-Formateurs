@@ -7,7 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.adaming.myapp.entities.Role;
 import com.adaming.myapp.role.dao.IRoleDao;
 import com.adaming.myapp.tools.LoggerConfig;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Transactional(readOnly=true)
 public class RoleServiceImpl implements IRoleService {
     

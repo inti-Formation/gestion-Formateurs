@@ -11,6 +11,12 @@ import org.primefaces.extensions.component.exporter.PDFExporter;
 import com.adaming.myapp.bean.ExporterController;
 
 /**
+ * 
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * 
  * Accessor for objects stored in several scopes via faces context
  * {@link javax.faces.context.FacesContext}.
  */

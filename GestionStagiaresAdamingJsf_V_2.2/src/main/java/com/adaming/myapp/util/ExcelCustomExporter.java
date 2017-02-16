@@ -46,10 +46,13 @@ import org.primefaces.extensions.component.exporter.Exporter;
 import org.primefaces.util.Constants;
 
 /**
- * <code>Exporter</code> component.
+ *
  * 
- * @author Sudheer Jonna / last modified by $Author$
- * @since 0.7.0
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * 
+ * <code>Exporter</code> component.
  */
 public class ExcelCustomExporter extends Exporter {
 

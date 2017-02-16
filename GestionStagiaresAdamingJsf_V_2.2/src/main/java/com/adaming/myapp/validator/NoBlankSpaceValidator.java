@@ -6,6 +6,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @FacesValidator(value="noBlankSpaceValidator")
 public class NoBlankSpaceValidator implements Validator{
 

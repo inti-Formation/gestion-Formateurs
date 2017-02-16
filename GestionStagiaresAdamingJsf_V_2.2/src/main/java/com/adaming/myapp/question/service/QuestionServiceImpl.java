@@ -9,7 +9,12 @@ import com.adaming.myapp.entities.Reponses;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.question.dao.IQuestionDao;
 import com.adaming.myapp.tools.LoggerConfig;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Transactional(readOnly = true)
 public class QuestionServiceImpl implements IQuestionService {
 

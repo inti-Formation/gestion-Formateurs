@@ -8,7 +8,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.adaming.myapp.entities.Comment;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public class CommentDaoImpl implements ICommentDao {
     
 	@PersistenceContext

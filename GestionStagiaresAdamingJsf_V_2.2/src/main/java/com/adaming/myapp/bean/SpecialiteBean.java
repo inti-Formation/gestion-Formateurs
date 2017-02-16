@@ -21,7 +21,12 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.specialite.service.ISpecialiteService;
 import com.adaming.myapp.tools.LoggerConfig;
 import com.adaming.myapp.tools.Utilitaire;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Component("specialiteBean")
 @ViewScoped

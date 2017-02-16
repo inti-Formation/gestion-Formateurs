@@ -1,7 +1,12 @@
 package com.adaming.myapp.dto;
 
 import java.util.Date;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public class SessionDto {
 
 	private Long idSession;

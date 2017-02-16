@@ -32,7 +32,12 @@ import com.adaming.myapp.session.service.ISessionService;
 import com.adaming.myapp.tools.LoggerConfig;
 import com.adaming.myapp.tools.Utilitaire;
 import com.adaming.myapp.user.service.IUserService;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Component("etudiantBean")
 @ViewScoped

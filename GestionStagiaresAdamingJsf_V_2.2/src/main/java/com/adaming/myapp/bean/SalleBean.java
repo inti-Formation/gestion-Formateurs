@@ -20,6 +20,13 @@ import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.salle.service.ISalleService;
 import com.adaming.myapp.site.service.ISiteService;
 import com.adaming.myapp.tools.Utilitaire;
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
+
 @SuppressWarnings("serial")
 @Component("salleBean")
 @ViewScoped

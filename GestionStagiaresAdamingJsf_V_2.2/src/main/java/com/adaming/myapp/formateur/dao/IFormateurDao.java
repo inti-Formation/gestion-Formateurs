@@ -6,7 +6,12 @@ import java.util.List;
 import com.adaming.myapp.entities.Formateur;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.persistence.IGenericDao;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public interface IFormateurDao extends IGenericDao<Formateur> {
 
 	 Formateur addFormateur(final Formateur f);

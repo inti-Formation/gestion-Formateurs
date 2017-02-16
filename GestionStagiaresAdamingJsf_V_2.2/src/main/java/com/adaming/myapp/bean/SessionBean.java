@@ -27,7 +27,12 @@ import com.adaming.myapp.site.service.ISiteService;
 import com.adaming.myapp.tools.DataUtil;
 import com.adaming.myapp.tools.Utilitaire;
 import com.adaming.myapp.user.service.IUserService;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 
 @SuppressWarnings("serial")
 @Component("sessionBean")

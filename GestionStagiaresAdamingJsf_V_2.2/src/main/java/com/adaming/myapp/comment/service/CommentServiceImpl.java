@@ -7,6 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.adaming.myapp.comment.dao.ICommentDao;
 import com.adaming.myapp.entities.Comment;
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
+
 @Transactional
 public class CommentServiceImpl implements ICommentService{
     

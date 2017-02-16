@@ -28,7 +28,12 @@ import com.adaming.myapp.formateur.service.IFormateurService;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.session.service.ISessionService;
 import com.adaming.myapp.tools.Utilitaire;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Component("scheduleView")
 @Scope("session")

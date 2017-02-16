@@ -17,7 +17,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Entity
 public class SessionEtudiant implements Serializable {

@@ -5,7 +5,12 @@ import java.util.Set;
 import com.adaming.myapp.entities.Questions;
 import com.adaming.myapp.entities.Reponses;
 import com.adaming.myapp.exception.AddQuestionException;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public class QuestionDaoImpl extends QuestionAbstractJpa implements
 		IQuestionDao {
 

@@ -5,7 +5,12 @@ import java.util.List;
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.GetUserException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public interface IUserService {
 
 	 List<User> getUsersByMail(final String mail);

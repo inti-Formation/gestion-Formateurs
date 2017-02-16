@@ -9,6 +9,12 @@ import com.adaming.myapp.entities.Salle;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.salle.dao.ISalleDao;
 import com.adaming.myapp.tools.LoggerConfig;
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Transactional(readOnly=true)
 public class SalleServiceImpl implements ISalleService {
     

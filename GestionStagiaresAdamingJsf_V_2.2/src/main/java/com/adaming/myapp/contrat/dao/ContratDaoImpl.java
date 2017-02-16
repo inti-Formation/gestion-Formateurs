@@ -33,7 +33,12 @@ import org.springframework.jdbc.core.RowMapper;
 import com.adaming.myapp.entities.Contrat;
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.persistence.AbstractJpaDao;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 
 public class ContratDaoImpl extends AbstractJpaDao<Contrat> implements IContratDao{
 

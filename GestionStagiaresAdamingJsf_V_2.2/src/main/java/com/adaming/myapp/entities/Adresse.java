@@ -1,7 +1,12 @@
 package com.adaming.myapp.entities;
 
 import javax.persistence.Embeddable;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Embeddable
 public class Adresse {
 

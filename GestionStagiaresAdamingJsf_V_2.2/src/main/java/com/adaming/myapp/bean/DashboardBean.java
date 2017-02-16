@@ -24,7 +24,12 @@ import com.adaming.myapp.exception.EvenementNotFoundException;
 import com.adaming.myapp.module.service.IModuleService;
 import com.adaming.myapp.notes.service.INotesService;
 import com.adaming.myapp.session.service.ISessionService;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Component("dashboardBean")
 @Scope("session")

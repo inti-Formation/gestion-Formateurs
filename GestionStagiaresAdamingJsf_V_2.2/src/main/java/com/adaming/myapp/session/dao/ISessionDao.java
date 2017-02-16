@@ -5,7 +5,12 @@ import java.util.List;
 import com.adaming.myapp.dto.SessionDto;
 import com.adaming.myapp.entities.SessionEtudiant;
 import com.adaming.myapp.exception.AddSessionException;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public interface ISessionDao {
 
 	 SessionEtudiant addSessionStudent(final SessionEtudiant se,final Long idSpecialite,final Long idSite,final Long idSalle) throws AddSessionException;

@@ -3,7 +3,12 @@ package com.adaming.myapp.notes.dao;
 import java.util.List;
 
 import com.adaming.myapp.entities.Note;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public interface INotesDao {
 
 	 Note addNoteFinal(final Note note, final Long idSession, final Long idEtudiant,

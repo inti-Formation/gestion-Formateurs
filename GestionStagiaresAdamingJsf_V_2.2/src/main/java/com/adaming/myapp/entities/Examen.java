@@ -12,7 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.joda.time.DateTime;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Entity
 public class Examen implements Serializable{

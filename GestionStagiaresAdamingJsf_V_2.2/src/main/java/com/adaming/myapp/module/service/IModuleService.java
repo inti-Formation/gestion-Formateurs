@@ -6,7 +6,12 @@ import java.util.Set;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.exception.AddModuleException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public interface IModuleService {
 	
 	 List<Module> getAllModules();

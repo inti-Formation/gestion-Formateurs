@@ -1,5 +1,10 @@
 package com.adaming.myapp.dto;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public class EtudiantDto {
 
     private Long idEtudiant;

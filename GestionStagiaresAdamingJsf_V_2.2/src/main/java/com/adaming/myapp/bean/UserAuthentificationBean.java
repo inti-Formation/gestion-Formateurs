@@ -11,7 +11,12 @@ import org.springframework.stereotype.Component;
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.exception.GetUserException;
 import com.adaming.myapp.tools.LoggerConfig;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Component("userAuthentification")
 @Scope(value="session")

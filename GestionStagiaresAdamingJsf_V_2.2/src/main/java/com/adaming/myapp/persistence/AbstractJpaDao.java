@@ -6,7 +6,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public abstract class AbstractJpaDao<T extends Serializable> {
     
 	@PersistenceContext

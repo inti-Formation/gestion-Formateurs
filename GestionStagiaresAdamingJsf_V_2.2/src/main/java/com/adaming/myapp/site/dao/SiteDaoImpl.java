@@ -11,7 +11,12 @@ import com.adaming.myapp.entities.Site;
 import com.adaming.myapp.entities.User;
 import com.adaming.myapp.persistence.AbstractJpaDao;
 import com.adaming.myapp.tools.LoggerConfig;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public class SiteDaoImpl extends AbstractJpaDao<Site> implements ISiteDao{
     
 

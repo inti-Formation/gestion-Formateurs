@@ -49,10 +49,10 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * <code>Exporter</code> component.
- *
- * @author Sudheer Jonna / last modified by $Author$
- * @since 0.7.0
- * @version $Revision: 1.0 $
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * 
  */
 public class PDFCustomExporter extends Exporter {
 

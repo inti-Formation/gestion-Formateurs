@@ -8,7 +8,12 @@ import com.adaming.myapp.exception.GetUserException;
 import com.adaming.myapp.exception.VerificationInDataBaseException;
 import com.adaming.myapp.tools.LoggerConfig;
 import com.adaming.myapp.user.dao.IUserDao;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Transactional(readOnly=true)
 public class UserServiceImpl implements IUserService{
 

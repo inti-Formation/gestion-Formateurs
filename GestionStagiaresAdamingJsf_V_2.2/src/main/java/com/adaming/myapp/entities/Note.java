@@ -13,7 +13,12 @@ import javax.persistence.OneToOne;
 import com.adaming.myapp.entities.Etudiant;
 import com.adaming.myapp.entities.Module;
 import com.adaming.myapp.entities.SessionEtudiant;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @SuppressWarnings("serial")
 @Entity
 public class Note implements Serializable {

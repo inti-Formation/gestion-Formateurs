@@ -19,7 +19,12 @@ import org.springframework.stereotype.Component;
 
 import com.adaming.myapp.comment.service.ICommentService;
 import com.adaming.myapp.entities.Comment;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Component("commentBean")
 @Scope(value="session")
 public class CommentBean {

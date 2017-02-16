@@ -5,6 +5,12 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Entity
 @DiscriminatorValue("WARNING")
 public class WarningEtudiant extends Evenement implements Serializable{

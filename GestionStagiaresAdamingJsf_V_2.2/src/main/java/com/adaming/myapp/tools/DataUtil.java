@@ -2,7 +2,12 @@ package com.adaming.myapp.tools;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public final class DataUtil {
 
 	/**

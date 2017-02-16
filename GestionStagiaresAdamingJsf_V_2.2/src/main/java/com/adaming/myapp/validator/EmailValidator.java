@@ -9,6 +9,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import org.springframework.stereotype.Component;;
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 @Component("emailValidator")
 public class EmailValidator implements Validator {
     

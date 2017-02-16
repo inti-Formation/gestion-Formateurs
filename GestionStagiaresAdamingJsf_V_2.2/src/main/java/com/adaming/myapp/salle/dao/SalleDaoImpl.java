@@ -7,7 +7,12 @@ import javax.persistence.Query;
 import com.adaming.myapp.entities.Salle;
 import com.adaming.myapp.entities.Site;
 import com.adaming.myapp.persistence.AbstractJpaDao;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public class SalleDaoImpl extends AbstractJpaDao<Salle> implements ISalleDao {
 
 	@Override

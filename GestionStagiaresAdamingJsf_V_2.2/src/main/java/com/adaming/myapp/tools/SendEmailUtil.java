@@ -10,7 +10,12 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
+/**
+ * 
+ * @author adel
+ * @date 10/10/2016
+ * @version 1.0.0
+ * */
 public final class SendEmailUtil {
 
 	private static final String MAIL_TRANSPORT_PROTOCOL = "smtp";
